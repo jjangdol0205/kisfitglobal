@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "mode": "static",
+  "domain": "kisfitglobal.com",
+  "analytics": {
+    "today": {
+      "date": "2026-11-05",
+      "uniqueVisitors": 0,
+      "pageviews": 0,
+      "newVisitors": 0,
+      "returningVisitors": 0,
+      "diagnosesCompleted": 0,
+      "affiliateClicks": 0,
+      "byCategory": {},
+      "byProduct": {},
+      "hourlyPageviews": {},
+      "hourlyClicks": {},
+      "hourlyDiagnoses": {},
+      "recentClicks": [],
+      "visitorsList": []
+    },
+    "total": {
+      "uniqueVisitors": 0,
+      "pageviews": 0,
+      "newVisitors": 0,
+      "returningVisitors": 0,
+      "diagnosesCompleted": 0,
+      "affiliateClicks": 0,
+      "byCategory": {},
+      "byProduct": {},
+      "recentClicks": []
+    },
+    "dailyHistory": []
+  }
+}
