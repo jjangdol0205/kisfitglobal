@@ -5,7 +5,7 @@
 
 ## 1. Core Interactive Diagnostic Tools
 - **Free 60-Sec US CDC Height Percentile & Adult Height Predictor**: https://kisfitglobal.com/
-- **Complete Clinical Q&A & Age-by-Age Percentile Directory**: https://kisfitglobal.com/qna/index.html
+- **Complete Clinical Q&A & Age-by-Age Percentile Directory**: https://kisfitglobal.com/qna/
 
 ## 2. Primary Peer-Reviewed Pediatric Clinical Guides (/qna/topic-*)
 - [Child Height Percentiles, Mid-Parental Height (MPH) Formula & The 10 PM Deep Sleep Golden Window](https://kisfitglobal.com/qna/topic-01.html)

@@ -486,9 +486,6 @@
     return true;
   };
 
-  var SINGLE_REPORT_LS_URL = 'https://truthofmarket.lemonsqueezy.com/checkout/buy/c1cd7f12-3479-49e8-ab71-59c98135d599?embed=1&locale=en';
-  var SIX_MONTH_PASS_LS_URL = 'https://truthofmarket.lemonsqueezy.com/checkout/buy/c562946d-ef68-4c2f-a802-df9da0179895?embed=1&locale=en';
-
   window.triggerKfgVelocityEdgeCheckout = function (plan) {
     var mode = (plan === 'pass' || plan === 'sixMonth') ? 'pass' : 'single';
     if (typeof window.recordKfgPaidClickOnce === 'function') {
@@ -496,24 +493,32 @@
     }
     if (typeof window.resolveKfgLiveCheckoutState === 'function') {
       var st = window.resolveKfgLiveCheckoutState(mode);
-      if (!st.isLive && typeof window.openKfgVipWaitlistModal === 'function') {
-        window.openKfgVipWaitlistModal(mode);
+      if (!st.isLive) {
+        if (typeof window.openKfgVipWaitlistModal === 'function') {
+          window.openKfgVipWaitlistModal(mode);
+        }
         return;
       }
-      if (st.isLive && st.mode === 'backup' && st.url) {
-        window.open(st.url, '_blank', 'noopener');
+      if (st.isLive && st.url) {
+        if (typeof window.navigateToKfgPolarCheckout === 'function') {
+          window.navigateToKfgPolarCheckout(st.url, mode);
+        } else if (window.location) {
+          window.location.href = st.url;
+        }
         return;
       }
     }
-    if (typeof window.launchLemonSqueezyCheckout === 'function') {
-      window.launchLemonSqueezyCheckout(mode);
+    if (typeof window.launchPolarCheckout === 'function') {
+      window.launchPolarCheckout(mode);
+      return;
+    }
+    if (typeof window.openKfgVipWaitlistModal === 'function') {
+      window.openKfgVipWaitlistModal(mode);
       return;
     }
     if (typeof window.openKidsFitGlobalCheckoutModal === 'function') {
       window.openKidsFitGlobalCheckoutModal(mode);
-      return;
     }
-    window.open(mode === 'pass' ? SIX_MONTH_PASS_LS_URL : SINGLE_REPORT_LS_URL, '_blank', 'noopener');
   };
 
   function syncResultsVelocityEdgeBridge() {

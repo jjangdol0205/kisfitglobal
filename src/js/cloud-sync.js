@@ -189,7 +189,7 @@
           order_id: identity.orderId,
           client_id: identity.clientId,
           user_email: identity.email,
-          store_id: '296100',
+          merchant_of_record: 'polar_sh',
           plan_type: identity.planType,
           verified: identity.unlockedPass,
           paid_at: new Date().toISOString()

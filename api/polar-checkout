@@ -1,0 +1,5 @@
+{
+  "provider": "polar_sh",
+  "store_live_ready": false,
+  "merchant_of_record": "Polar.sh"
+}

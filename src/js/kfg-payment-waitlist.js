@@ -2,76 +2,68 @@
  * KISFIT Bio Labs (Division 2 Global — kisfitglobal.com)
  * src/js/kfg-payment-waitlist.js
  *
- * Unified Payment Slot Configuration (`window.PAYMENT_CONFIG`),
- * Single-Fire Paid Click & Signup Abacus Beacons (`kfg_kisfitglobal`),
- * and VIP Founding Family Launch Alert & 20% Early-Bird Voucher Reservation Modal.
+ * Standardized Polar.sh Native Payment Configuration (`window.PAYMENT_CONFIG`),
+ * Single-Fire Paid Click & VIP Waitlist Abacus Beacons (`kfg_kisfitglobal`),
+ * Smart Polar.sh Checkout Router (In-App WebView Safe Redirect + Email Prefill),
+ * and Zero-Drop VIP Founding Member 20% Early-Bird Waitlist Modal.
  *
- * 100% English (Zero-Hangul) · Store #296100 Live UUIDs Preserved.
+ * 100% English (Zero-Hangul) · Polar.sh (Merchant of Record · Global Card / Apple Pay / Google Pay)
  */
 (function (global) {
   'use strict';
 
   var NS = 'kfg_kisfitglobal';
   var ABACUS_BASE = 'https://abacus.jasoncameron.dev/hit/' + NS + '/';
+  var IN_APP_WEBVIEW_RE = /Instagram|FBAN|FBAV|KAKAOTALK|Line/i;
 
   var DEFAULT_PAYMENT_CONFIG = {
-    STORE_ID: '296100',
-    STORE_DOMAIN: 'truthofmarket.lemonsqueezy.com',
+    PROVIDER: 'polar_sh',
+    DIVISION: 'KFG',
+    STORE_SLOT: 'PEDIATRIC_STORE_SLOT',
     STORE_LIVE_READY: false,
-    FINANCE_STORE_SLOT: {
-      storeId: '296100',
-      monthlyProductId: '1491888',
-      monthlyPriceUsd: '29.00',
-      monthlyUuid: 'd5e7e761-8b1b-4ca8-b1fe-771acd1450f8',
-      monthlyUrl: 'https://truthofmarket.lemonsqueezy.com/checkout/buy/d5e7e761-8b1b-4ca8-b1fe-771acd1450f8?embed=1&locale=en',
-      lifetimeProductId: '1491891',
-      lifetimePriceUsd: '199.00',
-      lifetimeUuid: '667aa482-f17c-47d1-b7f3-a2427c36516b',
-      lifetimeUrl: 'https://truthofmarket.lemonsqueezy.com/checkout/buy/667aa482-f17c-47d1-b7f3-a2427c36516b?embed=1&locale=en'
+    POLAR_CHECKOUT_URLS: {
+      single_899: '',
+      pass_1999: ''
     },
-    PEDIATRIC_STORE_SLOT: {
-      storeId: '296100',
-      singleProductId: '1468224',
-      singlePriceUsd: '8.99',
-      singleUuid: 'c1cd7f12-3479-49e8-ab71-59c98135d599',
-      singleUrl: 'https://truthofmarket.lemonsqueezy.com/checkout/buy/c1cd7f12-3479-49e8-ab71-59c98135d599?embed=1&locale=en',
-      sixMonthProductId: '1468243',
-      sixMonthPriceUsd: '19.99',
-      sixMonthUuid: 'c562946d-ef68-4c2f-a802-df9da0179895',
-      sixMonthUrl: 'https://truthofmarket.lemonsqueezy.com/checkout/buy/c562946d-ef68-4c2f-a802-df9da0179895?embed=1&locale=en',
-      BACKUP_LIVE_CHECKOUT_URL: {
-        single: '',
-        sixMonth: ''
-      }
-    },
-    BACKUP_LIVE_CHECKOUT_URL: {
-      single: '',
-      sixMonth: ''
-    }
+    POLAR_KFG_SINGLE_URL: '',
+    POLAR_KFG_PASS_URL: '',
+    SUPPORT_EMAIL: 'beable9489@gmail.com'
   };
 
   function mergePaymentConfig(existing) {
-    var base = JSON.parse(JSON.stringify(DEFAULT_PAYMENT_CONFIG));
+    var base = {
+      PROVIDER: 'polar_sh',
+      DIVISION: 'KFG',
+      STORE_SLOT: 'PEDIATRIC_STORE_SLOT',
+      STORE_LIVE_READY: false,
+      POLAR_CHECKOUT_URLS: {
+        single_899: '',
+        pass_1999: ''
+      },
+      POLAR_KFG_SINGLE_URL: '',
+      POLAR_KFG_PASS_URL: '',
+      SUPPORT_EMAIL: 'beable9489@gmail.com'
+    };
     if (existing && typeof existing === 'object') {
-      if (typeof existing.STORE_LIVE_READY === 'boolean') base.STORE_LIVE_READY = existing.STORE_LIVE_READY;
-      if (existing.FINANCE_STORE_SLOT && typeof existing.FINANCE_STORE_SLOT === 'object') {
-        Object.assign(base.FINANCE_STORE_SLOT, existing.FINANCE_STORE_SLOT);
+      if (typeof existing.STORE_LIVE_READY === 'boolean') {
+        base.STORE_LIVE_READY = existing.STORE_LIVE_READY;
       }
-      if (existing.PEDIATRIC_STORE_SLOT && typeof existing.PEDIATRIC_STORE_SLOT === 'object') {
-        var existingBackup = existing.PEDIATRIC_STORE_SLOT.BACKUP_LIVE_CHECKOUT_URL;
-        Object.assign(base.PEDIATRIC_STORE_SLOT, existing.PEDIATRIC_STORE_SLOT);
-        if (existingBackup && typeof existingBackup === 'object') {
-          base.PEDIATRIC_STORE_SLOT.BACKUP_LIVE_CHECKOUT_URL = Object.assign(
-            { single: '', sixMonth: '' },
-            existingBackup
-          );
+      if (existing.POLAR_CHECKOUT_URLS && typeof existing.POLAR_CHECKOUT_URLS === 'object') {
+        if (typeof existing.POLAR_CHECKOUT_URLS.single_899 === 'string') {
+          base.POLAR_CHECKOUT_URLS.single_899 = existing.POLAR_CHECKOUT_URLS.single_899.trim();
+        }
+        if (typeof existing.POLAR_CHECKOUT_URLS.pass_1999 === 'string') {
+          base.POLAR_CHECKOUT_URLS.pass_1999 = existing.POLAR_CHECKOUT_URLS.pass_1999.trim();
         }
       }
-      if (existing.BACKUP_LIVE_CHECKOUT_URL && typeof existing.BACKUP_LIVE_CHECKOUT_URL === 'object') {
-        base.BACKUP_LIVE_CHECKOUT_URL = Object.assign(
-          { single: '', sixMonth: '' },
-          existing.BACKUP_LIVE_CHECKOUT_URL
-        );
+      if (typeof existing.POLAR_KFG_SINGLE_URL === 'string') {
+        base.POLAR_KFG_SINGLE_URL = existing.POLAR_KFG_SINGLE_URL.trim();
+      }
+      if (typeof existing.POLAR_KFG_PASS_URL === 'string') {
+        base.POLAR_KFG_PASS_URL = existing.POLAR_KFG_PASS_URL.trim();
+      }
+      if (typeof existing.SUPPORT_EMAIL === 'string' && existing.SUPPORT_EMAIL.trim()) {
+        base.SUPPORT_EMAIL = existing.SUPPORT_EMAIL.trim();
       }
     }
     return base;
@@ -79,38 +71,80 @@
 
   global.PAYMENT_CONFIG = mergePaymentConfig(global.PAYMENT_CONFIG);
 
+  function getKstDateString() {
+    return new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
+  }
+
   function normalizePlanKey(rawPlan) {
     var s = String(rawPlan || '').toLowerCase();
-    if (s === 'pass' || s === 'sixmonth' || s === 'six_month' || s.indexOf('19.99') !== -1 || s.indexOf('6-month') !== -1 || s.indexOf('c562946d') !== -1) {
+    if (
+      s === 'pass' ||
+      s === 'pass_1999' ||
+      s === 'sixmonth' ||
+      s === 'six_month' ||
+      s.indexOf('19.99') !== -1 ||
+      s.indexOf('6-month') !== -1
+    ) {
       return 'sixMonth';
     }
     return 'single';
   }
 
+  function getSavedParentEmail() {
+    try {
+      var checkoutInput = typeof document !== 'undefined' ? document.getElementById('checkout-parent-email') : null;
+      if (checkoutInput && checkoutInput.value && String(checkoutInput.value).indexOf('@') !== -1) {
+        return String(checkoutInput.value).trim();
+      }
+      if (global.DreamCompanyCRM && typeof global.DreamCompanyCRM.getLocalMember === 'function') {
+        var m = global.DreamCompanyCRM.getLocalMember('KFG');
+        if (m && m.email) return String(m.email).trim();
+      }
+      if (global.localStorage) {
+        return String(
+          global.localStorage.getItem('kfg_parent_member_email') ||
+          global.localStorage.getItem('kidsfit_pending_polar_checkout_email_v1') ||
+          global.localStorage.getItem('kidsfit_global_buyer_email') ||
+          ''
+        ).trim();
+      }
+    } catch (_) {}
+    return '';
+  }
+
+  function resolvePolarPlanUrl(rawPlan, cfgOverride) {
+    var cfg = cfgOverride || global.PAYMENT_CONFIG || DEFAULT_PAYMENT_CONFIG;
+    var urls = cfg.POLAR_CHECKOUT_URLS || {};
+    var slotKey = normalizePlanKey(rawPlan);
+    if (slotKey === 'sixMonth') {
+      return String(urls.pass_1999 || cfg.POLAR_KFG_PASS_URL || '').trim();
+    }
+    return String(urls.single_899 || cfg.POLAR_KFG_SINGLE_URL || '').trim();
+  }
+
+  function appendCustomerEmailToPolarUrl(rawUrl, emailOverride) {
+    var url = String(rawUrl || '').trim();
+    if (!url) return '';
+    var email = String(emailOverride !== undefined ? emailOverride : getSavedParentEmail()).trim();
+    if (email && email.indexOf('@') !== -1 && url.indexOf('customer_email=') === -1) {
+      var sep = url.indexOf('?') === -1 ? '?' : '&';
+      url = url + sep + 'customer_email=' + encodeURIComponent(email);
+    }
+    return url;
+  }
+
   function resolveKfgLiveCheckoutState(rawPlan) {
     var cfg = global.PAYMENT_CONFIG || DEFAULT_PAYMENT_CONFIG;
     var slotKey = normalizePlanKey(rawPlan);
-    var ped = cfg.PEDIATRIC_STORE_SLOT || DEFAULT_PAYMENT_CONFIG.PEDIATRIC_STORE_SLOT;
-    var backupPed = (ped.BACKUP_LIVE_CHECKOUT_URL && ped.BACKUP_LIVE_CHECKOUT_URL[slotKey]) ? String(ped.BACKUP_LIVE_CHECKOUT_URL[slotKey]).trim() : '';
-    var backupTop = (cfg.BACKUP_LIVE_CHECKOUT_URL && cfg.BACKUP_LIVE_CHECKOUT_URL[slotKey]) ? String(cfg.BACKUP_LIVE_CHECKOUT_URL[slotKey]).trim() : '';
-    var backupUrl = backupPed || backupTop;
+    var resolvedPolarUrl = resolvePolarPlanUrl(slotKey, cfg);
+    var isValidPolarLive = cfg.STORE_LIVE_READY === true && /^https:\/\/buy\.polar\.sh\/.+/i.test(resolvedPolarUrl);
 
-    if (backupUrl && /^https?:\/\//i.test(backupUrl)) {
+    if (isValidPolarLive) {
       return {
         isLive: true,
-        mode: 'backup',
+        mode: 'polar_sh',
         slotKey: slotKey,
-        url: backupUrl
-      };
-    }
-
-    var lsUrl = slotKey === 'sixMonth' ? ped.sixMonthUrl : ped.singleUrl;
-    if (cfg.STORE_LIVE_READY === true) {
-      return {
-        isLive: true,
-        mode: 'lemonsqueezy',
-        slotKey: slotKey,
-        url: lsUrl
+        url: appendCustomerEmailToPolarUrl(resolvedPolarUrl)
       };
     }
 
@@ -118,8 +152,47 @@
       isLive: false,
       mode: 'waitlist',
       slotKey: slotKey,
-      url: lsUrl
+      url: ''
     };
+  }
+
+  function navigateToKfgPolarCheckout(rawUrl, rawPlan) {
+    var memberEmail = getSavedParentEmail();
+    var checkoutUrl = appendCustomerEmailToPolarUrl(rawUrl, memberEmail);
+    if (!checkoutUrl) {
+      openKfgVipWaitlistModal(rawPlan);
+      return false;
+    }
+    try {
+      if (memberEmail && memberEmail.indexOf('@') !== -1 && global.localStorage) {
+        global.localStorage.setItem('kidsfit_pending_polar_checkout_email_v1', memberEmail);
+      }
+    } catch (_) {}
+
+    var ua = (typeof navigator !== 'undefined' && navigator.userAgent) ? String(navigator.userAgent) : '';
+    if (IN_APP_WEBVIEW_RE.test(ua)) {
+      if (global.location) {
+        global.location.href = checkoutUrl;
+      }
+      return true;
+    }
+
+    if (global.PolarEmbedCheckout && typeof global.PolarEmbedCheckout.create === 'function') {
+      try {
+        global.PolarEmbedCheckout.create(checkoutUrl, 'light');
+        return true;
+      } catch (_) {}
+    }
+
+    if (global.location) {
+      global.location.href = checkoutUrl;
+      return true;
+    }
+    if (typeof global.open === 'function') {
+      global.open(checkoutUrl, '_blank', 'noopener');
+      return true;
+    }
+    return false;
   }
 
   function fireAbacusKey(key) {
@@ -136,15 +209,21 @@
       return false;
     }
     global.__kfgLastPaidClickAt = now;
-    fireAbacusKey('paid_click');
+    var kst = getKstDateString();
+    fireAbacusKey('paid_click_' + kst);
     fireAbacusKey('paid_click_total');
+    fireAbacusKey('paid_click');
     return true;
   }
 
   function recordKfgSignupBeacons(opts) {
+    var kst = getKstDateString();
     if (opts && opts.isVipWaitlist) {
+      fireAbacusKey('vip_waitlist_' + kst);
+      fireAbacusKey('vip_waitlist_total');
       fireAbacusKey('vip_waitlist');
     }
+    fireAbacusKey('signup_' + kst);
     fireAbacusKey('signup');
     fireAbacusKey('signup_total');
   }
@@ -158,23 +237,6 @@
   }
 
   var activeWaitlistPlan = 'single';
-
-  function getSavedParentEmail() {
-    try {
-      if (global.DreamCompanyCRM && typeof global.DreamCompanyCRM.getLocalMember === 'function') {
-        var m = global.DreamCompanyCRM.getLocalMember('KFG');
-        if (m && m.email) return String(m.email).trim();
-      }
-      if (global.localStorage) {
-        return String(
-          global.localStorage.getItem('kfg_parent_member_email') ||
-          global.localStorage.getItem('kidsfit_pending_ls_checkout_email_v1') ||
-          ''
-        ).trim();
-      }
-    } catch (_) {}
-    return '';
-  }
 
   function selectKfgWaitlistPlan(planKey) {
     activeWaitlistPlan = normalizePlanKey(planKey);
@@ -194,8 +256,8 @@
     }
     if (summaryEl) {
       summaryEl.innerHTML = isSix
-        ? 'Selected: <strong>6-Month Growth Pass ($19.99 &rarr; $15.99 w/ 20% Founding Voucher)</strong> &middot; Includes Printable US CDC Percentile & Bone-Age PDF Guide + 30-Day Growth Velocity Tracker (6 Monthly Checklists &amp; Commentary).'
-        : 'Selected: <strong>Single Growth Report ($8.99 &rarr; $7.19 w/ 20% Founding Voucher)</strong> &middot; Includes Printable US CDC Percentile & Bone-Age PDF Guide + 30-Day Growth Velocity Tracker (+1x 30-Day Check-in).';
+        ? 'Selected: <strong>6-Month Growth &amp; Velocity Pass ($19.99 &rarr; $15.99 w/ 20% Founding Voucher)</strong> &middot; Includes Printable US CDC Percentile &amp; Bone-Age PDF Guide + 30-Day Growth Velocity Tracker (6 Monthly Checklists &amp; Commentary).'
+        : 'Selected: <strong>Single Growth &amp; Bone-Age PDF Guide ($8.99 &rarr; $7.19 w/ 20% Founding Voucher)</strong> &middot; Includes Printable US CDC Percentile &amp; Bone-Age PDF Guide + 30-Day Growth Velocity Tracker (+1x 30-Day Check-in).';
     }
   }
 
@@ -226,7 +288,9 @@
       return false;
     }
 
-    var selectedPlanLabel = activeWaitlistPlan === 'sixMonth' ? '6-Month Growth Pass ($19.99)' : 'Single Growth Report ($8.99)';
+    var selectedPlanLabel = activeWaitlistPlan === 'sixMonth'
+      ? '6-Month Growth & Velocity Pass ($19.99)'
+      : 'Single Growth & Bone-Age PDF Guide ($8.99)';
     if (btnEl) {
       btnEl.disabled = true;
       btnEl.textContent = 'Reserving Your 20% Founding Voucher...';
@@ -235,10 +299,11 @@
     try {
       if (global.localStorage) {
         global.localStorage.setItem('kfg_parent_member_email', email);
-        global.localStorage.setItem('kidsfit_pending_ls_checkout_email_v1', email);
+        global.localStorage.setItem('kidsfit_pending_polar_checkout_email_v1', email);
         global.localStorage.setItem('kfg_vip_waitlist_reserved_v1', JSON.stringify({
           email: email,
           plan: activeWaitlistPlan,
+          provider: 'polar_sh',
           reservedAt: new Date().toISOString()
         }));
       }
@@ -249,10 +314,10 @@
     var finish = function () {
       if (btnEl) {
         btnEl.disabled = false;
-        btnEl.textContent = 'Reserved! 20% Voucher Locked In';
+        btnEl.textContent = 'Reserved! 20% Early-Bird Voucher Locked In';
       }
       if (typeof global.syncKfgParentDashboardUI === 'function') {
-        try { global.syncKfgParentDashboardUI(email, 'VIP Founding Family Waitlist'); } catch (_) {}
+        try { global.syncKfgParentDashboardUI(email, 'VIP Founding Member Waitlist'); } catch (_) {}
       }
       if (statusEl) {
         statusEl.style.display = 'block';
@@ -262,7 +327,7 @@
         statusEl.innerHTML =
           '<strong>20% Early-Bird Voucher Reserved for ' + escHtml(email) + '!</strong><br>' +
           'Plan reserved: <strong>' + escHtml(selectedPlanLabel) + '</strong> (Code <code>KFG-FOUNDER-20</code>). ' +
-          'We will notify you the moment Store #296100 express checkout opens—and your free US CDC Growth &amp; Sleep Checklist is active right now.';
+          'We will send your priority checkout link via Polar.sh the moment express billing opens—and your free US CDC Growth &amp; Sleep Checklist is active right now.';
       }
     };
 
@@ -272,7 +337,7 @@
         email: email,
         segment: 'vip_waitlist',
         lang: 'en-US',
-        notes: 'site=kisfitglobal.com | plan=' + selectedPlanLabel
+        notes: 'site=kisfitglobal.com | provider=polar_sh | plan=' + selectedPlanLabel
       }).then(finish).catch(finish);
     } else {
       finish();
@@ -289,7 +354,7 @@
       if (msgEl) {
         msgEl.style.display = 'block';
         msgEl.style.color = '#B91C1C';
-        msgEl.textContent = 'Please enter your VIP Access Code or 36-character License Key.';
+        msgEl.textContent = 'Please enter your VIP Access Code or License Key.';
       }
       return;
     }
@@ -351,14 +416,14 @@
       '<div style="background:#FFFFFF;border:2px solid #1D4ED8;border-radius:22px;max-width:500px;width:100%;padding:1.45rem 1.35rem;box-shadow:0 25px 60px rgba(15,23,42,0.38);color:#0F172A;text-align:left;max-height:92vh;overflow-y:auto;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;">' +
         '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.75rem;margin-bottom:0.8rem;padding-bottom:0.65rem;border-bottom:1px solid #E2E8F0;">' +
           '<div>' +
-            '<span style="display:inline-block;font-size:0.72rem;font-weight:900;color:#1D4ED8;background:#EFF6FF;border:1px solid #BFDBFE;padding:0.2rem 0.6rem;border-radius:9999px;margin-bottom:0.35rem;">FOUNDING FAMILY PRIORITY ACCESS &middot; STORE #296100</span>' +
-            '<h3 id="kfg-vip-waitlist-title" style="margin:0;font-size:1.08rem;font-weight:900;color:#0F172A;line-height:1.32;">VIP Founding Family Launch Alert &amp; 20% Early-Bird Voucher Reservation (1-Second Email Reserve)</h3>' +
+            '<span style="display:inline-block;font-size:0.72rem;font-weight:900;color:#1D4ED8;background:#EFF6FF;border:1px solid #BFDBFE;padding:0.2rem 0.6rem;border-radius:9999px;margin-bottom:0.35rem;">VIP FOUNDING MEMBER PRIORITY ACCESS &middot; POLAR.SH</span>' +
+            '<h3 id="kfg-vip-waitlist-title" style="margin:0;font-size:1.08rem;font-weight:900;color:#0F172A;line-height:1.32;">VIP Founding Member 20% Early-Bird Waitlist (1-Second Email Reserve)</h3>' +
           '</div>' +
           '<button type="button" onclick="window.closeKfgVipWaitlistModal()" aria-label="Close modal" style="background:#F1F5F9;border:1px solid #CBD5E1;border-radius:9999px;width:34px;height:34px;font-weight:900;color:#0F172A;cursor:pointer;flex-shrink:0;">&#10005;</button>' +
         '</div>' +
 
         '<p style="margin:0 0 0.85rem;font-size:0.86rem;color:#334155;line-height:1.55;">' +
-          'Our global USD billing checkout for the <strong>Comprehensive Growth &amp; Habit Percentile PDF Guide</strong> is completing final Merchant-of-Record activation. Reserve in 1 second below to lock in a <strong>20% Founding Family Early-Bird Voucher</strong> and receive instant free US CDC growth &amp; sleep checklist access today.' +
+          'Our global USD checkout via <strong>Polar.sh (Merchant of Record · Global Card / Apple Pay / Google Pay)</strong> is completing final live store activation. Reserve in 1 second below to lock in your <strong>20% Early-Bird Founding Voucher</strong> and receive instant free US CDC growth &amp; sleep checklist access today.' +
         '</p>' +
 
         '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.55rem;margin-bottom:0.75rem;">' +
@@ -378,7 +443,7 @@
         '<div id="kfg-wl-selected-summary" style="background:#F8FAFC;border:1px solid #DBEAFE;border-radius:11px;padding:0.65rem 0.8rem;font-size:0.79rem;color:#1E293B;line-height:1.45;margin-bottom:0.85rem;"></div>' +
 
         '<form id="kfg-vip-waitlist-form" onsubmit="return window.submitKfgVipWaitlistForm(event);" style="display:flex;flex-direction:column;gap:0.6rem;">' +
-          '<label for="kfg-waitlist-email" style="font-size:0.78rem;font-weight:800;color:#334155;">Parent Email for Launch Alert &amp; 20% Voucher Code</label>' +
+          '<label for="kfg-waitlist-email" style="font-size:0.78rem;font-weight:800;color:#334155;">Parent Email for Launch Alert &amp; 20% Early-Bird Voucher Code</label>' +
           '<input type="email" id="kfg-waitlist-email" required autocomplete="email" value="' + prefillEmail + '" placeholder="Enter parent email (e.g., mom@gmail.com)" style="width:100%;box-sizing:border-box;min-height:50px;padding:0.75rem 0.9rem;border-radius:12px;border:1.5px solid #93C5FD;font-size:16px;font-weight:600;color:#0F172A;background:#FFFFFF;">' +
           '<button type="submit" id="btn-kfg-waitlist-submit" style="width:100%;min-height:54px;padding:0.85rem 1rem;border-radius:13px;border:none;background:linear-gradient(90deg,#1D4ED8 0%,#059669 100%);color:#FFFFFF;font-size:0.98rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(29,78,216,0.25);">' +
             'Reserve My 20% Early-Bird Voucher (1-Sec) -&gt;' +
@@ -397,6 +462,7 @@
         '</details>' +
 
         '<div style="margin-top:0.8rem;padding-top:0.65rem;border-top:1px solid #E2E8F0;font-size:0.73rem;color:#64748B;line-height:1.5;">' +
+          '<div style="font-weight:700;color:#334155;margin-bottom:0.25rem;">Checkout &amp; Billing: Polar.sh (Merchant of Record · Global Card / Apple Pay / Google Pay)</div>' +
           '<div>For educational and informational tracking based on public US CDC growth charts only; not a substitute for professional pediatric medical diagnosis or treatment.</div>' +
           '<div style="margin-top:0.35rem;font-weight:700;">' +
             '<a href="/terms.html" style="color:#1D4ED8;text-decoration:none;">Terms of Service</a> &middot; ' +
@@ -415,10 +481,10 @@
     if (!target || typeof target.closest !== 'function') return null;
     if (target.closest('#kfg-vip-waitlist-modal')) return null;
     var el = target.closest(
-      'a[href*="lemonsqueezy.com/checkout/buy/"], [data-ls-product-uuid], .lemonsqueezy-button, ' +
+      'a[href*="buy.polar.sh"], [data-polar-checkout], .polar-checkout-button, ' +
       '#btn-global-paywall-checkout, #btn-one-tap-single-report, #btn-one-tap-six-month-pass, ' +
-      '#btn-edge-single-report, #btn-edge-six-month-pass, .kfg-ba-btn-single, .kfg-ba-btn-pass, ' +
-      '.kfg-edge-btn-pass, [data-kfg-paid-plan]'
+      '#btn-edge-single-report, #btn-edge-six-month-pass, #btn-polar-official-checkout, ' +
+      '.kfg-ba-btn-single, .kfg-ba-btn-pass, .kfg-edge-btn-pass, [data-kfg-paid-plan]'
     );
     return el || null;
   }
@@ -426,20 +492,19 @@
   function inferPlanFromElement(el) {
     if (!el) return 'single';
     var attrPlan = el.getAttribute('data-kfg-paid-plan') || '';
-    var uuid = el.getAttribute('data-ls-product-uuid') || '';
     var href = el.getAttribute('href') || '';
     var id = el.id || '';
     var cls = el.className || '';
     var txt = el.textContent || '';
     if (
       attrPlan === 'pass' ||
+      attrPlan === 'pass_1999' ||
       attrPlan === 'sixMonth' ||
-      uuid.indexOf('c562946d') !== -1 ||
-      href.indexOf('c562946d') !== -1 ||
       id.indexOf('pass') !== -1 ||
       String(cls).indexOf('btn-pass') !== -1 ||
       txt.indexOf('19.99') !== -1 ||
-      txt.indexOf('6-Month') !== -1
+      txt.indexOf('6-Month') !== -1 ||
+      href.indexOf('pass') !== -1
     ) {
       return 'sixMonth';
     }
@@ -464,20 +529,19 @@
         return false;
       }
 
-      if (state.mode === 'backup' && state.url) {
+      if (state.mode === 'polar_sh' && state.url) {
         if (typeof e.preventDefault === 'function') e.preventDefault();
         if (typeof e.stopPropagation === 'function') e.stopPropagation();
         if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
-        if (typeof global.open === 'function') {
-          global.open(state.url, '_blank', 'noopener');
-        } else if (global.location) {
-          global.location.href = state.url;
-        }
+        navigateToKfgPolarCheckout(state.url, planKey);
         return false;
       }
     }, true);
   }
 
+  global.resolvePolarPlanUrl = resolvePolarPlanUrl;
+  global.appendCustomerEmailToPolarUrl = appendCustomerEmailToPolarUrl;
+  global.navigateToKfgPolarCheckout = navigateToKfgPolarCheckout;
   global.resolveKfgLiveCheckoutState = resolveKfgLiveCheckoutState;
   global.recordKfgPaidClickOnce = recordKfgPaidClickOnce;
   global.recordKfgSignupBeacons = recordKfgSignupBeacons;
@@ -490,6 +554,9 @@
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
       PAYMENT_CONFIG: global.PAYMENT_CONFIG,
+      resolvePolarPlanUrl: resolvePolarPlanUrl,
+      appendCustomerEmailToPolarUrl: appendCustomerEmailToPolarUrl,
+      navigateToKfgPolarCheckout: navigateToKfgPolarCheckout,
       resolveKfgLiveCheckoutState: resolveKfgLiveCheckoutState,
       recordKfgPaidClickOnce: recordKfgPaidClickOnce,
       recordKfgSignupBeacons: recordKfgSignupBeacons,

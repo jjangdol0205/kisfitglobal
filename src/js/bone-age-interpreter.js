@@ -6,15 +6,12 @@
  * - 100% Client-Side Static Auxology Calculation (Bayley-Pinneau Mature Height Multiplier + Mid-Parental Height)
  * - Supports both US Imperial (ft / in) and Metric (cm) seamlessly
  * - Zero X-ray image upload, zero server transmission, 100% Zero-Hangul English codebase
- * - Connects naturally to Lemon Squeezy Store #296100 ($8.99 Single Report & $19.99 6-Month Growth Pass)
+ * - Connects naturally to Polar.sh Global MoR ($8.99 Single Growth & Bone-Age PDF Guide & $19.99 6-Month Growth & Velocity Pass)
  */
 (function () {
   'use strict';
 
   var STORAGE_KEY = 'kfg_bone_age_interpreter_v1';
-
-  var SINGLE_REPORT_UUID = 'c1cd7f12-3479-49e8-ab71-59c98135d599';
-  var SIX_MONTH_PASS_UUID = 'c562946d-ef68-4c2f-a802-df9da0179895';
 
   // Monotonic Bayley-Pinneau mature height achieved percentages (%) by skeletal Bone Age (4.0 to 18.5 yrs)
   var BP_TABLE_BOY = [
@@ -453,12 +450,12 @@
             '<span>Combine your child&apos;s wrist bone-age runway with US CDC 2000 LMS curves &amp; Khamis-Roche velocity tracking.</span>' +
           '</div>' +
           '<div class="kfg-ba-cta-btns">' +
-            '<button type="button" class="kfg-ba-btn-single" data-ls-product-uuid="' + SINGLE_REPORT_UUID + '" onclick="if(window.triggerKfgVelocityEdgeCheckout)window.triggerKfgVelocityEdgeCheckout(\'single\');">' +
+            '<button type="button" class="kfg-ba-btn-single" data-kfg-paid-plan="single" onclick="if(window.triggerKfgVelocityEdgeCheckout)window.triggerKfgVelocityEdgeCheckout(\'single\');">' +
               '<span>📄 Comprehensive Growth &amp; Habit Percentile PDF Guide — $8.99 →</span>' +
-              '<small>One-time Printable PDF Guide + 90-Day Action Plan</small>' +
+              '<small>Includes Printable US CDC Percentile &amp; Bone-Age PDF Guide + 30-Day Growth Velocity Tracker</small>' +
             '</button>' +
-            '<button type="button" class="kfg-ba-btn-pass" data-ls-product-uuid="' + SIX_MONTH_PASS_UUID + '" onclick="if(window.triggerKfgVelocityEdgeCheckout)window.triggerKfgVelocityEdgeCheckout(\'pass\');">' +
-              '<span>⭐ Get 6-Month Growth &amp; Bone-Age Pass — $19.99 →</span>' +
+            '<button type="button" class="kfg-ba-btn-pass" data-kfg-paid-plan="pass" onclick="if(window.triggerKfgVelocityEdgeCheckout)window.triggerKfgVelocityEdgeCheckout(\'pass\');">' +
+              '<span>⭐ Get 6-Month Growth &amp; Velocity Pass — $19.99 →</span>' +
               '<small>Unlimited 30-Day Velocity Re-Scans + Sibling Profiles</small>' +
             '</button>' +
           '</div>' +
