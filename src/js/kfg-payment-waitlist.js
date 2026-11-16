@@ -194,8 +194,8 @@
     }
     if (summaryEl) {
       summaryEl.innerHTML = isSix
-        ? 'Selected: <strong>6-Month Growth Pass ($19.99 &rarr; $15.99 w/ 20% Founding Voucher)</strong> &middot; Includes 6 Monthly Checklists, Velocity Commentary &amp; Comprehensive Growth &amp; Habit Percentile PDF Guide.'
-        : 'Selected: <strong>Single Growth Report ($8.99 &rarr; $7.19 w/ 20% Founding Voucher)</strong> &middot; Includes Comprehensive Growth &amp; Habit Percentile PDF Guide + 1x 30-Day Velocity Check-in.';
+        ? 'Selected: <strong>6-Month Growth Pass ($19.99 &rarr; $15.99 w/ 20% Founding Voucher)</strong> &middot; Includes Printable US CDC Percentile & Bone-Age PDF Guide + 30-Day Growth Velocity Tracker (6 Monthly Checklists &amp; Commentary).'
+        : 'Selected: <strong>Single Growth Report ($8.99 &rarr; $7.19 w/ 20% Founding Voucher)</strong> &middot; Includes Printable US CDC Percentile & Bone-Age PDF Guide + 30-Day Growth Velocity Tracker (+1x 30-Day Check-in).';
     }
   }
 

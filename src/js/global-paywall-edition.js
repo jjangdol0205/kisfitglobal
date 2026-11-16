@@ -4167,6 +4167,9 @@ ${isMasked ? `
               <span style="font-size:0.78rem;color:#475569;font-weight:700;">· One-Time Snapshot</span>
             </div>
             <div style="font-size:0.78rem;color:#334155;line-height:1.45;">
+              <div style="margin-bottom:0.35rem;padding:0.32rem 0.5rem;border-radius:8px;background:#DBEAFE;border:1px solid #93C5FD;color:#1E3A8A;font-size:0.75rem;font-weight:800;line-height:1.35;">
+                📄 Includes Printable US CDC Percentile & Bone-Age PDF Guide + 30-Day Growth Velocity Tracker
+              </div>
               ${isLearningMode ? `
               ✓ Full 5-Axis Brain LQ &amp; Study Bottleneck Report<br>
               ✓ Custom 4-Week Feynman &amp; Bar-Modeling Plan<br>
@@ -4196,6 +4199,9 @@ ${isMasked ? `
               <span style="font-size:0.78rem;color:#059669;font-weight:800;">· Only $3.33/mo (11¢/day)</span>
             </div>
             <div style="font-size:0.78rem;color:#334155;line-height:1.45;">
+              <div style="margin-bottom:0.35rem;padding:0.32rem 0.5rem;border-radius:8px;background:#ECFDF5;border:1px solid #6EE7B7;color:#065F46;font-size:0.75rem;font-weight:800;line-height:1.35;">
+                📄 Includes Printable US CDC Percentile & Bone-Age PDF Guide + 30-Day Growth Velocity Tracker
+              </div>
               ${isLearningMode ? `
               ✓ <strong>Monthly 30-Day 5-Axis Brain LQ Re-Calibration</strong><br>
               ✓ <strong>Cycles 1–6 Progressive Monthly Worksheets</strong><br>
@@ -5793,6 +5799,10 @@ ${isMasked ? `
             <strong style="font-size:0.88rem;color:#0F172A;font-weight:800;">6-Month Growth Pass</strong>
             <span style="font-size:1.1rem;font-weight:900;color:#1D4ED8;">$19.99 <small style="font-size:0.7rem;font-weight:600;color:#64748B;">USD</small></span>
           </button>
+        </div>
+
+        <div style="background:#EFF6FF;border:1px solid #93C5FD;border-radius:10px;padding:0.5rem 0.75rem;margin-bottom:0.65rem;font-size:0.75rem;font-weight:800;color:#1E3A8A;line-height:1.4;">
+          📄 Includes Printable US CDC Percentile & Bone-Age PDF Guide + 30-Day Growth Velocity Tracker
         </div>
 
         <div style="background:#F8FAFC;border:1px solid #BFDBFE;border-radius:12px;padding:0.75rem 0.9rem;margin-bottom:0.85rem;display:flex;justify-content:space-between;align-items:center;">
