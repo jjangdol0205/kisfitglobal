@@ -25,6 +25,45 @@
   const LOCALIZED_EN_SINGLE_CHECKOUT_URL = 'https://truthofmarket.lemonsqueezy.com/checkout/buy/c1cd7f12-3479-49e8-ab71-59c98135d599?embed=1&locale=en';
   const LOCALIZED_EN_PASS_CHECKOUT_URL = 'https://truthofmarket.lemonsqueezy.com/checkout/buy/c562946d-ef68-4c2f-a802-df9da0179895?embed=1&locale=en';
 
+  global.PAYMENT_CONFIG = Object.assign({
+    STORE_ID: '296100',
+    STORE_DOMAIN: 'truthofmarket.lemonsqueezy.com',
+    STORE_LIVE_READY: false,
+    FINANCE_STORE_SLOT: {
+      storeId: '296100',
+      monthlyProductId: '1491888',
+      monthlyPriceUsd: '29.00',
+      monthlyUuid: 'd5e7e761-8b1b-4ca8-b1fe-771acd1450f8',
+      monthlyUrl: 'https://truthofmarket.lemonsqueezy.com/checkout/buy/d5e7e761-8b1b-4ca8-b1fe-771acd1450f8?embed=1&locale=en',
+      lifetimeProductId: '1491891',
+      lifetimePriceUsd: '199.00',
+      lifetimeUuid: '667aa482-f17c-47d1-b7f3-a2427c36516b',
+      lifetimeUrl: 'https://truthofmarket.lemonsqueezy.com/checkout/buy/667aa482-f17c-47d1-b7f3-a2427c36516b?embed=1&locale=en'
+    },
+    PEDIATRIC_STORE_SLOT: {
+      storeId: '296100',
+      singleProductId: '1468224',
+      singlePriceUsd: '8.99',
+      singleUuid: 'c1cd7f12-3479-49e8-ab71-59c98135d599',
+      singleUrl: LOCALIZED_EN_SINGLE_CHECKOUT_URL,
+      sixMonthProductId: '1468243',
+      sixMonthPriceUsd: '19.99',
+      sixMonthUuid: 'c562946d-ef68-4c2f-a802-df9da0179895',
+      sixMonthUrl: LOCALIZED_EN_PASS_CHECKOUT_URL,
+      BACKUP_LIVE_CHECKOUT_URL: {
+        single: '',
+        sixMonth: ''
+      }
+    },
+    BACKUP_LIVE_CHECKOUT_URL: {
+      single: '',
+      sixMonth: ''
+    }
+  }, global.PAYMENT_CONFIG || {});
+  if (typeof window !== 'undefined' && !window.PAYMENT_CONFIG) {
+    window.PAYMENT_CONFIG = global.PAYMENT_CONFIG;
+  }
+
   function getLocalizedEnglishCheckoutUrl(plan) {
     return plan === 'pass' ? TRUTHOFMARKET_PASS_CHECKOUT_URL : TRUTHOFMARKET_SINGLE_CHECKOUT_URL;
   }
@@ -383,7 +422,7 @@
           </div>
           <div style="display:flex;align-items:center;gap:0.65rem;">
             <span style="font-family:monospace;font-size:0.72rem;background:rgba(255,255,255,0.12);padding:0.2rem 0.55rem;border-radius:6px;color:#E2E8F0;border:1px solid rgba(255,255,255,0.2);">
-              Patient ID: KFG-EHR-9082-2026
+              Sample ID: KFG-GUIDE-9082-2026
             </span>
             <button type="button" onclick="var m=document.getElementById('kidsfit-sample-demo-modal');if(m)m.remove();" aria-label="Close Sample Preview" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#FFFFFF;border-radius:9999px;width:34px;height:34px;font-size:1.1rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.15s ease;">✕</button>
           </div>
@@ -395,7 +434,7 @@
             <strong>Standards:</strong> US CDC 2000 LMS / AAP Guidelines / WHO MGRS &middot; <strong>Evaluated:</strong> Liam (Age 9 Boy · 50th Percentile CDC LMS)
           </div>
           <div style="background:#DBEAFE;color:#1D4ED8;border:1px solid #93C5FD;font-weight:900;padding:0.18rem 0.6rem;border-radius:9999px;display:flex;align-items:center;gap:0.35rem;font-size:0.7rem;">
-            <span>🔒 OFFICIAL CLINICAL SAMPLE · VERIFIED EHR PREVIEW · KISFIT BIO LABS</span>
+            <span>🔒 EDUCATIONAL SAMPLE · COMPREHENSIVE GROWTH &amp; HABIT PERCENTILE PDF GUIDE</span>
           </div>
         </div>
 
@@ -802,8 +841,8 @@
                 <div>[ &nbsp; ] <strong>Annual Velocity Status:</strong> 5.2 cm/yr (Normal Linear Corridor)</div>
               </div>
               <div style="margin-top:0.5rem;padding-top:0.45rem;border-top:1px dashed #CBD5E1;display:flex;justify-content:space-between;align-items:center;font-size:0.72rem;color:#64748B;">
-                <span>Physician Signature: ___________________________, M.D.</span>
-                <span>Official Hospital Clinic Seal: [ &nbsp; VERIFIED EHR &nbsp; ]</span>
+                <span>Parent / Pediatrician Discussion Notes: ___________________________</span>
+                <span>Reference Edition: [ COMPREHENSIVE GROWTH &amp; HABIT PERCENTILE PDF GUIDE ]</span>
               </div>
             </div>
           </div>
@@ -818,7 +857,7 @@
               &larr; Prev Page
             </button>
             <span style="font-weight:800;color:#1E3A8A;">
-              Page <span id="sample-active-page-num">1</span> of 3 &middot; Verified EHR Clinical Sample
+              Page <span id="sample-active-page-num">1</span> of 3 &middot; Comprehensive Growth &amp; Habit Percentile PDF Guide Sample
             </span>
             <button type="button" id="btn-sample-page-next" onclick="var ind=document.getElementById('sample-active-page-num');var cur=parseInt(ind?ind.textContent:'1',10)||1;window.switchSamplePreviewPage(cur+1);" style="background:#FFFFFF;border:1px solid #CBD5E1;border-radius:8px;padding:0.35rem 0.75rem;cursor:pointer;font-weight:800;color:#1E3A8A;">
               Next Page &rarr;
@@ -3673,7 +3712,7 @@ ${isMasked ? `
               </div>
               <div style="display:flex;flex-direction:column;gap:0.3rem;">
                 <button type="button" onclick="window.printKidsFitDocument('doctor-dossier')" style="width:100%;background:linear-gradient(90deg,#059669 0%,#10B981 100%);color:#FFFFFF;border:none;border-radius:8px;padding:0.38rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;text-align:left;">
-                  🖨️ 1. Doctor Consultation Dossier (2-Page EHR) →
+                  🖨️ 1. Comprehensive Growth &amp; Habit Percentile PDF Guide →
                 </button>
                 <button type="button" onclick="window.printKidsFitDocument('fridge-chart')" style="width:100%;background:#1D4ED8;color:#FFFFFF;border:none;border-radius:8px;padding:0.38rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;text-align:left;">
                   🖨️ 2. 14-Day Refrigerator Wall Chart →
@@ -4182,8 +4221,11 @@ ${isMasked ? `
           </button>
         </div>
 
-        <div style="text-align:center;font-size:0.8rem;font-weight:800;color:#0F172A;margin-bottom:0.65rem;line-height:1.45;">
-          🍎 Apple Pay · Google Pay · Credit Card · PayPal &nbsp;|&nbsp; <span style="color:#059669;">✨ Unlocks Automatically on Screen Right After Payment (30-Day Guarantee)</span>
+        <div style="text-align:center;font-size:0.8rem;font-weight:800;color:#0F172A;margin-bottom:0.45rem;line-height:1.45;">
+          🍎 Apple Pay · Google Pay · Credit Card · PayPal &nbsp;|&nbsp; <span style="color:#059669;">✨ Unlocks Automatically on Screen Right After Payment (14-Day &amp; 30-Day Refund Guarantee)</span>
+        </div>
+        <div class="kfg-educational-pricing-disclaimer" style="text-align:center;font-size:0.75rem;color:#475569;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:0.5rem 0.8rem;margin-bottom:0.75rem;line-height:1.45;">
+          For educational and informational tracking based on public US CDC growth charts only; not a substitute for professional pediatric medical diagnosis or treatment.
         </div>
 
         <details style="background:#F8FAFC;border:1px solid #CBD5E1;border-radius:10px;padding:0.55rem 0.85rem;margin-bottom:0.85rem;">
@@ -4274,9 +4316,9 @@ ${isMasked ? `
                 <td style="padding:0.45rem 0.5rem;text-align:center;font-weight:800;color:#047857;background:#F0FDF4;">Both Growth &amp; Brain LQ</td>
               </tr>
               <tr style="border-bottom:1px solid #E2E8F0;">
-                <td style="padding:0.45rem 0.6rem;font-weight:700;">Hospital Clinic Intake PDF</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;color:#64748B;">1-Time Summary</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;font-weight:800;color:#047857;background:#F0FDF4;">Unlimited 2-Page EHR PDFs</td>
+                <td style="padding:0.45rem 0.6rem;font-weight:700;">Comprehensive Growth &amp; Habit Percentile PDF Guide</td>
+                <td style="padding:0.45rem 0.5rem;text-align:center;color:#64748B;">1-Time Printable Guide</td>
+                <td style="padding:0.45rem 0.5rem;text-align:center;font-weight:800;color:#047857;background:#F0FDF4;">Unlimited Printable PDF Guides</td>
               </tr>
               <tr style="border-bottom:1px solid #E2E8F0;">
                 <td style="padding:0.45rem 0.6rem;font-weight:700;">Pediatrician Email Review</td>
@@ -4338,7 +4380,7 @@ ${isMasked ? `
 
         <!-- Sample Report Preview Action Button -->
         <button type="button" onclick="if(window.openSampleReportPreview){window.openSampleReportPreview();}else if(window.loadSampleDemoProfile){window.loadSampleDemoProfile();}" style="width:100%;min-height:48px;padding:0.75rem 1rem;border-radius:12px;border:1.5px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-size:0.88rem;font-weight:900;cursor:pointer;margin-bottom:0.75rem;box-shadow:0 4px 12px rgba(29,78,216,0.08);display:flex;align-items:center;justify-content:center;gap:0.45rem;">
-          <span>👀 View Live Sample Report (3-Page Clinical EHR Preview)</span>
+          <span>👀 View Live Sample Report (Comprehensive Growth &amp; Habit Percentile PDF Guide)</span>
           <span>→</span>
         </button>
 
@@ -4393,7 +4435,7 @@ ${isMasked ? `
           <div style="display:flex;align-items:center;gap:0.45rem;flex-wrap:wrap;flex:1;min-width:240px;">
             <span style="font-size:0.78rem;font-weight:900;color:#1E3A8A;">📩 Email My Child's Free CDC Summary (${pctValDisp}th %ile):</span>
             <input type="email" id="kf-free-summary-email" placeholder="parent@email.com" style="padding:0.38rem 0.65rem;border:1px solid #93C5FD;border-radius:8px;font-size:0.78rem;min-width:170px;" />
-            <button type="button" onclick="(function(){var el=document.getElementById('kf-free-summary-email');var em=el&&el.value?el.value.trim():'';if(!em||em.indexOf('@')===-1){alert('Please enter a valid parent email address.');return;}try{localStorage.setItem('kidsfit_global_lead_email',em);var kst=new Date(Date.now()+9*3600*1000).toISOString().slice(0,10);fetch('https://abacus.jasoncameron.dev/hit/kfg_kisfitglobal/paid_click_'+kst,{mode:'cors',keepalive:true}).catch(function(){});}catch(e){}alert('Sent! Your child\'s US CDC '+('${pctValDisp}')+'th percentile summary &amp; iHerb/Amazon starter guide has been saved for '+em+'.');})()" style="background:#1D4ED8;color:#FFFFFF;border:none;border-radius:8px;padding:0.4rem 0.75rem;font-size:0.75rem;font-weight:800;cursor:pointer;">
+            <button type="button" onclick="(function(){var el=document.getElementById('kf-free-summary-email');var em=el&&el.value?el.value.trim():'';if(!em||em.indexOf('@')===-1){alert('Please enter a valid parent email address.');return;}try{localStorage.setItem('kidsfit_global_lead_email',em);if(window.DreamCompanyCRM&&window.DreamCompanyCRM.registerMember){window.DreamCompanyCRM.registerMember({div:'KFG',email:em,segment:'free_cdc_summary',lang:'en-US',notes:'site=kisfitglobal.com | post_scan_summary'});}if(window.recordKfgSignupBeacons){window.recordKfgSignupBeacons({});}else{fetch('https://abacus.jasoncameron.dev/hit/kfg_kisfitglobal/signup',{mode:'cors',keepalive:true}).catch(function(){});fetch('https://abacus.jasoncameron.dev/hit/kfg_kisfitglobal/signup_total',{mode:'cors',keepalive:true}).catch(function(){});}}catch(e){}alert('Sent! Your child\'s US CDC '+('${pctValDisp}')+'th percentile summary &amp; starter habit guide has been saved for '+em+'.');})()" style="background:#1D4ED8;color:#FFFFFF;border:none;border-radius:8px;padding:0.4rem 0.75rem;font-size:0.75rem;font-weight:800;cursor:pointer;">
               Send Free Summary →
             </button>
           </div>
@@ -5513,6 +5555,33 @@ ${isMasked ? `
       }
     } catch (_) {}
     const plan = planOverride || selectedPlan || 'single';
+    if (typeof global.recordKfgPaidClickOnce === 'function') {
+      global.recordKfgPaidClickOnce(plan);
+    }
+    const payCfg = (typeof window !== 'undefined' && window.PAYMENT_CONFIG) || global.PAYMENT_CONFIG || null;
+    if (payCfg) {
+      const slotKey = plan === 'pass' ? 'sixMonth' : 'single';
+      const pedSlot = payCfg.PEDIATRIC_STORE_SLOT || {};
+      const backupUrl = String(
+        (pedSlot.BACKUP_LIVE_CHECKOUT_URL && pedSlot.BACKUP_LIVE_CHECKOUT_URL[slotKey]) ||
+        (payCfg.BACKUP_LIVE_CHECKOUT_URL && payCfg.BACKUP_LIVE_CHECKOUT_URL[slotKey]) ||
+        ''
+      ).trim();
+      if (backupUrl && /^https?:\/\//i.test(backupUrl)) {
+        if (typeof window !== 'undefined' && typeof window.open === 'function') {
+          window.open(backupUrl, '_blank', 'noopener');
+        } else if (typeof window !== 'undefined' && window.location) {
+          window.location.href = backupUrl;
+        }
+        return Promise.resolve({ ok: true, checkoutUrl: backupUrl, mode: 'backup_live' });
+      }
+      if (payCfg.STORE_LIVE_READY !== true) {
+        if (typeof global.openKfgVipWaitlistModal === 'function') {
+          global.openKfgVipWaitlistModal(plan);
+          return Promise.resolve({ ok: true, mode: 'vip_waitlist', plan: plan });
+        }
+      }
+    }
     const baseCheckoutUrl = isStaticGitHubPagesHost()
       ? getActiveCheckoutUrl(plan, { domain: 'truthofmarket' })
       : getActiveCheckoutUrl(plan);
@@ -6076,6 +6145,7 @@ ${isMasked ? `
   }
 
   const GlobalPaywallEdition = {
+    PAYMENT_CONFIG: global.PAYMENT_CONFIG,
     DEFAULT_SINGLE_CHECKOUT_URL,
     DEFAULT_PASS_CHECKOUT_URL,
     TRUTHOFMARKET_SINGLE_CHECKOUT_URL,
@@ -6133,18 +6203,6 @@ ${isMasked ? `
       localStorage.setItem('hq_uv_ever_' + ns, '1');
       fetch('https://abacus.jasoncameron.dev/hit/' + ns + '/uv_total', { mode: 'cors', keepalive: true }).catch(function(){});
     }
-  } catch (e) {}
-})();
-
-/* === HQ KPI Conversion Tracker (Division 2: Paid Member Conversion Click & Checkout Tracking) === */
-(function(){
-  try {
-    if (typeof window === 'undefined' || window.__HQ_KPI_KFG__) return;
-    window.__HQ_KPI_KFG__ = true;
-    var host = (location && location.hostname) || '';
-    if (!host || host === 'localhost' || host === '127.0.0.1') return;
-    var kst = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
-    var ns = 'kfg_kisfitglobal';
     if (localStorage.getItem('kidsfit_global_report_unlocked_v1') === 'true') {
       if (localStorage.getItem('hq_paid_kfg_' + kst) !== '1') {
         localStorage.setItem('hq_paid_kfg_' + kst, '1');
@@ -6152,16 +6210,5 @@ ${isMasked ? `
         fetch('https://abacus.jasoncameron.dev/hit/' + ns + '/paid_member_total', { mode: 'cors', keepalive: true }).catch(function(){});
       }
     }
-    document.addEventListener('click', function(e) {
-      var el = e.target && e.target.closest ? e.target.closest('a, button, [role="button"]') : null;
-      if (!el) return;
-      var href = (el.getAttribute('href') || '').toLowerCase();
-      var txt = (el.innerText || el.textContent || '').toLowerCase();
-      var id = (el.id || '').toLowerCase();
-      if (href.indexOf('lemonsqueezy.com') !== -1 || id.indexOf('paywall') !== -1 || id.indexOf('checkout') !== -1 || /unlock|8\.99|19\.99|pass|report|checkout/.test(txt)) {
-        fetch('https://abacus.jasoncameron.dev/hit/' + ns + '/paid_click_' + kst, { mode: 'cors', keepalive: true }).catch(function(){});
-        fetch('https://abacus.jasoncameron.dev/hit/' + ns + '/paid_click_total', { mode: 'cors', keepalive: true }).catch(function(){});
-      }
-    }, true);
   } catch (e) {}
 })();

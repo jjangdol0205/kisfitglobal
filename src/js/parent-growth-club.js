@@ -1,7 +1,11 @@
 /**
  * src/js/parent-growth-club.js
  * KISFIT Parent Growth Club — Monthly Milestone Stamp & D-30 Reminder
- * Pure client-side belonging, habit streak, 4-milestone stamp card & RFC-5545 .ics reminder.
+ *
+ * Includes Social In-App WebView (`Instagram|FBAN|FBAV|KAKAOTALK`) branching:
+ * NEVER triggers `.ics` file download inside Instagram/FB/Kakao WebViews;
+ * instead opens an instant in-page schedule modal + 1-click email reminder signup.
+ * 100% English (Zero-Hangul).
  */
 (function () {
   'use strict';
@@ -18,6 +22,12 @@
     'Steady wins, Growth Partner — pairing morning sunlight, balanced protein, and a 9 PM lights-out protects peak nighttime growth hormone.',
     'Cheering you on, Growth Partner — measuring barefoot once a month against a flat wall turns guesswork into calm, confident parenting.'
   ];
+
+  function isSocialInAppWebView() {
+    if (typeof window !== 'undefined' && window.__KFG_FORCE_INAPP_WEBVIEW === true) return true;
+    var ua = (typeof navigator !== 'undefined' && navigator.userAgent) ? navigator.userAgent : '';
+    return /Instagram|FBAN|FBAV|KAKAOTALK/i.test(ua);
+  }
 
   function getLocalIsoDate(dateObj) {
     var d = dateObj || new Date();
@@ -201,6 +211,11 @@
       }
     }
 
+    var btnIcs = document.getElementById('btn-kfg-ics-download');
+    if (btnIcs && isSocialInAppWebView()) {
+      btnIcs.textContent = '📧 Email Me My Growth Reminder Schedule Now';
+    }
+
     var targetDate = ms.nextRecheckDate || addDays(todayIso, 30);
     var remainDays = Math.max(0, diffDays(todayIso, targetDate));
     if (!ms.nextRecheckDate) remainDays = 30;
@@ -229,13 +244,7 @@
     if (!Array.isArray(ms.history)) ms.history = [];
 
     if (club.lastCheckInDate !== todayIso) {
-      if (club.lastCheckInDate && diffDays(club.lastCheckInDate, todayIso) === 1) {
-        club.streakDays = (Number(club.streakDays) || 0) + 1;
-      } else if (club.lastCheckInDate && diffDays(club.lastCheckInDate, todayIso) > 1) {
-        club.streakDays = (Number(club.streakDays) || 0) + 1;
-      } else {
-        club.streakDays = Math.max(1, Number(club.streakDays) || 1);
-      }
+      club.streakDays = Math.max(1, (Number(club.streakDays) || 0) + 1);
       club.totalCheckIns = (Number(club.totalCheckIns) || 0) + 1;
       club.lastCheckInDate = todayIso;
       if (!club.partnerSince) club.partnerSince = todayIso;
@@ -297,10 +306,130 @@
     } catch (_e) {}
   };
 
+  function closeKfgInAppScheduleModal() {
+    var m = document.getElementById('kfg-inapp-schedule-modal');
+    if (m) m.remove();
+  }
+
+  function submitKfgInAppScheduleEmail(ev, targetDateStr) {
+    if (ev && typeof ev.preventDefault === 'function') ev.preventDefault();
+    var inp = document.getElementById('kfg-inapp-schedule-email');
+    var st = document.getElementById('kfg-inapp-schedule-status');
+    var btn = document.getElementById('btn-kfg-inapp-schedule-submit');
+    var email = inp ? String(inp.value || '').trim().toLowerCase() : '';
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      if (st) {
+        st.style.display = 'block';
+        st.style.color = '#DC2626';
+        st.textContent = 'Please enter a valid parent email address.';
+      }
+      if (inp) inp.focus();
+      return false;
+    }
+
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Sending Growth Reminder Schedule...';
+    }
+
+    if (typeof window.recordKfgSignupBeacons === 'function') {
+      window.recordKfgSignupBeacons({});
+    } else if (typeof window.fetch === 'function') {
+      window.fetch('https://abacus.jasoncameron.dev/hit/kfg_kisfitglobal/signup', { mode: 'cors', keepalive: true }).catch(function () {});
+      window.fetch('https://abacus.jasoncameron.dev/hit/kfg_kisfitglobal/signup_total', { mode: 'cors', keepalive: true }).catch(function () {});
+    }
+
+    var done = function () {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = 'Schedule Sent! Club Access Active';
+      }
+      try { localStorage.setItem('kfg_parent_member_email', email); } catch (_) {}
+      if (st) {
+        st.style.display = 'block';
+        st.style.color = '#065F46';
+        st.innerHTML = '<strong>Sent!</strong> Your Day-30 Growth Reminder Schedule (' + String(targetDateStr || '').replace(/[<>&"]/g, '') + ') &amp; Instant Club Access are active for <strong>' + email.replace(/[<>&"]/g, '') + '</strong>.';
+      }
+    };
+
+    if (window.DreamCompanyCRM && typeof window.DreamCompanyCRM.registerMember === 'function') {
+      window.DreamCompanyCRM.registerMember({
+        div: 'KFG',
+        email: email,
+        segment: window.__kfgSelectedClubSegment || 'ages_8_11_golden_window',
+        lang: 'en-US',
+        notes: 'site=kisfitglobal.com | source=inapp_webview_d30_schedule | next=' + (targetDateStr || '')
+      }).then(done).catch(done);
+    } else {
+      done();
+    }
+    return false;
+  }
+
+  function openKfgInAppScheduleModal(targetIso, snapshotStr) {
+    if (typeof document === 'undefined' || !document.body) return;
+    closeKfgInAppScheduleModal();
+    var readableDate = formatReadableDate(targetIso);
+    var savedEmail = '';
+    try {
+      savedEmail = String(localStorage.getItem('kfg_parent_member_email') || '').trim();
+    } catch (_) {}
+
+    var modal = document.createElement('div');
+    modal.id = 'kfg-inapp-schedule-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.style.cssText = 'position:fixed;inset:0;z-index:100025;background:rgba(15,23,42,0.75);display:flex;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px);';
+    modal.onclick = function (e) { if (e.target === modal) closeKfgInAppScheduleModal(); };
+
+    modal.innerHTML =
+      '<div style="background:#FFFFFF;border:2px solid #059669;border-radius:20px;max-width:460px;width:100%;padding:1.35rem 1.25rem;box-shadow:0 24px 55px rgba(15,23,42,0.35);color:#0F172A;text-align:left;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.65rem;margin-bottom:0.75rem;">' +
+          '<div>' +
+            '<span style="display:inline-block;background:#ECFDF5;color:#047857;border:1px solid #A7F3D0;font-size:0.72rem;font-weight:900;padding:0.18rem 0.6rem;border-radius:9999px;margin-bottom:0.3rem;">30-DAY GROWTH REMINDER SCHEDULE</span>' +
+            '<h3 style="margin:0;font-size:1.06rem;font-weight:900;color:#0F172A;line-height:1.3;">Email Me My Growth Reminder Schedule Now (Instant Club Access)</h3>' +
+          '</div>' +
+          '<button type="button" onclick="window.closeKfgInAppScheduleModal()" aria-label="Close" style="background:#F1F5F9;border:1px solid #CBD5E1;border-radius:9999px;width:32px;height:32px;font-weight:900;cursor:pointer;">&#10005;</button>' +
+        '</div>' +
+        '<div style="background:#F8FAFC;border:1px solid #CBD5E1;border-radius:12px;padding:0.75rem 0.9rem;margin-bottom:0.85rem;font-size:0.83rem;color:#334155;line-height:1.55;">' +
+          '<div><strong>Next 30-Day Wall Measurement Date:</strong> <span style="color:#047857;font-weight:900;">' + readableDate + ' (9:00 AM)</span></div>' +
+          (snapshotStr ? '<div><strong>Current Logged Baseline:</strong> ' + snapshotStr.replace(/[<>&"]/g, '') + '</div>' : '') +
+          '<div style="margin-top:0.35rem;">1) Measure barefoot against a flat wall within 30 mins of waking.<br>2) Protect pre-10 PM screen-free sleep &amp; daily Ca/D3/Protein.<br>3) Log next month\'s height to track annualized US CDC velocity.</div>' +
+        '</div>' +
+        '<form onsubmit="return window.submitKfgInAppScheduleEmail(event, \'' + readableDate.replace(/'/g, '') + '\');" style="display:flex;flex-direction:column;gap:0.55rem;">' +
+          '<input type="email" id="kfg-inapp-schedule-email" required value="' + savedEmail.replace(/"/g, '&quot;') + '" placeholder="Enter parent email (e.g., mom@gmail.com)" style="width:100%;box-sizing:border-box;min-height:50px;padding:0.7rem 0.9rem;border:1.5px solid #6EE7B7;border-radius:12px;font-size:16px;color:#0F172A;">' +
+          '<button type="submit" id="btn-kfg-inapp-schedule-submit" style="width:100%;min-height:52px;padding:0.8rem 1rem;border-radius:12px;border:none;background:linear-gradient(90deg,#059669 0%,#047857 100%);color:#FFFFFF;font-size:0.94rem;font-weight:900;cursor:pointer;">' +
+            'Email Me My Growth Reminder Schedule Now (Instant Club Access) -&gt;' +
+          '</button>' +
+        '</form>' +
+        '<div id="kfg-inapp-schedule-status" role="status" aria-live="polite" style="display:none;margin-top:0.65rem;font-size:0.82rem;font-weight:700;line-height:1.45;"></div>' +
+      '</div>';
+
+    document.body.appendChild(modal);
+  }
+
+  window.closeKfgInAppScheduleModal = closeKfgInAppScheduleModal;
+  window.submitKfgInAppScheduleEmail = submitKfgInAppScheduleEmail;
+  window.openKfgInAppScheduleModal = openKfgInAppScheduleModal;
+  window.isKfgSocialInAppWebView = isSocialInAppWebView;
+
   window.downloadKfgD30CalendarIcs = function () {
     var todayIso = getLocalIsoDate();
     var ms = getInitialMilestoneState();
     var targetIso = (ms && ms.nextRecheckDate) ? ms.nextRecheckDate : addDays(todayIso, 30);
+
+    // Social In-App WebView Guard: NEVER trigger .ics file download inside Instagram / Facebook / KakaoTalk
+    if (isSocialInAppWebView()) {
+      openKfgInAppScheduleModal(targetIso, (ms && ms.latestSnapshot) || '');
+      var inAppFeedback = document.getElementById('kfg-club-ics-feedback');
+      if (inAppFeedback) {
+        inAppFeedback.style.display = 'block';
+        inAppFeedback.textContent = '📧 In-app browser detected: Enter your email in the schedule window to receive your ' + formatReadableDate(targetIso) + ' growth reminder directly in your inbox.';
+      }
+      return false;
+    }
+
     var p = targetIso.split('-');
     var y = p[0];
     var m = p[1];
@@ -354,13 +483,28 @@
       feedbackEl.style.display = 'block';
       feedbackEl.textContent = '📅 Calendar event saved for ' + formatReadableDate(targetIso) + ' (9:00 AM local time). Open the .ics file to add to Apple, Google, or Outlook Calendar.';
     }
+    return true;
   };
 
   var SINGLE_REPORT_LS_URL = 'https://truthofmarket.lemonsqueezy.com/checkout/buy/c1cd7f12-3479-49e8-ab71-59c98135d599?embed=1&locale=en';
   var SIX_MONTH_PASS_LS_URL = 'https://truthofmarket.lemonsqueezy.com/checkout/buy/c562946d-ef68-4c2f-a802-df9da0179895?embed=1&locale=en';
 
   window.triggerKfgVelocityEdgeCheckout = function (plan) {
-    var mode = (plan === 'pass') ? 'pass' : 'single';
+    var mode = (plan === 'pass' || plan === 'sixMonth') ? 'pass' : 'single';
+    if (typeof window.recordKfgPaidClickOnce === 'function') {
+      window.recordKfgPaidClickOnce(mode);
+    }
+    if (typeof window.resolveKfgLiveCheckoutState === 'function') {
+      var st = window.resolveKfgLiveCheckoutState(mode);
+      if (!st.isLive && typeof window.openKfgVipWaitlistModal === 'function') {
+        window.openKfgVipWaitlistModal(mode);
+        return;
+      }
+      if (st.isLive && st.mode === 'backup' && st.url) {
+        window.open(st.url, '_blank', 'noopener');
+        return;
+      }
+    }
     if (typeof window.launchLemonSqueezyCheckout === 'function') {
       window.launchLemonSqueezyCheckout(mode);
       return;
@@ -395,9 +539,11 @@
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initClubAndVelocityEdge);
-  } else {
-    initClubAndVelocityEdge();
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initClubAndVelocityEdge);
+    } else {
+      initClubAndVelocityEdge();
+    }
   }
 })();

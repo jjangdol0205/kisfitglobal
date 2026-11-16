@@ -101,10 +101,10 @@
       <div class="bioavailability-gauge-card" style="background: #F8FAFC; border: 1px solid #BFDBFE; border-radius: 18px; padding: 1.25rem; margin-top: 1rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.85rem;">
           <h5 style="font-size: 0.95rem; font-weight: 800; color: #0F172A; margin: 0;">
-            ${useGlobal ? 'Calcium Source Bioavailability Comparison Gauge' : '칼슘 원료별 생체 흡수율(Bioavailability) 비교 게이지'}
+            ${useGlobal ? 'Calcium Source Bioavailability Comparison Gauge' : 'US CDC Growth ReferenceBioavailability) US CDC Growth Reference'}
           </h5>
           <span style="background: #EFF6FF; color: #1D4ED8; font-size: 0.78rem; font-weight: 800; padding: 0.2rem 0.65rem; border-radius: 9999px;">
-            ${useGlobal ? `~${ratio}x Higher Absorption` : `흡수 효율 약 ${ratio}배 우수`}
+            ${useGlobal ? `~${ratio}x Higher Absorption` : `US CDC Growth Reference ${ratio}US CDC Growth Reference`}
           </span>
         </div>
 
@@ -112,9 +112,9 @@
         <div style="margin-bottom: 0.75rem;">
           <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.3rem;">
             <span style="font-weight: 700; color: #1D4ED8;">
-              ${useGlobal ? '① Calcium Citrate / Microcrystalline MCHA' : '① 구연산 칼슘 / 어골칼슘 (MCHA, Calcium Citrate)'}
+              ${useGlobal ? '① Calcium Citrate / Microcrystalline MCHA' : '① US CDC Growth ReferenceMCHA, Calcium Citrate)'}
             </span>
-            <span style="font-weight: 800; color: #1D4ED8;">${useGlobal ? `~${citratePct}% Absorbed (pH-independent · Gentle on GI)` : `~${citratePct}% 흡수 (공복 흡수·변비 없음)`}</span>
+            <span style="font-weight: 800; color: #1D4ED8;">${useGlobal ? `~${citratePct}% Absorbed (pH-independent · Gentle on GI)` : `~${citratePct}% US CDC Growth Reference`}</span>
           </div>
           <div style="background: #E2E8F0; border: 1px solid #CBD5E1; border-radius: 9999px; height: 12px; overflow: hidden; position: relative;">
             <div style="background: #1D4ED8; height: 100%; width: ${citratePct * 1.8}%; border-radius: 9999px;"></div>
@@ -125,9 +125,9 @@
         <div>
           <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.3rem;">
             <span style="font-weight: 700; color: #334155;">
-              ${useGlobal ? '② Standard Calcium Carbonate (Oyster/Limestone)' : '② 일반 탄산칼슘 (Calcium Carbonate, 조개/석회 유래)'}
+              ${useGlobal ? '② Standard Calcium Carbonate (Oyster/Limestone)' : '② dUS CDC Growth ReferenceCalcium Carbonate, US CDC Growth Reference'}
             </span>
-            <span style="font-weight: 800; color: #1D4ED8;">${useGlobal ? `~${carbonatePct}% Absorbed (Requires post-meal gastric acid)` : `~${carbonatePct}% 흡수 (식후 위산 필요)`}</span>
+            <span style="font-weight: 800; color: #1D4ED8;">${useGlobal ? `~${carbonatePct}% Absorbed (Requires post-meal gastric acid)` : `~${carbonatePct}% US CDC Growth Reference`}</span>
           </div>
           <div style="background: #E2E8F0; border: 1px solid #CBD5E1; border-radius: 9999px; height: 12px; overflow: hidden; position: relative;">
             <div style="background: #64748B; height: 100%; width: ${carbonatePct * 1.8}%; border-radius: 9999px;"></div>
@@ -153,7 +153,7 @@
           <h4 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0;">
             ${useGlobal
               ? `Daily Micronutrient &amp; Bone-Matrix Targets (Weight ${weightLbs} lbs / ${targets.weightKg} kg · Age ${targets.ageYears} yrs)`
-              : `체중(${targets.weightKg}kg) · 만 ${targets.ageYears}세 하루 권장 영양 정량 요약`}
+              : `Weight(${targets.weightKg}kg) · US CDC Growth Reference ${targets.ageYears} yrs US CDC Growth Reference Nutrition US CDC Growth Reference`}
           </h4>
         </div>
 
@@ -163,56 +163,56 @@
           <!-- Card 1: Calcium -->
           <div style="background: #FFFFFF; border: 1px solid #BFDBFE; border-radius: 18px; padding: 1.1rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-              <span style="font-size: 0.9rem; font-weight: 800; color: #0F172A;">${useGlobal ? 'Elemental Calcium' : '원소 칼슘'}</span>
-              <span style="font-size: 0.75rem; font-weight: 700; color: #1D4ED8; background: #EFF6FF; padding: 0.18rem 0.5rem; border-radius: 6px;">${useGlobal ? 'Bone Mineralization' : '뼈 광물화'}</span>
+              <span style="font-size: 0.9rem; font-weight: 800; color: #0F172A;">${useGlobal ? 'Elemental Calcium' : 'US CDC Growth Reference'}</span>
+              <span style="font-size: 0.75rem; font-weight: 700; color: #1D4ED8; background: #EFF6FF; padding: 0.18rem 0.5rem; border-radius: 6px;">${useGlobal ? 'Bone Mineralization' : 'US CDC Growth Reference'}</span>
             </div>
             <div style="font-size: 1.5rem; font-weight: 900; color: #1D4ED8; margin: 0.2rem 0;">
-              ${targets.calciumMg} <span style="font-size: 0.88rem; font-weight: 600;">${useGlobal ? 'mg/day' : 'mg/일'}</span>
+              ${targets.calciumMg} <span style="font-size: 0.88rem; font-weight: 600;">${useGlobal ? 'mg/day' : 'mg/d'}</span>
             </div>
             <p style="font-size: 0.85rem; color: #0F172A; line-height: 1.45; margin: 0;">
-              ${useGlobal ? '• Split doses (≤400 mg per serving) using GI-gentle Calcium Citrate or MCHA' : '• 속 쓰림 없는 구연산·어골칼슘 1회 400mg 이하 분할 섭취'}
+              ${useGlobal ? '• Split doses (≤400 mg per serving) using GI-gentle Calcium Citrate or MCHA' : '• US CDC Growth Reference 1US CDC Growth Reference 400mg US CDC Growth Reference'}
             </p>
           </div>
 
           <!-- Card 2: Vitamin D3 + K2 -->
           <div style="background: #FFFFFF; border: 1px solid #BFDBFE; border-radius: 18px; padding: 1.1rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-              <span style="font-size: 0.9rem; font-weight: 800; color: #0F172A;">${useGlobal ? 'Vitamin D3 + K2 (MK-7)' : '비타민 D3 + K2'}</span>
-              <span style="font-size: 0.75rem; font-weight: 700; color: #1D4ED8; background: #EFF6FF; padding: 0.18rem 0.5rem; border-radius: 6px;">${useGlobal ? 'Osteocalcin Activation' : '칼슘 뼈 침착'}</span>
+              <span style="font-size: 0.9rem; font-weight: 800; color: #0F172A;">${useGlobal ? 'Vitamin D3 + K2 (MK-7)' : 'Vitamin D3 + K2'}</span>
+              <span style="font-size: 0.75rem; font-weight: 700; color: #1D4ED8; background: #EFF6FF; padding: 0.18rem 0.5rem; border-radius: 6px;">${useGlobal ? 'Osteocalcin Activation' : 'US CDC Growth Reference'}</span>
             </div>
             <div style="font-size: 1.5rem; font-weight: 900; color: #1D4ED8; margin: 0.2rem 0;">
               ${targets.vitDIU} <span style="font-size: 0.85rem; font-weight: 600;">IU</span> + ${targets.vitK2Mcg} <span style="font-size: 0.85rem; font-weight: 600;">mcg</span>
             </div>
             <p style="font-size: 0.85rem; color: #0F172A; line-height: 1.45; margin: 0;">
-              ${useGlobal ? '• Upregulates intestinal calcium absorption and directs deposition into epiphyseal bone matrix' : '• 장내 칼슘 흡수를 돕고 성장판 뼈 기질로 직접 운반'}
+              ${useGlobal ? '• Upregulates intestinal calcium absorption and directs deposition into epiphyseal bone matrix' : '• US CDC Growth Reference Growth Plate US CDC Growth Reference'}
             </p>
           </div>
 
           <!-- Card 3: Zinc + Magnesium -->
           <div style="background: #FFFFFF; border: 1px solid #BFDBFE; border-radius: 18px; padding: 1.1rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-              <span style="font-size: 0.9rem; font-weight: 800; color: #0F172A;">${useGlobal ? 'Zinc + Magnesium Glycinate' : '아연 + 마그네슘'}</span>
-              <span style="font-size: 0.75rem; font-weight: 700; color: #1D4ED8; background: #EFF6FF; padding: 0.18rem 0.5rem; border-radius: 6px;">${useGlobal ? 'IGF-1 &amp; Deep SWS' : 'IGF-1 &amp; 숙면'}</span>
+              <span style="font-size: 0.9rem; font-weight: 800; color: #0F172A;">${useGlobal ? 'Zinc + Magnesium Glycinate' : 'Zinc + Magnesium'}</span>
+              <span style="font-size: 0.75rem; font-weight: 700; color: #1D4ED8; background: #EFF6FF; padding: 0.18rem 0.5rem; border-radius: 6px;">${useGlobal ? 'IGF-1 &amp; Deep SWS' : 'IGF-1 &amp; US CDC Growth Reference'}</span>
             </div>
             <div style="font-size: 1.5rem; font-weight: 900; color: #1D4ED8; margin: 0.2rem 0;">
               ${targets.zincMg} <span style="font-size: 0.85rem; font-weight: 600;">mg</span> + ${targets.magMg} <span style="font-size: 0.85rem; font-weight: 600;">mg</span>
             </div>
             <p style="font-size: 0.85rem; color: #0F172A; line-height: 1.45; margin: 0;">
-              ${useGlobal ? '• Supports hepatic IGF-1 synthesis and 10 PM slow-wave delta sleep depth' : '• 성장인자(IGF-1) 합성 촉진 및 밤 10시 깊은 서파수면 유도'}
+              ${useGlobal ? '• Supports hepatic IGF-1 synthesis and 10 PM slow-wave delta sleep depth' : '• US CDC Growth ReferenceIGF-1) US CDC Growth Reference 10US CDC Growth Reference Slow-Wave Sleep (N3) US CDC Growth Reference'}
             </p>
           </div>
 
           <!-- Card 4: Bone Matrix Protein -->
           <div style="background: #FFFFFF; border: 1px solid #BFDBFE; border-radius: 18px; padding: 1.1rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-              <span style="font-size: 0.9rem; font-weight: 800; color: #0F172A;">${useGlobal ? 'Bone Matrix Protein' : '뼈 기질 단백질'}</span>
-              <span style="font-size: 0.75rem; font-weight: 700; color: #1D4ED8; background: #EFF6FF; padding: 0.18rem 0.5rem; border-radius: 6px;">${useGlobal ? 'Weight × 1.3 g/kg' : '체중 × 1.3g'}</span>
+              <span style="font-size: 0.9rem; font-weight: 800; color: #0F172A;">${useGlobal ? 'Bone Matrix Protein' : 'US CDC Growth Reference Protein'}</span>
+              <span style="font-size: 0.75rem; font-weight: 700; color: #1D4ED8; background: #EFF6FF; padding: 0.18rem 0.5rem; border-radius: 6px;">${useGlobal ? 'Weight × 1.3 g/kg' : 'Weight × 1.3g'}</span>
             </div>
             <div style="font-size: 1.5rem; font-weight: 900; color: #1D4ED8; margin: 0.2rem 0;">
-              ${targets.proteinG} <span style="font-size: 0.88rem; font-weight: 600;">${useGlobal ? 'g/day' : 'g/일'}</span>
+              ${targets.proteinG} <span style="font-size: 0.88rem; font-weight: 600;">${useGlobal ? 'g/day' : 'g/d'}</span>
             </div>
             <p style="font-size: 0.85rem; color: #0F172A; line-height: 1.45; margin: 0;">
-              ${useGlobal ? '• Supplies essential amino acids for epiphyseal chondrocyte &amp; collagen scaffolding' : '• 성장판 연골·콜라겐 뼈대를 세우는 필수 아미노산 공급'}
+              ${useGlobal ? '• Supplies essential amino acids for epiphyseal chondrocyte &amp; collagen scaffolding' : '• Growth Plate US CDC Growth Reference  yrsUS CDC Growth Reference'}
             </p>
           </div>
 
@@ -252,7 +252,7 @@
                  id="ref-chip-nutrition"
                  style="font-size: 12px; color: #334155; border: 1px solid var(--theme-border); padding: 0.35rem 0.75rem; border-radius: 9999px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; background: var(--theme-surface-sub);">
                 <span></span>
-                <span>${useGlobal ? '[Ingredient Spec Reference (iHerb) ↗]' : '[성분 스펙 레퍼런스 (iHerb) ↗]'}</span>
+                <span>${useGlobal ? '[Ingredient Spec Reference (iHerb) ↗]' : '[US CDC Growth ReferenceiHerb) ↗]'}</span>
               </a>
             `;
           })()}

@@ -1,5 +1,5 @@
 /**
- * TALLER BIO LABS (키즈핏 바이오 랩)
+ * KISFIT BIO LABS (Global Pediatric Growth & Brain LQ Studio)
  * Clinical Growth Trajectory, Endocrinology, Biomechanics & Cognitive Analytics
  * 
  * Master Design System:
@@ -2441,7 +2441,7 @@ svg {
        & ZERO REDUNDANT CARD WHITESPACE
    ========================================================================== */
 
-/* 25-1. 1-Item-Per-Row (한줄로 나오도록) across all 6 Quiz Steps & Report Grids (except 2x2 growth-stats-grid) */
+/* 25-1. 1-Item-Per-Row across all 6 Quiz Steps & Report Grids (except 2x2 growth-stats-grid) */
 #quiz-section .choice-chips-grid,
 #quiz-section .trait-multi-grid,
 #quiz-section .bento-choice-grid,
@@ -2469,7 +2469,7 @@ svg {
   line-height: 1.42 !important;
 }
 
-/* 25-2. Eliminate redundant outer wrapper padding/margin (카드뉴스·보고서 불필요 여백 제거) */
+/* 25-2. Eliminate redundant outer wrapper padding/margin */
 #master-briefing-card {
   padding: 0 !important;
   border: none !important;
@@ -2503,7 +2503,7 @@ svg {
 }
 
 /* 25-3. Consistent Typography Hierarchy Across BOTH Growth (#pillar-1-container) & Learning (#pillar-2-container) */
-/* 대주제 (Section Headings: h2, h3) */
+/* Section Headings: h2, h3 */
 #results-dashboard h2,
 #results-dashboard h3,
 #results-dashboard .briefing-title,
@@ -2515,7 +2515,7 @@ svg {
   letter-spacing: -0.02em !important;
 }
 
-/* 소주제 (Card Sub-Headings: h4) */
+/* Card Sub-Headings: h4 */
 #results-dashboard h4 {
   font-size: 1.04rem !important;
   line-height: 1.45 !important;
@@ -2523,7 +2523,7 @@ svg {
   letter-spacing: -0.01em !important;
 }
 
-/* 본문 (Body Paragraphs & List Items: p, li, .action-desc) */
+/* Body Paragraphs & List Items: p, li, .action-desc */
 #results-dashboard p,
 #results-dashboard li,
 #results-dashboard .action-desc {
@@ -2531,7 +2531,7 @@ svg {
   line-height: 1.65 !important;
 }
 
-/* 배지 (Badges & Section Pills) */
+/* Badges & Section Pills */
 #results-dashboard .section-badge-pill,
 #results-dashboard .tab-badge {
   font-size: 0.8rem !important;
@@ -2541,7 +2541,7 @@ svg {
 
 /* ==========================================================================
    26. DEDICATED PC HOMEPAGE vs SMARTPHONE MOBILE VIEW SEPARATION
-       (홈페이지용 와이드 화면 vs 스마트폰용 큰글씨·세로 풀와이드 화면)
+       (Wide PC Layout vs Mobile Full-Width Touch Layout)
    ========================================================================== */
 html,
 body {

@@ -199,11 +199,11 @@
     var habits = [
       { key: 'Deep Sleep Window (Pre-10 PM GH Pulse)', score: Number(payload.sleep_score) || 3, tip: 'Shift lights-out 30 minutes earlier and turn off screens 45 minutes before bed to protect peak Growth Hormone release.' },
       { key: 'Protein + Calcium / Vit D3 / Zinc Intake', score: Number(payload.nutrition_score) || 3, tip: 'Pair dinner lean protein with bioavailable Calcium, Vitamin D3, and Zinc for healthy bone-plate mineralization.' },
-      { key: 'Daily 20-Min Vertical Impact & Stretch', score: Number(payload.exercise_score) || 3, tip: 'Add 15–20 minutes of jump-rope, hops, or evening spinal decompression stretches daily.' },
-      { key: 'Spinal Posture & Nasal Breathing', score: Number(payload.posture_score) || 3, tip: 'Correct forward-head desk posture and check nighttime nasal breathing to protect 1.0–1.8 cm of standing stature.' }
+      { key: 'Daily 20-Min Vertical Impact & Stretch', score: Number(payload.exercise_score) || 3, tip: 'Add 15-20 minutes of jump-rope, hops, or evening spinal decompression stretches daily.' },
+      { key: 'Spinal Posture & Nasal Breathing', score: Number(payload.posture_score) || 3, tip: 'Correct forward-head desk posture and check nighttime nasal breathing to protect 1.0-1.8 cm of standing stature.' }
     ].sort(function (a, b) { return a.score - b.score; });
     var verdict = delta <= 0
-      ? ('Height held steady at ' + curH.toFixed(1) + ' cm this 30-day cycle; linear growth occurs in saltatory pulses—protect morning measurement consistency and pre-10 PM sleep.')
+      ? ('Height held steady at ' + curH.toFixed(1) + ' cm this 30-day cycle; linear growth occurs in saltatory pulses - protect morning measurement consistency and pre-10 PM sleep.')
       : ('30-day gain of +' + delta.toFixed(2) + ' cm (~' + annVel.toFixed(1) + ' cm/yr annualized pace vs. US CDC age-' + age + ' reference of ' + targetVel.toFixed(1) + ' cm/yr).');
     return {
       ok: true,
@@ -214,7 +214,8 @@
       cdc_target_cm_yr: targetVel,
       velocity_verdict: verdict,
       strongest_habit: habits[habits.length - 1],
-      priority_bottleneck: habits[0]
+      priority_bottleneck: habits[0],
+      habits_sorted: habits
     };
   }
 
@@ -265,6 +266,7 @@
     registerMember: registerMember,
     enrollKfgPaidVip: enrollKfgPaidVip,
     submitKfgVipCheckin: submitKfgVipCheckin,
+    computeLocalKfgCommentary: computeLocalKfgCommentary,
     getLocalMember: getLocalMember,
     flushPendingQueue: flushPendingQueue
   };

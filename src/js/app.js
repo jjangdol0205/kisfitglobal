@@ -1,5 +1,5 @@
 /**
- * KidsFit Growth Studio (키즈핏 그로스 스튜디오)
+ * KidsFit Growth Studio (KidsFit Growth Studio)
  * Core Application Engine & Onboarding Funnel (Milestone 2)
  * 
  * Features:
@@ -241,7 +241,7 @@
 
     const percent = Math.round((stepNumber / state.maxStep) * 100);
     const progressTextEl = document.getElementById('quiz-progress-text');
-    if (progressTextEl) progressTextEl.textContent = isEn ? `${percent}% Complete` : `${percent}% 완료`;
+    if (progressTextEl) progressTextEl.textContent = isEn ? `${percent}% Complete` : `${percent}% Complete`;
 
     const progressFillEl = document.getElementById('quiz-progress-fill');
     if (progressFillEl) progressFillEl.style.width = `${percent}%`;
@@ -280,7 +280,7 @@
         const girlEl = document.getElementById('gender-girl');
         if (boyEl && girlEl && !boyEl.checked && !girlEl.checked) {
           const isEn = typeof document !== 'undefined' && document.documentElement.lang === 'en';
-          alert(isEn ? 'Please select a gender.' : '성별을 선택해 주세요.');
+          alert(isEn ? 'Please select a gender.' : 'Please select a gender.');
           return false;
         }
 
@@ -289,7 +289,7 @@
         const d = (dayEl.value !== '' && dayEl.value !== undefined) ? parseInt(dayEl.value, 10) : 15;
         if (isNaN(y) || y < 2005 || y > 2026 || isNaN(m) || m < 1 || m > 12 || isNaN(d) || d < 1 || d > 31) {
           const isEn = typeof document !== 'undefined' && document.documentElement.lang === 'en';
-          alert(isEn ? 'Please enter a valid date of birth.' : '생년월일을 올바르게 선택해 주세요.');
+          alert(isEn ? 'Please enter a valid date of birth.' : 'Please enter a valid date of birth.');
           return false;
         }
         return true;
@@ -327,22 +327,22 @@
       }
 
       if (isNaN(age) || age < 12 || age > 240) {
-        alert(isEnVal ? 'Please enter child age between 12 and 240 months (1 to 20 years).' : '아이의 현재 월령을 12~240개월(1~20세) 사이로 입력해주세요.');
+        alert(isEnVal ? 'Please enter child age between 12 and 240 months (1 to 20 years).' : 'US CDC Growth Reference 12~240 mos(1~20 yrs) US CDC Growth Reference yrsUS CDC Growth Reference.');
         if (ageInput) ageInput.focus();
         return false;
       }
       if (isNaN(height) || height < 45 || height > 230) {
-        alert(isEnVal ? 'Please enter a valid height (18 to 90 inches / 45 to 230 cm).' : '아이의 현재 키를 45~230cm 사이로 입력해주세요.');
+        alert(isEnVal ? 'Please enter a valid height (18 to 90 inches / 45 to 230 cm).' : 'US CDC Growth Reference 45~230cm US CDC Growth Reference yrsUS CDC Growth Reference.');
         if (heightInput) heightInput.focus();
         return false;
       }
       if (isNaN(weight) || weight < 2 || weight > 160) {
-        alert(isEnVal ? 'Please enter a valid weight (5 to 350 lbs / 2 to 160 kg).' : '아이의 현재 몸무게를 2~160kg 사이로 입력해주세요.');
+        alert(isEnVal ? 'Please enter a valid weight (5 to 350 lbs / 2 to 160 kg).' : 'US CDC Growth Reference WeightUS CDC Growth Reference 2~160kg US CDC Growth Reference yrsUS CDC Growth Reference.');
         if (weightInput) weightInput.focus();
         return false;
       }
       if (isNaN(recent) || recent < 0 || recent > 20) {
-        alert(isEnVal ? 'Please enter recent 6-month growth (0 to 8 inches / 0 to 20 cm).' : '최근 6개월 성장폭을 0 ~ 20cm 사이로 입력해 주세요.');
+        alert(isEnVal ? 'Please enter recent 6-month growth (0 to 8 inches / 0 to 20 cm).' : 'US CDC Growth Reference 6 mos US CDC Growth Reference 0 ~ 20cm US CDC Growth Reference yrsUS CDC Growth Reference.');
         if (recentInput) recentInput.focus();
         return false;
       }
@@ -597,18 +597,18 @@
       ] : [
         {
           pct: 28,
-          title: '소아성장도표(KDCA 2017) 표준 백분위 대조 중...',
-          desc: `${state.profile.ageMonths}개월 ${state.profile.gender === 'boy' ? '남아' : '여아'} 기준 표준 키·몸무게 Z-Score를 산출하고 있습니다.`
+          title: 'Pediatric Growth Standards(KDCA 2017) US CDC Growth Reference...',
+          desc: `${state.profile.ageMonths} mos ${state.profile.gender === 'boy' ? 'Boy' : 'Girl'} US CDC Growth ReferenceWeight Z-ScoreUS CDC Growth Reference.`
         },
         {
           pct: 68,
-          title: 'K-DST 6대 발달 영역 & 몬테소리/은물 판정 분석 중...',
-          desc: '선택하신 발달 고민과 월령 특성을 고려하여 최적의 교구 영역을 분석하고 있습니다.'
+          title: 'K-DST 6US CDC Growth Reference & US CDC Growth Reference...',
+          desc: 'US CDC Growth Reference.'
         },
         {
           pct: 100,
-          title: '우리 아이 맞춤형 종합 처방전 생성 완료!',
-          desc: '신체 성장 곡선, 족집게 발달 교구, 주말 핀셋 나들이 코스가 준비되었습니다.'
+          title: 'US CDC Growth Reference Growth Guide US CDC Growth Reference Complete!',
+          desc: 'US CDC Growth Reference.'
         }
       ];
 
@@ -646,7 +646,7 @@
           const isEn = typeof document !== 'undefined' && document.documentElement.lang === 'en';
           headerTitle.textContent = isEn
             ? `Custom Growth & Learning Guidebook (${state.profile.ageMonths} mos · ${state.profile.gender === 'boy' ? 'Male' : 'Female'})`
-            : `만 ${state.profile.ageMonths}개월 ${state.profile.gender === 'boy' ? '남아' : '여아'} 맞춤 처방전`;
+            : `US CDC Growth Reference ${state.profile.ageMonths} mos ${state.profile.gender === 'boy' ? 'Boy' : 'Girl'} US CDC Growth Reference Growth Guide`;
         }
         if (avatarEl) {
           avatarEl.textContent = state.profile.gender === 'boy' ? '👦' : '👧';
@@ -694,7 +694,7 @@
             const isEn = document.documentElement && (document.documentElement.lang === 'en' || (typeof document.documentElement.getAttribute === 'function' && document.documentElement.getAttribute('data-edition') === 'global-paid'));
             headerTitle.textContent = isEn
               ? `Custom Growth & Learning Master Report (${state.profile.ageMonths} mos · ${state.profile.gender === 'boy' ? 'Male' : 'Female'})`
-              : `만 ${state.profile.ageMonths}개월 ${state.profile.gender === 'boy' ? '남아' : '여아'} 맞춤 처방전`;
+              : `US CDC Growth Reference ${state.profile.ageMonths} mos ${state.profile.gender === 'boy' ? 'Boy' : 'Girl'} US CDC Growth Reference Growth Guide`;
           }
           if (avatarEl) {
             avatarEl.textContent = state.profile.gender === 'boy' ? '👦' : '👧';
@@ -751,8 +751,8 @@
           ? `Brain & Learning Disposition Master Report (${state.profile.ageMonths} mos · ${state.profile.gender === 'boy' ? 'Male' : 'Female'})`
           : `Physical Growth Master Report (${state.profile.ageMonths} mos · ${state.profile.gender === 'boy' ? 'Male' : 'Female'})`)
         : (isLearningModeActive
-          ? `만 ${Math.max(1, Math.floor((state.profile.ageMonths || 120) / 12))}세(${state.profile.ageMonths}개월) ${state.profile.gender === 'boy' ? '남아' : '여아'} 두뇌·학습 성향 & 진로 맞춤 보고서`
-          : `만 ${Math.max(1, Math.floor((state.profile.ageMonths || 120) / 12))}세(${state.profile.ageMonths}개월) ${state.profile.gender === 'boy' ? '남아' : '여아'} 신체 성장 맞춤 보고서`);
+          ? `US CDC Growth Reference ${Math.max(1, Math.floor((state.profile.ageMonths || 120) / 12))} yrs(${state.profile.ageMonths} mos) ${state.profile.gender === 'boy' ? 'Boy' : 'Girl'} US CDC Growth Reference & US CDC Growth Reference Report`
+          : `US CDC Growth Reference ${Math.max(1, Math.floor((state.profile.ageMonths || 120) / 12))} yrs(${state.profile.ageMonths} mos) ${state.profile.gender === 'boy' ? 'Boy' : 'Girl'} US CDC Growth Reference Report`);
     }
     if (headerSubEl) {
       const isEn = document.documentElement && (document.documentElement.lang === 'en' || (typeof document.documentElement.getAttribute === 'function' && document.documentElement.getAttribute('data-edition') === 'global-paid'));
@@ -761,8 +761,8 @@
           ? '6-Step Clinical Scan + Phenotype Synthesis · US CDC & 3,714 Neuro-Cognitive Studies Analyzed'
           : '6-Step Clinical Scan + Phenotype Synthesis · US CDC 2000 & 117 Pediatric Endocrine Studies Analyzed')
         : (isLearningModeActive
-          ? '진단 6단계 + 우리 아이 상세 특징 합산 · K-DST & 뇌인지 학습 논문 117편 정밀 분석 완료'
-          : '진단 6단계 + 우리 아이 상세 특징 합산 · 질병관리청(KDCA 2017) & 소아내분비 논문 117편 정밀 분석 완료');
+          ? 'Assessment 6US CDC Growth Reference yrs US CDC Growth Reference K-DST & US CDC Growth Reference 117US CDC Growth Reference Complete'
+          : 'Assessment 6US CDC Growth Reference yrs US CDC Growth Reference US CDC / KDCA(KDCA 2017) & US CDC Growth Reference 117US CDC Growth Reference Complete');
     }
 
     const affConfig = getAffiliateConfig();
@@ -927,7 +927,7 @@
       if (bedtimeDisplay) bedtimeDisplay.textContent = sim.bedtimeStr;
       if (mealDisplay) mealDisplay.textContent = sim.mealStr;
       if (gapDisplay) {
-        gapDisplay.textContent = isEnH ? `${sim.gapHours}h` : `${sim.gapHours}시간`;
+        gapDisplay.textContent = isEnH ? `${sim.gapHours}h` : `${sim.gapHours} hrs`;
         gapDisplay.style.color = '#1D4ED8';
       }
       if (delayPenaltyEl) delayPenaltyEl.textContent = `-${sim.delayPenalty}%`;
@@ -944,9 +944,9 @@
             -${sim.ghLossPercent}% <span style="font-size: 0.75rem; font-weight: 600;">(Max -52% suppression)</span>
           </span>
         ` : `
-          <span style="font-size: 0.75rem; font-weight: 700; color: #334155; display: block;">성장호르몬 분비 손실률</span>
+          <span style="font-size: 0.75rem; font-weight: 700; color: #334155; display: block;">Growth Hormone (HGH) US CDC Growth Reference</span>
           <span style="font-size: 1.25rem; font-weight: 800; color: ${badgeColor};">
-            -${sim.ghLossPercent}% <span style="font-size: 0.75rem; font-weight: 600;">(최대 -52% 억제)</span>
+            -${sim.ghLossPercent}% <span style="font-size: 0.75rem; font-weight: 600;">(US CDC Growth Reference52% US CDC Growth Reference</span>
           </span>
         `;
       }
@@ -990,15 +990,15 @@
     const mph = GrowthEngine ? GrowthEngine.calculateMph(state.profile.fatherHeight, state.profile.motherHeight, state.profile.gender) : 170;
     const pred = GrowthEngine ? GrowthEngine.calculateHeightPrediction(mph, state.profile.habits, state.profile.pubertyStage) : { potentialHeight: 178 };
     const isEnShare = typeof document !== 'undefined' && document.documentElement && (document.documentElement.lang === 'en' || (typeof document.documentElement.getAttribute === 'function' && document.documentElement.getAttribute('data-edition') === 'global-paid'));
-    const outing = WeekendCurator ? WeekendCurator.getWeekendOuting(state.profile.region, state.profile.interest, isEnShare) : { destination: isEnShare ? 'Science & Discovery Museum' : '어린이박물관' };
-    const childGender = state.profile.gender === 'boy' ? (isEnShare ? 'Boy' : '남아') : (isEnShare ? 'Girl' : '여아');
+    const outing = WeekendCurator ? WeekendCurator.getWeekendOuting(state.profile.region, state.profile.interest, isEnShare) : { destination: isEnShare ? 'Science & Discovery Museum' : 'US CDC Growth Reference' };
+    const childGender = state.profile.gender === 'boy' ? (isEnShare ? 'Boy' : 'Boy') : (isEnShare ? 'Girl' : 'Girl');
     const text = isEnShare
       ? `✨ KidsFit Clinical Growth Report (${state.profile.ageMonths} mos ${childGender}): Top ${kdca.topPercent}% on US CDC Growth Charts! With clinical optimization, projected adult height reaches ${pred.potentialHeight} cm (${Math.floor((pred.potentialHeight / 2.54) / 12)}'${Math.round((pred.potentialHeight / 2.54) % 12)}")! 👉 https://kisfitglobal.com`
-      : `💌 여보! 방금 우리 아이(만 ${state.profile.ageMonths}개월 ${childGender}) 질병관리청 성장도표 진단해봤는데, 또래 상위 ${kdca.topPercent}%래!\n골든타임 관리하면 최대 ${pred.potentialHeight}cm까지 클 수 있대!\n이번 주말엔 [${outing.destination}] 같이 가보자 👉 https://kidsfit.co.kr`;
+      : `💌 US CDC Growth Reference! US CDC Growth Reference ${state.profile.ageMonths} mos ${childGender}) US CDC / KDCA US CDC Growth Reference AssessmentUS CDC Growth Reference${kdca.topPercent}%US CDC Growth Reference!\nUS CDC Growth Reference ${pred.potentialHeight}cmUS CDC Growth Reference!\nUS CDC Growth Reference [${outing.destination}] US CDC Growth Reference 👉 https://kidsfit.co.kr`;
 
     if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(() => {
-        alert(isEnShare ? 'Your child\'s clinical report summary link has been copied to the clipboard!' : '카톡 공유용 맞춤 처방전 메시지가 클립보드에 복사되었습니다!\n카카오톡 대화창에 붙여넣기(Ctrl+V) 해주세요.');
+        alert(isEnShare ? 'Your child\'s clinical report summary link has been copied to the clipboard!' : 'US CDC Growth Reference Growth Guide US CDC Growth Reference!\nUS CDC Growth ReferenceCtrl+V) US CDC Growth Reference yrsUS CDC Growth Reference.');
       }).catch(() => {
         alert(text);
       });
@@ -1152,7 +1152,7 @@
             navigator.clipboard.writeText(targetTextarea.value).then(() => {
               const origText = btn.textContent;
               const isEnCopy = typeof document !== 'undefined' && document.documentElement && String(document.documentElement.lang || '').toLowerCase().startsWith('en');
-              btn.textContent = isEnCopy ? '✓ Copied!' : '✓ 복사완료!';
+              btn.textContent = isEnCopy ? '✓ Copied!' : '✓ US CDC Growth ReferenceComplete!';
               btn.style.background = '#059669';
               setTimeout(() => {
                 btn.textContent = origText;
@@ -1290,7 +1290,7 @@
         const isEnAdm = typeof document !== 'undefined' && document.documentElement && String(document.documentElement.lang || '').toLowerCase().startsWith('en');
         alert(isEnAdm
           ? 'Channel & affiliate cache has been reset to KISFIT Bio Labs default configuration.'
-          : '기존 머니핏 네이버 블로그·카페 연동 캐시 및 설정이 100% 초기화되었으며, 키즈핏 그로스 스튜디오 기본값으로 재설정되었습니다.');
+          : 'US CDC Growth Reference 100% US CDC Growth Reference, KidsFit Growth Studio US CDC Growth Reference.');
       });
     }
 
@@ -1312,7 +1312,7 @@
         renderPrescriptionResults();
         renderAdminOsmuStudio();
         const isEnAdm = typeof document !== 'undefined' && document.documentElement && String(document.documentElement.lang || '').toLowerCase().startsWith('en');
-        alert(isEnAdm ? 'Admin configuration saved and synchronized in real time.' : '관리자 설정이 저장되었으며 실시간으로 동기화됩니다.');
+        alert(isEnAdm ? 'Admin configuration saved and synchronized in real time.' : 'US CDC Growth Reference hrsUS CDC Growth Reference.');
         closeAdminModal();
       });
     }

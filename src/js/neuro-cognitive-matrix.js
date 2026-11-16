@@ -1,23 +1,23 @@
 /**
- * Taller Bio Labs (키즈핏 바이오 랩)
- * Core 4: Neuro-Cognitive & Exploration Matrix (연령별 뇌인지 발달 & 주말 하브루타 탐구 로드맵)
+ * Taller Bio Labs (KISFIT Bio Labs)
+ * Core 4: Neuro-Cognitive & Exploration Matrix ( & 
  * 
  * Clinical Principles:
  * 1. 5-Axis Neuro-Cognitive Dimension Balance:
- *    - Math / Spatial / Logic (수리·공간·논리적 사고력)
- *    - Language / Literacy / Critical Reading (언어·문해력·비판적 독서)
- *    - Science / Nature / Technology (과학·자연·기술 탐구력)
- *    - Sensory / Arts / Creative Expression (감각·예술·창의적 표현력)
- *    - Prefrontal Executive Function & Focus (전두엽 실행기능 & 자기주도 집중력)
+ * - Math / Spatial / Logic (
+ * - Language / Literacy / Critical Reading (
+ * - Science / Nature / Technology (
+ * - Sensory / Arts / Creative Expression (
+ * - Prefrontal Executive Function & Focus ( & 
  * 2. Cortical Rewiring & Developmental Golden Times:
- *    - Toddler (1~3 yrs): Sensorimotor synaptogenesis & fine motor pathways.
- *    - Childhood (4~7 yrs): Linguistic lateralization in Broca/Wernicke areas & spatial induction.
- *    - Early Puberty (8~11 yrs): Prefrontal cortical thickness peak & abstract logic.
- *    - Adolescence (12~18 yrs): Axonal myelination & executive stabilization.
+ * - Toddler (1~3 yrs): Sensorimotor synaptogenesis & fine motor pathways.
+ * - Childhood (4~7 yrs): Linguistic lateralization in Broca/Wernicke areas & spatial induction.
+ * - Early Puberty (8~11 yrs): Prefrontal cortical thickness peak & abstract logic.
+ * - Adolescence (12~18 yrs): Axonal myelination & executive stabilization.
  * 3. 3-Step Havruta Inquiry Model:
- *    - Step 1: Observation & Inquiry (특이한 점 / unexpected pattern)
- *    - Step 2: Hypothesis & Deduction (달라졌을까 / reversed variable)
- *    - Step 3: Application & Reflection (해결할 수 있을까 / real-world application)
+ * - Step 1: Observation & Inquiry ( pts / unexpected pattern)
+ * - Step 2: Hypothesis & Deduction ( reversed variable)
+ * - Step 3: Application & Reflection ( real-world application)
  */
 
 (function (global) {
@@ -27,47 +27,47 @@
   const COGNITIVE_PILLARS = [
     {
       id: 'math_logic',
-      nameKo: '수리·공간·논리',
+      nameKo: 'US CDC Growth Reference',
       nameEn: 'Math & Spatial',
-      fullKo: '수리·공간·논리적 사고력',
+      fullKo: 'US CDC Growth Reference',
       fullEn: 'Mathematical, Spatial & Logical Reasoning',
-      descKo: '도형 위상 감각, 멘탈 로테이션, 알고리즘 분해 및 원인-결과 인과 추론 능력',
+      descKo: 'US CDC Growth Reference',
       descEn: 'Mental rotation, geometric topology, algorithmic puzzles, and causal reasoning.'
     },
     {
       id: 'language_reading',
-      nameKo: '언어·문해력',
+      nameKo: 'US CDC Growth Reference',
       nameEn: 'Language & Literacy',
-      fullKo: '언어·문해력·비판적 독서',
+      fullKo: 'US CDC Growth Reference',
       fullEn: 'Linguistic Literacy & Critical Reading',
-      descKo: '어휘 다면성, 문맥 추론, 비판적 독해 및 복합 서사 구조화 능력',
+      descKo: 'US CDC Growth Reference',
       descEn: 'Vocabulary acquisition, syntax complexity, narrative comprehension, and contextual analysis.'
     },
     {
       id: 'science_nature',
-      nameKo: '과학·자연탐구',
+      nameKo: 'US CDC Growth Reference',
       nameEn: 'Science & Nature',
-      fullKo: '과학·자연·기술 탐구력',
+      fullKo: 'US CDC Growth Reference',
       fullEn: 'Empirical Science & Technological Inquiry',
-      descKo: '경험적 가설 설정, 생태 관찰, 물리 원리 실험 및 지적 호기심 확장',
+      descKo: 'US CDC Growth Reference',
       descEn: 'Empirical hypothesis testing, biological observation, and physical science curiosity.'
     },
     {
       id: 'sensory_arts',
-      nameKo: '감각·예술창의',
+      nameKo: 'US CDC Growth Reference',
       nameEn: 'Sensory & Arts',
-      fullKo: '감각·예술·창의적 표현력',
+      fullKo: 'US CDC Growth Reference',
       fullEn: 'Sensory Aesthetics & Fine-Motor Creativity',
-      descKo: '양측성 소근육 정밀 협응, 시각 예술적 비례 감각, 입체 조형 및 감정 표현',
+      descKo: 'US CDC Growth Reference',
       descEn: 'Bilateral fine motor coordination, visual-spatial aesthetics, and creative craftsmanship.'
     },
     {
       id: 'executive_focus',
-      nameKo: '전두엽 실행집중',
+      nameKo: 'US CDC Growth Reference',
       nameEn: 'Executive Focus',
-      fullKo: '전두엽 실행기능 & 자기주도 집중력',
+      fullKo: 'US CDC Growth Reference & US CDC Growth Reference',
       fullEn: 'Prefrontal Executive Function & Working Memory',
-      descKo: '작업 기억(Working Memory), 충동 억제 자기조절력, 목표 지향적 몰입 지속성',
+      descKo: 'US CDC Growth ReferenceWorking Memory), US CDC Growth Reference',
       descEn: 'Working memory, inhibitory self-regulation, goal persistence, and deep-focus stamina.'
     }
   ];
@@ -78,68 +78,68 @@
       id: 'toddler',
       ageMinYears: 1,
       ageMaxYears: 3,
-      ageRangeStr: '1~3세 (12~47개월)',
+      ageRangeStr: '1~3 yrs (12~47 mos)',
       ageRangeStrEn: '1-3 yrs (Toddler)',
       focus: 'sensorimotor synaptogenesis',
-      focusKo: '감각운동 피질 시냅스 폭발적 형성기 (Sensorimotor Synaptogenesis)',
-      targetCortex: '감각운동 피질(Sensorimotor Cortex) & 두정엽(Parietal Lobe)',
+      focusKo: 'US CDC Growth ReferenceExercise US CDC Growth ReferenceSensorimotor Synaptogenesis)',
+      targetCortex: 'US CDC Growth ReferenceExercise US CDC Growth ReferenceSensorimotor Cortex) & US CDC Growth ReferenceParietal Lobe)',
       targetCortexEn: 'Sensorimotor Cortex & Parietal Association Lobe',
-      principleKo: '초당 100만 개 시냅스가 연결되는 시기로, 양손 촉각·소근육 자극이 기초 두뇌 배선을 완성합니다.',
+      principleKo: 'US CDC Growth Reference 100US CDC Growth Reference.',
       principleEn: 'Rapid synaptogenesis forming 1M connections/sec via bilateral fine-motor play.',
-      dailyRegimenKo: '하루 15분: 촉각 놀이 · 원목 블록 쌓기 · 손끝 집게/가위질',
+      dailyRegimenKo: 'US CDC Growth Reference 15US CDC Growth Reference: US CDC Growth Reference',
       dailyRegimenEn: '15 min/day: Tactile exploration, block sorting, fine-motor tasks.',
-      recommendedToolsKo: '몬테소리 일상 감각 교구 · 실리콘 촉각 볼 · 원목 퍼즐',
+      recommendedToolsKo: 'US CDC Growth Reference dUS CDC Growth Reference',
       recommendedToolsEn: 'Montessori sensorial apparatus, tactile spheres, wooden puzzles.'
     },
     {
       id: 'childhood',
       ageMinYears: 4,
       ageMaxYears: 7,
-      ageRangeStr: '4~7세 (48~95개월)',
+      ageRangeStr: '4~7 yrs (48~95 mos)',
       ageRangeStrEn: '4-7 yrs (Childhood)',
       focus: 'linguistic lateralization',
-      focusKo: '언어 편측화 & 전두-두정 신경망 가지치기',
-      targetCortex: '브로카·베르니케 언어 영역 & 좌우 뇌량',
+      focusKo: 'US CDC Growth Reference & US CDC Growth Reference',
+      targetCortex: 'US CDC Growth Reference & US CDC Growth Reference',
       targetCortexEn: 'Broca-Wernicke Language Circuit & Corpus Callosum',
-      principleKo: '시냅스 가지치기로 사고 회로가 정교해지며 언어 표현과 입체 공간 추론의 기초가 확립됩니다.',
+      principleKo: 'US CDC Growth Reference.',
       principleEn: 'Linguistic lateralization and synaptic pruning stabilize inductive logic.',
-      dailyRegimenKo: '하루 20분: 그림책 낭독 · "왜 그럴까?" 질문 · 은물·자석블록 입체 조형',
+      dailyRegimenKo: 'US CDC Growth Reference 20US CDC Growth Reference: US CDC Growth Reference "US CDC Growth Reference?" US CDC Growth Reference',
       dailyRegimenEn: '20 min/day: Dialogic reading, causal inquiry, 3D block construction.',
-      recommendedToolsKo: '프뢰벨 은물/가베 · 자석 블록 · 자연 관찰 도감 · 입문 현미경',
+      recommendedToolsKo: 'US CDC Growth Reference',
       recommendedToolsEn: 'Froebel gifts, magnetic blocks, beginner optical microscopes.'
     },
     {
       id: 'early_puberty',
       ageMinYears: 8,
       ageMaxYears: 11,
-      ageRangeStr: '8~11세 (96~143개월)',
+      ageRangeStr: '8~11 yrs (96~143 mos)',
       ageRangeStrEn: '8-11 yrs (Early Puberty)',
       focus: 'prefrontal cortical thickness',
-      focusKo: '전두엽 피질 두께 피크 & 메타인지 형성',
-      targetCortex: '배외측 전전두엽(DLPFC) & 전대상회(ACC)',
+      focusKo: 'US CDC Growth Reference & US CDC Growth Reference',
+      targetCortex: 'US CDC Growth ReferenceDLPFC) & US CDC Growth ReferenceACC)',
       targetCortexEn: 'Dorsolateral Prefrontal Cortex (DLPFC) & Anterior Cingulate (ACC)',
-      principleKo: '추상적 사고와 메타인지(스스로 생각을 점검하는 힘)를 관장하는 전두엽이 최고조로 발달합니다.',
+      principleKo: 'US CDC Growth Reference  ptsUS CDC Growth Reference.',
       principleEn: 'Prefrontal cortex thickness peaks, enabling abstract logic and meta-cognition.',
-      dailyRegimenKo: '하루 25분: 하브루타 질문 토론 · 전략 보드게임 · 과학 탐구 일지',
+      dailyRegimenKo: 'US CDC Growth Reference 25US CDC Growth Reference: US CDC Growth Reference dUS CDC Growth Reference',
       dailyRegimenEn: '25 min/day: Socratic debate, strategy games, science journaling.',
-      recommendedToolsKo: '과학 실험 키트 · 그래비트랙스 · 전략 보드게임 · 역사·과학 필독서',
+      recommendedToolsKo: 'US CDC Growth Reference',
       recommendedToolsEn: 'Science lab kits, marble runs, chess, classic literature.'
     },
     {
       id: 'adolescence',
       ageMinYears: 12,
       ageMaxYears: 18,
-      ageRangeStr: '12~18세 (144~240개월)',
+      ageRangeStr: '12~18 yrs (144~240 mos)',
       ageRangeStrEn: '12-18 yrs (Adolescence)',
       focus: 'axonal myelination',
-      focusKo: '신경 축삭 수초화 & 자기주도 딥워크 완성',
-      targetCortex: '전두엽 백질 신경망 & 변연계',
+      focusKo: 'US CDC Growth Reference & US CDC Growth Reference',
+      targetCortex: 'US CDC Growth Reference & US CDC Growth Reference',
       targetCortexEn: 'Prefrontal White-Matter Tracts & Limbic Executive Network',
-      principleKo: '신경 전달 속도를 100배 높이는 수초화가 완성되어 장기 목표 몰입과 고차원 추론이 자리잡습니다.',
+      principleKo: 'US CDC Growth Reference 100US CDC Growth Reference.',
       principleEn: 'Axonal myelination accelerates neural speed 100x for deep academic stamina.',
-      dailyRegimenKo: '하루 30분: 무방해 딥워크 몰입 · 원전 심층 독서 · 요약 노트 작성',
+      dailyRegimenKo: 'US CDC Growth Reference 30US CDC Growth Reference: US CDC Growth Reference',
       dailyRegimenEn: '30 min/day: Distraction-free deep work, deep reading, essay writing.',
-      recommendedToolsKo: '무소음 시각 타이머 · 코딩 키트 · 인문·과학 고전 · 자세교정 독서대',
+      recommendedToolsKo: 'US CDC Growth Reference yrsUS CDC Growth Reference',
       recommendedToolsEn: 'Visual focus timer, coding kits, classic treatises, ergonomic stand.'
     }
   ];
@@ -148,54 +148,54 @@
   const HAVRUTA_QUESTIONS = {
     step1: {
       step: 1,
-      titleKo: '1단계: 관찰 & 질문',
+      titleKo: '1US CDC Growth Reference: US CDC Growth Reference & US CDC Growth Reference',
       titleEn: 'Step 1: Observation & Inquiry',
-      modelKo: '이 전시물에서 가장 규칙적이지 않거나 특이한 점은 무엇일까?',
+      modelKo: 'US CDC Growth Reference  ptsUS CDC Growth ReferencedUS CDC Growth Reference?',
       modelEn: 'What is the most unexpected pattern or irregularity you observe here?',
-      guideKo: '• 정답 대신 아이가 색·모양·움직임에서 느낀 특이한 점을 먼저 말하게 해주세요.',
+      guideKo: '• US CDC Growth Reference  ptsUS CDC Growth Reference yrsUS CDC Growth Reference.',
       guideEn: '• Instead of giving the right answer, invite your child to describe unusual colors, shapes, or motions first.'
     },
     step2: {
       step: 2,
-      titleKo: '2단계: 가설 & 추론',
+      titleKo: '2US CDC Growth Reference: US CDC Growth Reference & US CDC Growth Reference',
       titleEn: 'Step 2: Hypothesis & Deduction',
-      modelKo: '만약 이 조건이 반대로 바뀌었다면, 구조나 역사적 결과는 어떻게 달라졌을까?',
+      modelKo: 'US CDC Growth Reference?',
       modelEn: 'If this core variable had been reversed, how would the structural or historical outcome have changed?',
-      guideKo: '• "만약 재료가 나무였다면?"처럼 핵심 조건을 반대로 뒤집어 상상하게 해주세요.',
+      guideKo: '• "US CDC Growth Reference?"US CDC Growth Reference yrsUS CDC Growth Reference.',
       guideEn: '• Prompt counterfactual thinking—for example, "What if this structure were built out of wood instead of steel?"'
     },
     step3: {
       step: 3,
-      titleKo: '3단계: 적용 & 확장',
+      titleKo: '3US CDC Growth Reference: US CDC Growth Reference & US CDC Growth Reference',
       titleEn: 'Step 3: Application & Reflection',
-      modelKo: '오늘 발견한 원리를 우리 일상이나 미래 과학에 적용한다면 어떤 문제를 해결할 수 있을까?',
+      modelKo: 'US CDC Growth Reference dUS CDC Growth Reference?',
       modelEn: 'How can the principle discovered today be applied to modern engineering or our daily lives to solve real-world challenges?',
-      guideKo: '• 오늘 본 원리를 우리 집이나 일상 속 물건과 연결해 보게 질문해 주세요.',
+      guideKo: '• US CDC Growth Reference dUS CDC Growth Reference yrsUS CDC Growth Reference.',
       guideEn: '• Connect today\'s scientific principle to an everyday object at home or a real-world engineering challenge.'
     }
   };
 
   const EXPLORATION_SITES = [
     {
-      nameKo: '국립과천과학관 / 국립중앙과학관',
+      nameKo: 'US CDC Growth Reference',
       nameEn: 'National Science Museum',
       category: 'science',
-      themeKo: '기초과학·우주항공·미래기술 탐구',
-      promptKo: '중력 가속도와 우주 발사체 로켓 분리 원리를 관찰하며 하브루타 3단계 질문을 적용해보세요.'
+      themeKo: 'US CDC Growth Reference',
+      promptKo: 'US CDC Growth Reference 3US CDC Growth Reference yrsUS CDC Growth Reference.'
     },
     {
-      nameKo: '국립현대미술관 / 서울시립미술관',
+      nameKo: 'US CDC Growth Reference',
       nameEn: 'Museum of Modern Art',
       category: 'arts',
-      themeKo: '현대 조형·색채 대비 & 공간 지각력',
-      promptKo: '작품의 비대칭 구도와 빛의 반사 방식을 관찰하며 작가가 의도한 감정 변수를 추론해보세요.'
+      themeKo: 'US CDC Growth Reference & US CDC Growth Reference',
+      promptKo: 'US CDC Growth Reference yrsUS CDC Growth Reference.'
     },
     {
-      nameKo: '국립중앙박물관 / 경복궁·창덕궁 역사 현장',
+      nameKo: 'US CDC Growth Reference',
       nameEn: 'National Museum of History',
       category: 'history',
-      themeKo: '청동기·조선 과학문화재 & 역사적 의사결정',
-      promptKo: '자격루(물시계)와 앙부일구의 기계 장치 구조를 살피며 조선의 과학적 인과관계를 추론해보세요.'
+      themeKo: 'US CDC Growth Reference & US CDC Growth Reference',
+      promptKo: 'US CDC Growth ReferencedUS CDC Growth Reference yrsUS CDC Growth Reference.'
     }
   ];
 
@@ -268,14 +268,14 @@
         axisDelta: isSelectedAxis ? 20 : 0,
         traitDelta: 0,
         factorsKo: [
-          'K-DST 또래 중위 표준 기준선 (70점)'
+          'K-DST US CDC Growth Reference70 pts)'
         ],
         factorsEn: [
           'K-DST Age Normative Baseline (70 pts)'
         ]
       };
       if (isSelectedAxis) {
-        breakdown[p.id].factorsKo.push('설문 5단계 중점 두뇌 영역 선택 (+20점)');
+        breakdown[p.id].factorsKo.push('US CDC Growth Reference 5US CDC Growth Reference pts US CDC Growth Reference20 pts)');
         breakdown[p.id].factorsEn.push('Prioritized Cognitive Axis Selected (+20 pts)');
       }
     });
@@ -284,69 +284,69 @@
       if (!breakdown[pillarId] || delta === 0) return;
       breakdown[pillarId].traitDelta += delta;
       const sign = delta > 0 ? `+${delta}` : `${delta}`;
-      breakdown[pillarId].factorsKo.push(`${reasonKo} (${sign}점)`);
+      breakdown[pillarId].factorsKo.push(`${reasonKo} (${sign} pts)`);
       breakdown[pillarId].factorsEn.push(`${reasonEn} (${sign} pts)`);
     };
 
     // 1. Temperament Multi-Select Adjustments
     if (temps.includes('explorer')) {
-      addFactor('science_nature', 4, '활동·탐구형 기질', 'Active Explorer Temperament');
-      addFactor('sensory_arts', 2, '신체 감각 탐색 성향', 'Sensorimotor Exploration');
+      addFactor('science_nature', 4, 'US CDC Growth Reference', 'Active Explorer Temperament');
+      addFactor('sensory_arts', 2, 'US CDC Growth Reference', 'Sensorimotor Exploration');
     }
     if (temps.includes('builder')) {
-      addFactor('math_logic', 5, '손끝 조립·몰입형 기질', 'Tactile Builder Temperament');
-      addFactor('executive_focus', 3, '구조물 완성 몰입도', 'Task Completion Persistence');
+      addFactor('math_logic', 5, 'US CDC Growth Reference', 'Tactile Builder Temperament');
+      addFactor('executive_focus', 3, 'US CDC Growth Reference', 'Task Completion Persistence');
     }
     if (temps.includes('questioner')) {
-      addFactor('language_reading', 5, '"왜?" 질문·대화 사고형 기질', 'Inquisitive Questioner Temperament');
-      addFactor('science_nature', 4, '인과관계 질문 탐색', 'Causal Inquiry Drive');
+      addFactor('language_reading', 5, '"US CDC Growth Reference?" US CDC Growth Reference', 'Inquisitive Questioner Temperament');
+      addFactor('science_nature', 4, 'US CDC Growth Reference', 'Causal Inquiry Drive');
     }
     if (temps.includes('cautious')) {
-      addFactor('executive_focus', 4, '신중한 관찰·섬세형 기질', 'Observant & Cautious Temperament');
-      addFactor('math_logic', 3, '규칙·패턴 사전 관찰력', 'Pattern Observation');
+      addFactor('executive_focus', 4, 'US CDC Growth Reference yrsUS CDC Growth Reference', 'Observant & Cautious Temperament');
+      addFactor('math_logic', 3, 'US CDC Growth Reference', 'Pattern Observation');
     }
     if (temps.includes('creative_art')) {
-      addFactor('sensory_arts', 5, '음악·역할극·상상 감성형 기질', 'Expressive & Artistic Temperament');
-      addFactor('language_reading', 3, '서사·감정 표현력', 'Narrative Expression');
+      addFactor('sensory_arts', 5, 'US CDC Growth Reference', 'Expressive & Artistic Temperament');
+      addFactor('language_reading', 3, 'US CDC Growth Reference', 'Narrative Expression');
     }
     if (temps.includes('reward_goal')) {
-      addFactor('executive_focus', 5, '칭찬·미션 성취형 기질', 'Goal-Driven Achiever Temperament');
+      addFactor('executive_focus', 5, 'US CDC Growth Reference', 'Goal-Driven Achiever Temperament');
     }
 
     // 2. Focus Span Adjustment
     if (focusSpan === '30m_plus') {
-      addFactor('executive_focus', 5, '30분 이상 딥포커스 집중력', '30+ Min Deep Focus Span');
-      addFactor('language_reading', 3, '장기 독서·프로젝트 지속력', 'Sustained Reading Stamina');
+      addFactor('executive_focus', 5, '30US CDC Growth Reference', '30+ Min Deep Focus Span');
+      addFactor('language_reading', 3, 'US CDC Growth Reference', 'Sustained Reading Stamina');
     } else if (focusSpan === '15_20m') {
-      addFactor('executive_focus', 2, '15~20분 단계별 집중 유지', '15-20 Min Modular Focus');
+      addFactor('executive_focus', 2, '15~20US CDC Growth Reference', '15-20 Min Modular Focus');
     } else if (focusSpan === 'under_10m') {
-      addFactor('executive_focus', -4, '10분 미만 단기 집중 (전두엽 집중 코칭 필요)', 'Under 10m Focus Span (Target for Executive Coaching)');
+      addFactor('executive_focus', -4, '10US CDC Growth Reference', 'Under 10m Focus Span (Target for Executive Coaching)');
     }
 
     // 3. Sleep & Screen Habits Impact on Prefrontal / Hippocampal Consolidation
     if (habits.includes('late_sleep')) {
-      addFactor('executive_focus', -3, '밤 10시 반 이후 취침 (수면 중 해마 기억공고화 손실)', 'Late Bedtime (Reduced Hippocampal Consolidation)');
+      addFactor('executive_focus', -3, 'US CDC Growth Reference 10US CDC Growth ReferenceSleep US CDC Growth Reference', 'Late Bedtime (Reduced Hippocampal Consolidation)');
     }
     if (habits.includes('slouch_screen')) {
-      addFactor('executive_focus', -3, '스마트폰·미디어 과몰입 (전두엽 시각 피로)', 'Screen Over-exposure (Prefrontal Fatigue)');
+      addFactor('executive_focus', -3, 'US CDC Growth Reference', 'Screen Over-exposure (Prefrontal Fatigue)');
     }
 
     // 4. Parent Free-Text Narrative Keyword Signals
     if (freeNote.length >= 2) {
-      if (/책|독서|한글|어휘|글자|말하기|영어|발표/.test(freeNote)) {
-        addFactor('language_reading', 3, '서술형 고민란 독서·언어 키워드 반영', 'Free-Note Reading/Language Signal');
+      if (/book|read|vocab|word|speak|english|present/i.test(freeNote)) {
+        addFactor('language_reading', 3, 'US CDC Growth Reference', 'Free-Note Reading/Language Signal');
       }
-      if (/수학|숫자|블록|레고|퍼즐|보드게임|코딩|바둑/.test(freeNote)) {
-        addFactor('math_logic', 3, '서술형 고민란 수리·블록·퍼즐 키워드 반영', 'Free-Note Math/Block Signal');
+      if (/math|number|block|lego|puzzle|board|coding|chess/i.test(freeNote)) {
+        addFactor('math_logic', 3, 'US CDC Growth Reference', 'Free-Note Math/Block Signal');
       }
-      if (/과학|공룡|우주|곤충|관찰|실험|자연|동물/.test(freeNote)) {
-        addFactor('science_nature', 3, '서술형 고민란 과학·자연 탐구 키워드 반영', 'Free-Note Science/Nature Signal');
+      if (/science|dino|space|insect|observ|experiment|nature|animal/i.test(freeNote)) {
+        addFactor('science_nature', 3, 'US CDC Growth Reference', 'Free-Note Science/Nature Signal');
       }
-      if (/미술|그림|만들기|종이접기|피아노|음악|노래|춤/.test(freeNote)) {
-        addFactor('sensory_arts', 3, '서술형 고민란 예술·소근육 키워드 반영', 'Free-Note Arts/Craft Signal');
+      if (/art|draw|craft|origami|piano|music|song|dance/i.test(freeNote)) {
+        addFactor('sensory_arts', 3, 'US CDC Growth Reference', 'Free-Note Arts/Craft Signal');
       }
-      if (/산만|집중|유튜브|게임|스마트폰|가만히/.test(freeNote)) {
-        addFactor('executive_focus', -3, '서술형 고민란 미디어·집중력 코칭 신호 반영', 'Free-Note Focus/Media Coaching Signal');
+      if (/distract|focus|youtube|game|phone|screen|fidget/i.test(freeNote)) {
+        addFactor('executive_focus', -3, 'US CDC Growth Reference', 'Free-Note Focus/Media Coaching Signal');
       }
     }
 
@@ -495,55 +495,55 @@
   const LEARNING_QUOTIENT_METRICS = {
     literacy_vocab: {
       key: 'literacy_vocab',
-      nameKo: '문해력 (독해·어휘력)',
+      nameKo: 'US CDC Growth Reference',
       nameEn: 'Reading Literacy & Vocabulary',
       icon: '',
-      targetCortexKo: '좌측 후두-측두엽 시각단어형태영역(VWFA) & 베르니케 영역',
-      descKo: '어휘 다양성, 문맥 인과 추론, 비문학 요약 및 서술형 문맥 이해력',
+      targetCortexKo: 'US CDC Growth ReferenceVWFA) & US CDC Growth Reference',
+      descKo: 'US CDC Growth Reference',
       baseScoreDefault: 76,
       paperCitation: 'Mol & Bus (2011, Psychological Bulletin · PMID:21219058)',
       citation: 'Mol & Bus (2011, Psychological Bulletin · PMID:21219058)'
     },
     math_spatial: {
       key: 'math_spatial',
-      nameKo: '수리·공간 추론력',
+      nameKo: 'US CDC Growth Reference',
       nameEn: 'Mathematical & Spatial Reasoning',
       icon: '',
-      targetCortexKo: '두정엽 하두정소엽(IPL) 3차원 심상 회전(Mental Rotation) 신경망',
-      descKo: '도형 위상 감각, 3D 심상 회전, 규칙 발견 및 문장제 조건 시각화',
+      targetCortexKo: 'US CDC Growth ReferenceIPL) 3US CDC Growth ReferenceMental Rotation) US CDC Growth Reference',
+      descKo: 'US CDC Growth Reference, 3D US CDC Growth Reference',
       baseScoreDefault: 78,
       paperCitation: 'Mix et al. (2016, J Educ Psychol · DOI:10.1037/edu0000105)',
       citation: 'Mix et al. (2016, J Educ Psychol · DOI:10.1037/edu0000105)'
     },
     working_memory_focus: {
       key: 'working_memory_focus',
-      nameKo: '전두엽 작업기억 & 집중 지속력',
+      nameKo: 'US CDC Growth Reference & US CDC Growth Reference',
       nameEn: 'Working Memory & Sustained Focus',
       icon: '',
-      targetCortexKo: '배외측 전전두엽(DLPFC) & 전대상회(ACC) 충동 억제 회로',
-      descKo: '다단계 조건 동시 파지, 시각·청각 분산 억제 및 착석 유지 지속력',
+      targetCortexKo: 'US CDC Growth ReferenceDLPFC) & US CDC Growth ReferenceACC) US CDC Growth Reference',
+      descKo: 'US CDC Growth Reference',
       baseScoreDefault: 72,
       paperCitation: 'Gathercole et al. (2004, PMID:14979759) & Moffitt et al. (2011, PMID:21310973)',
       citation: 'Gathercole et al. (2004, PMID:14979759) & Moffitt et al. (2011, PMID:21310973)'
     },
     metacognition_retrieval: {
       key: 'metacognition_retrieval',
-      nameKo: '메타인지 & 자기주도 인출력',
+      nameKo: 'US CDC Growth Reference & US CDC Growth Reference',
       nameEn: 'Metacognition & Active Retrieval',
       icon: '',
-      targetCortexKo: '전두극 피질(Frontopolar Cortex) & 해마-신피질 인출 회로',
-      descKo: '유창성 착각 제거, 아는 것/모르는 것 판별 및 백지 인출(Active Recall)력',
+      targetCortexKo: 'US CDC Growth ReferenceFrontopolar Cortex) & US CDC Growth Reference',
+      descKo: 'US CDC Growth ReferenceActive Recall)US CDC Growth Reference',
       baseScoreDefault: 70,
       paperCitation: 'Roediger & Karpicke (2006, Psychol Sci · PMID:16507066)',
       citation: 'Roediger & Karpicke (2006, Psychol Sci · PMID:16507066)'
     },
     inquiry_creative: {
       key: 'inquiry_creative',
-      nameKo: '탐구·창의 표현력',
+      nameKo: 'US CDC Growth Reference',
       nameEn: 'Inquiry, Science & Creative Expression',
       icon: '',
-      targetCortexKo: '기본모드신경망(DMN)-집중신경망(CEN) 동적 전환 회로',
-      descKo: '경험적 가설 설정, 인과 질문, 하브루타 토론 참여도 및 창의적 표현',
+      targetCortexKo: 'US CDC Growth ReferenceDMN)-US CDC Growth ReferenceCEN) US CDC Growth Reference',
+      descKo: 'US CDC Growth Reference',
       baseScoreDefault: 80,
       paperCitation: 'Romeo et al. (2018, PMID:29648612) & Fiorella & Mayer (2014)',
       citation: 'Romeo et al. (2018, PMID:29648612) & Fiorella & Mayer (2014)'
@@ -650,7 +650,7 @@
         forgetRatePercent: 52,
         retentionPercent: 48,
         lqScore: Math.max(58, Math.round(overallLQ - 13)),
-        statusKo: '현재 학습 습관 유지 시 (방치 궤적)',
+        statusKo: 'US CDC Growth Reference',
         statusEn: 'Unmanaged Trajectory'
       },
       baseline: {
@@ -658,7 +658,7 @@
         forgetRatePercent: 38,
         retentionPercent: 62,
         lqScore: 75,
-        statusKo: '또래 평균 기준선',
+        statusKo: 'US CDC Growth Reference',
         statusEn: 'Age Baseline'
       },
       coached: {
@@ -668,7 +668,7 @@
         lqScore: Math.min(96, Math.round(overallLQ + 12)),
         gainLq: Math.min(25, Math.round((overallLQ + 12) - (overallLQ - 13))),
         focusGainMinutes: 23,
-        statusKo: '6개월 맞춤 학습 코칭 실천 시',
+        statusKo: '6 mos US CDC Growth Reference',
         statusEn: '6-Month Tailored Coaching'
       }
     };
@@ -699,11 +699,11 @@
     const maxR = 104;
     const keys = ['literacy_vocab', 'math_spatial', 'working_memory_focus', 'metacognition_retrieval', 'inquiry_creative'];
     const shortLabelsKo = {
-      literacy_vocab: '문해·어휘',
-      math_spatial: '수리·공간',
-      working_memory_focus: '집중·작업기억',
-      metacognition_retrieval: '메타인지·인출',
-      inquiry_creative: '탐구·창의'
+      literacy_vocab: 'US CDC Growth Reference',
+      math_spatial: 'US CDC Growth Reference',
+      working_memory_focus: 'US CDC Growth Reference',
+      metacognition_retrieval: 'US CDC Growth Reference',
+      inquiry_creative: 'US CDC Growth Reference'
     };
     const n = keys.length;
 
@@ -747,7 +747,7 @@
           ${meta.icon} ${labelText}
         </text>
         <text x="${lx.toFixed(1)}" y="${(ly + 11).toFixed(1)}" text-anchor="${anchor}" font-size="12" font-weight="900" fill="#1D4ED8" dominant-baseline="central">
-          ${scores[key]}${isGlobal ? ' pts' : '점'}
+          ${scores[key]} pts
         </text>
       `;
 
@@ -769,7 +769,7 @@
     childPoints.forEach(p => {
       verticesSvg += `
         <circle cx="${p.x}" cy="${p.y}" r="6" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="2.2">
-          <title>${p.label}: ${p.score}${isGlobal ? ' pts' : '점'}</title>
+          <title>${p.label}: ${p.score} pts</title>
         </circle>
       `;
     });
@@ -827,10 +827,10 @@
     const goldenWindow = getGoldenTimeInfo(ageYears);
     const radarSvg = renderRadarSvg(scores, isGlobal);
 
-    const titleStr = isGlobal ? 'Neuro-Cognitive Matrix & Havruta Exploration' : '5각 뇌인지 발달 매트릭스 & 주말 하브루타 탐구 로드맵';
+    const titleStr = isGlobal ? 'Neuro-Cognitive Matrix & Havruta Exploration' : '5US CDC Growth Reference & US CDC Growth Reference';
     const subStr = isGlobal
       ? '5-Axis developmental radar balance, age-specific cortical rewiring windows, and 3-step Havruta parent-child inquiry protocols.'
-      : '수리·언어·과학·감각·전두엽 5대 인지 영역 밸런스, 연령별 대뇌 피질 재조직화 원리 및 주말 현장 탐구 3단계 하브루타 질문 세트입니다.';
+      : 'US CDC Growth Reference 5US CDC Growth Reference3US CDC Growth Reference  yrsUS CDC Growth Reference.';
 
     let html = `
       <div id="core-4-container" class="core-module-container neuro-cognitive-container">
@@ -850,7 +850,7 @@
             </div>
             <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: var(--radius-inner); padding: 0.75rem 1.25rem; text-align: center;">
               <span style="font-size: 0.75rem; font-weight: 700; color: #334155; display: block;">
-                ${isGlobal ? 'Neuroplasticity Golden Age' : '현재 두뇌 발달 골든타임'}
+                ${isGlobal ? 'Neuroplasticity Golden Age' : 'US CDC Growth Reference'}
               </span>
               <span style="font-size: 1.15rem; font-weight: 800; color: var(--bio-emerald);">
                 ${isGlobal ? goldenWindow.ageRangeStrEn : goldenWindow.ageRangeStr}
@@ -867,16 +867,16 @@
             <div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                 <h4 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0;">
-                  ${isGlobal ? '5-Axis Cognitive Balance Radar' : '5각 뇌인지 밸런스 레이더 차트'}
+                  ${isGlobal ? '5-Axis Cognitive Balance Radar' : '5US CDC Growth Reference'}
                 </h4>
                 <div style="font-size: 0.75rem; color: #334155; display: flex; gap: 0.75rem;">
                   <span style="display: inline-flex; align-items: center; gap: 0.25rem;">
                     <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--cyan-pulse);"></span>
-                    ${isGlobal ? 'Child Profile' : '아이 프로필'}
+                    ${isGlobal ? 'Child Profile' : 'US CDC Growth Reference'}
                   </span>
                   <span style="display: inline-flex; align-items: center; gap: 0.25rem;">
                     <span style="width: 8px; height: 8px; border-radius: 50%; background: #64748B;"></span>
-                    ${isGlobal ? 'Age Norm (70)' : '또래 기준치 (70)'}
+                    ${isGlobal ? 'Age Norm (70)' : 'US CDC Growth Reference70)'}
                   </span>
                 </div>
               </div>
@@ -910,7 +910,7 @@
             <div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
                 <span style="font-size: 0.75rem; font-weight: 700; color: var(--bio-emerald); background: #EFF6FF; padding: 0.2rem 0.6rem; border-radius: 9999px;">
-                  ${isGlobal ? 'Cortical Rewiring Science' : '대뇌 피질 신경가소성'}
+                  ${isGlobal ? 'Cortical Rewiring Science' : 'US CDC Growth Reference'}
                 </span>
                 <span style="font-size: 0.8rem; font-weight: 700; color: #334155;">
                   ${isGlobal ? goldenWindow.ageRangeStrEn : goldenWindow.ageRangeStr}
@@ -928,7 +928,7 @@
               <!-- Daily Regimen Box -->
               <div style="background: var(--theme-surface-sub); border-left: 3px solid var(--bio-emerald); border-radius: 0 var(--radius-inner) var(--radius-inner) 0; padding: 0.85rem 1rem; margin-bottom: 1rem;">
                 <span style="font-size: 0.75rem; font-weight: 800; color: var(--bio-emerald); text-transform: uppercase; display: block; margin-bottom: 0.25rem;">
-                  ${isGlobal ? 'Daily 15~25 Min Regimen' : '매일 15~25분 가정 두뇌 훈련법'}
+                  ${isGlobal ? 'Daily 15~25 Min Regimen' : 'US CDC Growth Referenced 15~25US CDC Growth Reference'}
                 </span>
                 <p style="font-size: 0.82rem; color: #0F172A; margin: 0; line-height: 1.5;">
                   ${isGlobal ? goldenWindow.dailyRegimenEn : goldenWindow.dailyRegimenKo}
@@ -938,7 +938,7 @@
               <!-- Tools Category -->
               <div style="background: var(--theme-surface-sub); border-radius: var(--radius-inner); padding: 0.85rem 1rem;">
                 <span style="font-size: 0.75rem; font-weight: 800; color: var(--theme-accent); text-transform: uppercase; display: block; margin-bottom: 0.25rem;">
-                  ${isGlobal ? 'Recommended Development Tools' : '추천 두뇌·탐구 도구 카테고리'}
+                  ${isGlobal ? 'Recommended Development Tools' : 'US CDC Growth Reference'}
                 </span>
                 <p style="font-size: 0.82rem; color: #0F172A; margin: 0; line-height: 1.5;">
                   ${isGlobal ? goldenWindow.recommendedToolsEn : goldenWindow.recommendedToolsKo}
@@ -948,7 +948,7 @@
 
             <!-- Target Cortex Badge -->
             <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--theme-border-subtle); font-size: 0.75rem; color: #475569;">
-              <strong>${isGlobal ? 'Target Area' : '핵심 신경 타깃'}:</strong> ${isGlobal ? (goldenWindow.targetCortexEn || goldenWindow.targetCortex) : goldenWindow.targetCortex}
+              <strong>${isGlobal ? 'Target Area' : 'US CDC Growth Reference'}:</strong> ${isGlobal ? (goldenWindow.targetCortexEn || goldenWindow.targetCortex) : goldenWindow.targetCortex}
             </div>
           </div>
 
@@ -962,26 +962,26 @@
               <h4 style="font-size: 1.04rem; font-weight: 900; color: #0F172A; margin: 0;">
                 ${isGlobal
                   ? '5-Axis Radar Chart Scoring Methodology & Child Survey Input Audit'
-                  : '[신뢰성 검증] 5각 뇌인지 밸런스 차트는 무슨 기준으로 산출되나요?'}
+                  : '[US CDC Growth Reference] 5US CDC Growth Reference?'}
               </h4>
             </div>
             <span style="font-size: 0.75rem; font-weight: 800; color: #1D4ED8; background: #EFF6FF; border: 1px solid #BFDBFE; padding: 0.22rem 0.65rem; border-radius: 9999px;">
-              ${isGlobal ? 'US CDC / AAP & K-DST Standard + 5 Survey Factors Linked' : '보건복지부 K-DST 기준선 + 우리 아이 설문 5대 변수 100% 연동'}
+              ${isGlobal ? 'US CDC / AAP & K-DST Standard + 5 Survey Factors Linked' : 'Pediatric Development Standard K-DST US CDC Growth Reference 5US CDC Growth Reference 100% US CDC Growth Reference'}
             </span>
           </div>
 
           <p style="font-size: 0.86rem; color: #475569; line-height: 1.58; margin: 0 0 0.9rem 0;">
             ${isGlobal
               ? 'This 5-axis radar chart is NOT a fixed or arbitrary graphic. Every vertex is dynamically computed by combining (1) the pediatric developmental screening normative median baseline (70 pts) with (2) your child’s prioritized cognitive axes (+20 pts), (3) temperament traits, (4) single-session focus span, and (5) sleep/screen & narrative signals.'
-              : '위 5각 레이더 차트는 임의로 그려진 고정 그래픽이 아닙니다. <strong>① 보건복지부 영유아·아동 발달선별검사(K-DST) 또래 표준 중위값(점선 오각형 = 70점)</strong>을 기준선으로 삼고, 부모님이 설문에서 직접 입력하신 <strong>② 중점 두뇌 발달축(+20점) · ③ 평소 기질(6종) · ④ 1회 집중 지속시간 · ⑤ 수면·미디어 습관 및 서술형 고민 키워드</strong>를 실시간 가감산하여 각 꼭짓점 좌표를 산출합니다.'}
+              : 'US CDC Growth Reference 5US CDC Growth Reference. <strong>① Pediatric Development Standard US CDC Growth ReferenceK-DST) US CDC Growth Reference ptsUS CDC Growth Reference = 70 pts)</strong>US CDC Growth Reference<strong>② US CDC Growth Reference pts US CDC Growth Reference20 pts) · ③ US CDC Growth Reference6US CDC Growth Reference ④ 1US CDC Growth Reference hrs · ⑤ Sleep·US CDC Growth Reference</strong>US CDC Growth Reference hrs US CDC Growth Reference pts US CDC Growth Reference.'}
           </p>
 
           <!-- Formula Bar -->
           <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px; padding: 0.7rem 0.95rem; margin-bottom: 0.95rem; font-size: 0.82rem; color: #0F172A; line-height: 1.5;">
-            <strong style="color: #1D4ED8;">${isGlobal ? 'Exact Scoring Formula' : '산출 공식'}:</strong>
+            <strong style="color: #1D4ED8;">${isGlobal ? 'Exact Scoring Formula' : 'US CDC Growth Reference'}:</strong>
             ${isGlobal
               ? 'Final Axis Score = Normative Baseline (70 pts) + Selected Priority Axis (+20 pts) + Temperament/Focus/Sleep/Narrative Delta (±pts)'
-              : '영역별 최종 점수 = 또래 표준 기준선(70점) + 설문 선택 중점 발달축(+20점) + 기질·집중시간·수면습관·서술형 보정치(±점수)'}
+              : 'US CDC Growth Reference  ptsUS CDC Growth Reference = US CDC Growth Reference70 pts) + US CDC Growth Reference pts US CDC Growth Reference20 pts) + US CDC Growth Reference hrs·SleepUS CDC Growth Reference± ptsUS CDC Growth Reference'}
           </div>
 
           <!-- 5-Axis Individual Breakdown Cards (1-Per-Row) -->
@@ -996,7 +996,7 @@
                 <div style="background: #FFFFFF; border: 1px solid ${isHigh ? '#93C5FD' : '#CBD5E1'}; border-radius: 12px; padding: 0.75rem 0.85rem;">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
                     <span style="font-size: 0.84rem; font-weight: 800; color: ${isHigh ? '#1D4ED8' : '#0F172A'};">${isGlobal ? p.nameEn : p.nameKo}</span>
-                    <span style="font-size: 0.9rem; font-weight: 900; color: ${isHigh ? '#1D4ED8' : '#334155'};">${b.finalScore}${isGlobal ? ' pts' : '점'}</span>
+                    <span style="font-size: 0.9rem; font-weight: 900; color: ${isHigh ? '#1D4ED8' : '#334155'};">${b.finalScore} pts</span>
                   </div>
                   <div style="display: flex; flex-direction: column; gap: 0.18rem;">
                     ${factorsList}
@@ -1012,14 +1012,14 @@
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
             <div>
               <h4 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 0.25rem 0;">
-                ${isGlobal ? 'Weekend Cultural / Science Exploration & Havruta 3-Question Sets' : '주말 박물관·과학관 현장 탐구 & 부모-자녀 하브루타 대화 질문 3선'}
+                ${isGlobal ? 'Weekend Cultural / Science Exploration & Havruta 3-Question Sets' : 'US CDC Growth Reference & US CDC Growth Reference 3US CDC Growth Reference'}
               </h4>
               <p style="font-size: 0.83rem; color: #334155; margin: 0;">
-                ${isGlobal ? 'Transform weekend outings into critical scientific deductions using Socratic Havruta dialogue.' : '단순 관람을 넘어 아이의 비판적 인과 추론과 전두엽 사고력을 폭발시키는 3단계 문답 모델입니다.'}
+                ${isGlobal ? 'Transform weekend outings into critical scientific deductions using Socratic Havruta dialogue.' : 'US CDC Growth Reference 3US CDC Growth Reference.'}
               </p>
             </div>
             <span class="spec-tag" style="font-size: 0.75rem; padding: 0.25rem 0.65rem; background: #EFF6FF; color: var(--cyan-pulse); border-radius: 9999px;">
-              ${isGlobal ? 'Socratic Dialogue' : '하브루타 문답법'}
+              ${isGlobal ? 'Socratic Dialogue' : 'US CDC Growth Reference'}
             </span>
           </div>
 
@@ -1088,7 +1088,7 @@
              id="ref-chip-neuro"
              style="font-size: 12px; color: #334155; border: 1px solid var(--theme-border); padding: 0.35rem 0.75rem; border-radius: 9999px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; background: var(--theme-surface-sub);">
             <span></span>
-            <span>${isGlobal ? '[Cognitive Tools &amp; STEM Books Reference (Amazon) ↗]' : '[관련 도구·도서 아카이브 참고 ↗]'}</span>
+            <span>${isGlobal ? '[Cognitive Tools &amp; STEM Books Reference (Amazon) ↗]' : '[US CDC Growth Reference ↗]'}</span>
           </a>
         </div>
       </div>

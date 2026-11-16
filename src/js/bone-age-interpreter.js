@@ -449,19 +449,20 @@
 
         '<div class="kfg-ba-cta-bridge">' +
           '<div class="kfg-ba-cta-copy">' +
-            '<strong>Want a Full Pediatrician-Ready 2-Page PDF &amp; 90-Day Sleep/Nutrition Plan for This Bone Age?</strong>' +
+            '<strong>Want the Comprehensive Growth &amp; Habit Percentile PDF Guide &amp; 90-Day Sleep/Nutrition Plan for This Bone Age?</strong>' +
             '<span>Combine your child&apos;s wrist bone-age runway with US CDC 2000 LMS curves &amp; Khamis-Roche velocity tracking.</span>' +
           '</div>' +
           '<div class="kfg-ba-cta-btns">' +
             '<button type="button" class="kfg-ba-btn-single" data-ls-product-uuid="' + SINGLE_REPORT_UUID + '" onclick="if(window.triggerKfgVelocityEdgeCheckout)window.triggerKfgVelocityEdgeCheckout(\'single\');">' +
-              '<span>📄 Unlock Single Clinical Growth Report — $8.99 →</span>' +
-              '<small>One-time 2-Page Doctor PDF + 90-Day Action Plan</small>' +
+              '<span>📄 Comprehensive Growth &amp; Habit Percentile PDF Guide — $8.99 →</span>' +
+              '<small>One-time Printable PDF Guide + 90-Day Action Plan</small>' +
             '</button>' +
             '<button type="button" class="kfg-ba-btn-pass" data-ls-product-uuid="' + SIX_MONTH_PASS_UUID + '" onclick="if(window.triggerKfgVelocityEdgeCheckout)window.triggerKfgVelocityEdgeCheckout(\'pass\');">' +
               '<span>⭐ Get 6-Month Growth &amp; Bone-Age Pass — $19.99 →</span>' +
               '<small>Unlimited 30-Day Velocity Re-Scans + Sibling Profiles</small>' +
             '</button>' +
           '</div>' +
+          '<div style="margin-top:0.55rem;font-size:0.74rem;color:#475569;text-align:center;">For educational and informational tracking based on public US CDC growth charts only; not a substitute for professional pediatric medical diagnosis or treatment.</div>' +
         '</div>' +
       '</div>';
   }

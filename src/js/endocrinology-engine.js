@@ -164,11 +164,11 @@
       });
     }
 
-    let clinicalAdvice = '밤 10시 이전 입면 · 취침 3시간 전 식사 마감으로 성장호르몬 효율 100% 최적 상태입니다.';
+    let clinicalAdvice = 'US CDC Growth Reference 10US CDC Growth Reference 3 hrs US CDC Growth Reference Growth Hormone (HGH) US CDC Growth Reference 100% US CDC Growth Reference.';
     if (suppression.suppressionPercent >= 40.0) {
-      clinicalAdvice = `긴급 경보 (-${suppression.suppressionPercent}% 손실): 저녁 식사를 19시 이전으로 앞당기고 밤 10시 전 암막 수면을 시작하세요.`;
+      clinicalAdvice = `US CDC Growth Reference${suppression.suppressionPercent}% US CDC Growth Reference: US CDC Growth Reference 19US CDC Growth Reference 10US CDC Growth Reference SleepUS CDC Growth Reference yrsUS CDC Growth Reference.`;
     } else if (suppression.suppressionPercent > 0.0) {
-      clinicalAdvice = `부분 손실 (-${suppression.suppressionPercent}%): 취침 지연(-${suppression.delayPenalty}%) · 야간 당질(-${suppression.carbPenalty}%)을 줄이면 성장호르몬 피크가 회복됩니다.`;
+      clinicalAdvice = `US CDC Growth Reference${suppression.suppressionPercent}%): US CDC Growth Reference${suppression.delayPenalty}%) · US CDC Growth Reference${suppression.carbPenalty}%)US CDC Growth Reference Growth Hormone (HGH) US CDC Growth Reference.`;
     }
 
     return {
@@ -179,7 +179,7 @@
       gapHours: suppression.gapHours,
       bedtimeStr: suppression.bedtimeStr,
       mealStr: suppression.mealStr,
-      swsPeakWindow: { start: '22:00', end: '02:00', label: '서파수면(SWS) 3~4단계 GH 피크' },
+      swsPeakWindow: { start: '22:00', end: '02:00', label: 'Slow-Wave Sleep (N3)(SWS) 3~4US CDC Growth Reference GH US CDC Growth Reference' },
       clinicalAdvice
     };
   }
@@ -223,7 +223,7 @@
 
     const useGlobal = isGlobalEnRuntime(options && options.isGlobal);
     return `
-      <svg viewBox="0 0 ${width} ${height}" class="hormone-curve-svg" style="width: 100%; height: auto; max-height: 290px;" aria-label="${useGlobal ? '24-Hour Growth Hormone Pulsatile Secretion & Suppression Curve' : '24시간 성장호르몬 분비 및 억제 곡선 차트'}">
+      <svg viewBox="0 0 ${width} ${height}" class="hormone-curve-svg" style="width: 100%; height: auto; max-height: 290px;" aria-label="${useGlobal ? '24-Hour Growth Hormone Pulsatile Secretion & Suppression Curve' : '24 hrs Growth Hormone (HGH) US CDC Growth Reference'}">
         <defs>
           <linearGradient id="optHormoneGrad" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stop-color="#1D4ED8" stop-opacity="0.35" />
@@ -242,7 +242,7 @@
         <!-- SWS Growth Hormone Gold Window Highlight (22:00 ~ 02:00) -->
         <rect x="${swsX1.toFixed(1)}" y="${padding.top}" width="${swsWidth.toFixed(1)}" height="${height - padding.top - padding.bottom}" fill="url(#swsWindowGrad)" stroke="#1D4ED8" stroke-width="1" stroke-dasharray="3,3" opacity="0.85" rx="4" />
         <text x="${(swsX1 + swsWidth / 2).toFixed(1)}" y="${padding.top - 10}" font-size="11" font-weight="900" fill="#1D4ED8" text-anchor="middle">
-          ${useGlobal ? 'SWS GH Golden Peak (22:00 ~ 02:00)' : 'SWS 성장호르몬 골든 피크 (22:00 ~ 02:00)'}
+          ${useGlobal ? 'SWS GH Golden Peak (22:00 ~ 02:00)' : 'SWS Growth Hormone (HGH) US CDC Growth Reference22:00 ~ 02:00)'}
         </text>
 
         <!-- Grid Lines -->
@@ -267,14 +267,14 @@
         <line x1="${mealX.toFixed(1)}" y1="${padding.top}" x2="${mealX.toFixed(1)}" y2="${height - padding.bottom}" stroke="#94A3B8" stroke-width="1.8" stroke-dasharray="3,3" />
         <rect x="${(mealLabelX - 48).toFixed(1)}" y="${padding.top + 6}" width="96" height="20" rx="6" fill="#EFF6FF" stroke="#94A3B8" stroke-width="1.2" />
         <text x="${mealLabelX.toFixed(1)}" y="${padding.top + 20}" font-size="10.5" font-weight="800" fill="#1D4ED8" text-anchor="middle">
-          ${useGlobal ? `Meal ${sim.mealStr}` : `식사 ${sim.mealStr}`}
+          ${useGlobal ? `Meal ${sim.mealStr}` : `US CDC Growth Reference ${sim.mealStr}`}
         </text>
 
         <!-- Marker: Bedtime Line & Pill Badge (Row 2 - never overlaps Meal badge) -->
         <line x1="${bedX.toFixed(1)}" y1="${padding.top}" x2="${bedX.toFixed(1)}" y2="${height - padding.bottom}" stroke="#64748B" stroke-width="2" />
         <rect x="${(bedLabelX - 48).toFixed(1)}" y="${padding.top + 32}" width="96" height="20" rx="6" fill="#EFF6FF" stroke="#64748B" stroke-width="1.2" />
         <text x="${bedLabelX.toFixed(1)}" y="${padding.top + 46}" font-size="10.5" font-weight="800" fill="#0F172A" text-anchor="middle">
-          ${useGlobal ? `Sleep ${sim.bedtimeStr}` : `취침 ${sim.bedtimeStr}`}
+          ${useGlobal ? `Sleep ${sim.bedtimeStr}` : `US CDC Growth Reference ${sim.bedtimeStr}`}
         </text>
 
         <!-- Axes -->
@@ -326,16 +326,16 @@
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;">
           <div>
             <h4 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0;">
-              ${useGlobal ? '24-Hour Nocturnal HGH Trajectory &amp; Slow-Wave Sleep (SWS) Simulator' : '24시간 호르몬 궤적 &amp; 서파수면(SWS) GH 분비 시뮬레이터'}
+              ${useGlobal ? '24-Hour Nocturnal HGH Trajectory &amp; Slow-Wave Sleep (SWS) Simulator' : '24 hrs US CDC Growth Reference &amp; Slow-Wave Sleep (N3)(SWS) GH US CDC Growth Reference'}
             </h4>
             <p style="font-size: 0.84rem; color: #334155; margin: 0.25rem 0 0 0;">
-              ${useGlobal ? 'Quantifies pulsatile HGH suppression (-52% max) caused by delayed sleep onset and postprandial insulin spikes' : '취침 시각 지연 및 야식 혈당 스파이크에 따른 성장호르몬 분비 억제율(-52% max) 정밀 연산'}
+              ${useGlobal ? 'Quantifies pulsatile HGH suppression (-52% max) caused by delayed sleep onset and postprandial insulin spikes' : 'US CDC Growth Reference Growth Hormone (HGH) US CDC Growth Reference52% max) US CDC Growth Reference'}
             </p>
           </div>
           <div id="hormone-loss-badge" style="background: ${lossBadgeBg}; border: 1.5px solid ${lossBadgeColor}; border-radius: 9999px; padding: 0.45rem 1.1rem; text-align: center;">
-            <span style="font-size: 0.75rem; font-weight: 700; color: #334155; display: block;">${useGlobal ? 'GH Secretion Loss Rate' : '성장호르몬 분비 손실률'}</span>
+            <span style="font-size: 0.75rem; font-weight: 700; color: #334155; display: block;">${useGlobal ? 'GH Secretion Loss Rate' : 'Growth Hormone (HGH) US CDC Growth Reference'}</span>
             <span style="font-size: 1.25rem; font-weight: 800; color: ${lossBadgeColor};">
-              -${sim.ghLossPercent}% <span style="font-size: 0.75rem; font-weight: 600;">${useGlobal ? '(Max -52% suppression)' : '(최대 -52% 억제)'}</span>
+              -${sim.ghLossPercent}% <span style="font-size: 0.75rem; font-weight: 600;">${useGlobal ? '(Max -52% suppression)' : '(US CDC Growth Reference52% US CDC Growth Reference'}</span>
             </span>
           </div>
         </div>
@@ -348,7 +348,7 @@
             <div class="form-group" style="margin: 0;">
               <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.4rem;">
                 <label for="hormone-bedtime-slider" style="font-size: 0.88rem; font-weight: 700; color: #0F172A;">
-                  ${useGlobal ? 'Child Sleep Onset Time (Bedtime)' : '아이 취침 시각 (입면 기준)'}
+                  ${useGlobal ? 'Child Sleep Onset Time (Bedtime)' : 'US CDC Growth Reference'}
                 </label>
                 <span id="hormone-bedtime-display" style="font-size: 1rem; font-weight: 800; color: #1D4ED8;">
                   ${sim.bedtimeStr}
@@ -356,9 +356,9 @@
               </div>
               <input type="range" id="hormone-bedtime-slider" min="1230" max="1500" step="15" value="${bMin}" class="form-input" style="padding: 0.35rem 0; width: 100%; cursor: pointer;">
               <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #475569; margin-top: 0.25rem;">
-                <span>${useGlobal ? '20:30 (Early Sleep)' : '20:30 (이른 입면)'}</span>
-                <span>${useGlobal ? '22:00 (Golden Window)' : '22:00 (표준 골든타임)'}</span>
-                <span>${useGlobal ? '01:00 (Late Delay)' : '01:00 (심야 지연)'}</span>
+                <span>${useGlobal ? '20:30 (Early Sleep)' : '20:30 (US CDC Growth Reference'}</span>
+                <span>${useGlobal ? '22:00 (Golden Window)' : '22:00 (US CDC Growth Reference'}</span>
+                <span>${useGlobal ? '01:00 (Late Delay)' : '01:00 (US CDC Growth Reference'}</span>
               </div>
             </div>
 
@@ -366,7 +366,7 @@
             <div class="form-group" style="margin: 0;">
               <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.4rem;">
                 <label for="hormone-meal-slider" style="font-size: 0.88rem; font-weight: 700; color: #0F172A;">
-                  ${useGlobal ? 'Last Meal / Evening Carbohydrate Time' : '마지막 음식·당질 섭취 시각'}
+                  ${useGlobal ? 'Last Meal / Evening Carbohydrate Time' : 'US CDC Growth Reference'}
                 </label>
                 <span id="hormone-meal-display" style="font-size: 1rem; font-weight: 800; color: #1D4ED8;">
                   ${sim.mealStr}
@@ -374,9 +374,9 @@
               </div>
               <input type="range" id="hormone-meal-slider" min="1020" max="1380" step="15" value="${mMin}" class="form-input" style="padding: 0.35rem 0; width: 100%; cursor: pointer;">
               <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #475569; margin-top: 0.25rem;">
-                <span>${useGlobal ? '17:00 (Early Dinner)' : '17:00 (이른 저녁)'}</span>
-                <span>${useGlobal ? '19:00 (Optimal Cutoff)' : '19:00 (표준 마감)'}</span>
-                <span>${useGlobal ? '23:00 (Late Snack)' : '23:00 (심야 야식)'}</span>
+                <span>${useGlobal ? '17:00 (Early Dinner)' : '17:00 (US CDC Growth Reference'}</span>
+                <span>${useGlobal ? '19:00 (Optimal Cutoff)' : '19:00 (US CDC Growth Reference'}</span>
+                <span>${useGlobal ? '23:00 (Late Snack)' : '23:00 (US CDC Growth Reference'}</span>
               </div>
             </div>
 
@@ -385,11 +385,11 @@
           <!-- Gap Status Bar -->
           <div style="margin-top: 1rem; padding-top: 0.85rem; border-top: 1px dashed #BFDBFE; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
             <div style="font-size: 0.82rem; color: #334155;">
-              ${useGlobal ? 'Pre-Sleep Fasting Gap:' : '소화기 공복 간격:'} <strong id="hormone-gap-display" style="color: ${sim.gapHours >= 3.0 ? '#1D4ED8' : '#1D4ED8'};">${useGlobal ? `${sim.gapHours}h` : `${sim.gapHours}시간`}</strong>
-              ${useGlobal ? '(Requires ≥2.5h postprandial insulin clearance)' : '(식후 인슐린 반감기 2.5시간 충족 필요)'}
+              ${useGlobal ? 'Pre-Sleep Fasting Gap:' : 'US CDC Growth Reference:'} <strong id="hormone-gap-display" style="color: ${sim.gapHours >= 3.0 ? '#1D4ED8' : '#1D4ED8'};">${useGlobal ? `${sim.gapHours}h` : `${sim.gapHours} hrs`}</strong>
+              ${useGlobal ? '(Requires ≥2.5h postprandial insulin clearance)' : '(US CDC Growth Reference 2.5 hrs US CDC Growth Reference'}
             </div>
             <div style="font-size: 0.78rem; color: #475569;">
-              ${useGlobal ? 'Sleep Delay Penalty:' : '취침 지연 감점:'} <span id="hormone-delay-penalty">-${sim.delayPenalty}%</span> · ${useGlobal ? 'Late Carb Penalty:' : '야간 당질 감점:'} <span id="hormone-carb-penalty">-${sim.carbPenalty}%</span>
+              ${useGlobal ? 'Sleep Delay Penalty:' : 'US CDC Growth Reference pts:'} <span id="hormone-delay-penalty">-${sim.delayPenalty}%</span> · ${useGlobal ? 'Late Carb Penalty:' : 'US CDC Growth Reference pts:'} <span id="hormone-carb-penalty">-${sim.carbPenalty}%</span>
             </div>
           </div>
         </div>
@@ -398,11 +398,11 @@
         <div style="background: #FFFFFF; border: 1px solid #BFDBFE; border-radius: 20px; padding: 1.25rem; margin-bottom: 1.25rem;">
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;">
             <span style="font-size: 0.85rem; font-weight: 700; color: #334155;">
-              ${useGlobal ? 'Live 24-Hour Growth Hormone Waveform (Solid Blue: 100% Optimal vs Dashed Slate: Suppressed)' : '실시간 24시간 성장호르몬 분비 곡선 (녹색: 최적 100% vs 적색 점선: 현재 손실)'}
+              ${useGlobal ? 'Live 24-Hour Growth Hormone Waveform (Solid Blue: 100% Optimal vs Dashed Slate: Suppressed)' : 'US CDC Growth Reference hrs 24 hrs Growth Hormone (HGH) US CDC Growth Reference: US CDC Growth Reference 100% vs US CDC Growth Reference  ptsUS CDC Growth Reference: US CDC Growth Reference'}
             </span>
             <div style="display: flex; gap: 0.75rem; font-size: 0.78rem; font-weight: 700;">
-              <span style="color: #1D4ED8;">${useGlobal ? '● Optimal SWS Pulse' : '● 최적 서파수면 맥동'}</span>
-              <span style="color: #64748B;">${useGlobal ? '● Delayed / Late-Meal Loss' : '● 지연/야식 손실 곡선'}</span>
+              <span style="color: #1D4ED8;">${useGlobal ? '● Optimal SWS Pulse' : '● US CDC Growth Reference Slow-Wave Sleep (N3) US CDC Growth Reference'}</span>
+              <span style="color: #64748B;">${useGlobal ? '● Delayed / Late-Meal Loss' : '● US CDC Growth Reference'}</span>
             </div>
           </div>
 

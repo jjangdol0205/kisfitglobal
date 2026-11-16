@@ -1,5 +1,5 @@
 /**
- * Taller Bio Labs (키즈핏 바이오 랩)
+ * Taller Bio Labs (KISFIT Bio Labs)
  * 5-Stage Bio Onboarding Wizard & 5 Age Clinical Presets (src/js/onboarding-wizard.js)
  * 
  * Features:
@@ -23,7 +23,7 @@
     'preset-1': {
       id: 'preset-1',
       label: 'Toddler 3 Yrs (36 Mo) — Foundation Auxology & Motor Skills',
-      labelKo: '영유아기 3세 (만 36개월) — 기초 성장기 & 소근육 감각 협응',
+      labelKo: 'US CDC Growth Reference 3 yrs (US CDC Growth Reference 36 mos) — US CDC Growth Reference & US CDC Growth Reference',
       labelEn: 'Toddler 3 Yrs (36 Mo) — Foundation Auxology & Motor Skills',
       gender: 'boy',
       ageYears: 3,
@@ -43,7 +43,7 @@
     'preset-2': {
       id: 'preset-2',
       label: 'Childhood 7 Yrs (84 Mo) — Spatial Logic & Postural Alignment',
-      labelKo: '아동기 7세 (만 84개월) — 수리·공간 논리 & 척추 바른 정렬',
+      labelKo: 'US CDC Growth Reference 7 yrs (US CDC Growth Reference 84 mos) — US CDC Growth Reference & US CDC Growth Reference',
       labelEn: 'Childhood 7 Yrs (84 Mo) — Spatial Logic & Postural Alignment',
       gender: 'girl',
       ageYears: 7,
@@ -63,7 +63,7 @@
     'preset-3': {
       id: 'preset-3',
       label: 'Early Puberty 10 Yrs (120 Mo) — Early Pubertal Hormone Optimization',
-      labelKo: '사춘기 진입 10세 (만 120개월) — 사춘기 초기 수면·호르몬 최적화',
+      labelKo: 'US CDC Growth Reference 10 yrs (US CDC Growth Reference 120 mos) — US CDC Growth Reference Sleep·US CDC Growth Reference',
       labelEn: 'Early Puberty 10 Yrs (120 Mo) — Early Pubertal Hormone Optimization',
       gender: 'boy',
       ageYears: 10,
@@ -83,7 +83,7 @@
     'preset-4': {
       id: 'preset-4',
       label: 'Peak Growth Spurt 13 Yrs (156 Mo) — Peak Height Velocity (PHV) Intervention',
-      labelKo: '급성장기 13세 (만 156개월) — PHV 급성장 피크 & 골든타임 집중',
+      labelKo: 'US CDC Growth Reference 13 yrs (US CDC Growth Reference 156 mos) — PHV US CDC Growth Reference & US CDC Growth Reference',
       labelEn: 'Peak Growth Spurt 13 Yrs (156 Mo) — Peak Height Velocity (PHV) Intervention',
       gender: 'boy',
       ageYears: 13,
@@ -103,7 +103,7 @@
     'preset-5': {
       id: 'preset-5',
       label: 'Late Adolescent 16 Yrs (192 Mo) — Spinal Disc Recovery & Alignment',
-      labelKo: '후기 청소년 16세 (만 192개월) — 체형 완성기 척추 디스크 복원',
+      labelKo: 'US CDC Growth Reference 16 yrs (US CDC Growth Reference 192 mos) — US CDC Growth Reference',
       labelEn: 'Late Adolescent 16 Yrs (192 Mo) — Spinal Disc Recovery & Alignment',
       gender: 'girl',
       ageYears: 16,
@@ -139,44 +139,44 @@
   const WIZARD_STEPS_GROWTH = [
     {
       step: 1,
-      titleKo: '기본 인적 사항 (성별 · 생년월일 정밀 산출)',
+      titleKo: 'US CDC Growth Referenced US CDC Growth Reference',
       titleEn: 'Basic Demographics (Sex · Date of Birth)',
-      subKo: '생년월일 일수까지 정밀 보정하여 질병관리청(KDCA) 월령별 표준 신장·골연령과 대조합니다.',
+      subKo: 'US CDC Growth Referenced dUS CDC Growth Reference US CDC / KDCA(KDCA) US CDC Growth Reference Height·Bone AgeUS CDC Growth Reference.',
       subEn: 'Utilized for CDC/KDCA LMS national growth charts and normative baselines.'
     },
     {
       step: 2,
-      titleKo: '현재 신장 · 체중 · 최근 6개월 성장 속도 입력',
+      titleKo: 'US CDC Growth Reference Height · Weight · US CDC Growth Reference 6 mos US CDC Growth Reference',
       titleEn: 'Current Stature & Growth Velocity',
-      subKo: '현재 신체 백분위(Z-Score)와 연간 성장 속도(cm/yr)를 기반으로 잠재 신장을 산출합니다.',
+      subKo: 'US CDC Growth ReferenceZ-Score)US CDC Growth Referencecm/yr)US CDC Growth Reference HeightUS CDC Growth Reference.',
       subEn: 'Baseline metrics for national LMS percentiles and 6-month growth velocity.'
     },
     {
       step: 3,
-      titleKo: '부모 신장 입력 및 유전 표적키(MPH) 산출',
+      titleKo: 'US CDC Growth Reference Height US CDC Growth Reference Mid-Parental Target Height(MPH) US CDC Growth Reference',
       titleEn: 'Mid-Parental Height (MPH) & Genetic Potential',
-      subKo: 'Tanner 공식 기반 유전 예상키와 생활 습관 교정 시 최대 잠재키를 계산합니다.',
+      subKo: 'Tanner US CDC Growth Reference Projected Adult HeightUS CDC Growth Reference.',
       subEn: 'Calculates Tanner Mid-Parental Target Height and clinical margin in real-time.'
     },
     {
       step: 4,
-      titleKo: '골연령 성장 단계 확인 및 수면·영양 대사 점검',
+      titleKo: 'Bone Age US CDC Growth Reference Sleep·Nutrition US CDC Growth Reference  ptsUS CDC Growth Reference',
       titleEn: 'Growth Stage & Sleep/Diet Habits',
-      subKo: '야간 서파수면 성장호르몬 분비 효율과 체중 비례 필수 영양 흡수 특성을 진단합니다.',
+      subKo: 'US CDC Growth Reference Slow-Wave Sleep (N3) Growth Hormone (HGH) US CDC Growth Reference Weight US CDC Growth Reference Nutrition US CDC Growth Reference AssessmentUS CDC Growth Reference.',
       subEn: 'Evaluates epiphyseal plate open ratio and sleep/diet traits.'
     },
     {
       step: 5,
-      titleKo: '성장 저해 요인 및 척추 정렬 · 신체 활동량 점검',
+      titleKo: 'US CDC Growth Reference  ptsUS CDC Growth Reference',
       titleEn: 'Posture Alignment & Physical Activity',
-      subKo: '경추·흉추 정렬 상태와 성장판 압전 자극 빈도를 분석하여 숨은 키 복원폭을 산출합니다.',
+      subKo: 'US CDC Growth Reference Growth Plate US CDC Growth Reference.',
       subEn: 'Diagnoses nocturnal GH suppression and adult height penalty factors.'
     },
     {
       step: 6,
-      titleKo: '신체 성장·체질 세부 점검 및 정밀 보고서 발행',
+      titleKo: 'US CDC Growth Reference  yrsUS CDC Growth Reference  ptsUS CDC Growth Reference Report US CDC Growth Reference',
       titleEn: 'Growth Details & Personalized Report',
-      subKo: '해당하는 임상 항목을 선택하시면 1:1 소아 신체 성장 정밀 보고서를 즉시 발행합니다.',
+      subKo: 'US CDC Growth Reference 1:1 US CDC Growth Reference ReportUS CDC Growth Reference.',
       subEn: 'Generates tailored clinical growth guidance and supplement/exercise prescriptions.'
     }
   ];
@@ -184,44 +184,44 @@
   const WIZARD_STEPS_LEARNING = [
     {
       step: 1,
-      titleKo: '기본 인적 사항 (성별 · 생년월일 정밀 산출)',
+      titleKo: 'US CDC Growth Referenced US CDC Growth Reference',
       titleEn: 'Basic Demographics (Sex · Date of Birth)',
-      subKo: '아동의 연령 및 뇌 발달 주기에 맞춰 진단 문항과 규준 데이터를 자동 설정합니다.',
+      subKo: 'US CDC Growth Reference Assessment US CDC Growth Reference.',
       subEn: 'Classifies neuro-developmental stage and cognitive baseline.'
     },
     {
       step: 2,
-      titleKo: '독서 습관 및 언어·문해력 정보 처리 패턴',
+      titleKo: 'US CDC Growth Reference',
       titleEn: 'Reading Habits & Literacy Comprehension',
-      subKo: '연령별 텍스트 독해, 문맥 어휘 추론 및 언어 인지 처리 속도를 진단합니다.',
+      subKo: 'US CDC Growth ReferenceAssessmentUS CDC Growth Reference.',
       subEn: 'Pinpoints language cognitive processing and reading comprehension gaps.'
     },
     {
       step: 3,
-      titleKo: '수리·공간 지각 및 도형·논리 추론 패턴',
+      titleKo: 'US CDC Growth Reference',
       titleEn: 'Mathematical Logic & Spatial Reasoning',
-      subKo: '단순 연산에서 응용·도형·사고력 수학으로 전환되는 인지 추론 역량을 진단합니다.',
+      subKo: 'US CDC Growth Reference AssessmentUS CDC Growth Reference.',
       subEn: 'Evaluates conceptual mathematics transfer and spatial logic capacity.'
     },
     {
       step: 4,
-      titleKo: '전두엽 주의집중 지속 시간 및 디지털 미디어 습관',
+      titleKo: 'US CDC Growth Reference  hrs US CDC Growth Reference',
       titleEn: 'Executive Focus & Dopamine Regulation',
-      subKo: '전두엽 실행기능(작업기억·충동억제)과 착석 몰입 지속력, 도파민 노출도를 진단합니다.',
+      subKo: 'US CDC Growth ReferenceAssessmentUS CDC Growth Reference.',
       subEn: 'Measures prefrontal executive function and digital distraction resilience.'
     },
     {
       step: 5,
-      titleKo: '메타인지 인출 습관 및 수면 장기기억 공고화 패턴',
+      titleKo: 'US CDC Growth Reference Sleep US CDC Growth Reference',
       titleEn: 'Metacognition & SWS Memory Consolidation',
-      subKo: '배운 내용을 자기 언어로 인출(백지복습)하고 장기기억으로 정착시키는 역량을 진단합니다.',
+      subKo: 'US CDC Growth Reference AssessmentUS CDC Growth Reference.',
       subEn: 'Assesses hippocampal long-term consolidation and self-explanation mastery.'
     },
     {
       step: 6,
-      titleKo: '학습 병목·기질 최종 점검 및 정밀 보고서 발행',
+      titleKo: 'US CDC Growth Reference  ptsUS CDC Growth Reference Report US CDC Growth Reference',
       titleEn: 'Study Temperament & Personalized Report',
-      subKo: '해당하는 인지 성향과 학습 병목을 선택하시면 5각 두뇌 밸런스 정밀 보고서를 즉시 발행합니다.',
+      subKo: 'US CDC Growth Reference 5US CDC Growth Reference ReportUS CDC Growth Reference.',
       subEn: 'Synthesizes personalized learning roadmap, study methodology, and workbook curation.'
     }
   ];
@@ -355,7 +355,7 @@
     const percent = Math.round((stepNumber / wizardState.maxStep) * 100);
     const progressTextEl = document.getElementById('quiz-progress-text');
     if (progressTextEl) {
-      progressTextEl.textContent = `${percent}% ${isEn ? 'Completed' : '완료'}`;
+      progressTextEl.textContent = `${percent}% ${isEn ? 'Completed' : 'Complete'}`;
     }
 
     const progressFillEl = document.getElementById('quiz-progress-fill');
@@ -517,7 +517,7 @@
     if (previewEl) {
       previewEl.textContent = isEn
         ? `Auto-Detected Growth Stage & Bone Age: ${autoStage.stageNameEn} (Expected Velocity: ${autoStage.expectedVelStrEn || autoStage.expectedVelStr})`
-        : `성장단계·골연령 진행도 자동 산출 완료: ${autoStage.stageNameKo} (기대 성장속도 ${autoStage.expectedVelStr})`;
+        : `US CDC Growth ReferenceBone Age US CDC Growth Reference Complete: ${autoStage.stageNameKo} (US CDC Growth Reference ${autoStage.expectedVelStr})`;
     }
     const stageTitleEl = document.getElementById('auto-growth-stage-title');
     if (stageTitleEl) {
@@ -529,7 +529,7 @@
     if (stageDescEl) {
       stageDescEl.innerHTML = isEn
         ? `${autoStage.boneAgeNoteEn || autoStage.stageNameEn}<br><strong style="color:#1D4ED8;">Automatically selected based on Date of Birth — proceed directly to [Next Step] or adjust below if needed.</strong>`
-        : `${autoStage.boneAgeNoteKo}<br><strong style="color:#1D4ED8;">입력하신 생년월일 월령에 맞춰 최적 성장 단계가 자동 설정되었으므로 바로 [다음 단계]로 이동하시면 됩니다.</strong>`;
+        : `${autoStage.boneAgeNoteKo}<br><strong style="color:#1D4ED8;">US CDC Growth Referenced US CDC Growth Reference [US CDC Growth Reference]US CDC Growth Reference.</strong>`;
     }
 
     if (!preserveUserInputs) {
@@ -545,9 +545,9 @@
   }
 
   /**
-   * Adapts survey option text to match the child's age (e.g., 3yo toddler vs 5~6yo vs 7~9yo vs 10+yo)
-   * so a 3yo parent never sees "시험 전날 벼락치기" or "복잡한 줄글 책읽기", and an 11yo never sees infant wording.
-   */
+ * Adapts survey option text to match the child's age (e.g., 3yo toddler vs 5~6yo vs 7~9yo vs 10+yo)
+ * so a 3yo parent never sees "" or "", and an 11yo never sees infant wording.
+ */
   function syncAgeAppropriateQuizOptions(ageYears) {
     if (typeof document === 'undefined') return;
     const isEn = (typeof window !== 'undefined' && window.__KIDSFIT_GLOBAL_PAID_EDITION === true) || (typeof document !== 'undefined' && document.documentElement && (String(document.documentElement.lang || '').toLowerCase().startsWith('en') || (typeof document.documentElement.getAttribute === 'function' && document.documentElement.getAttribute('data-edition') === 'global-paid')));
@@ -570,240 +570,240 @@
       // Ages 1~4: Play, Picture Books, Sensory & Autonomy
       setCheckboxLabel('learning-literacy', 'reading_comprehension', isEn
         ? 'Loses focus quickly during picture book reading and shifts to other toys'
-        : '그림책을 읽어줄 때 끝까지 집중하지 못하고 금방 다른 장난감을 찾아요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-literacy', 'vocab_context', isEn
         ? 'Slower than peers in repeating new words or acquiring vocabulary'
-        : '또래보다 새로운 단어를 따라 말하거나 뜻을 이해하는 속도가 느린 편이에요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-literacy', 'slow_subvocal', isEn
         ? 'Pronunciation is unclear or struggles to string 2–3 words into sentences'
-        : '말소리를 정확하게 발음하거나 두세 문장으로 이어 말하는 게 아직 서툴러요');
+        : 'US CDC Growth Reference yrs US CDC Growth Reference');
       setCheckboxLabel('learning-literacy', 'summary_expression', isEn
         ? 'Expresses wants or frustration through crying/tantrums rather than speech'
-        : '자기가 원하는 것이나 감정을 말 대신 떼쓰기·울음·행동으로 먼저 표현해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-literacy', 'active_reader', isEn
         ? 'Loves looking at picture books and points out familiar objects eagerly'
-        : '그림책 보는 것을 좋아하고 그림 속 사물 이름을 손가락으로 짚으며 잘 말해요');
+        : 'US CDC Growth Reference');
 
       setCheckboxLabel('learning-math', 'applied_math_block', isEn
         ? 'Can count 1-2-3 aloud but struggles to pair numbers one-to-one with objects'
-        : '하나·둘·셋 숫자 이름은 말하지만 실제 사물 개수와 일대일로 짝짓기 어려워해요');
+        : 'US CDC Growth Reference dUS CDC Growth ReferencedUS CDC Growth Reference');
       setCheckboxLabel('learning-math', 'spatial_logic_difficulty', isEn
         ? 'Struggles with shape sorting puzzles, stacking blocks, or 3D construction'
-        : '모양 맞추기 퍼즐이나 블록을 위아래·앞뒤로 쌓고 조립하는 걸 힘들어해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-math', 'formula_memorizer', isEn
         ? 'Confuses basic comparative concepts (big/small, long/short, more/less)'
-        : '크다·작다, 길다·짧다, 많다·적다 같은 기초 비교 개념을 헷갈려해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-math', 'error_transfer_gap', isEn
         ? 'Finds it difficult to sort or categorize toys by color or shape independently'
-        : '장난감 정리나 색깔·모양별로 끼리끼리 분류하는 놀이를 혼자 하기 어려워해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-math', 'math_explorer', isEn
         ? 'Demonstrates high curiosity in block stacking, shape sorting, and patterns'
-        : '블록 쌓기나 모양 맞추기, 규칙적인 배열 놀이에 큰 흥미를 보여요');
+        : 'US CDC Growth Reference');
 
       setCheckboxLabel('learning-focus', 'distracted_desk', isEn
         ? 'Shifts rapidly between play activities every 3–5 minutes without sustained focus'
-        : '한 가지 놀잇감에 5~10분 이상 머무르지 못하고 이리저리 자주 옮겨 다녀요');
+        : 'US CDC Growth Reference 5~10US CDC Growth Reference');
       setCheckboxLabel('learning-focus', 'dopamine_media', isEn
         ? 'Requires smartphone/tablet videos to stay seated during meals or transit'
-        : '식사할 때나 이동할 때 스마트폰·태블릿 영상을 봐야만 가만히 있어요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-focus', 'procrastination', isEn
         ? 'Avoids fine-motor activities like buttoning, picking beads, or child scissors'
-        : '손끝을 써야 하는 단추 끼우기·집게 집기·가위질 놀이를 답답해하며 피하려 해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-focus', 'impulsive_mistakes', isEn
         ? 'Has difficulty waiting; snatches toys impulsively or throws them when rushed'
-        : '기다리는 것을 힘들어하고 마음이 급해 장난감을 던지거나 먼저 손이 나가요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-focus', 'deep_focus', isEn
         ? 'Stays immersed for 15+ minutes when engaged in favorite sensory or block play'
-        : '좋아하는 블록이나 촉감·역할 놀이를 할 때는 15분 이상 깊게 빠져들어요');
+        : 'US CDC Growth Reference 15US CDC Growth Reference');
 
       setCheckboxLabel('learning-meta', 'passive_illusion', isEn
         ? 'Only plays when parents initiate and guide; rarely explores independently'
-        : '엄마·아빠가 옆에서 같이 해줄 때만 놀고 혼자서는 놀이를 이어가지 못해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-meta', 'metacognition_lack', isEn
         ? 'Struggles to recount where they went today or what happened in a storybook'
-        : '낮에 다녀온 곳이나 방금 읽은 그림책 이야기를 물어보면 대답하기 어려워해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-meta', 'cramming_forget', isEn
         ? 'Quickly forgets words or routine habits (e.g. putting toys away) learned yesterday'
-        : '어제 배운 단어나 생활 약속(장난감 정리 등)을 다음 날이면 금방 잊어버려요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-meta', 'sleep_consolidation_loss', isEn
         ? 'Irregular naps or bedtimes past 10 PM cause frequent daytime irritability'
-        : '낮잠 시간이 불규칙하거나 밤 10시 넘어 늦게 자서 낮에 짜증·피로가 많아요');
+        : 'US CDC Growth Reference  hrsUS CDC Growth Reference 10US CDC Growth Reference');
       setCheckboxLabel('learning-meta', 'daily_retrieval_active', isEn
         ? 'Frequently asks "Why?" questions and immediately uses new words in daily life'
-        : '"이거 왜 그래요?" 질문을 자주 하고 배운 단어를 일상에서 바로 써먹어요');
+        : '"US CDC Growth Reference?" US CDC Growth Reference dUS CDC Growth Reference');
 
       setCheckboxLabel('trait-learning-concern', 'reading_literacy', isEn
         ? 'Short listening attention span for picture books; difficulty following stories'
-        : '그림책에 집중하는 시간이 짧고 이야기 흐름을 따라가기 어려워해요');
+        : 'US CDC Growth Reference  hrsUS CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'math_concept', isEn
         ? 'Awkward with early spatial and quantitative play (counting, shape sorting)'
-        : '수 세기, 모양 맞추기, 블록 조립 같은 기초 공간·수 감각 놀이를 어색해해요');
+        : 'US CDC Growth Reference  yrsUS CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'passive_forget', isEn
         ? 'Relies heavily on parental assistance; lacks autonomous exploration habits'
-        : '엄마가 도와주지 않으면 혼자 스스로 해보려는 자율성이 부족해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'screen_dopamine', isEn
         ? 'Over-reliant on mobile video dopamine; gets bored quickly with tactile toys'
-        : '스마트폰·영상 자극에 익숙해져서 손으로 만지는 놀이를 심심해해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'desk_endurance', isEn
         ? 'Difficulty sitting still for 10–15 minutes of fine-motor table activity'
-        : '자리에 앉아 손끝 소근육 놀이(집게·구슬·퍼즐)에 집중하기 힘들어해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'vocab_expression', isEn
         ? 'Limited expressive vocabulary; struggles to express thoughts verbally'
-        : '단어 표현력이 부족하거나 자기 생각을 말로 표현하기 어려워해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'test_mistake_anxiety', isEn
         ? 'Easily intimidated or hesitant when facing new environments or unfamiliar play'
-        : '낯선 환경이나 새로운 놀이를 만났을 때 실패할까 봐 쉽게 위축돼요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'habit_self_directed', isEn
         ? 'Lacks a daily routine of reading picture books or tidying up at set hours'
-        : '매일 정해진 시간에 그림책을 보거나 스스로 정리하는 생활 루틴이 부족해요');
+        : 'US CDC Growth Referenced US CDC Growth Reference  hrsUS CDC Growth Reference');
     } else if (isKinder) {
       // Ages 5~6: Kindergarten / Preschool Readiness
       setCheckboxLabel('learning-literacy', 'reading_comprehension', isEn
         ? 'Decodes alphabet/letters but slow to comprehend sentence-level meaning'
-        : '한글 낱글자는 읽지만 문장 단위로 뜻을 이해하는 속도가 느려요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-literacy', 'vocab_context', isEn
         ? 'Struggles to infer unknown words from surrounding illustrations and narrative context'
-        : '모르는 단어가 나오면 앞뒤 그림·이야기 맥락으로 유추하기 어려워해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-literacy', 'slow_subvocal', isEn
         ? 'Skims only picture illustrations or feels burdened when asked to read aloud'
-        : '글자보다 그림만 대충 넘겨 보거나 소리 내어 읽기를 부담스러워해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-literacy', 'summary_expression', isEn
         ? 'Struggles to express personal thoughts when asked "Why do you think that happened?"'
-        : '동화책을 읽고 난 뒤 "왜 그랬을까?" 질문에 자기 생각을 말하기 힘들어해요');
+        : 'US CDC Growth Reference "US CDC Growth Reference?" US CDC Growth Reference');
       setCheckboxLabel('learning-literacy', 'active_reader', isEn
         ? 'Enjoys storybooks and articulates characters feelings and main plot points clearly'
-        : '이야기책을 즐겨 보고 등장인물의 마음이나 줄거리를 말로 잘 표현해요');
+        : 'US CDC Growth Reference');
 
       setCheckboxLabel('learning-math', 'applied_math_block', isEn
         ? 'Adds numbers on fingers accurately but struggles with word problem part-whole reasoning'
-        : '손가락으로 숫자는 더하지만 이야기 속 수 놀이(가르기·모으기)를 어려워해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-math', 'spatial_logic_difficulty', isEn
         ? 'Finds 3D block recreation, tangrams, and geometric puzzle replication challenging'
-        : '칠교놀이·가베·자석블록으로 입체 모양을 똑같이 만드는 공간 놀이를 힘들어해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-math', 'formula_memorizer', isEn
         ? 'Relies on rote memorization for making-10 or comparisons rather than visual intuition'
-        : '10 만들기나 수의 크기 비교를 원리보다 단순 순서 외우기로만 해결하려 해요');
+        : '10 US CDC Growth Reference');
       setCheckboxLabel('learning-math', 'error_transfer_gap', isEn
         ? 'Immediately asks for help as soon as the problem format or layout changes slightly'
-        : '조금만 문제 모양이 바뀌어도 "모르겠어요" 하고 먼저 도움을 요청해요');
+        : 'US CDC Growth Reference "US CDC Growth Reference" US CDC Growth Reference');
       setCheckboxLabel('learning-math', 'math_explorer', isEn
         ? 'Independently engages in solving puzzles, identifying patterns, and 3D construction'
-        : '퍼즐 맞추기, 규칙 찾기, 입체 블록 구조물 만들기를 스스로 즐겨요');
+        : 'US CDC Growth Reference');
 
       setCheckboxLabel('trait-learning-concern', 'reading_literacy', isEn
         ? 'Want to strengthen early reading fluency and short story comprehension skills'
-        : '한글 읽기 유창성과 짧은 동화책 내용 이해력을 키워주고 싶어요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'math_concept', isEn
         ? 'Want to build solid number sense, spatial geometry, and tactile block intuition'
-        : '수 가르기·모으기와 도형·공간 감각(칠교·은물·블록)을 탄탄히 잡아주고 싶어요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'passive_forget', isEn
         ? 'Lacks the habit of explaining or retelling learned concepts back to parents'
-        : '배운 내용을 엄마에게 말로 설명해 보는 표현·기억 습관이 부족해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'screen_dopamine', isEn
         ? 'Prefers screen media over physical books and tactile board games'
-        : '영상·미디어 자극에 익숙해져 종이책이나 보드게임에 흥미가 덜해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'desk_endurance', isEn
         ? 'Needs practice sitting with good posture and focus for 15–20 minutes before elementary'
-        : '초등학교 입학 전 15~20분 바른 자세로 앉아 집중하는 연습이 필요해요');
+        : 'US CDC Growth Reference 15~20US CDC Growth Reference yrsUS CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'vocab_expression', isEn
         ? 'Needs to enrich vocabulary and practice organizing thoughts verbally'
-        : '어휘력이 부족하거나 자기 생각을 조리 있게 말로 표현하기 어려워해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'test_mistake_anxiety', isEn
         ? 'Avoids challenging worksheets or puzzles due to fear of making errors'
-        : '조금만 어려운 퍼즐이나 활동지가 나오면 틀릴까 봐 시도를 피하려 해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'habit_self_directed', isEn
         ? 'Want to nurture a self-directed habit of completing 15-minute daily reading and tasks'
-        : '매일 15분씩 스스로 책 읽고 활동지를 끝내는 성취 습관을 길러주고 싶어요');
+        : 'US CDC Growth Referenced 15US CDC Growth Reference');
     } else {
       // Ages 7+: Elementary / Middle / High School
       setCheckboxLabel('learning-literacy', 'reading_comprehension', isEn
         ? 'Struggles to extract the core message from long texts or descriptive word problems'
-        : '긴 글이나 서술형 문장제 문제를 읽고 핵심 파악을 어려워해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-literacy', 'vocab_context', isEn
         ? 'Stumbles on unfamiliar vocabulary and loses overall comprehension of the text'
-        : '모르는 어휘가 나오면 앞뒤 문맥 유추를 못 하고 글 전체를 놓쳐요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-literacy', 'slow_subvocal', isEn
         ? 'Reading speed is excessively slow or merely skims superficially without retention'
-        : '책을 읽는 속도가 지나치게 느리거나 눈으로만 대충 훑어 읽어요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-literacy', 'summary_expression', isEn
         ? 'Difficult to summarize main plots or formulate personal insights in written form'
-        : '책을 다 읽은 후 줄거리 요약이나 느낀 점을 말·서술형 글로 표현하기 힘들어요');
+        : 'US CDC Growth Reference  ptsUS CDC Growth Reference');
       setCheckboxLabel('learning-literacy', 'active_reader', isEn
         ? 'Reads books independently and readily grasps subtext and nuanced context'
-        : '스스로 책을 찾아 읽고 글의 행간이나 핵심 문맥을 잘 파악해요');
+        : 'US CDC Growth Reference');
 
       setCheckboxLabel('learning-math', 'applied_math_block', isEn
         ? 'Fast at mechanical arithmetic but blocked when setting up equations for word problems'
-        : '단순 계산·연산은 빠르지만, 문장제 응용문제에서 식을 못 세워요');
+        : 'US CDC Growth ReferenceyrsUS CDC Growth Reference');
       setCheckboxLabel('learning-math', 'spatial_logic_difficulty', isEn
         ? 'Particularly struggles with rotated shapes, 3D net unfolding, and geometric reasoning'
-        : '도형 돌리기, 입체 전개도, 기하·공간 추론 문제를 유독 어려워해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-math', 'formula_memorizer', isEn
         ? 'Relies on formula memorization; fails when problem presentations are modified slightly'
-        : '원리나 개념 이해보다 공식 암기에만 의존해 조금만 변형되어도 틀려요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-math', 'error_transfer_gap', isEn
         ? 'Repeats the exact same errors in analogous problems even after mistake explanations'
-        : '틀린 문제를 설명해줘도 비슷한 유형의 문제에서 똑같이 반복 오답이 나와요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-math', 'math_explorer', isEn
         ? 'Spontaneously enjoys finding mathematical patterns, logical reasoning, and principles'
-        : '규칙 찾기나 논리 추론, 새로운 수학 원리를 스스로 탐구하는 편이에요');
+        : 'US CDC Growth Reference');
 
       setCheckboxLabel('learning-focus', 'distracted_desk', isEn
         ? 'Cannot stay seated for 15–20 minutes; easily distracted by ambient sounds or objects'
-        : '책상에 15~20분 이상 앉아 있기 힘들고 주변 작은 소리나 물건에 산만해져요');
+        : 'US CDC Growth Reference 15~20US CDC Growth Reference');
       setCheckboxLabel('learning-focus', 'dopamine_media', isEn
         ? 'Accustomed to short-form video/gaming dopamine; gets quickly bored with study and text'
-        : '스마트폰 숏폼·유튜브·게임 자극에 익숙해 글자나 공부에 쉽게 지루해해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-focus', 'procrastination', isEn
         ? 'Habitually procrastinates homework and study with extensive avoidance behaviors'
-        : '숙제나 공부를 해야 할 때 자꾸 뒤로 미루고 시작하기까지 딴짓이 많아요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-focus', 'impulsive_mistakes', isEn
         ? 'Skims over problem stems and makes frequent careless calculation or sign errors'
-        : '문제를 꼼꼼히 끝까지 안 읽고 건너뛰거나 계산 부호를 잘못 보는 실수가 잦아요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-focus', 'deep_focus', isEn
         ? 'Maintains deep, sustained immersion in areas of interest for 30–40+ minutes'
-        : '흥미 있는 분야나 문제에 30~40분 이상 스스로 깊이 몰입해요');
+        : 'US CDC Growth Reference 30~40US CDC Growth Reference');
 
       setCheckboxLabel('learning-meta', 'passive_illusion', isEn
         ? 'Follows teacher explanations easily but goes blank when solving problems alone'
-        : '학원·선생님 설명을 들을 땐 알겠는데 혼자 풀면 백지 상태가 돼요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-meta', 'metacognition_lack', isEn
         ? 'Unable to summarize or explain learned material in own words after closing the book'
-        : '배운 내용을 책을 덮고 내 말로 설명하거나 정리(백지복습)하지 못해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-meta', 'cramming_forget', isEn
         ? 'Crams right before exams and forgets the core material almost immediately after'
-        : '시험 전날 벼락치기로 외우고, 시험이 끝나면 배운 내용을 금방 잊어버려요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-meta', 'sleep_consolidation_loss', isEn
         ? 'Late-night studying or sleeping past midnight causes morning fog and high daytime fatigue'
-        : '밤늦게까지 공부하거나 늦게 자서 아침에 멍하고 낮에 뇌 피로감이 커요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('learning-meta', 'daily_retrieval_active', isEn
         ? 'Maintains a habit of independently summarizing key concepts for 15 minutes daily'
-        : '그날 배운 핵심 내용을 15분 스스로 정리하고 질문하는 습관이 있어요');
+        : 'US CDC Growth Reference 15US CDC Growth Reference');
 
       setCheckboxLabel('trait-learning-concern', 'reading_literacy', isEn
         ? 'Reading literacy bottleneck: struggles to comprehend complex descriptive texts'
-        : '긴 글·문장제 문제를 읽고 이해하는 문해력이 부족해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'math_concept', isEn
         ? 'Blocked by word problems, geometry, and application despite computational skills'
-        : '단순 연산은 해도 도형·응용·사고력 수학에서 막혀해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'passive_forget', isEn
         ? 'Forgets quickly after lectures and lacks self-directed retrieval practice'
-        : '학원·설명을 들어도 금방 잊어버리고 자기주도 복습이 안 돼요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'screen_dopamine', isEn
         ? 'Overstimulated by smartphone and gaming dopamine; disinterested in book study'
-        : '스마트폰·유튜브 자극에 익숙해 책·공부에 흥미가 없어요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'desk_endurance', isEn
         ? 'Low desk endurance: fidgety and restless after 20 minutes of seated study'
-        : '책상에 20분 이상 바른 자세로 앉아 있기 힘들고 산만해요');
+        : 'US CDC Growth Reference 20US CDC Growth Reference yrsUS CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'vocab_expression', isEn
         ? 'Limited vocabulary; struggles to articulate ideas in speech or written essays'
-        : '어휘력이 부족하거나 생각을 말·서술형 글로 표현하기 어려워해요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'test_mistake_anxiety', isEn
         ? 'Careless mistakes or test anxiety on problems the child actually knows how to solve'
-        : '아는 문제도 문제집·시험에서 덤벙대며 실수하거나 긴장해서 틀려요');
+        : 'US CDC Growth Reference');
       setCheckboxLabel('trait-learning-concern', 'habit_self_directed', isEn
         ? 'Lacks self-directed study routines to set daily goals and execute them steadily'
-        : '스스로 분량을 정해 매일 꾸준히 실천하는 자기주도 습관이 부족해요');
+        : 'US CDC Growth Referenced US CDC Growth Reference');
     }
   }
 
@@ -928,7 +928,7 @@
         const girlEl = document.getElementById('gender-girl');
         if (boyEl && girlEl && !boyEl.checked && !girlEl.checked) {
           const isEn = (typeof window !== 'undefined' && window.__KIDSFIT_GLOBAL_PAID_EDITION === true) || (typeof document !== 'undefined' && document.documentElement && (String(document.documentElement.lang || '').toLowerCase().startsWith('en') || (typeof document.documentElement.getAttribute === 'function' && document.documentElement.getAttribute('data-edition') === 'global-paid')));
-          showValidationToast(isEn ? 'Please select a gender.' : '성별을 선택해 주세요.', boyEl);
+          showValidationToast(isEn ? 'Please select a gender.' : 'Please select a gender.', boyEl);
           return false;
         }
 
@@ -937,7 +937,7 @@
         const d = (dayEl.value !== '' && dayEl.value !== undefined) ? parseInt(dayEl.value, 10) : 15;
         if (isNaN(y) || y < 2005 || y > 2026 || isNaN(m) || m < 1 || m > 12 || isNaN(d) || d < 1 || d > 31) {
           const isEn = (typeof window !== 'undefined' && window.__KIDSFIT_GLOBAL_PAID_EDITION === true) || (typeof document !== 'undefined' && document.documentElement && (String(document.documentElement.lang || '').toLowerCase().startsWith('en') || (typeof document.documentElement.getAttribute === 'function' && document.documentElement.getAttribute('data-edition') === 'global-paid')));
-          showValidationToast(isEn ? 'Please enter a valid date of birth.' : '생년월일을 올바르게 선택해 주세요.', yearEl);
+          showValidationToast(isEn ? 'Please enter a valid date of birth.' : 'Please enter a valid date of birth.', yearEl);
           return false;
         }
         return true;
@@ -1021,15 +1021,15 @@
               (typeof document.documentElement.getAttribute === 'function' && document.documentElement.getAttribute('data-edition') === 'global-paid')
             ));
           if (isNaN(h) || h < 45.0 || h > 230.0) {
-            showValidationToast(isEnMetric ? 'Please enter a valid height (45 to 230 cm).' : '아이 키를 45cm ~ 230cm 사이로 입력해 주세요.', heightInput);
+            showValidationToast(isEnMetric ? 'Please enter a valid height (45 to 230 cm).' : 'US CDC Growth Reference 45cm ~ 230cm US CDC Growth Reference yrsUS CDC Growth Reference.', heightInput);
             return false;
           }
           if (isNaN(w) || w < 2.0 || w > 160.0) {
-            showValidationToast(isEnMetric ? 'Please enter a valid weight (2 to 160 kg).' : '아이 몸무게를 2kg ~ 160kg 사이로 입력해 주세요.', weightInput);
+            showValidationToast(isEnMetric ? 'Please enter a valid weight (2 to 160 kg).' : 'US CDC Growth Reference WeightUS CDC Growth Reference 2kg ~ 160kg US CDC Growth Reference yrsUS CDC Growth Reference.', weightInput);
             return false;
           }
           if (isNaN(r) || r < 0.0 || r > 20.0) {
-            showValidationToast(isEnMetric ? 'Please enter recent 6-month growth (0 to 20 cm).' : '최근 6개월 성장폭을 0 ~ 20cm 사이로 입력해 주세요.', recentInput);
+            showValidationToast(isEnMetric ? 'Please enter recent 6-month growth (0 to 20 cm).' : 'US CDC Growth Reference 6 mos US CDC Growth Reference 0 ~ 20cm US CDC Growth Reference yrsUS CDC Growth Reference.', recentInput);
             return false;
           }
           if (isNaN(fh) || fh < 100.0 || fh > 240.0) {
@@ -1126,21 +1126,21 @@
     const isLearningScan = wizardState.preferredReportMode === 'learning';
     const step1Msg = isEn
       ? (isLearningScan ? 'Matching K-DST & Prefrontal Working Memory Norms...' : 'Matching KDCA & CDC Official Growth Parameter Matrices...')
-      : (isLearningScan ? 'K-DST 두뇌 발달 & 전두엽 작업기억 표준 대조 중...' : '질병관리청 KDCA · CDC 국제 표준 성장 파라미터 대조 중...');
+      : (isLearningScan ? 'K-DST US CDC Growth Reference & US CDC Growth Reference...' : 'US CDC / KDCA KDCA · CDC US CDC Growth Reference...');
     const step2Msg = isEn
       ? (isLearningScan ? 'Matching 117 Cognitive Neuroscience & Literacy Papers...' : 'Matching 117 Pediatric Endocrinology & Neuroscience Papers...')
-      : (isLearningScan ? '117편 인지뇌과학·문해력·수리추론 학술 논문 매칭 중...' : '117편 소아내분비·뇌과학 학술 논문 매칭 중...');
+      : (isLearningScan ? '117US CDC Growth Reference...' : '117US CDC Growth Reference...');
     const step3Msg = isEn
       ? (isLearningScan ? 'Synthesizing 6-Month Brain & Study Roadmap...' : 'Synthesizing 90-Day Actionable Guidance Roadmap...')
-      : (isLearningScan ? '향후 6개월 맞춤 두뇌·공부법 & 연령별 교구 로드맵 생성 중...' : '향후 90일 맞춤 지도 로드맵(Actionable Guidance) 생성 중...');
+      : (isLearningScan ? 'US CDC Growth Reference 6 mos US CDC Growth Reference & US CDC Growth Reference...' : 'US CDC Growth Reference 90d US CDC Growth ReferenceActionable Guidance) US CDC Growth Reference...');
 
     if (titleEl) titleEl.textContent = step1Msg;
     if (descEl) {
       descEl.textContent = isEn
         ? 'Standardizing patient biometrics against national normative LMS tables...'
         : (isLearningScan
-          ? '아이의 월령별 두뇌 민감기·집중 지속시간·학습 병목 데이터를 인지발달 표본과 대조하고 있습니다.'
-          : '아이의 현재 키·몸무게·유전 예상키 데이터를 질병관리청 국가 임상 표본과 대조하고 있습니다.');
+          ? 'US CDC Growth Reference hrs·US CDC Growth Reference.'
+          : 'US CDC Growth ReferenceWeight·US CDC Growth Reference Projected Adult Height US CDC Growth Reference US CDC / KDCA US CDC Growth Reference.');
     }
 
     // Progress pulse
@@ -1159,8 +1159,8 @@
           descEl.textContent = isEn
             ? 'Filtering 117 research papers for active bio-inhibitors...'
             : (isLearningScan
-              ? '문해력, 수리 공간추론, 메타인지 백지복습, 해마 수면 기억코팅 논문 근거를 추출하고 있습니다.'
-              : '수면 성장호르몬, 야간 혈당, 척추 자세 및 골든타임 성장판 저해 인자별 논문 근거를 추출하고 있습니다.');
+              ? 'US CDC Growth ReferenceSleep US CDC Growth Reference.'
+              : 'Sleep Growth Hormone (HGH), US CDC Growth Referenceyrs US CDC Growth Reference Growth Plate US CDC Growth Reference.');
         }
       } else if (elapsed >= 2000 && elapsed < 3000) {
         if (titleEl) titleEl.textContent = step3Msg;
@@ -1168,8 +1168,8 @@
           descEl.textContent = isEn
             ? 'Finalizing 90-day actionable roadmap and clinical prescription...'
             : (isLearningScan
-              ? '아이 연령에 꼭 맞는 공부 루틴, 두뇌 교구·도서, 박물관 배경지식 코스를 도출하고 있습니다.'
-              : '식습관, 적정 몸무게 밸런스, 척추 감압 루틴, 연령별 성장 영양 행동 지침을 도출하고 있습니다.');
+              ? 'US CDC Growth Reference.'
+              : 'US CDC Growth ReferenceWeight US CDC Growth Reference, Spinal Decompression US CDC Growth ReferenceNutrition US CDC Growth Reference.');
         }
       }
 
@@ -1377,7 +1377,7 @@
 
       if (ageYearsSlider) ageYearsSlider.value = preset.ageYears;
       const isEnPreset = typeof document !== 'undefined' && document.documentElement && (document.documentElement.lang === 'en' || (typeof document.documentElement.getAttribute === 'function' && document.documentElement.getAttribute('data-edition') === 'global-paid'));
-      if (ageYearsDisplay) ageYearsDisplay.textContent = isEnPreset ? `Age ${preset.ageYears} yrs (${preset.ageMonths} mos)` : `${preset.ageYears}세 (${preset.ageMonths}개월)`;
+      if (ageYearsDisplay) ageYearsDisplay.textContent = isEnPreset ? `Age ${preset.ageYears} yrs (${preset.ageMonths} mos)` : `${preset.ageYears} yrs (${preset.ageMonths} mos)`;
       if (ageMonthsInput) ageMonthsInput.value = preset.ageMonths;
 
       // Height & Weight
@@ -1671,28 +1671,28 @@
         bannerEl.style.borderColor = '#BFDBFE';
         bannerEl.innerHTML = isEn
           ? '<strong>[Youth & Student Self-Coaching Guidebook]</strong> Hidden Height Recovery Routine & Supplement/Book Guide.'
-          : '<strong>[청소년·본인용 정밀 진단]</strong> 잠재 신장 회복 루틴 및 자기주도 학습 처방 보고서를 발행합니다.';
+          : '<strong>[US CDC Growth Reference Assessment]</strong> US CDC Growth Reference Height US CDC Growth Reference ReportUS CDC Growth Reference.';
       } else if (prefMode === 'growth') {
         bannerEl.style.color = '#1E3A8A';
         bannerEl.style.background = '#EFF6FF';
         bannerEl.style.borderColor = '#BFDBFE';
         bannerEl.innerHTML = isEn
           ? '<strong>[Report 1: Physical Growth Master Mode]</strong> Dedicated physical growth, bone-age & nutrition report.'
-          : '<strong>[DIAGNOSIS 01 · 소아 신체 성장 정밀 진단 모드]</strong> 설문 완료 시 질병관리청(KDCA) 기준 신체 성장·예상키·골연령 분석 보고서가 발행됩니다.';
+          : '<strong>[DIAGNOSIS 01 · US CDC Growth Reference Assessment US CDC Growth Reference]</strong> US CDC Growth Reference Complete US CDC Growth Reference US CDC / KDCA(KDCA) US CDC Growth ReferenceProjected Adult Height·Bone Age US CDC Growth Reference ReportUS CDC Growth Reference.';
       } else if (prefMode === 'learning') {
         bannerEl.style.color = '#1E3A8A';
         bannerEl.style.background = '#EFF6FF';
         bannerEl.style.borderColor = '#BFDBFE';
         bannerEl.innerHTML = isEn
           ? '<strong>[Report 2: Brain & Learning Master Mode]</strong> Dedicated 5-axis LQ, study bottlenecks & textbook roadmap report.'
-          : '<strong>[DIAGNOSIS 02 · 아동 신경인지·학습 정밀 진단 모드]</strong> 설문 완료 시 5각 두뇌 밸런스 차트 및 학습 병목 1:1 처방 보고서가 발행됩니다.';
+          : '<strong>[DIAGNOSIS 02 · US CDC Growth Reference Assessment US CDC Growth Reference]</strong> US CDC Growth Reference Complete US CDC Growth Reference 5US CDC Growth Reference 1:1 US CDC Growth Reference ReportUS CDC Growth Reference.';
       } else {
         bannerEl.style.color = '#1E3A8A';
         bannerEl.style.background = '#EFF6FF';
         bannerEl.style.borderColor = '#BFDBFE';
         bannerEl.innerHTML = isEn
           ? '<strong>[Parent\'s Child Growth & Learning Guidebook]</strong> Height Growth, Brain Roadmap & Pinpoint Supplements/Toys/Books.'
-          : '<strong>[소아·청소년 정밀 진단]</strong> 신체 성장 및 두뇌·학습 영역별 맞춤 분석 보고서를 발행합니다.';
+          : '<strong>[US CDC Growth Reference Assessment]</strong> US CDC Growth Reference ReportUS CDC Growth Reference.';
       }
     }
   }
@@ -1732,14 +1732,14 @@
         bannerEl.style.borderColor = '#BFDBFE';
         bannerEl.innerHTML = isEnBanner
           ? '<strong>[Neuro-Cognitive · 5-Axis Brain Balance Assessment]</strong> Synthesizing individualized clinical bottleneck & learning mastery reports backed by CDC/AAP developmental milestones and 117 peer-reviewed publications.'
-          : '<strong>[신경인지 · 5각 두뇌 밸런스 정밀 진단]</strong> 보건복지부 K-DST 발달선별검사 및 뇌인지 학술논문 117편 기반 학습 병목·공부법 보고서를 발행합니다.';
+          : '<strong>[US CDC Growth Reference 5US CDC Growth Reference Assessment]</strong> Pediatric Development Standard K-DST US CDC Growth Reference 117US CDC Growth Reference ReportUS CDC Growth Reference.';
       } else {
         bannerEl.style.color = '#1E3A8A';
         bannerEl.style.background = '#EFF6FF';
         bannerEl.style.borderColor = '#BFDBFE';
         bannerEl.innerHTML = isEnBanner
           ? '<strong>[Pediatric Growth · Epiphyseal Auxology Assessment]</strong> Synthesizing individualized adult height & growth-plate golden window reports backed by CDC/WHO auxological growth standards and 117 peer-reviewed publications.'
-          : '<strong>[소아 신체 성장 · 골연령 정밀 진단]</strong> 질병관리청(KDCA) 소아청소년 표준 성장도표 및 학술논문 117편 기반 예상키·골든타임 보고서를 발행합니다.';
+          : '<strong>[US CDC Growth Reference Bone Age US CDC Growth Reference Assessment]</strong> US CDC / KDCA(KDCA) US CDC Growth Reference 117US CDC Growth Reference Projected Adult Height·US CDC Growth Reference ReportUS CDC Growth Reference.';
       }
     }
 
@@ -1748,7 +1748,7 @@
       const isEnBtn = typeof document !== 'undefined' && document.documentElement && (document.documentElement.lang === 'en' || (typeof document.documentElement.getAttribute === 'function' && document.documentElement.getAttribute('data-edition') === 'global-paid'));
       submitBtnEl.textContent = isEnBtn
         ? ((activeMode === 'learning') ? 'Generate My Child\'s 5-Axis Brain & Learning Report →' : 'Generate My Child\'s Height & Growth-Plate Report →')
-        : ((activeMode === 'learning') ? '설문 응답 기반 5각 두뇌·학습 정밀 보고서 발행하기' : '설문 응답 기반 신체 성장·예상키 정밀 보고서 발행하기');
+        : ((activeMode === 'learning') ? 'US CDC Growth Reference 5US CDC Growth Reference Report US CDC Growth Reference' : 'US CDC Growth ReferenceProjected Adult Height US CDC Growth Reference Report US CDC Growth Reference');
     }
 
     if (typeof window !== 'undefined' && typeof window.loadKidsFitAcademicDataBundle === 'function') {
@@ -2325,7 +2325,7 @@
         const val = parseInt(e.target.value, 10);
         const months = val * 12;
         const isEnAge = typeof document !== 'undefined' && document.documentElement && document.documentElement.lang === 'en';
-        if (ageDisplay) ageDisplay.textContent = isEnAge ? `${val} yrs (${months} mos)` : `${val}세 (${months}개월)`;
+        if (ageDisplay) ageDisplay.textContent = isEnAge ? `${val} yrs (${months} mos)` : `${val} yrs (${months} mos)`;
         if (ageMonthsInput) ageMonthsInput.value = months;
       });
     }
@@ -2640,9 +2640,9 @@
     const prevBtn = document.getElementById('btn-prev-step');
 
     const isEnNarrative = typeof document !== 'undefined' && document.documentElement && (document.documentElement.lang === 'en' || (typeof document.documentElement.getAttribute === 'function' && document.documentElement.getAttribute('data-edition') === 'global-paid'));
-    if (tagEl) tagEl.textContent = isEnNarrative ? 'In-Depth Step (Step 6 Responses + Child Characteristics)' : '추가 심층 단계 (진단 6단계 + 아이 특징 합산)';
-    if (titleEl) titleEl.textContent = isEnNarrative ? 'Describe your child\'s unique traits, strengths, and areas of concern' : '우리 아이 특징·잘하는 점·부족한 점을 길게 적어주세요';
-    if (subtitleEl) subtitleEl.textContent = isEnNarrative ? 'Combines objective survey responses with personalized parent notes to synthesize an individualized clinical report.' : '진단 1~6단계 객관식 결과와 부모님이 적어주신 아이 특징을 더해서 세상에 하나뿐인 맞춤 보고서를 만듭니다.';
+    if (tagEl) tagEl.textContent = isEnNarrative ? 'In-Depth Step (Step 6 Responses + Child Characteristics)' : 'US CDC Growth ReferenceAssessment 6US CDC Growth Reference';
+    if (titleEl) titleEl.textContent = isEnNarrative ? 'Describe your child\'s unique traits, strengths, and areas of concern' : 'US CDC Growth Reference  pts·US CDC Growth Reference  ptsUS CDC Growth Reference yrsUS CDC Growth Reference';
+    if (subtitleEl) subtitleEl.textContent = isEnNarrative ? 'Combines objective survey responses with personalized parent notes to synthesize an individualized clinical report.' : 'Assessment 1~6US CDC Growth Reference  yrsUS CDC Growth Reference ReportUS CDC Growth Reference.';
     if (prevBtn) prevBtn.style.display = 'none';
 
     const noteEl = document.getElementById('parent-free-note');

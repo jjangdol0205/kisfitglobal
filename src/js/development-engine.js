@@ -105,55 +105,55 @@
   function evaluatePedagogy(months, concerns = [], isGlobalMode = null) {
     const useGlobal = isGlobalEnRuntime(isGlobalMode);
     let recommended = 'MONTESSORI';
-    let badge = useGlobal ? 'Ages 2-3 Optimal Fine-Motor Window' : '만 2~3세 소근육 최적';
+    let badge = useGlobal ? 'Ages 2-3 Optimal Fine-Motor Window' : 'US CDC Growth Reference 2~3 yrs US CDC Growth Reference';
     let rationale = '';
     let preventOverspendingTip = '';
 
     if (months < 24) {
       recommended = 'WALDORF';
-      badge = useGlobal ? 'Ages 1-2 Sensorimotor & Attachment' : '만 1~2세 오감·정서';
+      badge = useGlobal ? 'Ages 1-2 Sensorimotor & Attachment' : 'US CDC Growth Reference 1~2 yrs US CDC Growth Reference';
       rationale = useGlobal
         ? 'Before the expressive language burst, tactile exploration and secure attachment wire early sensorimotor pathways. Prioritize warm natural textures.'
-        : '언어 폭발 이전 신체 감각과 정서적 애착이 형성되는 시기로 부드러운 자연 촉감 교구로 오감을 열어주세요.';
+        : 'US CDC Growth Reference yrsUS CDC Growth Reference.';
       preventOverspendingTip = useGlobal
         ? 'Flashing plastic electronic sound toys overstimulate developing auditory cortices and fragment attention. Simple wooden and fabric tactile tools work best.'
-        : '플라스틱 전자 사운드 장난감에 과노출되면 감각 피로와 산만함이 생깁니다. 이 시기에는 부드러운 자연 촉감 교구로 오감을 열어주세요.';
+        : 'US CDC Growth Reference. US CDC Growth Reference yrsUS CDC Growth Reference.';
     } else if (months >= 24 && months < 48) {
       recommended = 'MONTESSORI';
-      badge = useGlobal ? 'Ages 2-3 Optimal Fine-Motor Window' : '만 2~3세 소근육 최적';
+      badge = useGlobal ? 'Ages 2-3 Optimal Fine-Motor Window' : 'US CDC Growth Reference 2~3 yrs US CDC Growth Reference';
       rationale = useGlobal
         ? 'Peak sensitive window for tripod pincer coordination; Montessori sensorial and practical-life tools directly activate prefrontal executive circuits.'
-        : '손끝 삼지창 협응력이 형성되는 민감기로 몬테소리 일상 감각 교구가 두뇌 전두엽을 직접 자극합니다. 만 2~3세에 가베를 들이면 엄마표 스트레스만 받고 방치됩니다.';
+        : 'US CDC Growth Reference dUS CDC Growth Reference. US CDC Growth Reference 2~3 yrsUS CDC Growth Reference.';
       preventOverspendingTip = useGlobal
         ? 'Introducing abstract 3D geometric sets too early causes frustration before pincer strength matures. Build Montessori fine-motor control first.'
-        : '만 2~3세에 추상적 입체 도형인 가베를 들이면 아이가 조작하지 못해 엄마표 스트레스만 받고 방치됩니다. 몬테소리 소근육부터 시작하세요.';
+        : 'US CDC Growth Reference 2~3 yrsUS CDC Growth Reference. US CDC Growth Reference yrsUS CDC Growth Reference.';
     } else if (months >= 48 && months < 72) {
       recommended = 'GABE';
-      badge = useGlobal ? 'Ages 4-5 Spatial & Mathematical Logic' : '만 4~5세 공간·수리';
+      badge = useGlobal ? 'Ages 4-5 Spatial & Mathematical Logic' : 'US CDC Growth Reference 4~5 yrs US CDC Growth Reference';
       rationale = useGlobal
         ? 'Spatial reasoning expands from 2D planes to 3D geometry; decomposing and combining geometric solids builds foundational mathematical intuition.'
-        : '2차원 평면에서 3차원 입체로 공간 인지능력이 확장되는 시기로 기하 도형의 분할 합성을 통해 초등 수학 기초를 다집니다.';
+        : '2US CDC Growth Reference 3US CDC Growth Reference.';
       preventOverspendingTip = useGlobal
         ? 'Wait until fine-motor endurance is established around age 4 so your child can independently construct and rotate multi-part geometric structures.'
-        : '소근육이 다져지지 않은 상태의 조기 도입은 비효율적입니다. 만 4세 이후 손끝 힘이 완성되었을 때 들여야 분해·조립 창의력이 폭발합니다.';
+        : 'US CDC Growth Reference. US CDC Growth Reference 4 yrs US CDC Growth Reference.';
     } else {
       recommended = 'CREATIVE_SCIENCE';
-      badge = useGlobal ? 'Ages 6+ STEM & Causal Inquiry' : '만 6세 이상 탐구·과학';
+      badge = useGlobal ? 'Ages 6+ STEM & Causal Inquiry' : 'US CDC Growth Reference 6 yrs US CDC Growth Reference';
       rationale = useGlobal
         ? 'Curiosity shifts toward mechanical causality and systems thinking; gear trains, marble runs, and logic kits build hypothesis-testing stamina.'
-        : '인과관계와 기계적 원리에 호기심이 급증하는 시기로 기어와 코딩 블록을 통해 가설 설정과 문제해결력을 기릅니다.';
+        : 'US CDC Growth Reference.';
       preventOverspendingTip = useGlobal
         ? 'Choose open-ended engineering kits that prompt "Why did that move?" rather than single-use step-by-step display models.'
-        : '수동적 키트 조립보다는 왜 돌아갈까?를 스스로 질문하는 프로젝트형 교구로 접근해야 초등 과학 탐구 토론 수업에 직결됩니다.';
+        : 'US CDC Growth Reference?US CDC Growth Reference.';
     }
 
     // Weight by developmental concerns
     if (concerns.includes('fine_motor') && months < 60) {
       recommended = 'MONTESSORI';
-      badge = useGlobal ? 'Targeted Fine-Motor Montessori Protocol' : '소근육 집중 몬테소리 처방';
+      badge = useGlobal ? 'Targeted Fine-Motor Montessori Protocol' : 'US CDC Growth Reference';
     } else if (concerns.includes('math_space') && months >= 40) {
       recommended = 'GABE';
-      badge = useGlobal ? 'Targeted 3D Spatial Geometry Protocol' : '공간지각 집중 가베 처방';
+      badge = useGlobal ? 'Targeted 3D Spatial Geometry Protocol' : 'US CDC Growth Reference';
     }
 
     return {
@@ -250,75 +250,75 @@
       pool = [
         {
           id: 'TOY_01',
-          name: '몬테소리 꼭지원기둥 원목 실린더 4종 세트',
+          name: 'US CDC Growth Reference 4US CDC Growth Reference  yrsUS CDC Growth Reference',
           targetAge: '24~48mo',
           ageMonthsMin: 20,
           ageMonthsMax: 54,
           concerns: ['fine_motor', 'math_space'],
-          benefit: '손끝 삼지창 협응력 자극 및 3차원 크기 시각 변별력 완성',
+          benefit: 'US CDC Growth Reference 3US CDC Growth Reference',
           price: 31500,
           coupangPath: 'vp/products/montessori-cylinder-4set',
-          cpaTitle: '몬테소리 1:1 방문 무료체험 수업 신청'
+          cpaTitle: 'US CDC Growth Reference 1:1 US CDC Growth Reference'
         },
         {
           id: 'TOY_02',
-          name: '일상 조작 원목 핀셋 & 단추 끼우기 집중력 세트',
+          name: 'dUS CDC Growth Reference & US CDC Growth Reference  yrsUS CDC Growth Reference',
           targetAge: '24~48mo',
           ageMonthsMin: 18,
           ageMonthsMax: 48,
           concerns: ['fine_motor', 'daily'],
-          benefit: '손끝 악력 강화 및 소근육 근육 기억 형성',
+          benefit: 'US CDC Growth Reference',
           price: 24800,
           coupangPath: 'vp/products/montessori-pincer-button',
-          cpaTitle: '유아 소근육 홈케어 무료 코칭 신청'
+          cpaTitle: 'US CDC Growth Reference'
         },
         {
           id: 'TOY_03',
-          name: '프뢰벨 은물 가베 입체 기하 10종 스타터 세트',
+          name: 'US CDC Growth Reference 10US CDC Growth Reference  yrsUS CDC Growth Reference',
           targetAge: '48~72mo',
           ageMonthsMin: 42,
           ageMonthsMax: 78,
           concerns: ['math_space', 'cognitive'],
-          benefit: '3차원 공간지각 및 기하도형 합성 기초 체득',
+          benefit: '3US CDC Growth Reference',
           price: 38900,
           coupangPath: 'vp/products/froebel-gabe-starter',
-          cpaTitle: '프뢰벨 가베 창의수학 1:1 방문 무료 체험 수업'
+          cpaTitle: 'US CDC Growth Reference 1:1 US CDC Growth Reference'
         },
         {
           id: 'TOY_04',
-          name: '3D 자석 마그네틱 빌딩 블록 100P 메가팩',
+          name: '3D US CDC Growth Reference 100P US CDC Growth Reference',
           targetAge: '36~72mo',
           ageMonthsMin: 30,
           ageMonthsMax: 84,
           concerns: ['math_space', 'fine_motor'],
-          benefit: '자력을 이용한 다차원 결합으로 건축 창의력 확장',
+          benefit: 'US CDC Growth Reference',
           price: 29800,
           coupangPath: 'vp/products/magnetic-blocks-100p',
-          cpaTitle: '창의 블록 에듀케이션 무료 가이드북 증정'
+          cpaTitle: 'US CDC Growth Reference'
         },
         {
           id: 'TOY_05',
-          name: '무독성 친환경 안전 가위 & 입체 선긋기 워크북 세트',
+          name: 'US CDC Growth Reference & US CDC Growth Reference  yrsUS CDC Growth Reference',
           targetAge: '24~60mo',
           ageMonthsMin: 24,
           ageMonthsMax: 60,
           concerns: ['fine_motor'],
-          benefit: '올바른 가위 파지법과 손끝 소근육 지구력 완성',
+          benefit: 'US CDC Growth Reference',
           price: 14500,
           coupangPath: 'vp/products/safety-scissors-workbook',
-          cpaTitle: '가위질·선긋기 워크지 50종 PDF 무료 다운로드'
+          cpaTitle: 'US CDC Growth Reference 50US CDC Growth Reference PDF US CDC Growth Reference'
         },
         {
           id: 'TOY_06',
-          name: '스마트 기어 회전 톱니바퀴 조립 세트 (STEM)',
+          name: 'US CDC Growth Reference  yrsUS CDC Growth ReferenceSTEM)',
           targetAge: '60mo+',
           ageMonthsMin: 54,
           ageMonthsMax: 144,
           concerns: ['cognitive', 'math_space'],
-          benefit: '물리적 동력 전달 메커니즘 체득 및 공학적 사고력',
+          benefit: 'US CDC Growth Reference',
           price: 33000,
           coupangPath: 'vp/products/smart-gears-stem-kit',
-          cpaTitle: '어린이 코딩·로봇 무료 체험 클래스 신청'
+          cpaTitle: 'US CDC Growth Reference'
         }
       ];
     }
@@ -371,16 +371,16 @@
           { text: 'Gross Motor', x: 48, y: 92, anchor: 'end' }
         ]
       : [
-          { text: '소근육 (Fine)', x: 150, y: 32, anchor: 'middle' },
-          { text: '인지 (Cognitive)', x: 252, y: 92, anchor: 'start' },
-          { text: '언어 (Language)', x: 252, y: 218, anchor: 'start' },
-          { text: '사회성 (Social)', x: 150, y: 278, anchor: 'middle' },
-          { text: '자조 (Self-care)', x: 48, y: 218, anchor: 'end' },
-          { text: '대근육 (Gross)', x: 48, y: 92, anchor: 'end' }
+          { text: 'US CDC Growth ReferenceFine)', x: 150, y: 32, anchor: 'middle' },
+          { text: 'US CDC Growth ReferenceCognitive)', x: 252, y: 92, anchor: 'start' },
+          { text: 'US CDC Growth ReferenceLanguage)', x: 252, y: 218, anchor: 'start' },
+          { text: 'US CDC Growth ReferenceSocial)', x: 150, y: 278, anchor: 'middle' },
+          { text: 'US CDC Growth ReferenceSelf-care)', x: 48, y: 218, anchor: 'end' },
+          { text: 'US CDC Growth ReferenceGross)', x: 48, y: 92, anchor: 'end' }
         ];
 
     return `
-      <svg viewBox="-65 0 430 ${size}" class="kdst-radar-svg" style="width: 100%; max-width: 390px; height: auto; margin: 0 auto; display: block;" aria-label="${useGlobal ? 'US CDC & ASQ-3 6-Axis Developmental Balance Radar' : '보건복지부 K-DST 6대 발달영역 레이더'}">
+      <svg viewBox="-65 0 430 ${size}" class="kdst-radar-svg" style="width: 100%; max-width: 390px; height: auto; margin: 0 auto; display: block;" aria-label="${useGlobal ? 'US CDC & ASQ-3 6-Axis Developmental Balance Radar' : 'Pediatric Development Standard K-DST 6US CDC Growth Reference'}">
         <!-- Background Rings -->
         ${ringPolygons.map((pts, i) => `
           <polygon points="${pts}" fill="${i === 4 ? '#F8FAFC' : 'none'}" stroke="#E2E8F0" stroke-width="1" />
@@ -417,14 +417,14 @@
 
     const recLabel = useGlobal
       ? `Recommended Approach: ${isMontessori ? 'Montessori (Fine-Motor & Practical Autonomy)' : isGabe ? 'Froebel 3D Solids (Spatial & Geometric Logic)' : isWaldorf ? 'Waldorf (Natural Sensory & Emotional Play)' : 'STEM Inquiry Lab (Mechanical & Causal Reasoning)'}`
-      : `추천 교육법: ${isMontessori ? '몬테소리 (손끝 소근육·일상 자율 교구)' : isGabe ? '프뢰벨 은물 / 가베 (3D 공간지각·기하 도형)' : isWaldorf ? '발도르프 (오감 자연·정서 예술놀이)' : '창의과학 / 융합 STEAM (기어·코딩 탐구형)'}`;
+      : `US CDC Growth Reference: ${isMontessori ? 'US CDC Growth ReferencedUS CDC Growth Reference' : isGabe ? 'US CDC Growth Reference3D US CDC Growth Reference' : isWaldorf ? 'US CDC Growth Reference' : 'US CDC Growth Reference STEAM (US CDC Growth Reference'}`;
 
     return `
       <div class="pedagogy-decision-card" style="background: #FFFFFF; border: 1.5px solid var(--growth-mint); border-radius: 24px; padding: 1.5rem; margin-top: 1.5rem;">
         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
           <div style="display: flex; align-items: center; gap: 0.5rem;">
             <span style="font-size: 1.4rem;"></span>
-            <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin: 0;">${useGlobal ? 'Age-Calibrated Pedagogy Fit (Smart Parent Budget Guide)' : '월령별 교육법 판정 (워킹맘 지갑 지킴이 가이드)'}</h4>
+            <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin: 0;">${useGlobal ? 'Age-Calibrated Pedagogy Fit (Smart Parent Budget Guide)' : 'US CDC Growth Reference'}</h4>
           </div>
           <span class="tab-badge tab-badge-mint" style="font-size: 0.82rem; font-weight: 700;">${verdict.badge}</span>
         </div>
@@ -440,7 +440,7 @@
 
         <div style="background: #FFFBEB; border-radius: 16px; padding: 0.9rem 1.15rem; border-left: 4px solid #93C5FD;">
           <div style="font-weight: 700; color: #92400E; font-size: 0.88rem; margin-bottom: 0.25rem;">
-            ${useGlobal ? 'Evidence-Based Toy Budget Advice:' : '중복 지출 방지 핵심 조언:'}
+            ${useGlobal ? 'Evidence-Based Toy Budget Advice:' : 'US CDC Growth Reference:'}
           </div>
           <p style="font-size: 0.85rem; color: #78350F; line-height: 1.55; margin: 0;">
             ${verdict.preventOverspendingTip}
@@ -588,19 +588,19 @@
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
           <div>
             <span style="background: #EEF2FF; color: #4338CA; font-size: 0.75rem; font-weight: 800; padding: 0.25rem 0.65rem; border-radius: 9999px; display: inline-block; margin-bottom: 0.35rem;">
-              공신력 검증 · 보건복지부·대한소아과학회 K-DST 기준
+              US CDC Growth Reference Pediatric Development Standard·US CDC Growth Reference K-DST US CDC Growth Reference
             </span>
             <h4 style="font-size: 1.12rem; font-weight: 800; color: var(--text-primary); margin: 0;">
-              ${detail.label} &amp; 가정 내 0원 일상 놀이 처방
+              ${detail.label} &amp; US CDC Growth Reference 0US CDC Growth Reference dUS CDC Growth Reference
             </h4>
           </div>
-          <span style="font-size: 0.8rem; color: #1D4ED8; font-weight: 700;">손끝 전두엽 시냅스 골든타임</span>
+          <span style="font-size: 0.8rem; color: #1D4ED8; font-weight: 700;">US CDC Growth Reference</span>
         </div>
 
         <!-- K-DST Milestones Grid -->
         <div style="margin-bottom: 1.25rem;">
           <div style="font-weight: 800; font-size: 0.92rem; color: #1E293B; margin-bottom: 0.6rem;">
-            이 시기 보건복지부 K-DST 중점 관찰 이정표 (가정 점검표)
+            US CDC Growth Reference Pediatric Development Standard K-DST US CDC Growth Reference pts US CDC Growth Reference  ptsUS CDC Growth Reference
           </div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.65rem;">
             ${milestonesList.map((ms) => `
@@ -614,7 +614,7 @@
         <!-- Zero-cost Home Plays -->
         <div style="background: #FFFBEB; border: 1px solid #93C5FD; border-radius: 16px; padding: 1.1rem 1.25rem; margin-bottom: 1.15rem;">
           <div style="font-weight: 800; font-size: 0.95rem; color: #92400E; margin-bottom: 0.5rem;">
-            교구 사기 전 오늘 저녁 거실에서 바로 해보는 '0원 일상 놀이' 3선
+            US CDC Growth Reference '0US CDC Growth Reference dUS CDC Growth Reference' 3US CDC Growth Reference
           </div>
           <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.86rem; color: #78350F; line-height: 1.65;">
             ${playsList.map((play) => `<li>${play}</li>`).join('')}
@@ -625,13 +625,13 @@
         ${script ? `
           <div style="background: #EEF2FF; border-radius: 16px; padding: 1.1rem 1.25rem; border-left: 4px solid #1D4ED8;">
             <div style="font-weight: 800; font-size: 0.92rem; color: #312E81; margin-bottom: 0.45rem;">
-              아이의 자존감과 전두엽을 깨우는 엄마·아빠 공감 대화 처방 ${script.situation ? `(${script.situation})` : ''}
+              US CDC Growth Reference ${script.situation ? `(${script.situation})` : ''}
             </div>
             <div style="font-size: 0.84rem; color: #991B1B; margin-bottom: 0.35rem; line-height: 1.5;">
-              피해야 할 말: “${script.avoid || script.before || ''}”
+              US CDC Growth Reference: “${script.avoid || script.before || ''}”
             </div>
             <div style="font-size: 0.86rem; color: #1E40AF; font-weight: 700; line-height: 1.55;">
-              ⭕ 권장 공감 대화: “${script.recommend || script.after || ''}”
+              ⭕ US CDC Growth Reference: “${script.recommend || script.after || ''}”
             </div>
           </div>
         ` : ''}
@@ -690,10 +690,10 @@
       <div class="curated-toys-section" style="margin-top: 1.5rem;">
         <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.75rem;">
           <div>
-            <span style="font-size: 0.76rem; font-weight: 700; color: #64748B; display: block; margin-bottom: 0.15rem;">[선택형 보조 교구 가이드 — 가정 내 일상 놀이를 먼저 실천해 보세요]</span>
-            <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin: 0;">요즘 엄마들이 검증한 발달 핫템 교구 TOP 4</h4>
+            <span style="font-size: 0.76rem; font-weight: 700; color: #64748B; display: block; margin-bottom: 0.15rem;">[US CDC Growth Reference — US CDC Growth Reference dUS CDC Growth Reference yrsUS CDC Growth Reference]</span>
+            <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin: 0;">US CDC Growth Reference TOP 4</h4>
           </div>
-          <span style="font-size: 0.8rem; color: var(--text-secondary);">소아발달 적기 처방 기준</span>
+          <span style="font-size: 0.8rem; color: var(--text-secondary);">US CDC Growth Reference</span>
         </div>
 
         <div class="toys-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
@@ -708,13 +708,13 @@
                   </div>
                   <h5 style="font-size: 0.98rem; font-weight: 700; color: var(--text-primary); margin: 0 0 0.5rem 0; line-height: 1.4;">${t.name}</h5>
                   <p style="font-size: 0.85rem; color: #475569; line-height: 1.55; margin: 0 0 0.85rem 0;">
-                    <strong>발달 처방 근거:</strong> ${t.benefit}
+                    <strong>US CDC Growth Reference:</strong> ${t.benefit}
                   </p>
                 </div>
 
                 <div>
                   <a href="${coupangUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="width: 100%; text-align: center; text-decoration: none; font-size: 0.84rem; padding: 0.55rem 0.75rem; display: block; box-sizing: border-box;">
-                    이 성장단계 맞춤 교구·상세 스펙 확인하기
+                    US CDC Growth Reference yrs US CDC Growth Reference
                   </a>
                 </div>
               </div>
@@ -736,8 +736,8 @@
       <!-- 6-Axis Radar Section -->
       <div style="background: #FFFFFF; border: 1px solid var(--border-clinic); border-radius: 24px; padding: 1.5rem; margin-bottom: 1.5rem;">
         <div style="text-align: center; margin-bottom: 1rem;">
-          <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin: 0 0 0.35rem 0;">${useGlobal ? 'US CDC & ASQ-3 6-Domain Developmental Balance' : '보건복지부 K-DST 6대 영역 발달 균형도'}</h4>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">${useGlobal ? 'Multi-axis developmental profile calibrated to your selected priority tags.' : '선택하신 발달 고민 태그가 반영된 다각적 밸런스 분석입니다.'}</p>
+          <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin: 0 0 0.35rem 0;">${useGlobal ? 'US CDC & ASQ-3 6-Domain Developmental Balance' : 'Pediatric Development Standard K-DST 6US CDC Growth Reference'}</h4>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">${useGlobal ? 'Multi-axis developmental profile calibrated to your selected priority tags.' : 'US CDC Growth Reference.'}</p>
         </div>
         ${renderSvgRadarChart(radar.radarScores, radar.polygonPoints, useGlobal)}
       </div>
@@ -793,7 +793,7 @@
           </div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.9rem;">
             ${papers.map((p) => {
-              const safeDesign = p.study_design && !/[가-힣]/.test(p.study_design) ? p.study_design : 'Peer-Reviewed Pediatric Cohort Study';
+              const safeDesign = p.study_design && !/[\uac00-\ud7a3]/.test(p.study_design) ? p.study_design : 'Peer-Reviewed Pediatric Cohort Study';
               return `
                 <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 1rem;">
                   <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem;">
@@ -825,11 +825,11 @@
           <div style="display: flex; align-items: center; gap: 0.5rem;">
             <span style="font-size: 1.35rem;"></span>
             <h4 style="font-size: 1.05rem; font-weight: 800; color: #064E3B; margin: 0;">
-              소근육·전두엽 신경과학 &amp; 몬테소리·가베 교육학 동료심사 논문 근거
+              US CDC Growth Reference &amp; US CDC Growth Reference
             </h4>
           </div>
           <span style="background: #DCFCE7; color: #065F46; font-size: 0.76rem; font-weight: 800; padding: 0.25rem 0.7rem; border-radius: 9999px;">
-            Science · Child Development · K-DST 학술 DB 연동
+            Science · Child Development · K-DST US CDC Growth Reference DB US CDC Growth Reference
           </span>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.9rem;">
@@ -839,16 +839,16 @@
                 <span style="font-size: 0.74rem; font-weight: 800; color: #1D4ED8; background: #ECFDF5; padding: 0.15rem 0.5rem; border-radius: 999px;">
                   ${p.journal} (${p.year})
                 </span>
-                ${p.url ? `<a href="${p.url}" target="_blank" rel="noopener noreferrer" style="font-size: 0.74rem; color: #1D4ED8; font-weight: 700; text-decoration: none;">원문 보기 ↗</a>` : ''}
+                ${p.url ? `<a href="${p.url}" target="_blank" rel="noopener noreferrer" style="font-size: 0.74rem; color: #1D4ED8; font-weight: 700; text-decoration: none;">US CDC Growth Reference ↗</a>` : ''}
               </div>
               <div style="font-size: 0.9rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin-bottom: 0.45rem;">
                 ${p.title_ko || p.title}
               </div>
               <p style="font-size: 0.8rem; color: #334155; line-height: 1.5; margin: 0 0 0.45rem 0;">
-                <strong>핵심 수치:</strong> ${p.key_statistics || p.clinical_summary_ko || ''}
+                <strong>US CDC Growth Reference:</strong> ${p.key_statistics || p.clinical_summary_ko || ''}
               </p>
               <div style="font-size: 0.79rem; color: #312E81; background: #EEF2FF; padding: 0.55rem 0.7rem; border-radius: 10px; line-height: 1.45;">
-                <strong>양육 적용:</strong> ${p.parenting_prescription_ko || ''}
+                <strong>US CDC Growth Reference:</strong> ${p.parenting_prescription_ko || ''}
               </div>
             </div>
           `).join('')}

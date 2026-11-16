@@ -1,21 +1,21 @@
 /**
- * Taller Bio Labs (키즈핏 바이오 랩)
+ * Taller Bio Labs (KISFIT Bio Labs)
  * Multimodal Haptic Feedback, Typewriter Streamer & 60-Second Personalized Analysis Theatre
  * (src/js/haptic-typewriter.js)
  *
  * Features:
  * 1. Multimodal Haptic Feedback Engine:
- *    - Android/Mobile: navigator.vibrate() patterns
- *    - iOS/Desktop/All: Web Audio API synthesized mechanical/clinical micro-tick & chimes
- *    - Visual Haptic Pulse: CSS spring bounce & neon cursor glow
- *    - User Toggle: ${isEn ? 'Haptic ON' : '햅틱·진동 ON'}/OFF safety switch
+ * - Android/Mobile: navigator.vibrate patterns
+ * - iOS/Desktop/All: Web Audio API synthesized mechanical/clinical micro-tick & chimes
+ * - Visual Haptic Pulse: CSS spring bounce & neon cursor glow
+ * - User Toggle: ${isEn ? 'Haptic ON' : ' ON'}/OFF safety switch
  * 2. Taller-Style Typewriter Streamer:
- *    - Streams clinical analysis headlines character-by-character with punctuation micro-pauses
- *    - Fires subtle tactile ticks every 3 characters
+ * - Streams clinical analysis headlines character-by-character with punctuation micro-pauses
+ * - Fires subtle tactile ticks every 3 characters
  * 3. 60-Second Personalized Waiting Content Theatre:
- *    - 6-Stage (10s each) live clinical computation progress bar & countdown timer
- *    - 6 Dynamic Child-Specific Briefing Cards (injected with exact DOB months/days, height, MPH, habits, and N -> N+1 -> N+2 age preview)
- *    - Interactive 1-Second Touch O/X Parent Fact Quiz with instant haptic & paper-backed answer reveal
+ * - 6-Stage (10s each) live clinical computation progress bar & countdown timer
+ * - 6 Dynamic Child-Specific Briefing Cards (injected with exact DOB months/days, height, MPH, habits, and N -> N+1 -> N+2 age preview)
+ * - Interactive 1-Second Touch O/X Parent Fact Quiz with instant haptic & paper-backed answer reveal
  */
 
 (function (global) {
@@ -314,7 +314,7 @@
         }
       ];
     }
-    const genderKo = profile.gender === 'girl' ? '여아' : '남아';
+    const genderKo = profile.gender === 'girl' ? 'Girl' : 'Boy';
     const ageMonths = Number(profile.ageMonths) || 120;
     const exactMonths = Number(profile.exactMonths || ageMonths).toFixed(1);
     const ageYears = Math.max(1, Math.min(20, Math.floor(ageMonths / 12)));
@@ -328,108 +328,108 @@
     const closureAge = profile.gender === 'girl' ? 15 : 17;
     const remYearsMin = Math.max(1, closureAge - ageYears - 1);
     const remYearsMax = Math.max(remYearsMin + 1, closureAge - ageYears);
-    const dobDisplay = profile.birthDateStr || `${new Date().getFullYear() - ageYears}년생`;
+    const dobDisplay = profile.birthDateStr || `${new Date().getFullYear() - ageYears}US CDC Growth Reference`;
     const habits = Array.isArray(profile.habits) ? profile.habits : ['late_sleep'];
 
     if (isLearning) {
       const brainStageFocus = ageYears <= 3
-        ? '대뇌 운동피질 30% 손끝 소근육 시냅스 폭발기 & 상호작용 어휘 형성기'
+        ? 'US CDC Growth Reference ExerciseUS CDC Growth Reference 30% US CDC Growth Reference & US CDC Growth Reference'
         : ageYears <= 6
-        ? '두정엽 3D 입체 공간회전 민감기 & 이야기 맥락·수 감각 형성기'
+        ? 'US CDC Growth Reference 3D US CDC Growth Reference & US CDC Growth Reference'
         : ageYears <= 9
-        ? '배외측 전전두엽(DLPFC) 피질 두께 정점기 & 메타인지·문해력 도약기'
-        : '전두엽 고차원 추론·비판적 독해 & 자기주도 인출학습(백지복습) 완성기';
+        ? 'US CDC Growth ReferenceDLPFC) US CDC Growth Reference ptsUS CDC Growth Reference & US CDC Growth Reference'
+        : 'US CDC Growth Reference & US CDC Growth Reference';
 
       return [
         {
-          badge: `학습 브리핑 1/6 · 만 ${ageYears}세 두뇌 발달 민감기 정밀 매핑`,
-          title: `${dobDisplay} (생후 ${exactMonths}개월) ${genderKo}, 지금 가장 활발한 두뇌 회로는?`,
-          body: `만 ${ageYears}세는 <strong>[${brainStageFocus}]</strong>입니다. 아이의 연령에 맞지 않는 어려운 문제집이나 단순 암기 대신 지금 깨어나는 뇌 회로를 자극해야 학습 효율이 2배 이상 높아집니다.`,
-          highlight: `3,714편 인지신경과학·교육심리학 논문 기준으로 만 ${ageYears}세 맞춤 학습지수(LQ)를 산출 중입니다.`
+          badge: `US CDC Growth Reference 1/6 · US CDC Growth Reference ${ageYears} yrs US CDC Growth Reference`,
+          title: `${dobDisplay} (US CDC Growth Reference ${exactMonths} mos) ${genderKo}, US CDC Growth Reference?`,
+          body: `US CDC Growth Reference ${ageYears} yrsUS CDC Growth Reference <strong>[${brainStageFocus}]</strong>US CDC Growth Reference. US CDC Growth Reference 2US CDC Growth Reference.`,
+          highlight: `3,714US CDC Growth Reference ${ageYears} yrs US CDC Growth ReferenceLQ)US CDC Growth Reference.`
         },
         {
-          badge: `학습 브리핑 2/6 · 5각 두뇌·학습 역량 레이더 & 강약점 판정`,
-          title: `문해력 · 수리공간 · 집중력 · 메타인지 · 탐구력 5대 지표 분석 중`,
-          body: `설문에서 선택하신 독서·수학·집중·기억 패턴을 분석하여 <strong>우리 아이가 가장 잘하는 강점 TOP 3</strong>와 <strong>지금 바로 보완해주어야 할 학습 병목 TOP 3</strong>를 1순위부터 3순위까지 도출하고 있습니다.`,
-          highlight: `강점 영역은 자신감 부스터로 키우고, 약점 병목은 아이 성향에 맞는 1:1 공부법으로 길을 열어드립니다.`
+          badge: `US CDC Growth Reference 2/6 · 5US CDC Growth Reference & US CDC Growth Reference pts US CDC Growth Reference`,
+          title: `US CDC Growth Reference 5US CDC Growth Reference`,
+          body: `US CDC Growth Reference <strong>US CDC Growth Reference pts TOP 3</strong>US CDC Growth Reference <strong>US CDC Growth Reference TOP 3</strong>US CDC Growth Reference 1US CDC Growth Reference 3US CDC Growth Reference.`,
+          highlight: `US CDC Growth Reference pts US CDC Growth Referencepts US CDC Growth Reference 1:1 US CDC Growth Reference.`
         },
         {
-          badge: `학습 브리핑 3/6 · 백지복습(인출학습)과 전두엽 작업기억의 비밀`,
-          title: `눈으로 4번 다시 읽기보다 '책 덮고 3분 말하기'가 기억을 2.4배 오래 남깁니다`,
-          body: `Roediger & Karpicke(2006)의 뇌과학 연구에 따르면, 공부를 마친 직후 책을 덮고 <strong>오늘 배운 핵심 3가지를 스스로 말하거나 적어보는 인출 연습</strong>만으로도 1주일 뒤 장기기억 보존율이 <strong>48% → 92%</strong>로 도약합니다.`,
-          highlight: `잠시 후 열리는 학습 보고서에서 우리 아이 맞춤형 4단계 일일 자기주도 학습 루틴을 확인하세요!`
+          badge: `US CDC Growth Reference 3/6 · US CDC Growth Reference`,
+          title: `US CDC Growth Reference 4US CDC Growth Reference 'US CDC Growth Reference 3US CDC Growth Reference'US CDC Growth Reference 2.4US CDC Growth Reference`,
+          body: `Roediger & Karpicke(2006)US CDC Growth Reference<strong>US CDC Growth Reference 3US CDC Growth Reference</strong>US CDC Growth Reference 1US CDC Growth Referenced US CDC Growth Reference <strong>48% → 92%</strong>US CDC Growth Reference.`,
+          highlight: `US CDC Growth Reference ReportUS CDC Growth Reference 4US CDC Growth Reference dd US CDC Growth Reference yrsUS CDC Growth Reference!`
         },
         {
-          badge: `학습 브리핑 4/6 · 밤 10시 수면 기억 공고화 (해마 → 대뇌피질)`,
-          title: `낮에 배운 공부가 진짜 실력이 되는 시간은 '밤 10시 깊은 잠'입니다`,
-          body: `낮 동안 해마(단기기억 임시저장소)에 들어온 어휘와 수학 개념은 <strong>밤 10시~새벽 2시 깊은 서파수면(SWS)</strong> 동안 대뇌 신피질로 전송되어 영구적인 장기기억으로 코팅됩니다.`,
-          highlight: `취침 1시간 전 스마트폰 차단과 충분한 숙면이 집중시간을 ${ageYears <= 4 ? '10분 → 20분' : '15분 → 35분'}으로 늘려줍니다.`
+          badge: `US CDC Growth Reference 4/6 · US CDC Growth Reference 10US CDC Growth Reference Sleep US CDC Growth Reference → US CDC Growth Reference`,
+          title: `US CDC Growth Reference  hrsUS CDC Growth Reference 'US CDC Growth Reference 10US CDC Growth Reference'US CDC Growth Reference`,
+          body: `US CDC Growth Reference <strong>US CDC Growth Reference 10US CDC Growth Reference 2US CDC Growth Reference Slow-Wave Sleep (N3)(SWS)</strong> US CDC Growth Reference.`,
+          highlight: `US CDC Growth Reference 1 hrs US CDC Growth Reference hrsUS CDC Growth Reference ${ageYears <= 4 ? '10US CDC Growth Reference → 20US CDC Growth Reference' : '15US CDC Growth Reference → 35US CDC Growth Reference'}US CDC Growth Reference.`
         },
         {
-          badge: `학습 브리핑 5/6 · 강점 성향 기반 미래 유망 진로 & 전공 매칭`,
-          title: `우리 아이의 두뇌 강점이 가장 빛날 미래 직업 1위~3위는 무엇일까요?`,
-          body: `아이의 최상위 강점 역량과 학습 흡수 스타일(문답형·조작형·시각형·성취형)을 결합하여, <strong>미래 핵심 진로 TOP 3와 연계 전공 로드맵</strong>을 함께 설계하고 있습니다.`,
-          highlight: `만 ${ageYears}세 → 만 ${nextAge1}세 → 만 ${nextAge2}세로 이어지는 3개년 교과·사고력 전환 로드맵이 곧 공개됩니다.`
+          badge: `US CDC Growth Reference 5/6 · US CDC Growth Reference pts US CDC Growth Reference & US CDC Growth Reference`,
+          title: `US CDC Growth Reference ptsUS CDC Growth Reference 1US CDC Growth Reference3US CDC Growth ReferencedUS CDC Growth Reference?`,
+          body: `US CDC Growth Reference pts US CDC Growth Referenced(US CDC Growth Reference, <strong>US CDC Growth Reference TOP 3US CDC Growth Reference</strong>US CDC Growth Reference.`,
+          highlight: `US CDC Growth Reference ${ageYears} yrs → US CDC Growth Reference ${nextAge1} yrs → US CDC Growth Reference ${nextAge2} yrsUS CDC Growth Reference 3US CDC Growth Reference.`
         },
         {
-          badge: `학습 브리핑 6/6 · 만 ${ageYears}세 맞춤 교구·도서·주말 박물관 코스 완성`,
-          title: `우리 아이만을 위한 1:1 두뇌·학습 시각 그래프 & 처방전이 완성됩니다!`,
-          body: `5각 두뇌 레이더 차트, 6개월 학습·집중력 3중 성장 곡선, 그림으로 보는 3단계 공부법 가이드, 그리고 연령에 딱 맞는 <strong>사고력 교구·필독서·주말 체험 코스</strong>가 곧 열립니다.`,
-          highlight: `결과 화면 상단에서 [5각 두뇌 밸런스 차트 & 6개월 학습 성장 곡선]을 바로 확인하세요!`
+          badge: `US CDC Growth Reference 6/6 · US CDC Growth Reference ${ageYears} yrs US CDC Growth Reference`,
+          title: `US CDC Growth Reference 1:1 US CDC Growth Reference & Growth GuideUS CDC Growth Reference!`,
+          body: `5US CDC Growth Reference, 6 mos US CDC Growth Reference 3US CDC Growth Reference3US CDC Growth Reference<strong>US CDC Growth Reference</strong>US CDC Growth Reference.`,
+          highlight: `US CDC Growth Reference [5US CDC Growth Reference & 6 mos US CDC Growth Reference]US CDC Growth Reference yrsUS CDC Growth Reference!`
         }
       ];
     }
 
     // Physical Growth Mode (100% Pure Growth: Height, Weight, BMI, Growth Plate, Sleep GH, Nutrition, Posture)
-    let growthStageFocus = '유아기 기초 골격 형성 & 밤 9시 30분 성장호르몬 숙면 리듬 고정';
-    let keyIngredient = '구연산·어골칼슘 + 비타민D3·K2 + 아연·초유 단백질';
+    let growthStageFocus = 'US CDC Growth Reference & US CDC Growth Reference 9US CDC Growth Reference 30US CDC Growth Reference Growth Hormone (HGH) US CDC Growth Reference';
+    let keyIngredient = 'US CDC Growth Reference VitaminD3·K2 + Zinc·US CDC Growth Reference Protein';
     if (ageYears >= 4 && ageYears <= 6) {
-      growthStageFocus = '하지(대퇴골·경골) 성장판 연골 증식 가속 & 실내 점핑 미세하중 자극';
-      keyIngredient = '식약처 인정 황기추출물(HT042) + 어린이 구연산·연골칼슘 800mg';
+      growthStageFocus = 'US CDC Growth Reference Growth Plate US CDC Growth Reference & US CDC Growth Reference  ptsUS CDC Growth Reference yrsUS CDC Growth Reference';
+      keyIngredient = 'US CDC Growth ReferenceHT042) + US CDC Growth Reference 800mg';
     } else if (ageYears >= 7 && ageYears <= 10) {
-      growthStageFocus = '사춘기 진입 전 기초 키 최대 비축 & 적정 체중(체지방·성조숙 방어) 관리';
-      keyIngredient = '황기추출물(HT042) + 고흡수 어골·연골칼슘 + 비타민D3·K2';
+      growthStageFocus = 'US CDC Growth Reference & US CDC Growth Reference Weight(US CDC Growth Reference';
+      keyIngredient = 'US CDC Growth ReferenceHT042) + US CDC Growth Reference VitaminD3·K2';
     } else if (ageYears >= 11) {
-      growthStageFocus = '급성장 피크(PHV) 성장판 최대 가속 & 문틀 철봉 척추 디스크 감압(+1.8cm)';
-      keyIngredient = '고함량 어골·연골칼슘 1000mg + 마그네슘 + 초유·아르기닌 단백질';
+      growthStageFocus = 'US CDC Growth ReferencePHV) Growth Plate US CDC Growth Reference & US CDC Growth Reference1.8cm)';
+      keyIngredient = 'US CDC Growth Reference 1000mg + Magnesium + US CDC Growth Reference Protein';
     }
 
     return [
       {
-        badge: `성장 브리핑 1/6 · 생년월일 일수 단위 키·몸무게 백분위 보정`,
-        title: `${dobDisplay} (생후 ${exactMonths}개월) ${genderKo}, 키(${height}cm)와 몸무게(${weight}kg) 정밀 대조 중`,
-        body: `같은 만 ${ageYears}세라도 1월생과 12월생은 평균 키가 최대 <strong>4.2~5.5cm</strong>, 몸무게는 <strong>2.5~3.8kg</strong> 차이 납니다. 입력하신 <strong>${height}cm / ${weight}kg</strong>을 생후 ${exactMonths}개월 일수 단위 질병관리청(KDCA) 표준 성장도표로 정밀 분석하고 있습니다.`,
-        highlight: `부모 유전 표적키(Tanner MPH): ${mph}cm (±8.5cm 범위 내에서 수면·영양·자세 관리가 최대 17cm 차이를 만듭니다)`
+        badge: `US CDC Growth Reference 1/6 · US CDC Growth Referenced dUS CDC Growth ReferenceWeight US CDC Growth Reference`,
+        title: `${dobDisplay} (US CDC Growth Reference ${exactMonths} mos) ${genderKo}, US CDC Growth Reference${height}cm)US CDC Growth Reference Weight(${weight}kg) US CDC Growth Reference`,
+        body: `US CDC Growth Reference ${ageYears} yrsUS CDC Growth Reference 1US CDC Growth Reference 12US CDC Growth Reference <strong>4.2~5.5cm</strong>, WeightUS CDC Growth Reference <strong>2.5~3.8kg</strong> US CDC Growth Reference. US CDC Growth Reference <strong>${height}cm / ${weight}kg</strong>US CDC Growth Reference ${exactMonths} mos dUS CDC Growth Reference US CDC / KDCA(KDCA) US CDC Growth Reference.`,
+        highlight: `US CDC Growth Reference Mid-Parental Target Height(Tanner MPH): ${mph}cm (±8.5cm US CDC Growth Reference Sleep·Nutrition·US CDC Growth Reference yrs US CDC Growth Reference 17cm US CDC Growth Reference`
       },
       {
-        badge: `성장 브리핑 2/6 · 현재 키 맞춤 적정 몸무게 & 체질량(BMI) 분석`,
-        title: `키가 잘 크려면 '몸무게 밸런스'가 먼저 맞아야 합니다`,
-        body: `현재 키(${height}cm) 대비 몸무게(${weight}kg)가 저체중이면 뼈·근육을 만드는 재료가 부족하고, 과체중(체지방 과다)이면 렙틴 호르몬이 사춘기와 성장판 폐쇄를 앞당깁니다. <strong>우리 아이 키에 딱 맞는 적정 체중과 6개월 목표 체중</strong>을 계산하고 있습니다.`,
-        highlight: `잠시 후 결과 화면에서 키 그래프와 함께 [몸무게 3단 밸런스 비교 그래프]가 함께 공개됩니다!`
+        badge: `US CDC Growth Reference 2/6 · US CDC Growth Reference Weight & US CDC Growth ReferenceBMI) US CDC Growth Reference`,
+        title: `US CDC Growth Reference 'Weight US CDC Growth Reference'US CDC Growth Reference`,
+        body: `US CDC Growth Reference${height}cm) US CDC Growth Reference Weight(${weight}kg)US CDC Growth ReferenceWeightUS CDC Growth ReferenceWeight(US CDC Growth Reference Growth Plate US CDC Growth Reference. <strong>US CDC Growth Reference WeightUS CDC Growth Reference 6 mos US CDC Growth Reference Weight</strong>US CDC Growth Reference.`,
+        highlight: `US CDC Growth Reference [Weight 3US CDC Growth Reference]US CDC Growth Reference!`
       },
       {
-        badge: `성장 브리핑 3/6 · 만 ${ageYears}세 성장판 잔여 기간 & 골든타임 산출`,
-        title: `우리 아이 성장판이 닫히는 만 ${closureAge}세까지 남은 시간은 약 ${remYearsMin}~${remYearsMax}년입니다`,
-        body: `성장판 잔여 기간이란 뼈 끝 연골 성장판이 완전히 닫혀 키 성장이 멈추는 시기(${genderKo} 평균 만 ${closureAge}세)까지 실제로 더 자랄 수 있는 시간입니다. 지금 만 ${ageYears}세는 <strong>[${growthStageFocus}]</strong>에 집중해야 할 황금기입니다.`,
-        highlight: `현재 습관(${habits.length}개 요인) 교정 시 방치 예측키 대비 숨은 잠재키가 얼마나 더 자라는지 시뮬레이션 중입니다.`
+        badge: `US CDC Growth Reference 3/6 · US CDC Growth Reference ${ageYears} yrs Growth Plate US CDC Growth Reference & US CDC Growth Reference`,
+        title: `US CDC Growth Reference Growth PlateUS CDC Growth Reference ${closureAge} yrsUS CDC Growth Reference  hrsUS CDC Growth Reference ${remYearsMin}~${remYearsMax}US CDC Growth Reference`,
+        body: `Growth Plate US CDC Growth Reference Growth PlateUS CDC Growth Reference${genderKo} US CDC Growth Reference ${closureAge} yrs)US CDC Growth Reference  hrsUS CDC Growth Reference. US CDC Growth Reference ${ageYears} yrsUS CDC Growth Reference <strong>[${growthStageFocus}]</strong>US CDC Growth Reference.`,
+        highlight: `US CDC Growth Reference${habits.length}US CDC Growth Reference.`
       },
       {
-        badge: `성장 브리핑 4/6 · 체중(${weight}kg) 비례 맞춤 칼슘·단백질·영양 성분 매칭`,
-        title: `아이 체중과 식습관에 맞춘 고흡수 성장 영양소 조합 도출 중`,
-        body: `현재 ${weight}kg ${genderKo}의 골격 성장 속도와 식습관 데이터를 분석한 결과, 흡수율이 낮은 일반 탄산칼슘(22%) 대신 흡수율 45%의 <strong>[${keyIngredient}]</strong>을 아침·저녁으로 보충해 주는 것이 가장 효과적입니다.`,
-        highlight: `대한소아내분비학회지·경희대 임상 논문(PMID:25374566) 및 한국인 영양소 섭취기준(KDRIs)을 적용했습니다.`
+        badge: `US CDC Growth Reference 4/6 · Weight(${weight}kg) US CDC Growth ReferenceProtein·Nutrition US CDC Growth Reference`,
+        title: `US CDC Growth Reference WeightUS CDC Growth Reference NutritionUS CDC Growth Reference`,
+        body: `US CDC Growth Reference ${weight}kg ${genderKo}US CDC Growth ReferencedUS CDC Growth Reference22%) US CDC Growth Reference 45%US CDC Growth Reference <strong>[${keyIngredient}]</strong>US CDC Growth Reference.`,
+        highlight: `US CDC Growth ReferencePMID:25374566) US CDC Growth Reference NutritionUS CDC Growth ReferenceKDRIs)US CDC Growth Reference.`
       },
       {
-        badge: `성장 브리핑 5/6 · 밤 10시 성장호르몬 & 숨은 척추 키 +1.8cm 복원`,
-        title: `밤 10시 첫 서파수면(SWS) 90분이 하루 성장호르몬의 65%를 분비합니다`,
-        body: `취침 2시간 전 야식·단 간식은 인슐린과 소마토스타틴을 분비해 성장호르몬을 최대 <strong>-52% 억제</strong>하며, 낮 동안 눌린 척추 추간판 디스크는 저녁 <strong>문틀 철봉 매달리기 30초×3세트와 점핑 운동</strong>으로 최대 <strong>+1.8cm</strong> 복원됩니다.`,
-        highlight: `아침·방과후·저녁·취침 전 4단계로 나눈 하루 밀착 신체 성장 시간표를 생성하고 있습니다.`
+        badge: `US CDC Growth Reference 5/6 · US CDC Growth Reference 10US CDC Growth Reference Growth Hormone (HGH) & US CDC Growth Reference1.8cm US CDC Growth Reference`,
+        title: `US CDC Growth Reference 10US CDC Growth Reference Slow-Wave Sleep (N3)(SWS) 90US CDC Growth Reference Growth Hormone (HGH)US CDC Growth Reference 65%US CDC Growth Reference`,
+        body: `US CDC Growth Reference 2 hrs US CDC Growth Reference Growth Hormone (HGH)US CDC Growth Reference <strong>-52% US CDC Growth Reference</strong>US CDC Growth Reference<strong>US CDC Growth Reference 30US CDC Growth Reference×3 yrsUS CDC Growth Reference  ptsUS CDC Growth Reference Exercise</strong>US CDC Growth Reference <strong>+1.8cm</strong> US CDC Growth Reference.`,
+        highlight: `US CDC Growth Reference 4US CDC Growth Reference  hrsUS CDC Growth Reference.`
       },
       {
-        badge: `성장 브리핑 6/6 · 1:1 신체 성장(키·몸무게·골연령) 정밀 보고서 완성`,
-        title: `우리 아이 맞춤형 3중 예측키 성장 곡선 & 몸무게 진단서가 곧 열립니다!`,
-        body: `질병관리청 키·몸무게 백분위, 부모 유전키(MPH) vs 방치키 vs 맞춤 관리 잠재키 3중 비교 그래프, 그리고 <strong>그림으로 보는 성장판 마사지·스트레칭 가이드</strong>가 모두 준비되었습니다.`,
-        highlight: `결과 화면 첫 화면에서 [기대 잠재키 스포트라이트 그래프 & 몸무게 정밀 진단 카드]를 바로 확인하세요!`
+        badge: `US CDC Growth Reference 6/6 · 1:1 US CDC Growth ReferenceWeight·Bone Age) US CDC Growth Reference Report US CDC Growth Reference`,
+        title: `US CDC Growth Reference 3US CDC Growth Reference & Weight AssessmentUS CDC Growth Reference!`,
+        body: `US CDC / KDCA US CDC Growth ReferenceWeight US CDC Growth ReferenceMPH) vs US CDC Growth Reference vs US CDC Growth Reference 3US CDC Growth Reference<strong>US CDC Growth Reference Growth Plate US CDC Growth Reference</strong>US CDC Growth Reference.`,
+        highlight: `US CDC Growth Reference [US CDC Growth Reference & Weight US CDC Growth Reference Assessment US CDC Growth Reference]US CDC Growth Reference yrsUS CDC Growth Reference!`
       }
     ];
   }
@@ -489,37 +489,37 @@
     {
       step: 1,
       rangeSec: [0, 10],
-      titleKo: 'Step 1/6 · 생년월일 일수 단위 정밀 월령 산출 및 질병관리청(KDCA) 키·몸무게 백분위 대조 중...',
+      titleKo: 'Step 1/6 · US CDC Growth Referenced dUS CDC Growth Reference US CDC / KDCA(KDCA) US CDC Growth ReferenceWeight US CDC Growth Reference...',
       titleEn: 'Step 1/6 · Computing Exact Chronological Age & US CDC 2000 / WHO LMS Height/Weight Percentiles...'
     },
     {
       step: 2,
       rangeSec: [10, 20],
-      titleKo: 'Step 2/6 · 현재 키 맞춤 적정 체중(BMI) 및 성장판 잔여 골든타임 연산 중...',
+      titleKo: 'Step 2/6 · US CDC Growth Reference Weight(BMI) US CDC Growth Reference Growth Plate US CDC Growth Reference...',
       titleEn: 'Step 2/6 · Evaluating Height-Adjusted Optimal Weight & Epiphyseal Growth Window...'
     },
     {
       step: 3,
       rangeSec: [20, 30],
-      titleKo: 'Step 3/6 · 부모 유전 표적키(MPH) 및 방치 시 vs 맞춤 관리 시 3단 성인 예측키 시뮬레이션 중...',
+      titleKo: 'Step 3/6 · US CDC Growth Reference Mid-Parental Target Height(MPH) US CDC Growth Reference vs US CDC Growth Reference 3US CDC Growth Reference...',
       titleEn: 'Step 3/6 · Simulating Tanner MPH & 3-Stage Adult Height Trajectories...'
     },
     {
       step: 4,
       rangeSec: [30, 40],
-      titleKo: 'Step 4/6 · 밤 10시 성장호르몬(GH-IGF1) 분비 곡선 및 체중 비례 칼슘·단백질 요구량 계산 중...',
+      titleKo: 'Step 4/6 · US CDC Growth Reference 10US CDC Growth Reference Growth Hormone (HGH)(GH-IGF1) US CDC Growth Reference Weight US CDC Growth ReferenceProtein US CDC Growth Reference...',
       titleEn: 'Step 4/6 · Modeling 24-Hour GH-IGF1 Secretion & Weight-Based Nutrient Targets...'
     },
     {
       step: 5,
       rangeSec: [40, 50],
-      titleKo: 'Step 5/6 · 거북목·척추 디스크 감압(+1.8cm) 스트레칭 및 성장통 완화 루틴 설계 중...',
+      titleKo: 'Step 5/6 · US CDC Growth Reference1.8cm) US CDC Growth Reference...',
       titleEn: 'Step 5/6 · Designing Spinal Decompression (+1.8cm) & Growth Plate Exercise Protocol...'
     },
     {
       step: 6,
       rangeSec: [50, 60],
-      titleKo: 'Step 6/6 · 우리 아이 1:1 신체 성장(키·몸무게·골연령) 마스터 분석 보고서 발행 중...',
+      titleKo: 'Step 6/6 · US CDC Growth Reference 1:1 US CDC Growth ReferenceWeight·Bone Age) US CDC Growth Reference Report US CDC Growth Reference...',
       titleEn: 'Step 6/6 · Finalizing Personalized Physical Growth & Weight Balance Master Report...'
     }
   ];
@@ -528,37 +528,37 @@
     {
       step: 1,
       rangeSec: [0, 10],
-      titleKo: 'Step 1/6 · 생년월일 월령 기반 두뇌 시냅스 민감기 및 5각 학습역량지수(LQ) 산출 중...',
+      titleKo: 'Step 1/6 · US CDC Growth Referenced US CDC Growth Reference 5US CDC Growth ReferenceLQ) US CDC Growth Reference...',
       titleEn: 'Step 1/6 · Mapping Neuro-Developmental Window & 5-Axis Learning Quotient (LQ)...'
     },
     {
       step: 2,
       rangeSec: [10, 20],
-      titleKo: 'Step 2/6 · 문해력·수리공간·집중력·메타인지·탐구력 5대 영역 강약점(1위~3위) 판정 중...',
+      titleKo: 'Step 2/6 · US CDC Growth Reference 5US CDC Growth Reference pts(1US CDC Growth Reference3US CDC Growth Reference...',
       titleEn: 'Step 2/6 · Analyzing Top 3 Cognitive Strengths & Top 3 Study Bottlenecks...'
     },
     {
       step: 3,
       rangeSec: [20, 30],
-      titleKo: 'Step 3/6 · 우리 아이 학습 흡수 스타일 판정 및 6개월 집중력·기억력 성장 곡선 시뮬레이션 중...',
+      titleKo: 'Step 3/6 · US CDC Growth Referenced US CDC Growth Reference 6 mos US CDC Growth Reference...',
       titleEn: 'Step 3/6 · Simulating 6-Month Focus Duration & Long-Term Memory Retention Curve...'
     },
     {
       step: 4,
       rangeSec: [30, 40],
-      titleKo: 'Step 4/6 · 강점 성향 기반 미래 유망 진로 TOP 3 및 향후 3개년 교과 전환 로드맵 설계 중...',
+      titleKo: 'Step 4/6 · US CDC Growth Reference pts US CDC Growth Reference TOP 3 US CDC Growth Reference 3US CDC Growth Reference...',
       titleEn: 'Step 4/6 · Matching Future Career Pathways & 3-Year Curriculum Roadmap...'
     },
     {
       step: 5,
       rangeSec: [40, 50],
-      titleKo: 'Step 5/6 · 백지복습(인출학습) 및 밤 10시 해마→대뇌피질 수면 기억 공고화 시간표 생성 중...',
+      titleKo: 'Step 5/6 · US CDC Growth Reference 10US CDC Growth Reference→US CDC Growth Reference Sleep US CDC Growth Reference  hrsUS CDC Growth Reference...',
       titleEn: 'Step 5/6 · Building Active Recall & SWS Hippocampal Memory Consolidation Schedule...'
     },
     {
       step: 6,
       rangeSec: [50, 60],
-      titleKo: 'Step 6/6 · 우리 아이 1:1 두뇌·학습 성향 & 시각 그래프 마스터 보고서 발행 중...',
+      titleKo: 'Step 6/6 · US CDC Growth Reference 1:1 US CDC Growth Reference & US CDC Growth Reference Report US CDC Growth Reference...',
       titleEn: 'Step 6/6 · Finalizing Personalized Brain & Learning Visual Master Report...'
     }
   ];
@@ -589,7 +589,7 @@
     if (countdownEl) {
       countdownEl.textContent = isEnSub
         ? (isLearning ? `Brain LQ Clinical Scan · ~${remainingSec}s remaining` : `Pediatric Auxology Scan · ~${remainingSec}s remaining`)
-        : (isLearning ? `두뇌·학습 정밀 연산 중 · 약 ${remainingSec}초 남음` : `신체 성장 정밀 연산 중 · 약 ${remainingSec}초 남음`);
+        : (isLearning ? `US CDC Growth Reference ${remainingSec}US CDC Growth Reference` : `US CDC Growth Reference ${remainingSec}US CDC Growth Reference`);
     }
 
     // Update 6 step pills proportionally to durationMs (e.g. 2.5s per step for 15s total)
@@ -607,7 +607,7 @@
           pill.style.background = '#EFF6FF';
           pill.style.borderColor = '#3B82F6';
           pill.style.color = '#60A5FA';
-          pill.textContent = isEnSub ? `Step ${i + 1} Active` : `Step ${i + 1} 분석중`;
+          pill.textContent = isEnSub ? `Step ${i + 1} Active` : `Step ${i + 1} US CDC Growth Reference`;
         } else {
           pill.style.background = 'rgba(255, 255, 255, 0.04)';
           pill.style.borderColor = 'rgba(255, 255, 255, 0.12)';
@@ -626,8 +626,8 @@
             ${currentCard.badge}
           </span>
           <div style="display: flex; gap: 0.35rem;">
-            <button type="button" id="btn-theatre-prev-card" style="background: #F8FAFC; border: 1px solid #BFDBFE; color: #0F172A; border-radius: 6px; padding: 0.18rem 0.55rem; font-size: 0.75rem; font-weight: 700; cursor: pointer;">${isEnSub ? '◀ Prev' : '◀ 이전'}</button>
-            <button type="button" id="btn-theatre-next-card" style="background: #FFFFFF; border: 1px solid #FFFFFF; color: #000000; border-radius: 6px; padding: 0.18rem 0.55rem; font-size: 0.75rem; font-weight: 800; cursor: pointer;">${isEnSub ? 'Next ▶' : '다음 브리핑 ▶'}</button>
+            <button type="button" id="btn-theatre-prev-card" style="background: #F8FAFC; border: 1px solid #BFDBFE; color: #0F172A; border-radius: 6px; padding: 0.18rem 0.55rem; font-size: 0.75rem; font-weight: 700; cursor: pointer;">${isEnSub ? '◀ Prev' : '◀ US CDC Growth Reference'}</button>
+            <button type="button" id="btn-theatre-next-card" style="background: #FFFFFF; border: 1px solid #FFFFFF; color: #000000; border-radius: 6px; padding: 0.18rem 0.55rem; font-size: 0.75rem; font-weight: 800; cursor: pointer;">${isEnSub ? 'Next ▶' : 'US CDC Growth Reference ▶'}</button>
           </div>
         </div>
         <h4 style="font-size: 1.05rem; font-weight: 900; color: #0F172A; margin: 0 0 0.5rem 0; line-height: 1.4;">
@@ -674,19 +674,19 @@
       quizBoxEl.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
           <span style="font-size: 0.76rem; font-weight: 800; color: #1D4ED8;">
-            ${isEnSub ? ((isLearning ? "Brain & Learning Neuroscience" : "Pediatric Growth & Auxology") + " 1-Sec Clinical Fact Check (" + (quizIdx + 1) + "/" + activeQuizzes.length + ")") : ((isLearning ? "두뇌·학습 뇌과학" : "키·체중 신체성장") + " 1초 O/X 논문 팩트 퀴즈 (" + (quizIdx + 1) + "/" + activeQuizzes.length + ")")}
+            ${isEnSub ? ((isLearning ? "Brain & Learning Neuroscience" : "Pediatric Growth & Auxology") + " 1-Sec Clinical Fact Check (" + (quizIdx + 1) + "/" + activeQuizzes.length + ")") : ((isLearning ? "US CDC Growth Reference" : "US CDC Growth ReferenceWeight US CDC Growth Reference") + " 1US CDC Growth Reference O/X US CDC Growth Reference" + (quizIdx + 1) + "/" + activeQuizzes.length + ")")}
           </span>
-          <button type="button" id="btn-theatre-next-quiz" style="background: transparent; border: none; color: #475569; font-size: 0.74rem; font-weight: 700; cursor: pointer; text-decoration: underline;">${isEnSub ? 'Next Fact ↻' : '다른 퀴즈 보기 ↻'}</button>
+          <button type="button" id="btn-theatre-next-quiz" style="background: transparent; border: none; color: #475569; font-size: 0.74rem; font-weight: 700; cursor: pointer; text-decoration: underline;">${isEnSub ? 'Next Fact ↻' : 'US CDC Growth Reference ↻'}</button>
         </div>
         <div style="font-size: 0.92rem; font-weight: 900; color: #0F172A; margin-bottom: 0.65rem; line-height: 1.4;">
           ${currentQuiz.q}
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
           <button type="button" id="btn-ox-o" style="padding: 0.6rem; border-radius: 10px; font-size: 0.9rem; font-weight: 800; cursor: pointer; border: 1.5px solid #93C5FD; background: #EFF6FF; color: #1D4ED8;">
-            ${isEnSub ? '⭕ True (O)' : '⭕ 맞다 (O)'}
+            ${isEnSub ? '⭕ True (O)' : '⭕ US CDC Growth ReferenceO)'}
           </button>
           <button type="button" id="btn-ox-x" style="padding: 0.6rem; border-radius: 10px; font-size: 0.9rem; font-weight: 800; cursor: pointer; border: 1.5px solid #93C5FD; background: #EFF6FF; color: #1D4ED8;">
-            ${isEnSub ? '✕ False (X)' : '아니다 (X)'}
+            ${isEnSub ? '✕ False (X)' : 'US CDC Growth ReferenceX)'}
           </button>
         </div>
         <div id="theatre-ox-answer" style="display: ${state.quizAnswered ? 'block' : 'none'}; margin-top: 0.6rem; padding: 0.65rem 0.8rem; background: #FFFFFF; border: 1px solid #93C5FD; border-radius: 8px; font-size: 0.8rem; color: #0F172A; line-height: 1.48;">
@@ -755,10 +755,10 @@
         theatreDiv.innerHTML = `
           <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; flex-wrap: wrap;">
             <span id="analysis-countdown-badge" style="font-size: 0.8rem; font-weight: 800; color: #1D4ED8; background: #EFF6FF; border: 1px solid #BFDBFE; padding: 0.22rem 0.65rem; border-radius: 9999px;">
-              ${isEn ? 'Pediatric Auxology Scan · ~4s remaining' : '정밀 맞춤 연산 중 · 약 4초 남음'}
+              ${isEn ? 'Pediatric Auxology Scan · ~4s remaining' : 'US CDC Growth Reference 4US CDC Growth Reference'}
             </span>
             <button type="button" id="btn-haptic-toggle" style="font-size: 0.75rem; font-weight: 700; color: #1D4ED8; background: #EFF6FF; border: 1px solid #BFDBFE; padding: 0.2rem 0.6rem; border-radius: 9999px; cursor: pointer;">
-              ${isEn ? 'Haptic ON' : '햅틱·진동 ON'}
+              ${isEn ? 'Haptic ON' : 'US CDC Growth Reference ON'}
             </button>
           </div>
           <div id="theatre-stage-pills" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.3rem; margin-bottom: 0.85rem;">
@@ -778,7 +778,7 @@
         if (hapticBtn) {
           hapticBtn.onclick = () => {
             state.hapticEnabled = !state.hapticEnabled;
-            hapticBtn.textContent = state.hapticEnabled ? (isGlobalEnMode() ? 'Haptic ON' : '햅틱·진동 ON') : (isGlobalEnMode() ? 'Haptic OFF' : '햅틱·진동 OFF');
+            hapticBtn.textContent = state.hapticEnabled ? (isGlobalEnMode() ? 'Haptic ON' : 'US CDC Growth Reference ON') : (isGlobalEnMode() ? 'Haptic OFF' : 'US CDC Growth Reference OFF');
             hapticBtn.style.opacity = state.hapticEnabled ? '1' : '0.6';
             if (state.hapticEnabled) triggerHaptic('tick', hapticBtn);
           };
@@ -809,8 +809,8 @@
     }
     if (descEl) {
       descEl.textContent = isLearning
-        ? (isEn ? `Cross-referencing ${profile.birthDateStr || ''} (${profile.exactMonths || profile.ageMonths} mos, ${profile.gender === 'girl' ? 'Female' : 'Male'}) prefrontal executive & cognitive metrics against 117 peer-reviewed neuroscience papers.` : `${profile.birthDateStr || ''} (생후 ${profile.exactMonths || profile.ageMonths}개월) ${profile.gender === 'girl' ? '여아' : '남아'}의 두뇌 민감기·전두엽 작업기억·문해/수리 데이터를 117편 인지뇌과학 학술 DB와 1:1 정밀 매칭하고 있습니다.`)
-        : (isEn ? `Cross-referencing ${profile.birthDateStr || ''} (${profile.exactMonths || profile.ageMonths} mos, ${profile.gender === 'girl' ? 'Female' : 'Male'}) height, weight & epiphyseal plate data against US CDC 2000, WHO & 3,714 pediatric endocrine papers.` : `${profile.birthDateStr || ''} (생후 ${profile.exactMonths || profile.ageMonths}개월) ${profile.gender === 'girl' ? '여아' : '남아'}의 키·체중·성장판 데이터를 117편 소아내분비 학술 DB 및 국가 표준 성장도표와 1:1 정밀 매칭하고 있습니다.`);
+        ? (isEn ? `Cross-referencing ${profile.birthDateStr || ''} (${profile.exactMonths || profile.ageMonths} mos, ${profile.gender === 'girl' ? 'Female' : 'Male'}) prefrontal executive & cognitive metrics against 117 peer-reviewed neuroscience papers.` : `${profile.birthDateStr || ''} (US CDC Growth Reference ${profile.exactMonths || profile.ageMonths} mos) ${profile.gender === 'girl' ? 'Girl' : 'Boy'}US CDC Growth Reference 117US CDC Growth Reference DBUS CDC Growth Reference 1:1 US CDC Growth Reference.`)
+        : (isEn ? `Cross-referencing ${profile.birthDateStr || ''} (${profile.exactMonths || profile.ageMonths} mos, ${profile.gender === 'girl' ? 'Female' : 'Male'}) height, weight & epiphyseal plate data against US CDC 2000, WHO & 3,714 pediatric endocrine papers.` : `${profile.birthDateStr || ''} (US CDC Growth Reference ${profile.exactMonths || profile.ageMonths} mos) ${profile.gender === 'girl' ? 'Girl' : 'Boy'}US CDC Growth ReferenceWeight·Growth Plate US CDC Growth Reference 117US CDC Growth Reference DB US CDC Growth Reference 1:1 US CDC Growth Reference.`);
     }
     currentStageIdx = 0;
 

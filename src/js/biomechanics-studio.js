@@ -1,22 +1,22 @@
 /**
- * Taller Bio Labs (키즈핏 바이오 랩)
- * Core 3: Biomechanics & Posture Studio (척추 감압 & 생체역학 운동 스튜디오)
+ * Taller Bio Labs (KISFIT Bio Labs)
+ * Core 3: Biomechanics & Posture Studio (Spinal Decompression & Exercise 
  * 
  * Clinical Principles:
  * 1. Diurnal Disc Decompression: Gravity compresses intervertebral discs (L1~L5, T7~T12)
- *    causing daily diurnal height loss of 1.5 ~ 2.2 cm. Passive axial decompression
- *    induces osmotic rehydration, restoring up to +1.8 cm of concealed curvature.
+ * causing daily diurnal height loss of 1.5 ~ 2.2 cm. Passive axial decompression
+ * induces osmotic rehydration, restoring up to +1.8 cm of concealed curvature.
  * 2. Wolff's Law & Epiphyseal Chondrocyte Proliferation: Cyclic vertical impact loading
- *    (1.5 ~ 2.5x body weight) generates piezoelectric microcurrents, upregulating Runx2 / Sox9
- *    and type II collagen synthesis in the growth plate for longitudinal bone remodeling.
+ * (1.5 ~ 2.5x body weight) generates piezoelectric microcurrents, upregulating Runx2 / Sox9
+ * and type II collagen synthesis in the growth plate for longitudinal bone remodeling.
  * 
  * 3 Core Clinical Exercise Routines:
- * - Routine 1: 척추 감압 패시브 데드행 (Passive Dead Hang) — 30초 x 3세트
- * - Routine 2: 흉추 신전 & 장요근·골반 정렬 스트레칭 — 45초 x 2세트 (+1.8cm 복원)
- * - Routine 3: 성장판 미세하중 플라이오메트릭 점핑 — 15분 인터벌 타이머
+ * - Routine 1: Spinal Decompression Passive Dead Hang) — 30 x 3 yrs
+ * - Routine 2: & — 45 x 2 yrs1.8cm 
+ * - Routine 3: Growth Plate yrs pts — 15
  * 
  * Timer Engine:
- * - Drift-free Date.now() wall-clock delta math
+ * - Drift-free Date.now wall-clock delta math
  * - Safe control states: 'idle', 'running', 'paused', 'completed'
  * - Debounced controls and audio-visual feedback on completion
  */
@@ -28,7 +28,7 @@
   const ROUTINES = [
     {
       id: 'dead_hang',
-      nameKo: '척추 감압 패시브 데드행 (Passive Dead Hang)',
+      nameKo: 'Spinal Decompression US CDC Growth ReferencePassive Dead Hang)',
       nameEn: 'Spinal Decompression Passive Dead Hang',
       category: 'decompression',
       duration: 30, // seconds
@@ -38,12 +38,12 @@
       principle: "Wolff's Law & Intervertebral Disc Rehydration",
       molecularTrigger: 'Runx2 / Sox9',
       restorationEstimate: '+0.8 ~ +1.2 cm',
-      summaryKo: '철봉에 매달려 낮 동안 눌린 척추 디스크 간격을 펴고 수분을 재흡수시킵니다.',
+      summaryKo: 'US CDC Growth Reference.',
       summaryEn: 'Passive hanging unloads vertebrae and rehydrates intervertebral discs.',
       instructionsKo: [
-        '철봉을 어깨너비로 잡고 발을 바닥에서 뗍니다.',
-        '어깨·하체 힘을 툭 빼고 척추를 자연스럽게 늘립니다.',
-        '30초 매달리기 + 30초 휴식 (총 3세트 반복)'
+        'US CDC Growth Reference.',
+        'US CDC Growth Reference.',
+        '30US CDC Growth Reference 30US CDC Growth Reference 3 yrsUS CDC Growth Reference'
       ],
       instructionsEn: [
         'Grip bar shoulder-width apart and suspend feet.',
@@ -53,7 +53,7 @@
     },
     {
       id: 'thoracic_stretch',
-      nameKo: '흉추 신전 & 장요근·골반 정렬 스트레칭',
+      nameKo: 'US CDC Growth Reference & US CDC Growth Reference',
       nameEn: 'Thoracic Extension & Pelvic Alignment',
       category: 'alignment',
       duration: 45, // seconds
@@ -63,12 +63,12 @@
       principle: "Postural Kyphosis & Anterior Pelvic Tilt Correction",
       molecularTrigger: 'Myofascial Alignment',
       restorationEstimate: '+1.5 ~ +1.8 cm',
-      summaryKo: '스마트폰·책상 자세로 굽은 등과 거북목을 펴 숨은 키(+1.8cm)를 복원합니다.',
+      summaryKo: 'US CDC Growth Reference yrsUS CDC Growth Reference1.8cm)US CDC Growth Reference.',
       summaryEn: 'Extends thoracic spine and tight hip flexors to unlock +1.8 cm of posture height.',
       instructionsKo: [
-        '등(날개뼈 사이) 아래에 폼롤러나 둥근 베개를 받치고 눕습니다.',
-        '양손을 머리 뒤로 깍지 끼고 가슴을 천장으로 활짝 엽니다.',
-        '런지 자세로 골반 앞쪽을 45초간 늘려줍니다 (2세트).'
+        'US CDC Growth Reference.',
+        'US CDC Growth Reference.',
+        'US CDC Growth Reference yrsUS CDC Growth Reference 45US CDC Growth Reference2 yrsUS CDC Growth Reference.'
       ],
       instructionsEn: [
         'Place foam roller under upper back with knees bent.',
@@ -78,7 +78,7 @@
     },
     {
       id: 'plyometrics',
-      nameKo: '성장판 미세하중 플라이오메트릭 점핑',
+      nameKo: 'Growth Plate US CDC Growth Reference yrsUS CDC Growth Reference  ptsUS CDC Growth Reference',
       nameEn: 'Epiphyseal Micro-Load Plyometric Jumping',
       category: 'epiphyseal_stimulation',
       duration: 900, // 15 minutes = 900 seconds
@@ -87,14 +87,14 @@
       restSeconds: 0,
       principle: "Wolff's Law",
       molecularTrigger: 'Runx2 / Sox9 & Type II Collagen',
-      restorationEstimate: '+1.2 ~ +2.0 cm (장기 골 개조 촉진)',
+      restorationEstimate: '+1.2 ~ +2.0 cm (US CDC Growth Reference',
       restorationEstimateEn: '+0.5 ~ +0.8 in (+1.2 ~ +2.0 cm · Bone Remodeling)',
-      summaryKo: '가벼운 수직 점핑으로 무릎 성장판(Runx2/Sox9) 연골세포 분열을 촉진합니다.',
+      summaryKo: 'US CDC Growth Reference  ptsUS CDC Growth Reference Growth Plate(Runx2/Sox9) US CDC Growth Reference yrsUS CDC Growth Reference.',
       summaryEn: 'Cyclic vertical hops stimulate epiphyseal growth plate chondrocyte proliferation.',
       instructionsKo: [
-        '충격 흡수 매트 위에서 운동화를 신고 준비합니다.',
-        '45초 가볍게 양발 점프 후 15초 제자리 걷기를 반복합니다.',
-        '발 앞꿈치로 사뿐히 착지하며 10~15분간 진행합니다.'
+        'US CDC Growth Reference ExerciseUS CDC Growth Reference.',
+        '45US CDC Growth Reference  ptsUS CDC Growth Reference 15US CDC Growth Reference.',
+        'US CDC Growth Reference 10~15US CDC Growth Reference.'
       ],
       instructionsEn: [
         'Wear supportive footwear on shock-absorbing surface to protect joint structures.',
@@ -317,11 +317,11 @@
           <polygon points="135,118 130,110 140,110" fill="#94A3B8"/>
           <!-- Callout Labels -->
           <rect x="16" y="42" width="110" height="24" rx="6" fill="#EFF6FF" stroke="rgba(56, 189, 248, 0.4)"/>
-          <text x="71" y="58" fill="#334155" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Grip Wide' : '① 어깨너비 그립'}</text>
+          <text x="71" y="58" fill="#334155" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Grip Wide' : '① US CDC Growth Reference'}</text>
           <rect x="232" y="72" width="134" height="26" rx="6" fill="#EFF6FF" stroke="rgba(16, 185, 129, 0.45)"/>
-          <text x="299" y="89" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Spine Unload +1.2cm' : '② 척추 마디 쭉 펴기'}</text>
+          <text x="299" y="89" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Spine Unload +1.2cm' : '② US CDC Growth Reference'}</text>
           <rect x="232" y="128" width="134" height="26" rx="6" fill="rgba(251, 191, 36, 0.16)" stroke="rgba(251, 191, 36, 0.4)"/>
-          <text x="299" y="145" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Relax Lower Body' : '③ 하체 힘 빼고 툭!'}</text>
+          <text x="299" y="145" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Relax Lower Body' : '③ US CDC Growth Reference!'}</text>
         </svg>
       `;
     }
@@ -349,11 +349,11 @@
           <polygon points="175,48 169,58 181,58" fill="#1D4ED8"/>
           <!-- Callout Labels -->
           <rect x="20" y="36" width="136" height="26" rx="6" fill="#EFF6FF" stroke="rgba(16, 185, 129, 0.45)"/>
-          <text x="88" y="53" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Open Chest Upward' : '① 가슴을 천장으로 활짝'}</text>
+          <text x="88" y="53" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Open Chest Upward' : '① US CDC Growth Reference'}</text>
           <rect x="205" y="42" width="155" height="26" rx="6" fill="#EFF6FF" stroke="rgba(56, 189, 248, 0.4)"/>
-          <text x="282" y="59" fill="#334155" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Foam Roller Under Back' : '② 등 아래 폼롤러·베개 받치기'}</text>
+          <text x="282" y="59" fill="#334155" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Foam Roller Under Back' : '② US CDC Growth Reference'}</text>
           <rect x="218" y="76" width="142" height="24" rx="6" fill="#EFF6FF" stroke="rgba(244, 63, 94, 0.4)"/>
-          <text x="289" y="92" fill="#0F172A" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Unlock +1.8cm Posture' : '③ 거북목·굽은등 +1.8cm 복원'}</text>
+          <text x="289" y="92" fill="#0F172A" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Unlock +1.8cm Posture' : '③ US CDC Growth Reference1.8cm US CDC Growth Reference'}</text>
         </svg>
       `;
     }
@@ -380,18 +380,18 @@
         <polygon points="148,96 143,105 153,105" fill="#1D4ED8"/>
         <!-- Callout Labels -->
         <rect x="14" y="42" width="128" height="26" rx="6" fill="rgba(251, 191, 36, 0.16)" stroke="rgba(251, 191, 36, 0.4)"/>
-        <text x="78" y="59" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Rhythmic Hops' : '① 가볍게 사뿐 점핑!'}</text>
+        <text x="78" y="59" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Rhythmic Hops' : '① US CDC Growth Reference  ptsUS CDC Growth Reference!'}</text>
         <rect x="234" y="102" width="134" height="26" rx="6" fill="#EFF6FF" stroke="rgba(244, 63, 94, 0.45)"/>
-        <text x="301" y="119" fill="#0F172A" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Knee Growth Plate' : '② 무릎 성장판 자극 '}</text>
+        <text x="301" y="119" fill="#0F172A" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Knee Growth Plate' : '② US CDC Growth Reference Growth Plate US CDC Growth Reference '}</text>
         <rect x="234" y="134" width="134" height="26" rx="6" fill="#EFF6FF" stroke="rgba(16, 185, 129, 0.45)"/>
-        <text x="301" y="151" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Forefoot Landing' : '③ 발 앞꿈치로 탄성 착지'}</text>
+        <text x="301" y="151" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Forefoot Landing' : '③ US CDC Growth Reference'}</text>
       </svg>
     `;
   }
 
   const ROUTINE_4_LOWER_BODY_STRETCH = {
     id: 'lower_body_core_stretch',
-    nameKo: '하체 성장판(햄스트링·무릎) 이완 & 골반·코어 브릿지 스트레칭',
+    nameKo: 'US CDC Growth Reference Growth Plate(US CDC Growth Reference & US CDC Growth Reference',
     nameEn: 'Lower-Limb Growth Plate Release & Core Pelvic Bridge Stretch',
     category: 'lower_body_bridge',
     duration: 60,
@@ -400,13 +400,13 @@
     restSeconds: 20,
     principle: 'Lower-Extremity Myofascial Release & Lumbo-Pelvic Stabilization',
     molecularTrigger: 'Epiphyseal Vascular Perfusion & IGF-1 Delivery',
-    restorationEstimate: '+0.8 ~ +1.4 cm (하체 정렬 & 성장판 혈류 촉진)',
-    summaryKo: '점핑 운동 후 긴장된 허벅지·종아리 근막을 쭉 펴주고 골반 브릿지로 하체 성장판 혈류를 높입니다.',
+    restorationEstimate: '+0.8 ~ +1.4 cm (US CDC Growth Reference & Growth Plate US CDC Growth Reference',
+    summaryKo: ' ptsUS CDC Growth Reference Exercise US CDC Growth Reference Growth Plate US CDC Growth Reference.',
     summaryEn: 'Releases tight hamstrings/calves after jumping and aligns pelvis to boost growth plate blood flow.',
     instructionsKo: [
-      '바닥에 누워 두 무릎을 세우고 엉덩이를 천천히 들어 올려 어깨-골반-무릎을 일직선으로 만듭니다 (15초 유지 × 2회).',
-      '한쪽 다리를 천장으로 곧게 펴고 발끝을 몸쪽으로 당겨 허벅지 뒤(햄스트링)와 종아리를 20초간 늘려줍니다.',
-      '양 무릎을 가슴 쪽으로 가볍게 안아 허리와 골반 긴장을 부드럽게 풀어주며 마무리합니다.'
+      'US CDC Growth Reference  yrsUS CDC Growth Reference dUS CDC Growth Reference15US CDC Growth Reference × 2US CDC Growth Reference.',
+      'US CDC Growth Reference 20US CDC Growth Reference.',
+      'US CDC Growth Reference.'
     ],
     instructionsEn: [
       'Lie on back with knees bent and lift hips to align shoulders, pelvis, and knees for 15s (2 reps).',
@@ -435,11 +435,11 @@
         <polygon points="185,104 179,114 191,114" fill="#FBBF24"/>
         <!-- Callout Labels -->
         <rect x="16" y="42" width="142" height="26" rx="6" fill="#EFF6FF" stroke="rgba(192, 132, 252, 0.45)"/>
-        <text x="87" y="59" fill="#0F172A" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? '① Pelvic Core Bridge' : '① 골반·코어 브릿지 들기'}</text>
+        <text x="87" y="59" fill="#0F172A" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? '① Pelvic Core Bridge' : '① US CDC Growth Reference'}</text>
         <rect x="242" y="34" width="126" height="26" rx="6" fill="#EFF6FF" stroke="rgba(16, 185, 129, 0.45)"/>
-        <text x="305" y="51" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? '② Stretch Hamstring' : '② 다리 펴고 발끝 당기기'}</text>
+        <text x="305" y="51" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? '② Stretch Hamstring' : '② US CDC Growth Reference'}</text>
         <rect x="242" y="68" width="126" height="26" rx="6" fill="#EFF6FF" stroke="rgba(244, 63, 94, 0.45)"/>
-        <text x="305" y="85" fill="#0F172A" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? '③ Growth Plate Flow' : '③ 하체 성장판 혈류 2배'}</text>
+        <text x="305" y="85" fill="#0F172A" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? '③ Growth Plate Flow' : '③ US CDC Growth Reference Growth Plate US CDC Growth Reference 2US CDC Growth Reference'}</text>
       </svg>
     `;
   }
@@ -450,14 +450,14 @@
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;">
           <div>
             <span style="display: inline-block; font-size: 0.78rem; font-weight: 800; color: #1D4ED8; background: #EFF6FF; border: 1px solid #BFDBFE; padding: 0.25rem 0.75rem; border-radius: 9999px; margin-bottom: 0.4rem;">
-              ${isGlobal ? 'Bedtime 5-Min Growth Plate Massage Guide' : '잠들기 전 5분 · 엄마 손 성장판 마사지 그림 가이드'}
+              ${isGlobal ? 'Bedtime 5-Min Growth Plate Massage Guide' : 'US CDC Growth Reference 5US CDC Growth Reference Growth Plate US CDC Growth Reference'}
             </span>
             <h4 style="font-size: 1.22rem; font-weight: 800; color: #0F172A; margin: 0;">
-              ${isGlobal ? 'How to Massage Knee & Calf Growth Plates Before Sleep' : '타이머 없이 그림 보고 쉽게 따라 하는 무릎·종아리 성장판 마사지법'}
+              ${isGlobal ? 'How to Massage Knee & Calf Growth Plates Before Sleep' : 'US CDC Growth Reference Growth Plate US CDC Growth Reference'}
             </h4>
           </div>
           <span style="font-size: 0.85rem; font-weight: 700; color: #1D4ED8; background: #EFF6FF; padding: 0.35rem 0.85rem; border-radius: 9999px;">
-            ${isGlobal ? 'Relieves Night Growing Pains & Boosts Blood Flow' : '야간 성장통 완화 & 성장판 혈류량 2배 촉진'}
+            ${isGlobal ? 'Relieves Night Growing Pains & Boosts Blood Flow' : 'US CDC Growth Reference & Growth Plate US CDC Growth Reference 2US CDC Growth Reference'}
           </span>
         </div>
 
@@ -465,7 +465,7 @@
           <!-- Massage Card 1: Knee Acupressure Points (Dokbi & Zusanli) -->
           <div style="background: #F8FAFC; border: 1px solid #BFDBFE; border-radius: 18px; padding: 1.15rem;">
             <div style="font-size: 1.04rem; font-weight: 800; color: #1D4ED8; margin-bottom: 0.65rem;">
-              ${isGlobal ? 'Step 1. Knee Growth Plate Acupressure (3 Mins)' : '1단계. 무릎뼈 아래 성장판 혈자리 엄지 지압 (3분)'}
+              ${isGlobal ? 'Step 1. Knee Growth Plate Acupressure (3 Mins)' : '1US CDC Growth Reference. US CDC Growth Reference Growth Plate US CDC Growth Reference3US CDC Growth Reference'}
             </div>
             <svg viewBox="0 0 380 180" width="100%" style="display: block; width: 100%; height: auto; aspect-ratio: 380 / 180; background: #FFFFFF; border-radius: 14px; border: 1px solid #BFDBFE; margin-bottom: 0.85rem;">
               <!-- Femur & Tibia Outline -->
@@ -473,7 +473,7 @@
               <path d="M 158 105 Q 190 95 222 105 L 215 168 L 165 168 Z" fill="rgba(148, 163, 184, 0.15)" stroke="#94A3B8" stroke-width="3"/>
               <!-- Patella (Kneecap) -->
               <ellipse cx="190" cy="82" rx="24" ry="16" fill="#EFF6FF" stroke="#93C5FD" stroke-width="2.5"/>
-              <text x="190" y="86" fill="#0F172A" font-size="10" font-weight="800" text-anchor="middle">${isGlobal ? 'Kneecap' : '무릎뼈'}</text>
+              <text x="190" y="86" fill="#0F172A" font-size="10" font-weight="800" text-anchor="middle">${isGlobal ? 'Kneecap' : 'US CDC Growth Reference'}</text>
               <!-- Epiphyseal Growth Plate Line -->
               <line x1="152" y1="108" x2="228" y2="108" stroke="#1D4ED8" stroke-width="4" stroke-dasharray="6,4"/>
               <!-- Acupressure Points: Dokbi (Lateral/Medial Hollows) & Zusanli -->
@@ -485,10 +485,10 @@
               <path d="M 232 106 A 12 12 0 1 1 232 92" fill="none" stroke="#1D4ED8" stroke-width="2.5"/>
               <!-- Callouts -->
               <rect x="12" y="84" width="126" height="26" rx="6" fill="#EFF6FF" stroke="#94A3B8"/>
-              <text x="75" y="101" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? '① Hollow Below Knee' : '① 무릎 아래 오목한 곳'}</text>
+              <text x="75" y="101" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? '① Hollow Below Knee' : '① US CDC Growth Reference'}</text>
               <rect x="240" y="120" width="128" height="26" rx="6" fill="rgba(251, 191, 36, 0.2)" stroke="#FBBF24"/>
-              <text x="304" y="137" fill="#334155" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? '② Zusanli Point' : '② 바깥 아래(족삼리)'}</text>
-              <text x="190" y="162" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Press Gently with Thumbs for 5s in Circles' : '엄지손가락으로 5초씩 지그시 누르며 원 그리기'}</text>
+              <text x="304" y="137" fill="#334155" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? '② Zusanli Point' : '② US CDC Growth Reference'}</text>
+              <text x="190" y="162" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? 'Press Gently with Thumbs for 5s in Circles' : 'US CDC Growth Reference 5US CDC Growth Reference'}</text>
             </svg>
             <ul style="margin: 0; padding-left: 1.15rem; font-size: 0.9rem; color: #0F172A; line-height: 1.55;">
               ${isGlobal ? `
@@ -496,9 +496,9 @@
                 <li><strong>Hollow Acupressure:</strong> Press the medial &amp; lateral hollows below the kneecap gently with thumbs for 5s</li>
                 <li><strong>Lateral Tibia Circles:</strong> Massage 1 inch below the outer knee in 10 slow circular strokes</li>
               ` : `
-                <li><strong>따뜻한 온기:</strong> 양손을 비벼 아이 무릎을 30초간 감싸기</li>
-                <li><strong>독비혈 지압:</strong> 무릎뼈 아래 양옆 오목한 곳 엄지로 5초씩 지압</li>
-                <li><strong>족삼리 마사지:</strong> 무릎 바깥 아래 3cm를 원 그리듯 10회 풀기</li>
+                <li><strong>US CDC Growth Reference:</strong> US CDC Growth Reference 30US CDC Growth Reference</li>
+                <li><strong>US CDC Growth Reference:</strong> US CDC Growth Reference 5US CDC Growth Reference</li>
+                <li><strong>US CDC Growth Reference:</strong> US CDC Growth Reference 3cmUS CDC Growth Reference 10US CDC Growth Reference</li>
               `}
             </ul>
           </div>
@@ -506,7 +506,7 @@
           <!-- Massage Card 2: Calf & Achilles Upward Sweep -->
           <div style="background: #F8FAFC; border: 1px solid #BFDBFE; border-radius: 18px; padding: 1.15rem;">
             <div style="font-size: 1.04rem; font-weight: 800; color: #1D4ED8; margin-bottom: 0.65rem;">
-              ${isGlobal ? 'Step 2. Calf & Achilles Upward Sweep Massage (2 Mins)' : '2단계. 종아리·아킬레스건 위로 쓸어올리기 (2분)'}
+              ${isGlobal ? 'Step 2. Calf & Achilles Upward Sweep Massage (2 Mins)' : '2US CDC Growth Reference. US CDC Growth Reference2US CDC Growth Reference'}
             </div>
             <svg viewBox="0 0 380 180" width="100%" style="display: block; width: 100%; height: auto; aspect-ratio: 380 / 180; background: #FFFFFF; border-radius: 14px; border: 1px solid #BFDBFE; margin-bottom: 0.85rem;">
               <!-- Lower Leg & Calf Muscle Outline -->
@@ -522,11 +522,11 @@
               <circle cx="184" cy="28" r="7" fill="#FBBF24" stroke="#FFFFFF" stroke-width="2"/>
               <!-- Callouts -->
               <rect x="14" y="42" width="132" height="26" rx="6" fill="rgba(251, 191, 36, 0.2)" stroke="#FBBF24"/>
-              <text x="80" y="59" fill="#334155" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? '② Back of Knee' : '② 무릎 뒤 오금까지 쭉'}</text>
+              <text x="80" y="59" fill="#334155" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? '② Back of Knee' : '② US CDC Growth Reference'}</text>
               <rect x="228" y="82" width="138" height="26" rx="6" fill="#EFF6FF" stroke="#1D4ED8"/>
-              <text x="297" y="99" fill="#334155" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? '① Sweep Upward 10x' : '① 발목→종아리 쓸어올리기'}</text>
+              <text x="297" y="99" fill="#334155" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? '① Sweep Upward 10x' : '① US CDC Growth Reference→US CDC Growth Reference'}</text>
               <rect x="228" y="132" width="138" height="26" rx="6" fill="#EFF6FF" stroke="#1D4ED8"/>
-              <text x="297" y="149" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? '③ Pull Toes Gently' : '③ 발끝을 몸쪽으로 당기기'}</text>
+              <text x="297" y="149" fill="#1D4ED8" font-size="11" font-weight="800" text-anchor="middle">${isGlobal ? '③ Pull Toes Gently' : '③ US CDC Growth Reference'}</text>
             </svg>
             <ul style="margin: 0; padding-left: 1.15rem; font-size: 0.9rem; color: #0F172A; line-height: 1.55;">
               ${isGlobal ? `
@@ -534,9 +534,9 @@
                 <li><strong>Dorsiflexion Stretch:</strong> Gently flex toes toward the shin for 10 seconds to lengthen calf fascia</li>
                 <li><strong>Night Comfort:</strong> Releases lower-limb tension to reduce growing pains and deepen slow-wave sleep</li>
               ` : `
-                <li><strong>쓸어올리기:</strong> 발목부터 무릎 뒤 오금까지 양손으로 10회 쓸어올리기</li>
-                <li><strong>발끝 당기기:</strong> 발끝을 몸쪽으로 당겨 종아리 근육 10초 늘리기</li>
-                <li><strong>성장통 완화:</strong> 다리 근막 긴장을 풀어 밤새 깊은 숙면 유도</li>
+                <li><strong>US CDC Growth Reference:</strong> US CDC Growth Reference 10US CDC Growth Reference</li>
+                <li><strong>US CDC Growth Reference:</strong> US CDC Growth Reference 10US CDC Growth Reference</li>
+                <li><strong>US CDC Growth Reference:</strong> US CDC Growth Reference</li>
               `}
             </ul>
           </div>
@@ -559,10 +559,10 @@
     const habits = profile.habits || [];
     const restoredHeight = calculateDecompressionPotential(habits);
 
-    const titleStr = isGlobal ? 'Illustrated Growth Massage & 4-Step Spine/Growth Plate Exercise Guide' : '그림으로 쉽게 따라 하는 성장판 마사지 & 숨은 키 4단계 운동 가이드';
+    const titleStr = isGlobal ? 'Illustrated Growth Massage & 4-Step Spine/Growth Plate Exercise Guide' : 'US CDC Growth Reference Growth Plate US CDC Growth Reference & US CDC Growth Reference 4US CDC Growth Reference Exercise US CDC Growth Reference';
     const subStr = isGlobal
       ? 'No complicated timers needed! Follow the step-by-step visual illustrations below for 5-minute bedtime knee/calf massage and 4 spine-lengthening & growth plate exercises.'
-      : '복잡한 타이머 없이 그림만 보고 집에서 바로 따라 해보세요. 잠들기 전 5분 엄마 손 성장판 마사지와 숨은 키 +1.8cm를 찾아주는 4단계 맞춤 운동법입니다.';
+      : 'US CDC Growth Reference yrsUS CDC Growth Reference. US CDC Growth Reference 5US CDC Growth Reference Growth Plate US CDC Growth Reference1.8cmUS CDC Growth Reference 4US CDC Growth Reference ExerciseUS CDC Growth Reference.';
 
     let html = `
       <div id="core-3-container" class="core-module-container biomechanics-studio-container">
@@ -582,7 +582,7 @@
             </div>
             <div class="biomechanics-potential-badge" style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: var(--radius-inner); padding: 0.75rem 1.25rem; text-align: center;">
               <span style="font-size: 0.78rem; font-weight: 700; color: #0F172A; display: block;">
-                ${isGlobal ? 'Spinal Curvature Recovery' : '숨은 척추·자세 복원 잠재력'}
+                ${isGlobal ? 'Spinal Curvature Recovery' : 'US CDC Growth Reference yrs US CDC Growth Reference'}
               </span>
               <span style="font-size: 1.5rem; font-weight: 900; color: var(--rose-alert); font-family: var(--font-mono);">
                 +${restoredHeight} cm
@@ -608,20 +608,20 @@
       const initialTime = formatTime(timer.remainingSeconds);
 
       const categoryLabel = r.category === 'decompression'
-        ? (isGlobal ? 'Exercise 1: Spine Decompression' : '운동 1단계: 척추 마디 늘리기')
+        ? (isGlobal ? 'Exercise 1: Spine Decompression' : 'Exercise 1US CDC Growth Reference: US CDC Growth Reference')
         : (r.category === 'alignment'
-          ? (isGlobal ? 'Exercise 2: Posture Alignment' : '운동 2단계: 굽은 등·골반 펴기')
+          ? (isGlobal ? 'Exercise 2: Posture Alignment' : 'Exercise 2US CDC Growth Reference: US CDC Growth Reference')
           : (r.category === 'epiphyseal_stimulation'
-            ? (isGlobal ? 'Exercise 3: Growth Plate Jumping' : '운동 3단계: 성장판 탄성 점핑')
-            : (isGlobal ? 'Exercise 4: Lower-Body & Core Stretch' : '운동 4단계: 하체 성장판 이완 & 코어 브릿지')));
+            ? (isGlobal ? 'Exercise 3: Growth Plate Jumping' : 'Exercise 3US CDC Growth Reference: Growth Plate US CDC Growth Reference  ptsUS CDC Growth Reference')
+            : (isGlobal ? 'Exercise 4: Lower-Body & Core Stretch' : 'Exercise 4US CDC Growth Reference: US CDC Growth Reference Growth Plate US CDC Growth Reference & US CDC Growth Reference')));
 
       const freqBadge = r.id === 'dead_hang'
-        ? (isGlobal ? 'Morning & Night · 30s × 3 times' : '권장: 아침·저녁 30초씩 3번')
+        ? (isGlobal ? 'Morning & Night · 30s × 3 times' : 'US CDC Growth Reference: US CDC Growth Reference 30US CDC Growth Reference 3US CDC Growth Reference')
         : (r.id === 'thoracic_stretch'
-          ? (isGlobal ? 'Before Bed · 45s × 2 times' : '권장: 잠들기 전 45초씩 2번')
+          ? (isGlobal ? 'Before Bed · 45s × 2 times' : 'US CDC Growth Reference: US CDC Growth Reference 45US CDC Growth Reference 2US CDC Growth Reference')
           : (r.id === 'plyometrics'
-            ? (isGlobal ? 'Afternoon · 10~15 mins' : '권장: 하교 후 하루 10~15분')
-            : (isGlobal ? 'After Jumping / Bedtime · 1 min × 2' : '권장: 점핑 후·취침 전 1분씩 2번')));
+            ? (isGlobal ? 'Afternoon · 10~15 mins' : 'US CDC Growth Reference: US CDC Growth Reference 10~15US CDC Growth Reference')
+            : (isGlobal ? 'After Jumping / Bedtime · 1 min × 2' : 'US CDC Growth Reference:  ptsUS CDC Growth Reference 1US CDC Growth Reference 2US CDC Growth Reference')));
 
       const illustrationSvg = r.id === 'lower_body_core_stretch'
         ? getRoutine4IllustrationSvg(isGlobal)
@@ -656,8 +656,8 @@
             <!-- Always-Visible Step-by-Step How-To Guide (Large Readable Font) -->
             <div style="background: #F8FAFC; border: 1px solid #BFDBFE; border-radius: 14px; padding: 0.95rem 1rem;">
               <div style="font-size: 0.88rem; font-weight: 800; color: #1D4ED8; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
-                <span>${isGlobal ? 'Step-by-Step How to Do It' : '그림 보고 따라 하는 동작 순서'}</span>
-                <span style="color: #1D4ED8; font-size: 0.8rem;">${isGlobal ? 'Gain' : '기대 효과'}: ${isGlobal ? (r.restorationEstimateEn || String(r.restorationEstimate || '').replace(/\s*\([^)]*[가-힣][^)]*\)/g, '')) : r.restorationEstimate}</span>
+                <span>${isGlobal ? 'Step-by-Step How to Do It' : 'US CDC Growth Reference'}</span>
+                <span style="color: #1D4ED8; font-size: 0.8rem;">${isGlobal ? 'Gain' : 'US CDC Growth Reference'}: ${isGlobal ? (r.restorationEstimateEn || String(r.restorationEstimate || '').replace(/\s*\([^)]*[\uac00-\ud7a3][^)]*\)/g, '')) : r.restorationEstimate}</span>
               </div>
               <ol style="margin: 0; padding-left: 1.2rem; font-size: 0.92rem; color: #0F172A; line-height: 1.65;">
                 ${instructions.map(inst => `<li style="margin-bottom: 0.25rem;">${inst}</li>`).join('')}
@@ -687,41 +687,41 @@
         <div class="bento-card curated-product-recommendation-section growth-product-section" id="core-3-recommended-products" style="display: none; margin-top: 1.25rem; margin-bottom: 1.25rem; padding: 1.35rem; background: #F8FAFC; border: 1.5px solid #BFDBFE; border-radius: 20px;">
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.9rem;">
             <span style="font-size: 1.05rem; font-weight: 900; color: #0F172A;">
-              ${isGlobal ? 'Top 3 Biomechanical Decompression &amp; Posture Alignment Tools' : '척추 감압 · 바른 자세 교정에 도움이 되는 엄선 추천 상품 TOP 3'}
+              ${isGlobal ? 'Top 3 Biomechanical Decompression &amp; Posture Alignment Tools' : 'Spinal Decompression · US CDC Growth Reference yrs US CDC Growth Reference TOP 3'}
             </span>
             <span style="font-size: 0.78rem; font-weight: 800; color: #1D4ED8; background: #EFF6FF; padding: 0.22rem 0.65rem; border-radius: 9999px;">
-              ${isGlobal ? 'Core 3 Clinical Curation' : 'Core 3 맞춤 큐레이션'}
+              ${isGlobal ? 'Core 3 Clinical Curation' : 'Core 3 US CDC Growth Reference'}
             </span>
           </div>
           <div style="display: flex; flex-direction: column; gap: 0.85rem;">
             <div style="background: #FFFFFF; border: 1px solid #BFDBFE; border-radius: 14px; padding: 1rem; display: flex; flex-direction: column; justify-content: space-between; gap: 0.65rem;">
               <div>
-                <span style="font-size: 0.74rem; font-weight: 800; color: #1D4ED8;">${isGlobal ? 'Pick #1 · Step 1 Decompression Aid' : '엄선 1위 · 운동 1단계 필수템'}</span>
-                <div style="font-size: 0.96rem; font-weight: 800; color: #0F172A; margin: 0.25rem 0;">${isGlobal ? 'Safety-Lock Doorway Pull-Up &amp; Dead-Hang Decompression Bar' : '안전 고정형 실내 문틀 철봉 (데드행 스트레칭 바)'}</div>
-                <p style="font-size: 0.84rem; color: #475569; margin: 0; line-height: 1.45;">${isGlobal ? '30-second morning and evening hangs safely decompress intervertebral discs compressed during daytime sitting.' : '아침·저녁 30초 매달리기로 낮 동안 눌린 척추 디스크 간격을 안전하게 펴줍니다.'}</p>
+                <span style="font-size: 0.74rem; font-weight: 800; color: #1D4ED8;">${isGlobal ? 'Pick #1 · Step 1 Decompression Aid' : 'US CDC Growth Reference 1US CDC Growth Reference Exercise 1US CDC Growth Reference'}</span>
+                <div style="font-size: 0.96rem; font-weight: 800; color: #0F172A; margin: 0.25rem 0;">${isGlobal ? 'Safety-Lock Doorway Pull-Up &amp; Dead-Hang Decompression Bar' : 'US CDC Growth Reference'}</div>
+                <p style="font-size: 0.84rem; color: #475569; margin: 0; line-height: 1.45;">${isGlobal ? '30-second morning and evening hangs safely decompress intervertebral discs compressed during daytime sitting.' : 'US CDC Growth Reference 30US CDC Growth Reference.'}</p>
               </div>
               <a href="${isGlobal ? `https://www.amazon.com/s?k=Ally+Peaks+Pull+Up+Bar+Doorway+Safety+Lock&tag=${encodeURIComponent((affConfig && affConfig.amazon) || 'kidfit-20')}` : 'https://link.coupang.com/re/AFFSRP?lptag=AF7865143&subid=kidsfit&pageKey=%EC%8B%A4%EB%82%B4+%EB%AC%B8%ED%8B%80+%EC%B2%A0%EB%B4%89+%EC%96%B4%EB%A6%B0%EC%9D%B4'}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; justify-content: center; align-items: center; padding: 0.6rem 0.9rem; border-radius: 10px; background: #1D4ED8; color: #FFFFFF; font-size: 0.85rem; font-weight: 800; text-decoration: none;">
-                ${isGlobal ? 'View Doorway Dead-Hang Bar (Amazon) ↗' : '실내 문틀 철봉 보러가기 ↗'}
+                ${isGlobal ? 'View Doorway Dead-Hang Bar (Amazon) ↗' : 'US CDC Growth Reference ↗'}
               </a>
             </div>
             <div style="background: #FFFFFF; border: 1px solid #BFDBFE; border-radius: 14px; padding: 1rem; display: flex; flex-direction: column; justify-content: space-between; gap: 0.65rem;">
               <div>
-                <span style="font-size: 0.74rem; font-weight: 800; color: #1D4ED8;">${isGlobal ? 'Pick #2 · Step 2 Thoracic Posture Aid' : '엄선 2위 · 운동 2단계 필수템'}</span>
-                <div style="font-size: 0.96rem; font-weight: 800; color: #0F172A; margin: 0.25rem 0;">${isGlobal ? 'High-Density Foam Roller &amp; Adjustable Ergonomic Book Stand' : '소프트 EPP 폼롤러 &amp; 2단 각도조절 원목 독서대'}</div>
-                <p style="font-size: 0.84rem; color: #475569; margin: 0; line-height: 1.45;">${isGlobal ? 'Thoracic extension and eye-level desk alignment help recover up to +0.7 in (+1.8 cm) of postural stature.' : '흉추 신전 스트레칭과 책상 시선 각도 교정으로 숨은 키(+1.8cm)를 복원합니다.'}</p>
+                <span style="font-size: 0.74rem; font-weight: 800; color: #1D4ED8;">${isGlobal ? 'Pick #2 · Step 2 Thoracic Posture Aid' : 'US CDC Growth Reference 2US CDC Growth Reference Exercise 2US CDC Growth Reference'}</span>
+                <div style="font-size: 0.96rem; font-weight: 800; color: #0F172A; margin: 0.25rem 0;">${isGlobal ? 'High-Density Foam Roller &amp; Adjustable Ergonomic Book Stand' : 'US CDC Growth Reference EPP US CDC Growth Reference &amp; 2US CDC Growth Reference'}</div>
+                <p style="font-size: 0.84rem; color: #475569; margin: 0; line-height: 1.45;">${isGlobal ? 'Thoracic extension and eye-level desk alignment help recover up to +0.7 in (+1.8 cm) of postural stature.' : 'US CDC Growth Reference1.8cm)US CDC Growth Reference.'}</p>
               </div>
               <a href="${isGlobal ? `https://www.amazon.com/s?k=TriggerPoint+Foam+Roller+Adjustable+Bamboo+Book+Stand&tag=${encodeURIComponent((affConfig && affConfig.amazon) || 'kidfit-20')}` : 'https://link.coupang.com/re/AFFSRP?lptag=AF7865143&subid=kidsfit&pageKey=%ED%8F%BC%EB%A1%A4%EB%9F%AC+%EA%B0%81%EB%8F%84%EC%A1%B0%EC%A0%88+%EB%8F%85%EC%84%9C%EB%8C%80'}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; justify-content: center; align-items: center; padding: 0.6rem 0.9rem; border-radius: 10px; background: #1D4ED8; color: #FFFFFF; font-size: 0.85rem; font-weight: 800; text-decoration: none;">
-                ${isGlobal ? 'View Foam Roller &amp; Posture Stand (Amazon) ↗' : '폼롤러 · 자세교정 독서대 보기 ↗'}
+                ${isGlobal ? 'View Foam Roller &amp; Posture Stand (Amazon) ↗' : 'US CDC Growth Reference yrsUS CDC Growth Reference ↗'}
               </a>
             </div>
             <div style="background: #FFFFFF; border: 1px solid #BFDBFE; border-radius: 14px; padding: 1rem; display: flex; flex-direction: column; justify-content: space-between; gap: 0.65rem;">
               <div>
-                <span style="font-size: 0.74rem; font-weight: 800; color: #1D4ED8;">${isGlobal ? 'Pick #3 · Step 3 Epiphyseal Micro-Loading Aid' : '엄선 3위 · 운동 3단계 필수템'}</span>
-                <div style="font-size: 0.96rem; font-weight: 800; color: #0F172A; margin: 0.25rem 0;">${isGlobal ? 'Low-Impact Indoor Handlebar Trampoline &amp; Counter Jump Rope' : '층간소음 방지 실내 점핑 트램폴린 · 카운트 줄넘기'}</div>
-                <p style="font-size: 0.84rem; color: #475569; margin: 0; line-height: 1.45;">${isGlobal ? 'Delivers gentle elastic piezoelectric micro-stimulation to knee and ankle growth plates.' : '관절 무리 없이 무릎 성장판에 탄성 미세 자극을 전달하는 실내 운동 기구입니다.'}</p>
+                <span style="font-size: 0.74rem; font-weight: 800; color: #1D4ED8;">${isGlobal ? 'Pick #3 · Step 3 Epiphyseal Micro-Loading Aid' : 'US CDC Growth Reference 3US CDC Growth Reference Exercise 3US CDC Growth Reference'}</span>
+                <div style="font-size: 0.96rem; font-weight: 800; color: #0F172A; margin: 0.25rem 0;">${isGlobal ? 'Low-Impact Indoor Handlebar Trampoline &amp; Counter Jump Rope' : 'US CDC Growth Reference  ptsUS CDC Growth Reference'}</div>
+                <p style="font-size: 0.84rem; color: #475569; margin: 0; line-height: 1.45;">${isGlobal ? 'Delivers gentle elastic piezoelectric micro-stimulation to knee and ankle growth plates.' : 'US CDC Growth Reference Growth PlateUS CDC Growth Reference yrs US CDC Growth Reference Exercise US CDC Growth Reference.'}</p>
               </div>
               <a href="${isGlobal ? `https://www.amazon.com/s?k=Kids+Indoor+Mini+Trampoline+Handlebar+Counter+Jump+Rope&tag=${encodeURIComponent((affConfig && affConfig.amazon) || 'kidfit-20')}` : 'https://link.coupang.com/re/AFFSRP?lptag=AF7865143&subid=kidsfit&pageKey=%EC%96%B4%EB%A6%B0%EC%9D%B4+%EC%8B%A4%EB%82%B4+%ED%8A%B8%EB%9E%A8%ED%8F%B4%EB%A6%B0+%EC%A4%84%EB%84%98%EA%B8%B0'}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; justify-content: center; align-items: center; padding: 0.6rem 0.9rem; border-radius: 10px; background: #1D4ED8; color: #FFFFFF; font-size: 0.85rem; font-weight: 800; text-decoration: none;">
-                ${isGlobal ? 'View Trampoline &amp; Jump Rope (Amazon) ↗' : '무소음 트램폴린·줄넘기 보기 ↗'}
+                ${isGlobal ? 'View Trampoline &amp; Jump Rope (Amazon) ↗' : 'US CDC Growth Reference ↗'}
               </a>
             </div>
           </div>
@@ -747,7 +747,7 @@
              id="ref-chip-biomechanics"
              style="font-size: 12px; color: #334155; border: 1px solid var(--theme-border); padding: 0.35rem 0.75rem; border-radius: 9999px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; background: var(--theme-surface-sub);">
             <span></span>
-            <span>${isGlobal ? '[Biomechanics Equipment Reference (Amazon) ↗]' : '[생체역학·자세교정 도구 아카이브 참고 ↗]'}</span>
+            <span>${isGlobal ? '[Biomechanics Equipment Reference (Amazon) ↗]' : '[US CDC Growth Reference yrsUS CDC Growth Reference ↗]'}</span>
           </a>
         </div>
       </div>
@@ -780,13 +780,13 @@
         }
         if (stateEl) {
           if (data.state === 'running') {
-            stateEl.textContent = (typeof document !== 'undefined' && document.documentElement && document.documentElement.lang === 'en') ? (data.isRestPhase ? 'REST INTERVAL' : 'RUNNING') : (data.isRestPhase ? 'REST INTERVAL (휴식 중)' : 'RUNNING (진행 중)');
+            stateEl.textContent = (typeof document !== 'undefined' && document.documentElement && document.documentElement.lang === 'en') ? (data.isRestPhase ? 'REST INTERVAL' : 'RUNNING') : (data.isRestPhase ? 'REST INTERVAL (US CDC Growth Reference' : 'RUNNING (US CDC Growth Reference');
             stateEl.style.color = data.isRestPhase ? 'var(--amber-caution)' : 'var(--rose-alert)';
           } else if (data.state === 'paused') {
-            stateEl.textContent = (typeof document !== 'undefined' && document.documentElement && document.documentElement.lang === 'en') ? 'PAUSED' : 'PAUSED (일시정지)';
+            stateEl.textContent = (typeof document !== 'undefined' && document.documentElement && document.documentElement.lang === 'en') ? 'PAUSED' : 'PAUSED (dUS CDC Growth Reference';
             stateEl.style.color = 'var(--amber-caution)';
           } else if (data.state === 'completed') {
-            stateEl.textContent = (typeof document !== 'undefined' && document.documentElement && document.documentElement.lang === 'en') ? 'COMPLETED' : 'COMPLETED (완료)';
+            stateEl.textContent = (typeof document !== 'undefined' && document.documentElement && document.documentElement.lang === 'en') ? 'COMPLETED' : 'COMPLETED (Complete)';
             stateEl.style.color = 'var(--bio-emerald)';
           } else {
             stateEl.textContent = 'READY TO START';
@@ -794,7 +794,7 @@
           }
         }
         if (setBadgeEl) {
-          setBadgeEl.innerHTML = `${(typeof document !== 'undefined' && document.documentElement && document.documentElement.lang === 'en') ? 'Set' : '세트'} <span class="current-set">${data.currentSet}</span> / ${data.totalSets}`;
+          setBadgeEl.innerHTML = `${(typeof document !== 'undefined' && document.documentElement && document.documentElement.lang === 'en') ? 'Set' : ' yrsUS CDC Growth Reference'} <span class="current-set">${data.currentSet}</span> / ${data.totalSets}`;
         }
       });
 

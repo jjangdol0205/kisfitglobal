@@ -1,5 +1,5 @@
 /**
- * Taller Bio Labs (키즈핏 바이오 랩)
+ * KISFIT Bio Labs (Global Edition)
  * Theme Switcher Module (src/js/theme-switcher.js)
  * 
  * Themes:
