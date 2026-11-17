@@ -220,6 +220,16 @@
     var remainDays = Math.max(0, diffDays(todayIso, targetDate));
     if (!ms.nextRecheckDate) remainDays = 30;
 
+    var refBadgeEl = document.getElementById('kfg-club-clinical-reference-badge');
+    if (refBadgeEl) {
+      refBadgeEl.textContent = 'Standardized on US CDC 2000 LMS Pediatric Growth Reference Cohorts (Ages 2–20)';
+    }
+
+    var btnGcal = document.getElementById('btn-kfg-google-calendar');
+    if (btnGcal && typeof btnGcal.setAttribute === 'function') {
+      btnGcal.setAttribute('href', buildKfgGoogleCalendarUrl(targetDate, ms.latestSnapshot || captureChildSnapshot()));
+    }
+
     var recheckEl = document.getElementById('kfg-club-next-recheck');
     if (recheckEl) {
       recheckEl.textContent = '⏰ Next Growth Re-check: D-' + remainDays + ' (' + formatReadableDate(targetDate) + ')';
@@ -290,21 +300,33 @@
         window.fetch('https://abacus.jasoncameron.dev/hit/kfg_kisfitglobal/milestone_stamp_' + todayIso, {
           mode: 'cors',
           keepalive: true
-        })
-          .then(function (r) { return r && r.ok ? r.json() : null; })
-          .then(function (data) {
-            if (data && typeof data.value === 'number') {
-              var liveEl = document.getElementById('kfg-club-live-counter');
-              if (liveEl) {
-                liveEl.style.display = 'inline';
-                liveEl.textContent = ' · ' + Math.max(1, data.value).toLocaleString('en-US') + ' US parent check-ins today';
-              }
-            }
-          })
-          .catch(function () {});
+        }).catch(function () {});
       }
     } catch (_e) {}
   };
+
+  function buildKfgGoogleCalendarUrl(targetIso, snapshotStr) {
+    var safeIso = targetIso || addDays(getLocalIsoDate(), 30);
+    var p = String(safeIso).split('-');
+    var y = p.length === 3 ? p[0] : '2026';
+    var m = p.length === 3 ? p[1] : '12';
+    var d = p.length === 3 ? p[2] : '17';
+    var datesParam = y + m + d + 'T090000/' + y + m + d + 'T091500';
+    var detailsLines = [];
+    if (snapshotStr) {
+      detailsLines.push('Logged Child Baseline: ' + snapshotStr);
+    }
+    detailsLines.push('1) Measure barefoot morning height against a flat wall within 30 mins of waking.');
+    detailsLines.push('2) Review pre-10 PM deep-sleep HGH schedule & daily Calcium + Vitamin D3.');
+    detailsLines.push('3) Log your monthly US CDC velocity check-in at https://kisfitglobal.com');
+    return (
+      'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+      '&text=Monthly+Child+Height+Check-In+(KISFIT+CDC+Tracker)' +
+      '&dates=' + encodeURIComponent(datesParam) +
+      '&details=' + encodeURIComponent(detailsLines.join('\n')) +
+      '&location=' + encodeURIComponent('https://kisfitglobal.com')
+    );
+  }
 
   function closeKfgInAppScheduleModal() {
     var m = document.getElementById('kfg-inapp-schedule-modal');
@@ -413,6 +435,7 @@
   window.submitKfgInAppScheduleEmail = submitKfgInAppScheduleEmail;
   window.openKfgInAppScheduleModal = openKfgInAppScheduleModal;
   window.isKfgSocialInAppWebView = isSocialInAppWebView;
+  window.buildKfgGoogleCalendarUrl = buildKfgGoogleCalendarUrl;
 
   window.downloadKfgD30CalendarIcs = function () {
     var todayIso = getLocalIsoDate();

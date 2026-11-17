@@ -1,9 +1,9 @@
 /**
  * Taller Bio Labs (KISFIT Bio Labs)
- * Core 4: Neuro-Cognitive & Exploration Matrix ( & 
+ * Core 4: Executive-Cognitive & Exploration Matrix ( & 
  * 
  * Clinical Principles:
- * 1. 5-Axis Neuro-Cognitive Dimension Balance:
+ * 1. 5-Axis Executive-Cognitive Dimension Balance:
  * - Math / Spatial / Logic (
  * - Language / Literacy / Critical Reading (
  * - Science / Nature / Technology (
@@ -236,7 +236,7 @@
   }
 
   /**
-   * Transparent 5-Axis Neuro-Cognitive Scoring & Clinical Audit Engine
+   * Transparent 5-Axis Executive-Cognitive Scoring & Clinical Audit Engine
    * Explains the exact baseline (K-DST P50 = 70) + Survey Inputs (Axes, Temperament, Focus Span, Sleep/Screen Habits, Free Note)
    * so parents can see the exact scientific & input-driven basis of every radar vertex.
    */
@@ -464,7 +464,7 @@
     });
 
     return `
-      <svg id="${(options && options.id) ? options.id : 'lq-radar-svg'}" viewBox="0 0 400 400" class="radar-svg" style="width: 100%; max-width: 380px; height: auto; display: block; margin: 0 auto;" aria-label="5-Axis Neuro-Cognitive Balance Radar Chart">
+      <svg id="${(options && options.id) ? options.id : 'lq-radar-svg'}" viewBox="0 0 400 400" class="radar-svg" style="width: 100%; max-width: 380px; height: auto; display: block; margin: 0 auto;" aria-label="5-Axis Executive-Cognitive Balance Radar Chart">
         <defs>
           <radialGradient id="childRadarGrad" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stop-color="rgba(56, 189, 248, 0.45)" />
@@ -827,19 +827,19 @@
     const goldenWindow = getGoldenTimeInfo(ageYears);
     const radarSvg = renderRadarSvg(scores, isGlobal);
 
-    const titleStr = isGlobal ? 'Neuro-Cognitive Matrix & Havruta Exploration' : '5US CDC Growth Reference & US CDC Growth Reference';
+    const titleStr = isGlobal ? 'Executive-Cognitive Matrix & Havruta Exploration' : '5US CDC Growth Reference & US CDC Growth Reference';
     const subStr = isGlobal
       ? '5-Axis developmental radar balance, age-specific cortical rewiring windows, and 3-step Havruta parent-child inquiry protocols.'
       : 'US CDC Growth Reference 5US CDC Growth Reference3US CDC Growth Reference  yrsUS CDC Growth Reference.';
 
     let html = `
-      <div id="core-4-container" class="core-module-container neuro-cognitive-container">
+      <div id="core-4-container" class="core-module-container executive-cognitive-container">
         <!-- Core 4 Header Card -->
         <div class="bento-card neuro-header-card" style="margin-bottom: 1.5rem; border-left: 4px solid var(--bio-emerald);">
           <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
             <div>
               <span class="tab-badge tab-badge-mint" style="display: inline-block; margin-bottom: 0.5rem;">
-                Core 4 · Neuro-Cognitive Architecture
+                Core 4 · Executive-Cognitive Architecture
               </span>
               <h3 style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin-bottom: 0.35rem;">
                 ${titleStr}

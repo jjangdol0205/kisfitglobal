@@ -23,6 +23,7 @@
   </style>
   <!-- KFG_QNA_HEAD_BUNDLE_START -->
   <script>
+  window.HQ_MAILING_CONFIG_PATH = '/hq-mailing-endpoint.json';
   window.PAYMENT_CONFIG = Object.assign({
     PROVIDER: 'polar_sh',
     DIVISION: 'KFG',
@@ -140,7 +141,7 @@
       <a href="/qna/" style="font-size:0.88rem;font-weight:800;color:#475569;text-decoration:none;">All 200+ Clinical Q&amp;A Guides &rarr;</a>
     </div>
     <article class="card">
-      <span class="badge">Clinical Auxology &amp; Neuroscience Column #132 · 5-Axis Brain LQ · Prefrontal Working Memory & Math Word Problems</span>
+      <span class="badge">Clinical Auxology &amp; Neuroscience Column #132 · Growth & Habit Velocity · Prefrontal Working Memory & Math Word Problems</span>
       <h1>Why 11-Year-Old Girls Freeze on Math Word Problems: dlPFC Working Memory & 3-Minute Feynman Recall</h1>
       <!-- KFG_PARENT_LEAD_TOP_START -->
       <section id="kfg-lead-magnet-top" aria-label="Free Parent Growth Checklist Email Sign-Up and PDF Guide" style="margin:1.15rem 0;padding:1.35rem 1.3rem;background:linear-gradient(135deg,#EFF6FF 0%,#ECFDF5 100%);border:2px solid #2563EB;border-radius:18px;box-shadow:0 8px 22px rgba(37,99,235,0.10);">
@@ -164,10 +165,10 @@
         <div style="margin-top:0.95rem;padding-top:0.8rem;border-top:1px solid #BFDBFE;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.65rem;">
           <span style="font-size:0.9rem;font-weight:800;color:#1E293B;">📄 Want the Printable US CDC Percentile &amp; Bone-Age PDF Guide + 30-Day Growth Velocity Tracker?</span>
           <div style="display:flex;flex-wrap:wrap;gap:0.55rem;">
-            <a href="#vip-waitlist" data-kfg-paid-plan="single" class="polar-checkout-button" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0.55rem 1rem;border-radius:10px;background:#0F172A;color:#FFFFFF;font-size:0.9rem;font-weight:800;text-decoration:none;">
+            <a href="#vip-waitlist" data-kfg-paid-plan="single" class="polar-checkout-button" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0.55rem 1rem;border-radius:10px;background:#0F172A;color:#FFFFFF;font-size:0.9rem;font-weight:800;text-decoration:none;" onclick="if(window.openKfgWaitlistModal&&(!window.PAYMENT_CONFIG||!window.PAYMENT_CONFIG.STORE_LIVE_READY)){event.preventDefault();window.openKfgWaitlistModal('single');return false;}">
               📄 Single Growth &amp; Bone-Age PDF Guide ($8.99)
             </a>
-            <a href="#vip-waitlist" data-kfg-paid-plan="pass" class="polar-checkout-button" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0.55rem 1rem;border-radius:10px;background:#059669;color:#FFFFFF;font-size:0.9rem;font-weight:900;text-decoration:none;">
+            <a href="#vip-waitlist" data-kfg-paid-plan="pass" class="polar-checkout-button" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0.55rem 1rem;border-radius:10px;background:#059669;color:#FFFFFF;font-size:0.9rem;font-weight:900;text-decoration:none;" onclick="if(window.openKfgWaitlistModal&&(!window.PAYMENT_CONFIG||!window.PAYMENT_CONFIG.STORE_LIVE_READY)){event.preventDefault();window.openKfgWaitlistModal('sixMonth');return false;}">
               📈 6-Month Growth &amp; Velocity Pass ($19.99)
             </a>
           </div>
@@ -215,8 +216,8 @@
       <div style="margin-top:0.85rem;padding:0.9rem 1.05rem;background:#0F172A;color:#F8FAFC;border-radius:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.65rem;">
         <div style="font-size:0.82rem;font-weight:700;">🔒 <strong style="color:#FACC15;">Unlock Full 12-Page Pediatric Auxology &amp; Khamis-Roche Bone-Age PDF:</strong> Pediatrician 1-Page Summary + 14-Day Habit Tracker</div>
         <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-          <a href="#vip-waitlist" target="_blank" rel="noopener" style="background:#2563EB;color:#FFF;text-decoration:none;font-size:0.78rem;font-weight:900;padding:0.48rem 0.85rem;border-radius:8px;">Unlock Single Report ($8.99)</a>
-          <a href="#vip-waitlist" target="_blank" rel="noopener" style="background:#FACC15;color:#0F172A;text-decoration:none;font-size:0.78rem;font-weight:900;padding:0.48rem 0.85rem;border-radius:8px;">6-Month Unlimited Pass ($19.99)</a>
+          <a href="#vip-waitlist" style="background:#2563EB;color:#FFF;text-decoration:none;font-size:0.78rem;font-weight:900;padding:0.48rem 0.85rem;border-radius:8px;" data-kfg-paid-plan="single" class="polar-checkout-button" onclick="if(window.openKfgWaitlistModal&&(!window.PAYMENT_CONFIG||!window.PAYMENT_CONFIG.STORE_LIVE_READY)){event.preventDefault();window.openKfgWaitlistModal('single');return false;}">Unlock Single Report ($8.99)</a>
+          <a href="#vip-waitlist" style="background:#FACC15;color:#0F172A;text-decoration:none;font-size:0.78rem;font-weight:900;padding:0.48rem 0.85rem;border-radius:8px;" data-kfg-paid-plan="pass" class="polar-checkout-button" onclick="if(window.openKfgWaitlistModal&&(!window.PAYMENT_CONFIG||!window.PAYMENT_CONFIG.STORE_LIVE_READY)){event.preventDefault();window.openKfgWaitlistModal('sixMonth');return false;}">6-Month Unlimited Pass ($19.99)</a>
         </div>
       </div>
     
@@ -224,10 +225,10 @@
       <section id="kfg-direct-monetization-card" style="margin-top:1.25rem;margin-bottom:1.25rem;padding:1.25rem;background:linear-gradient(135deg,#EEF2FF 0%,#F0FDF4 100%);border:2px solid #4F46E5;border-radius:16px;box-shadow:0 8px 20px rgba(79,70,229,0.08);">
         <div style="font-size:0.76rem;font-weight:900;color:#4338CA;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.3rem;">US CDC 2000 LMS &amp; Khamis-Roche Auxology Guide · Parent Growth Guide Edition</div>
         <h3 style="font-size:1.08rem;font-weight:900;color:#0F172A;margin:0 0 0.45rem;line-height:1.35;">Unlock the Comprehensive Growth &amp; Habit Percentile PDF Guide</h3>
-        <p style="font-size:0.86rem;color:#334155;margin:0 0 0.85rem;line-height:1.55;">Includes Printable US CDC Percentile &amp; Bone-Age PDF Guide + 30-Day Growth Velocity Tracker (3-scenario adult height projection, bone-age velocity guardrails, and 5-Axis Brain LQ study roadmap):</p>
+        <p style="font-size:0.86rem;color:#334155;margin:0 0 0.85rem;line-height:1.55;">Includes Printable US CDC Percentile &amp; Bone-Age PDF Guide + 30-Day Growth Velocity Tracker (3-scenario adult height projection, bone-age velocity guardrails, and 90-day sleep, Calcium/D3 &amp; spinal decompression roadmap):</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0.6rem;margin-bottom:0.65rem;">
-          <a href="#vip-waitlist" data-kfg-paid-plan="single" class="polar-checkout-button" style="text-decoration:none;text-align:center;background:#1D4ED8;color:#FFFFFF;font-weight:800;font-size:0.84rem;padding:0.75rem 0.9rem;border-radius:11px;display:block;">📄 Single Growth &amp; Bone-Age PDF Guide ($8.99)</a>
-          <a href="#vip-waitlist" data-kfg-paid-plan="pass" class="polar-checkout-button" style="text-decoration:none;text-align:center;background:#059669;color:#FFFFFF;font-weight:800;font-size:0.84rem;padding:0.75rem 0.9rem;border-radius:11px;display:block;">📈 6-Month Growth &amp; Velocity Pass ($19.99)</a>
+          <a href="#vip-waitlist" data-kfg-paid-plan="single" class="polar-checkout-button" style="text-decoration:none;text-align:center;background:#1D4ED8;color:#FFFFFF;font-weight:800;font-size:0.84rem;padding:0.75rem 0.9rem;border-radius:11px;display:block;" onclick="if(window.openKfgWaitlistModal&&(!window.PAYMENT_CONFIG||!window.PAYMENT_CONFIG.STORE_LIVE_READY)){event.preventDefault();window.openKfgWaitlistModal('single');return false;}">📄 Single Growth &amp; Bone-Age PDF Guide ($8.99)</a>
+          <a href="#vip-waitlist" data-kfg-paid-plan="pass" class="polar-checkout-button" style="text-decoration:none;text-align:center;background:#059669;color:#FFFFFF;font-weight:800;font-size:0.84rem;padding:0.75rem 0.9rem;border-radius:11px;display:block;" onclick="if(window.openKfgWaitlistModal&&(!window.PAYMENT_CONFIG||!window.PAYMENT_CONFIG.STORE_LIVE_READY)){event.preventDefault();window.openKfgWaitlistModal('sixMonth');return false;}">📈 6-Month Growth &amp; Velocity Pass ($19.99)</a>
         </div>
         <div style="font-size:0.75rem;color:#334155;font-weight:700;margin-bottom:0.35rem;line-height:1.45;">
           🔒 Checkout &amp; Billing: Polar.sh (Merchant of Record · Global Card / Apple Pay / Google Pay)
@@ -264,10 +265,10 @@
         <div style="margin-top:0.95rem;padding-top:0.8rem;border-top:1px solid #BFDBFE;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.65rem;">
           <span style="font-size:0.9rem;font-weight:800;color:#1E293B;">📄 Want the Printable US CDC Percentile &amp; Bone-Age PDF Guide + 30-Day Growth Velocity Tracker?</span>
           <div style="display:flex;flex-wrap:wrap;gap:0.55rem;">
-            <a href="#vip-waitlist" data-kfg-paid-plan="single" class="polar-checkout-button" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0.55rem 1rem;border-radius:10px;background:#0F172A;color:#FFFFFF;font-size:0.9rem;font-weight:800;text-decoration:none;">
+            <a href="#vip-waitlist" data-kfg-paid-plan="single" class="polar-checkout-button" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0.55rem 1rem;border-radius:10px;background:#0F172A;color:#FFFFFF;font-size:0.9rem;font-weight:800;text-decoration:none;" onclick="if(window.openKfgWaitlistModal&&(!window.PAYMENT_CONFIG||!window.PAYMENT_CONFIG.STORE_LIVE_READY)){event.preventDefault();window.openKfgWaitlistModal('single');return false;}">
               📄 Single Growth &amp; Bone-Age PDF Guide ($8.99)
             </a>
-            <a href="#vip-waitlist" data-kfg-paid-plan="pass" class="polar-checkout-button" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0.55rem 1rem;border-radius:10px;background:#059669;color:#FFFFFF;font-size:0.9rem;font-weight:900;text-decoration:none;">
+            <a href="#vip-waitlist" data-kfg-paid-plan="pass" class="polar-checkout-button" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0.55rem 1rem;border-radius:10px;background:#059669;color:#FFFFFF;font-size:0.9rem;font-weight:900;text-decoration:none;" onclick="if(window.openKfgWaitlistModal&&(!window.PAYMENT_CONFIG||!window.PAYMENT_CONFIG.STORE_LIVE_READY)){event.preventDefault();window.openKfgWaitlistModal('sixMonth');return false;}">
               📈 6-Month Growth &amp; Velocity Pass ($19.99)
             </a>
           </div>

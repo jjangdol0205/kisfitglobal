@@ -1731,7 +1731,7 @@
         bannerEl.style.background = '#EFF6FF';
         bannerEl.style.borderColor = '#BFDBFE';
         bannerEl.innerHTML = isEnBanner
-          ? '<strong>[Neuro-Cognitive · 5-Axis Brain Balance Assessment]</strong> Synthesizing individualized clinical bottleneck & learning mastery reports backed by CDC/AAP developmental milestones and 117 peer-reviewed publications.'
+          ? '<strong>[Executive-Cognitive · Executive Focus Balance Assessment]</strong> Synthesizing individualized clinical bottleneck & learning mastery reports backed by CDC/AAP developmental milestones and 117 peer-reviewed publications.'
           : '<strong>[US CDC Growth Reference 5US CDC Growth Reference Assessment]</strong> Pediatric Development Standard K-DST US CDC Growth Reference 117US CDC Growth Reference ReportUS CDC Growth Reference.';
       } else {
         bannerEl.style.color = '#1E3A8A';
@@ -1747,7 +1747,7 @@
     if (submitBtnEl) {
       const isEnBtn = typeof document !== 'undefined' && document.documentElement && (document.documentElement.lang === 'en' || (typeof document.documentElement.getAttribute === 'function' && document.documentElement.getAttribute('data-edition') === 'global-paid'));
       submitBtnEl.textContent = isEnBtn
-        ? ((activeMode === 'learning') ? 'Generate My Child\'s 5-Axis Brain & Learning Report →' : 'Generate My Child\'s Height & Growth-Plate Report →')
+        ? ((activeMode === 'learning') ? 'Generate My Child\'s Executive Focus & Learning Report →' : 'Generate My Child\'s Height & Growth-Plate Report →')
         : ((activeMode === 'learning') ? 'US CDC Growth Reference 5US CDC Growth Reference Report US CDC Growth Reference' : 'US CDC Growth ReferenceProjected Adult Height US CDC Growth Reference Report US CDC Growth Reference');
     }
 

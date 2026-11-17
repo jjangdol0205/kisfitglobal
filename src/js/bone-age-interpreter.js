@@ -480,11 +480,25 @@
     }
   }
 
-  function calculateAndRender(shouldScrollResult) {
+  function calculateAndRender(shouldScrollResult, isUserAction) {
     var input = readInputsFromDom();
     saveState(input);
     var report = computeBoneAgeReport(input);
     renderReport(report);
+    if (isUserAction && typeof window !== 'undefined' && typeof window.updateKfgPersonalizedChildTeaser === 'function') {
+      try {
+        window.updateKfgPersonalizedChildTeaser({
+          source: 'bone_age',
+          sex: report.sex === 'F' ? 'girl' : 'boy',
+          ageYears: report.ca,
+          heightCm: report.heightCm,
+          boneAgeYears: report.ba,
+          remainingIn: report.remainingIn,
+          remainingCm: report.remainingCm,
+          pahCm: report.pahCm
+        });
+      } catch (_e) {}
+    }
     if (shouldScrollResult) {
       var resEl = document.getElementById('kfg-bone-age-result');
       if (resEl && resEl.scrollIntoView) {
@@ -501,7 +515,7 @@
     current.heightFt = Math.floor(totIn / 12);
     current.heightIn = Number((totIn - current.heightFt * 12).toFixed(1));
     writeInputsToDom(current);
-    calculateAndRender(false);
+    calculateAndRender(false, true);
   }
 
   function selectGrowthPlateStage(stageId) {
@@ -528,7 +542,7 @@
     if (elBaM) elBaM.value = String(clamp(totalMonths % 12, 0, 11));
 
     highlightStageChip(stageId);
-    calculateAndRender(false);
+    calculateAndRender(false, true);
   }
 
   function applyPreset(presetKey) {
@@ -536,7 +550,7 @@
     if (!preset) return;
     writeInputsToDom(preset);
     highlightStageChip(preset.stage || '');
-    calculateAndRender(false);
+    calculateAndRender(false, true);
   }
 
   function initBoneAgeInterpreter() {
@@ -544,7 +558,8 @@
     if (!sec) return;
 
     var saved = loadState();
-    if (saved && saved.caYears && saved.heightCm && saved.baYears) {
+    var hasUserSaved = Boolean(saved && saved.caYears && saved.heightCm && saved.baYears);
+    if (hasUserSaved) {
       writeInputsToDom(saved);
     } else {
       writeInputsToDom(PRESETS.advanced_boy);
@@ -556,16 +571,16 @@
         if (this.id === 'kfg-ba-years' || this.id === 'kfg-ba-months') {
           highlightStageChip('');
         }
-        calculateAndRender(false);
+        calculateAndRender(false, true);
       });
       controls[i].addEventListener('input', function () {
         if (this.type === 'number') {
-          calculateAndRender(false);
+          calculateAndRender(false, true);
         }
       });
     }
 
-    calculateAndRender(false);
+    calculateAndRender(false, hasUserSaved);
   }
 
   window.KfgBoneAgeInterpreter = {
@@ -577,11 +592,11 @@
   };
 
   window.calculateKfgBoneAge = function () {
-    return calculateAndRender(true);
+    return calculateAndRender(true, true);
   };
   window.selectKfgBoneAgeSex = function (sex) {
     setSexState(sex === 'F' ? 'F' : 'M');
-    calculateAndRender(false);
+    calculateAndRender(false, true);
   };
   window.selectKfgBoneAgeUnit = switchUnit;
   window.selectKfgGrowthPlateStage = selectGrowthPlateStage;

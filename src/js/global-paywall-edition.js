@@ -377,10 +377,149 @@
     }
   };
 
+  function formatOrdinalEn(numVal) {
+    const n = Math.max(1, Math.min(99, Math.round(Number(numVal) || 50)));
+    const mod100 = n % 100;
+    if (mod100 >= 11 && mod100 <= 13) return n + 'th';
+    switch (n % 10) {
+      case 1: return n + 'st';
+      case 2: return n + 'nd';
+      case 3: return n + 'rd';
+      default: return n + 'th';
+    }
+  }
+
+  function estimateCdcPercentileFallback(ageYears, heightCm, sex) {
+    const GrowthEngine = global.KidsFitGrowthEngine;
+    const months = Math.max(24, Math.min(240, Math.round((Number(ageYears) || 10) * 12)));
+    const isGirl = String(sex || '').toLowerCase() === 'girl' || String(sex || '').toLowerCase() === 'f';
+    if (GrowthEngine && typeof GrowthEngine.calculateKdcaPercentile === 'function') {
+      try {
+        const res = GrowthEngine.calculateKdcaPercentile(months, Number(heightCm) || 138.4, isGirl ? 'girl' : 'boy');
+        if (res && Number.isFinite(Number(res.percentile))) {
+          return Math.max(1, Math.min(99, Math.round(Number(res.percentile))));
+        }
+      } catch (_) {}
+    }
+    const boyMedians = { 2:86.8,3:95.2,4:102.3,5:109.2,6:115.5,7:121.9,8:128.0,9:133.5,10:138.4,11:143.5,12:149.1,13:156.2,14:163.8,15:170.1,16:173.4,17:175.2,18:176.1 };
+    const girlMedians = { 2:85.5,3:94.0,4:100.3,5:107.9,6:115.1,7:121.1,8:127.3,9:133.0,10:138.6,11:144.0,12:151.2,13:157.1,14:160.4,15:161.8,16:162.5,17:162.9,18:163.1 };
+    const table = isGirl ? girlMedians : boyMedians;
+    const clampedAge = Math.max(2, Math.min(18, Number(ageYears) || 10));
+    const lowA = Math.floor(clampedAge);
+    const highA = Math.min(18, Math.ceil(clampedAge));
+    const frac = clampedAge - lowA;
+    const med = (table[lowA] || 138.4) * (1 - frac) + (table[highA] || table[lowA] || 138.4) * frac;
+    const sd = clampedAge < 7 ? 4.6 : (clampedAge < 12 ? 6.0 : 6.8);
+    const z = ((Number(heightCm) || med) - med) / sd;
+    const t = 1 / (1 + 0.2316419 * Math.abs(z));
+    const d = 0.3989423 * Math.exp((-z * z) / 2);
+    const prob = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+    const cdf = z >= 0 ? (1 - prob) : prob;
+    return Math.max(1, Math.min(99, Math.round(cdf * 100)));
+  }
+
+  function computeChildTeaserPayload(input) {
+    const raw = input || {};
+    const sexNorm = (String(raw.sex || raw.gender || 'boy').toLowerCase() === 'girl' || String(raw.sex || '').toLowerCase() === 'f') ? 'girl' : 'boy';
+    const sexLabel = sexNorm === 'girl' ? 'Girl' : 'Boy';
+    const ageNum = Math.max(2, Math.min(18, Number(raw.ageYears || raw.chronoAge || 10)));
+    const ageDisp = Number.isInteger(ageNum) ? String(ageNum) : ageNum.toFixed(1).replace(/\.0$/, '');
+    const heightCm = Math.max(75, Math.min(205, Number(raw.heightCm || 138.4)));
+    const totalIn = heightCm / 2.54;
+    let ft = Math.floor(totalIn / 12);
+    let inch = Number((totalIn - ft * 12).toFixed(1));
+    if (inch >= 12) { ft += 1; inch = Number((inch - 12).toFixed(1)); }
+    const inchDisp = Number.isInteger(inch) ? String(inch) : inch.toFixed(1);
+    const statureFtIn = ft + "' " + inchDisp + '"';
+    const statureCm = heightCm.toFixed(1) + ' cm';
+    const pct = Number.isFinite(Number(raw.percentile)) && Number(raw.percentile) > 0
+      ? Math.max(1, Math.min(99, Math.round(Number(raw.percentile))))
+      : estimateCdcPercentileFallback(ageNum, heightCm, sexNorm);
+    const pctOrdinal = formatOrdinalEn(pct);
+    const effAge = Number.isFinite(Number(raw.boneAgeYears)) && Number(raw.boneAgeYears) > 0
+      ? Number(raw.boneAgeYears)
+      : ageNum;
+
+    let winMinIn = 1.6;
+    let winMaxIn = 2.8;
+    if ((sexNorm === 'boy' && effAge > 13.5) || (sexNorm === 'girl' && effAge > 12.0)) {
+      winMinIn = 0.9;
+      winMaxIn = 1.8;
+    } else if ((sexNorm === 'boy' && effAge > 10.5) || (sexNorm === 'girl' && effAge > 9.5)) {
+      winMinIn = 1.4;
+      winMaxIn = 2.5;
+    }
+    const winMinCm = (winMinIn * 2.54).toFixed(1);
+    const winMaxCm = (winMaxIn * 2.54).toFixed(1);
+
+    return {
+      sex: sexNorm,
+      sexLabel: sexLabel,
+      ageYears: ageNum,
+      ageDisp: ageDisp,
+      heightCm: Number(heightCm.toFixed(1)),
+      ft: ft,
+      inch: inch,
+      statureFtIn: statureFtIn,
+      statureCm: statureCm,
+      percentile: pct,
+      percentileOrdinal: pctOrdinal,
+      boneAgeYears: Number.isFinite(Number(raw.boneAgeYears)) ? Number(raw.boneAgeYears) : null,
+      winMinIn: winMinIn.toFixed(1),
+      winMaxIn: winMaxIn.toFixed(1),
+      winMinCm: winMinCm,
+      winMaxCm: winMaxCm,
+      profileSummary: 'Age ' + ageDisp + ' ' + sexLabel + ' · Current Stature ' + statureFtIn + ' / ' + statureCm + ' (' + pctOrdinal + ' CDC Percentile)',
+      recoverySummary: '+' + winMinIn.toFixed(1) + ' to +' + winMaxIn.toFixed(1) + ' inches (+' + winMinCm + ' to +' + winMaxCm + ' cm) remaining golden-window potential before growth-plate closure',
+      ctaHeadline: "Unlock Your Child's Custom 90-Day Sleep, Calcium/D3 & Decompression Action Plan ($8.99 PDF Guide) or 6-Month Monthly Velocity Coaching ($19.99 Pass)"
+    };
+  }
+
+  global.updateKfgPersonalizedChildTeaser = function (childInput) {
+    const payload = computeChildTeaserPayload(childInput);
+    global.__kfgLatestChildTeaser = payload;
+    if (typeof document === 'undefined') return payload;
+
+    const pillEl = document.getElementById('kfg-teaser-status-pill');
+    if (pillEl) {
+      pillEl.textContent = '✨ LIVE PERSONALIZED CHILD SUMMARY · HYDRATED FROM STEP 1';
+      pillEl.style.background = '#DCFCE7';
+      pillEl.style.color = '#065F46';
+      pillEl.style.borderColor = '#6EE7B7';
+    }
+    const profEl = document.getElementById('kfg-teaser-profile-line');
+    if (profEl) profEl.textContent = payload.profileSummary;
+    const winEl = document.getElementById('kfg-teaser-recovery-window');
+    if (winEl) winEl.textContent = payload.recoverySummary;
+    const ctaCopyEl = document.getElementById('kfg-teaser-cta-copy');
+    if (ctaCopyEl) ctaCopyEl.textContent = payload.ctaHeadline;
+
+    // Sync Step 3 VIP Monthly Check-in child baseline fields for zero re-typing
+    const vipSex = document.getElementById('kfg-vip-child-sex');
+    if (vipSex) vipSex.value = payload.sex === 'girl' ? 'F' : 'M';
+    const vipAge = document.getElementById('kfg-vip-child-age');
+    if (vipAge) vipAge.value = String(payload.ageYears);
+    const vipFt = document.getElementById('kfg-vip-curr-ft');
+    if (vipFt) vipFt.value = String(payload.ft);
+    const vipIn = document.getElementById('kfg-vip-curr-in');
+    if (vipIn) vipIn.value = String(payload.inch);
+    const vipCm = document.getElementById('kfg-vip-curr-cm');
+    if (vipCm) vipCm.value = String(payload.heightCm);
+
+    // Sync inside Paywall Gate if rendered
+    const gateProf = document.getElementById('kfg-paywall-personalized-profile');
+    if (gateProf) gateProf.textContent = payload.profileSummary;
+    const gateWin = document.getElementById('kfg-paywall-personalized-window');
+    if (gateWin) gateWin.textContent = payload.recoverySummary;
+
+    return payload;
+  };
+
   global.openSampleReportPreview = function () {
     if (typeof document === 'undefined') return;
     let modal = document.getElementById('kidsfit-sample-demo-modal');
     if (modal) modal.remove();
+    const liveTeaser = global.__kfgLatestChildTeaser || null;
 
     modal = document.createElement('div');
     modal.id = 'kidsfit-sample-demo-modal';
@@ -416,6 +555,14 @@
           </div>
         </div>
 
+        ${liveTeaser ? `
+        <!-- Live Personalized Child Summary Banner Above Sample Layout -->
+        <div id="kfg-sample-modal-personalized-banner" style="background:linear-gradient(135deg,#ECFDF5 0%,#EFF6FF 100%);border:2px solid #10B981;border-radius:12px;padding:0.75rem 1.1rem;margin:0.75rem 1.25rem 0 1.25rem;">
+          <div style="font-size:0.7rem;font-weight:900;color:#047857;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.2rem;">✨ Your Child&apos;s Live Step 1 Profile (Will Populate Your Unlocked PDF)</div>
+          <div style="font-size:0.88rem;font-weight:900;color:#0F172A;">${liveTeaser.profileSummary}</div>
+          <div style="font-size:0.8rem;font-weight:800;color:#1D4ED8;margin-top:0.18rem;">Modifiable Sleep/Posture/Nutrition Recovery Window: ${liveTeaser.recoverySummary}</div>
+        </div>
+        ` : ''}
         <!-- Liam Patient Intake Overview Card (Preserved for Test Suite & Context) -->
         <div style="background:#F8FAFC;border:1.5px solid #CBD5E1;border-radius:12px;padding:0.75rem 1.1rem;margin:0.75rem 1.25rem 0.5rem 1.25rem;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;flex-wrap:wrap;gap:0.4rem;">
@@ -1328,7 +1475,7 @@
 
     document.documentElement.lang = 'en';
     document.documentElement.setAttribute('data-edition', 'global-paid');
-    document.title = 'KISFIT BIO LABS — US CDC & 3,714-Paper Pediatric Height & Brain LQ Clinical Report';
+    document.title = 'KISFIT Bio Labs | KidsFit Studio — US CDC Pediatric Height Percentile & Bone-Age Studio';
 
     // Force TallerI18n into English
     if (global.TallerI18n && typeof global.TallerI18n.setLanguage === 'function') {
@@ -1383,7 +1530,7 @@
 
     const tagline = document.querySelector('.brand-tagline');
     if (tagline) {
-      tagline.textContent = 'US CDC 2000 Pediatric Height & Brain Lab';
+      tagline.textContent = 'US CDC 2000 Pediatric Height Percentile & Bone-Age Lab';
     }
 
     // Hero Section Authority Pill & Trust Bar (US Silicon Valley HealthTech Aesthetic)
@@ -1411,157 +1558,18 @@
       trustBar.innerHTML = '<span><strong style="color:#059669;">US CDC 2000 LMS</strong> · Multi-Ethnic Auxology Calibrated</span><span style="color:#CBD5E1;" class="pc-view-block">|</span><span><strong style="color:#1D4ED8;">Khamis-Roche &amp; Tanner MPH</strong> · Bone-Age &amp; HGH Model</span><span style="color:#CBD5E1;" class="pc-view-block">|</span><span><strong style="color:#0F172A;">Dual-Unit Ready</strong> · Instant ft/in · lbs &amp; cm · kg</span>';
     }
 
-    // Dual-Pillar Intro Showcase Cards: ONLY 01 Auxology & 02 Neuro
+    // Enforce 100% Pediatric Height-Growth Single Focus (remove legacy Dual Diagnostic / LQ showcase if present)
     const dualShowcase = document.getElementById('dual-pillar-intro-showcase');
-    if (dualShowcase && !dualShowcase.getAttribute('data-global-en-applied')) {
-      dualShowcase.setAttribute('data-global-en-applied', '1');
-      dualShowcase.innerHTML = `
-        <div class="home-dual-report-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.35rem;">
-          <!-- Report 1 Intro Card: Physical Growth -->
-          <div id="homepage-intro-growth-report" class="mf-glass-card us-bento-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 1.55rem 1.4rem; border: 1px solid #E2E8F0; border-radius: 22px; background: #FFFFFF;">
-            <div>
-              <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.6rem;">
-                <span style="display: inline-block; font-size: 0.72rem; font-weight: 800; color: #FFFFFF; background: #0F172A; padding: 0.24rem 0.7rem; border-radius: 9999px; letter-spacing: 0.03em;">
-                  01 · AUXOLOGY &amp; BONE-AGE LAB
-                </span>
-                <span style="font-size: 0.74rem; font-weight: 700; color: #059669; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 0.18rem 0.55rem; border-radius: 9999px;">US CDC 2000 + Khamis-Roche</span>
-              </div>
-              <h3 style="font-size: clamp(1.15rem, 2.8vw, 1.32rem); font-weight: 800; color: #0F172A; margin: 0 0 0.4rem 0; letter-spacing: -0.025em;">
-                Adult Height Predictor &amp; Growth-Plate Window
-              </h3>
-              <p style="font-size: 0.85rem; color: #475569; margin: 0 0 0.95rem 0; line-height: 1.5;">
-                Calculates day-exact CDC LMS percentiles, Mid-Parental Target Height (MPH), multi-ethnic pubertal tempo, and nocturnal HGH factors.
-              </p>
+    if (dualShowcase) {
+      dualShowcase.remove();
+    }
+    const brandShowcase = document.getElementById('brand-editorial-showcase');
+    if (brandShowcase) {
+      brandShowcase.remove();
+    }
 
-              <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; padding: 0.85rem 0.9rem; margin-bottom: 1rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem; font-size: 0.76rem; font-weight: 700; color: #0F172A;">
-                  <span>3-Tier Adult Height Trajectory (ft/in &amp; cm)</span>
-                  <span style="color: #059669; background: #ECFDF5; padding: 0.14rem 0.55rem; border-radius: 9999px; border: 1px solid #A7F3D0; font-weight: 800;">+2.6 in (+6.7 cm) Window</span>
-                </div>
-                <svg viewBox="0 0 420 155" style="width: 100%; height: auto; display: block;" role="img" aria-label="3-Tier Predicted Adult Height Trajectory Preview">
-                  <line x1="24" y1="25" x2="225" y2="25" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="3,3"/>
-                  <line x1="24" y1="65" x2="225" y2="65" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="3,3"/>
-                  <line x1="24" y1="105" x2="225" y2="105" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="3,3"/>
-                  <line x1="24" y1="130" x2="225" y2="130" stroke="#CBD5E1" stroke-width="1.2"/>
-                  <path d="M 30 118 Q 110 86, 215 24 L 215 68 Q 110 102, 30 118 Z" fill="#DBEAFE" opacity="0.65"/>
-                  <path d="M 30 118 Q 110 106, 215 84" fill="none" stroke="#94A3B8" stroke-width="2" stroke-dasharray="4,3"/>
-                  <path d="M 30 118 Q 110 98, 215 62" fill="none" stroke="#64748B" stroke-width="2"/>
-                  <path d="M 30 118 Q 110 82, 215 24" fill="none" stroke="#1D4ED8" stroke-width="3"/>
-                  <circle cx="30" cy="118" r="3.5" fill="#1D4ED8"/>
-                  <circle cx="122" cy="76" r="3.5" fill="#1D4ED8"/>
-                  <circle cx="215" cy="24" r="4.5" fill="#1D4ED8"/>
-                  <rect x="110" y="8" width="102" height="16" rx="4" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="0.8"/>
-                  <text x="161" y="19" text-anchor="middle" font-size="9" font-weight="800" fill="#1D4ED8">Optimized 5'11" (180cm)</text>
-                  <rect x="120" y="47" width="90" height="15" rx="4" fill="#FFFFFF" fill-opacity="0.92" stroke="#CBD5E1" stroke-width="0.8"/>
-                  <text x="165" y="58" text-anchor="middle" font-size="8.5" font-weight="700" fill="#334155">Genetic 5'8.3" (173.5)</text>
-                  <rect x="120" y="84" width="90" height="15" rx="4" fill="#FFFFFF" fill-opacity="0.92" stroke="#E2E8F0" stroke-width="0.8"/>
-                  <text x="165" y="95" text-anchor="middle" font-size="8.5" font-weight="600" fill="#64748B">Unmanaged 5'7.2"</text>
-                  <text x="26" y="144" font-size="9" font-weight="600" fill="#64748B">Age 7</text>
-                  <text x="110" y="144" font-size="9" font-weight="600" fill="#64748B">Age 12 (PHV)</text>
-                  <text x="192" y="144" font-size="9" font-weight="600" fill="#64748B">Adult (18y)</text>
-                  <line x1="242" y1="15" x2="242" y2="140" stroke="#E2E8F0" stroke-width="1"/>
-                  <rect x="258" y="56" width="36" height="74" rx="5" fill="#CBD5E1"/>
-                  <text x="276" y="50" text-anchor="middle" font-size="9" font-weight="700" fill="#334155">5'8.3"</text>
-                  <text x="276" y="144" text-anchor="middle" font-size="8.5" font-weight="700" fill="#475569">Genetic</text>
-                  <rect x="308" y="72" width="36" height="58" rx="5" fill="#E2E8F0" stroke="#94A3B8" stroke-width="1"/>
-                  <text x="326" y="66" text-anchor="middle" font-size="9" font-weight="700" fill="#64748B">5'7.2"</text>
-                  <text x="326" y="144" text-anchor="middle" font-size="8.5" font-weight="700" fill="#64748B">Unmanaged</text>
-                  <rect x="358" y="24" width="42" height="106" rx="5" fill="#1D4ED8"/>
-                  <text x="379" y="18" text-anchor="middle" font-size="9.5" font-weight="800" fill="#1D4ED8">5'11.0"</text>
-                  <text x="379" y="144" text-anchor="middle" font-size="8.5" font-weight="800" fill="#1D4ED8">Optimized</text>
-                </svg>
-              </div>
-
-              <ul class="hero-one-line-list" style="list-style: none; margin: 0 0 1.2rem 0; padding: 0; font-size: 0.84rem; color: #1E293B; line-height: 1.5;">
-                <li style="margin-bottom: 0.55rem; display: flex; gap: 0.55rem; align-items: flex-start;">
-                  <span style="color: #059669; font-weight: 900;">✓</span>
-                  <div><strong style="color: #0F172A;">3-Tier Adult Height &amp; PES/Cochrane rhGH Review:</strong> Evaluates $20k/yr GH injection ROI vs. natural N3 sleep HGH optimization.</div>
-                </li>
-                <li style="margin-bottom: 0.55rem; display: flex; gap: 0.55rem; align-items: flex-start;">
-                  <span style="color: #059669; font-weight: 900;">✓</span>
-                  <div><strong style="color: #0F172A;">Bone-Age &amp; Leptin Defense:</strong> Prevents early epiphyseal fusion and optimizes weight-for-height IGF-1 synthesis.</div>
-                </li>
-                <li style="display: flex; gap: 0.55rem; align-items: flex-start;">
-                  <span style="color: #059669; font-weight: 900;">✓</span>
-                  <div><strong style="color: #0F172A;">+0.8 in (+1.8 cm) Spinal Decompression &amp; Bio-Nutrition:</strong> Weight-calibrated Calcium, D3, K2, Zinc &amp; 10-min bar hang protocol.</div>
-                </li>
-              </ul>
-            </div>
-            <button type="button" id="btn-home-start-growth-report" onclick="if(window.TallerOnboardingWizard) window.TallerOnboardingWizard.enterStudioMode('child', 'growth');" class="mf-btn-white" style="width: 100%; padding: 0.95rem 1.1rem; font-size: 0.95rem; font-weight: 800; background: linear-gradient(135deg, #0F172A 0%, #1D4ED8 100%); color: #FFFFFF; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 8px 20px rgba(29, 78, 216, 0.22);">
-              Start 60-Sec Height &amp; Bone-Age Scan →
-            </button>
-          </div>
-
-          <!-- Report 2 Intro Card: Brain & Learning -->
-          <div id="homepage-intro-learning-report" class="mf-glass-card us-bento-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 1.55rem 1.4rem; border: 1px solid #E2E8F0; border-radius: 22px; background: #FFFFFF;">
-            <div>
-              <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.6rem;">
-                <span style="display: inline-block; font-size: 0.72rem; font-weight: 800; color: #FFFFFF; background: #1D4ED8; padding: 0.24rem 0.7rem; border-radius: 9999px; letter-spacing: 0.03em;">
-                  02 · NEURO-COGNITIVE LQ LAB
-                </span>
-                <span style="font-size: 0.74rem; font-weight: 700; color: #1D4ED8; background: #EFF6FF; border: 1px solid #BFDBFE; padding: 0.18rem 0.55rem; border-radius: 9999px;">Harvard / WashU Neuroscience</span>
-              </div>
-              <h3 style="font-size: clamp(1.15rem, 2.8vw, 1.32rem); font-weight: 800; color: #0F172A; margin: 0 0 0.4rem 0; letter-spacing: -0.025em;">
-                5-Axis Brain Balance &amp; Executive Function Scan
-              </h3>
-              <p style="font-size: 0.85rem; color: #475569; margin: 0 0 0.95rem 0; line-height: 1.5;">
-                Pinpoints prefrontal working-memory, spatial math, reading comprehension, and active retrieval bottlenecks.
-              </p>
-
-              <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; padding: 0.85rem 0.9rem; margin-bottom: 1rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.45rem; font-size: 0.76rem; font-weight: 700; color: #0F172A;">
-                  <span>5-Axis Brain LQ &amp; 6-Month Growth Curve</span>
-                  <span style="color: #1D4ED8; background: #EFF6FF; padding: 0.14rem 0.55rem; border-radius: 9999px; border: 1px solid #BFDBFE; white-space: nowrap; flex-shrink: 0; font-weight: 800;">+21 Pt LQ Gain</span>
-                </div>
-                <svg viewBox="0 0 420 155" style="width: 100%; height: auto; display: block;" role="img" aria-label="5-Axis Brain Balance Radar Preview">
-                  <polygon points="125,28 176,65 157,126 93,126 74,65" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
-                  <polygon points="125,46 159,71 146,111 104,111 91,71" fill="none" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="2,2"/>
-                  <line x1="125" y1="82" x2="125" y2="28" stroke="#E2E8F0" stroke-width="1"/>
-                  <line x1="125" y1="82" x2="176" y2="65" stroke="#E2E8F0" stroke-width="1"/>
-                  <line x1="125" y1="82" x2="157" y2="126" stroke="#E2E8F0" stroke-width="1"/>
-                  <line x1="125" y1="82" x2="93" y2="126" stroke="#E2E8F0" stroke-width="1"/>
-                  <line x1="125" y1="82" x2="74" y2="65" stroke="#E2E8F0" stroke-width="1"/>
-                  <polygon points="125,32 172,66 154,121 97,120 79,67" fill="#DBEAFE" fill-opacity="0.38" stroke="#2563EB" stroke-width="1.5" stroke-dasharray="3,2"/>
-                  <polygon points="125,37 167,68 144,107 106,109 82,68" fill="#1D4ED8" fill-opacity="0.22" stroke="#1D4ED8" stroke-width="2.4"/>
-                  <text x="125" y="19" text-anchor="middle" font-size="8.8" font-weight="800" fill="#0F172A">Literacy (88)</text>
-                  <text x="182" y="64" text-anchor="start" font-size="8.8" font-weight="800" fill="#0F172A">Math/Spatial (84)</text>
-                  <text x="142" y="142" text-anchor="start" font-size="8.5" font-weight="800" fill="#1D4ED8">Focus (62·Bottleneck)</text>
-                  <text x="108" y="142" text-anchor="end" font-size="8.5" font-weight="800" fill="#1D4ED8">Recall (65·Bottleneck)</text>
-                  <text x="68" y="64" text-anchor="end" font-size="8.8" font-weight="800" fill="#0F172A">Inquiry (86)</text>
-                  <line x1="254" y1="18" x2="254" y2="140" stroke="#E2E8F0" stroke-width="1"/>
-                  <rect x="266" y="22" width="144" height="34" rx="6" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1"/>
-                  <text x="274" y="36" font-size="8.5" font-weight="700" fill="#475569">Dominant Circuit</text>
-                  <text x="274" y="49" font-size="9.5" font-weight="800" fill="#0F172A">Spatial &amp; Inquiry Top 14%</text>
-                  <rect x="266" y="62" width="144" height="34" rx="6" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1"/>
-                  <text x="274" y="76" font-size="8.5" font-weight="700" fill="#1D4ED8">Primary Bottleneck</text>
-                  <text x="274" y="89" font-size="9.5" font-weight="800" fill="#1E3A8A">Working Memory &amp; Recall</text>
-                  <rect x="266" y="102" width="144" height="34" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
-                  <text x="274" y="116" font-size="8.5" font-weight="700" fill="#475569">6-Month Coached Target</text>
-                  <text x="274" y="129" font-size="9.5" font-weight="800" fill="#1D4ED8">Overall LQ +21 Pts Jump</text>
-                </svg>
-              </div>
-
-              <ul class="hero-one-line-list" style="list-style: none; margin: 0 0 1.2rem 0; padding: 0; font-size: 0.84rem; color: #1E293B; line-height: 1.5;">
-                <li style="margin-bottom: 0.55rem; display: flex; gap: 0.55rem; align-items: flex-start;">
-                  <span style="color: #1D4ED8; font-weight: 900;">✓</span>
-                  <div><strong style="color: #0F172A;">5-Axis Neural Radar:</strong> Evaluates Literacy, Spatial Math, Working Memory, Active Recall &amp; Scientific Inquiry.</div>
-                </li>
-                <li style="margin-bottom: 0.55rem; display: flex; gap: 0.55rem; align-items: flex-start;">
-                  <span style="color: #1D4ED8; font-weight: 900;">✓</span>
-                  <div><strong style="color: #0F172A;">4-Week Neuro-Study Protocol:</strong> Feynman Blank-Page Recall (+150% retention) &amp; Singapore Math Bar Modeling.</div>
-                </li>
-                <li style="display: flex; gap: 0.55rem; align-items: flex-start;">
-                  <span style="color: #1D4ED8; font-weight: 900;">✓</span>
-                  <div><strong style="color: #0F172A;">STEM &amp; Career Aptitude Roadmap:</strong> Maps dominant neural circuits to STEM, Medical, Law &amp; Creative tracks.</div>
-                </li>
-              </ul>
-            </div>
-            <button type="button" id="btn-home-start-learning-report" onclick="if(window.TallerOnboardingWizard) window.TallerOnboardingWizard.enterStudioMode('child', 'learning');" class="mf-btn-glass" style="width: 100%; padding: 0.95rem 1.1rem; font-size: 0.95rem; font-weight: 800; background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 100%); border: none; color: #FFFFFF; border-radius: 12px; cursor: pointer; box-shadow: 0 8px 20px rgba(37, 99, 235, 0.22);">
-              Start 60-Sec Brain LQ &amp; Bottleneck Scan →
-            </button>
-          </div>
-        </div>
-      `;
+    if (global.__kfgLatestChildTeaser && typeof global.updateKfgPersonalizedChildTeaser === 'function') {
+      global.updateKfgPersonalizedChildTeaser(global.__kfgLatestChildTeaser);
     }
 
     // Hide Korean-specific App Download Bars & Translate App Install Modal
@@ -1591,7 +1599,7 @@
       Boolean(diagForm && diagForm.className && diagForm.className.includes('wizard-mode-learning'));
     if (modeBanner) {
       if (isLearningActive) {
-        modeBanner.innerHTML = '<strong>[Report 02 · 5-Axis Brain LQ &amp; Executive Function Assessment]</strong> Powered by Harvard / WashU Developmental Neuroscience &amp; 3,722 Peer-Reviewed PubMed Studies.';
+        modeBanner.innerHTML = '<strong>[Report 02 · Executive Focus Index &amp; Executive Function Assessment]</strong> Powered by Harvard / WashU Developmental Neuroscience &amp; 3,722 Peer-Reviewed PubMed Studies.';
       } else {
         modeBanner.innerHTML = '<strong>[Report 01 · Pediatric Auxology &amp; Bone-Age Assessment]</strong> Powered by US CDC 2000 Growth Charts, Tanner Auxology &amp; 3,722 Peer-Reviewed PubMed Studies.';
       }
@@ -1659,7 +1667,7 @@
       quizSec.querySelectorAll('span, strong, div').forEach((el) => {
         if (el.children.length === 0 && el.textContent) {
           const t = el.textContent.trim();
-          if (t === '\uB1CC\uC778\uC9C0 \uD559\uC220\uB18C\uBB38 \uAE30\uBC18 \uD310\uB3C5' || t === 'Neuro-Cognitive Paper-Based Scan') el.textContent = 'Neuro-Cognitive Paper-Based Scan';
+          if (t === '\uB1CC\uC778\uC9C0 \uD559\uC220\uB18C\uBB38 \uAE30\uBC18 \uD310\uB3C5' || t === 'Executive-Cognitive Paper-Based Scan') el.textContent = 'Executive-Cognitive Paper-Based Scan';
           else if (t === '\uC120\uD0DD \uD56D\uBAA9 1:1 \uC815\uBC00 \uBC18\uC601' || t === '1:1 Calibrated to Your Selections') el.textContent = '1:1 Calibrated to Your Selections';
           else if (t === '[\uB2E4\uC74C \uB2E8\uACC4]' || t === '[Next Step]') el.textContent = '[Next Step]';
           else if (t === '\uC608\uC2DC1' || t === 'Sample Note') el.textContent = 'Sample Note';
@@ -1670,7 +1678,7 @@
 
   /**
    * Builds a 100% Native English Dual-Pillar Clinical Master Report for kisfitglobal.com
-   * using the real auxology, endocrine, biomechanical, and 5-Axis Brain LQ calculations.
+   * using the real auxology, endocrine, biomechanical, and Executive Focus Index calculations.
    */
   function buildNativeEnglishClinicalReportHTML(profile, options) {
     const isMasked = typeof options === 'boolean' ? options : Boolean(options && options.masked);
@@ -1960,7 +1968,7 @@
       (global.__KIDSFIT_PREFERRED_REPORT_MODE === 'learning') ||
       Boolean(formEl && formEl.className && formEl.className.includes('wizard-mode-learning'));
 
-    // Personalized 5-Axis Brain LQ Metrics
+    // Personalized Executive Focus Index Metrics
     const cogAxes = Array.isArray(profile.cognitiveAxes) && profile.cognitiveAxes.length ? profile.cognitiveAxes : ['science_nature', 'math_logic'];
     const concerns = Array.isArray(profile.traitLearningConcerns) && profile.traitLearningConcerns.length ? profile.traitLearningConcerns : ['reading_literacy', 'passive_forget'];
     const focusSpanVal = profile.traitFocusSpan || (typeof document !== 'undefined' && document.getElementById('trait-focus-span') ? document.getElementById('trait-focus-span').value : '15_20m');
@@ -2041,10 +2049,10 @@
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.65rem;margin-bottom:0.65rem;">
           <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
             <span style="background:#1D4ED8;color:#FFFFFF;font-size:0.74rem;font-weight:900;padding:0.24rem 0.75rem;border-radius:9999px;letter-spacing:0.03em;">
-              ${isLearningMode ? '🧠 HARVARD / WASHU NEURO-COGNITIVE LQ STANDARD' : '📏 US CDC 2000 &amp; WHO AUXOLOGY STANDARD'}
+              ${isLearningMode ? '🧠 HARVARD / WASHU EXECUTIVE FOCUS STANDARD' : '📏 US CDC 2000 &amp; WHO AUXOLOGY STANDARD'}
             </span>
             <span style="background:#FFFFFF;color:#1E3A8A;border:1px solid #93C5FD;font-size:0.74rem;font-weight:800;padding:0.22rem 0.7rem;border-radius:9999px;">
-              ${isLearningMode ? '5-Axis Brain LQ &amp; Executive Function Calibrated' : 'Multi-Ethnic Auxology Calibrated'}
+              ${isLearningMode ? 'Executive Focus Index &amp; Executive Function Calibrated' : 'Multi-Ethnic Auxology Calibrated'}
             </span>
           </div>
           <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
@@ -2058,7 +2066,7 @@
         </div>
         <h2 id="global-report-main-heading" style="font-size:clamp(1.25rem,3vw,1.6rem);font-weight:900;margin:0 0 0.55rem 0;color:#0F172A;letter-spacing:-0.02em;">
           ${isLearningMode
-            ? '1:1 Neuro-Cognitive 5-Axis Brain LQ &amp; Executive Function Master Report'
+            ? '1:1 Executive Focus & Study Habit &amp; Executive Function Master Report'
             : '1:1 Pediatric Growth, Endocrine &amp; Bone-Age Trajectory Master Report'}
         </h2>
         <div id="global-report-child-conditions-box" style="background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:12px;padding:0.75rem 1rem;color:#0F172A;font-size:0.86rem;line-height:1.55;">
@@ -2885,27 +2893,27 @@ ${isMasked ? `
       </div>
       ` : `
       <div id="pillar-2-container" style="display:block;">
-        <!-- CHAPTER 5: 5-Axis Brain Learning Quotient (LQ) Score & Neural Balance Matrix -->
+        <!-- CHAPTER 5: Executive Focus & Study Habit Score Score & Neural Balance Matrix -->
         <section style="background:#FFFFFF;border:1.5px solid #BFDBFE;border-radius:18px;padding:1.35rem 1.3rem;margin-bottom:1.25rem;box-shadow:0 8px 24px rgba(15,23,42,0.04);">
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.65rem;">
             <span style="font-size:0.75rem;font-weight:900;color:#1D4ED8;background:#EFF6FF;border:1px solid #BFDBFE;padding:0.2rem 0.65rem;border-radius:9999px;">
-              CHAPTER 05 · 5-AXIS BRAIN LEARNING QUOTIENT (LQ) &amp; NEURAL BALANCE MATRIX
+              CHAPTER 05 · EXECUTIVE FOCUS & STUDY HABIT SCORE &amp; NEURAL BALANCE MATRIX
             </span>
             <span style="font-size:0.78rem;font-weight:800;color:#059669;">
               6-Mo Coached Target: ${coachedLQDisp} pts (+${(coachedLQ - overallLQ).toFixed(1)} Pt Gain)
             </span>
           </div>
           <h3 style="font-size:1.2rem;font-weight:900;color:#0F172A;margin:0 0 0.45rem 0;">
-            5-Axis Brain Balance Score: Overall LQ ${overallLQDisp} pts (Top ${lqTopPctDisp}% Age-Matched Percentile)
+            Executive Focus Balance Score: Overall LQ ${overallLQDisp} pts (Top ${lqTopPctDisp}% Age-Matched Percentile)
           </h3>
           <p style="font-size:0.85rem;color:#475569;margin:0 0 1rem 0;line-height:1.55;">
-            Evaluates 5 core neuro-cognitive learning circuits for <strong>Age ${ageY} (${genderLabel})</strong> based on your child&apos;s attention span (<strong>${focusSpanLabel}</strong>) and cognitive absorption style (<strong>${studyStyleLabel}</strong>).
+            Evaluates 5 core executive-cognitive learning circuits for <strong>Age ${ageY} (${genderLabel})</strong> based on your child&apos;s attention span (<strong>${focusSpanLabel}</strong>) and cognitive absorption style (<strong>${studyStyleLabel}</strong>).
           </p>
 
           <!-- 3-Tier Brain LQ Summary Cards -->
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.85rem;margin-bottom:1.1rem;">
             <div style="background:#F8FAFC;border:1.5px solid #93C5FD;border-radius:14px;padding:0.95rem 1rem;">
-              <div style="font-size:0.76rem;font-weight:800;color:#1E3A8A;">① Current 5-Axis Brain LQ</div>
+              <div style="font-size:0.76rem;font-weight:800;color:#1E3A8A;">① Current Executive Focus Index</div>
               <div style="font-size:1.5rem;font-weight:900;color:#1D4ED8;margin:0.25rem 0;">${overallLQDisp} pts <span style="font-size:0.85rem;color:#475569;">(Top ${lqTopPctDisp}%)</span></div>
               <div style="font-size:0.76rem;color:#475569;font-weight:700;">Age ${ageY} Developmental Norm: 78.0 pts</div>
             </div>
@@ -2929,7 +2937,7 @@ ${isMasked ? `
                   <th style="padding:0.65rem 0.8rem;">Neural Circuit Axis</th>
                   <th style="padding:0.65rem 0.8rem;">Current Score</th>
                   <th style="padding:0.65rem 0.8rem;">6-Mo Target</th>
-                  <th style="padding:0.65rem 0.8rem;">Clinical Neuro-Cognitive Assessment</th>
+                  <th style="padding:0.65rem 0.8rem;">Clinical Executive-Cognitive Assessment</th>
                 </tr>
               </thead>
               <tbody>
@@ -2977,7 +2985,7 @@ ${isMasked ? `
               🔒 CHAPTERS 06 – 08-B LOCKED · 5-AXIS NEURO-STUDY DOSSIER READY
             </div>
             <h3 style="font-size:1.26rem;font-weight:900;color:#0F172A;margin:0 0 0.4rem 0;line-height:1.25;">
-              Unlock Full 5-Axis Brain LQ &amp; Cognitive Worksheets ($8.99)
+              Unlock Full Executive Focus Index &amp; Cognitive Worksheets ($8.99)
             </h3>
             <p style="font-size:0.83rem;color:#475569;line-height:1.55;margin:0 0 1.1rem 0;">
               You're previewing Chapter 05 (Brain LQ Baseline). Unlock 4-Week US K-12 Executive Function Prescription, Neuro-Nutrition Dosages, 6-Month Synaptic Care Roadmap, and 4 Printable Cognitive Worksheets.
@@ -3035,7 +3043,7 @@ ${isMasked ? `
           <!-- CHAPTER 08: iHERB-EXCLUSIVE NEURO-NUTRITION & GROWTH BIO-FORMULATION CURATION -->
           <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #E2E8F0;">
             <span style="display:inline-block;font-size:0.73rem;font-weight:900;color:#059669;background:#ECFDF5;border:1px solid #A7F3D0;padding:0.18rem 0.65rem;border-radius:9999px;margin-bottom:0.55rem;">
-              CHAPTER 08 · iHERB-EXCLUSIVE CLINICAL BIO-NUTRITION &amp; NEURO-COGNITIVE SUPPLEMENT CURATION (NIH ODS ALIGNED)
+              CHAPTER 08 · iHERB-EXCLUSIVE CLINICAL BIO-NUTRITION &amp; EXECUTIVE-COGNITIVE SUPPLEMENT CURATION (NIH ODS ALIGNED)
             </span>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.75rem;font-size:0.79rem;">
               <div style="background:#F8FAFC;border:1px solid #A7F3D0;border-radius:12px;padding:0.85rem 0.95rem;display:flex;flex-direction:column;justify-content:space-between;">
@@ -3073,7 +3081,7 @@ ${isMasked ? `
         <section id="global-learning-monthly-care-section" style="background:#FFFFFF;border:2px solid #93C5FD;border-radius:18px;padding:1.35rem 1.3rem;margin-bottom:1.25rem;box-shadow:0 8px 24px rgba(29,78,216,0.06);">
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.65rem;">
             <span style="font-size:0.75rem;font-weight:900;color:#1D4ED8;background:#EFF6FF;border:1px solid #93C5FD;padding:0.22rem 0.7rem;border-radius:9999px;">
-              MONTH-BY-MONTH NEURO-COGNITIVE CARE · MONTH ${exactAgeMonths} TO MONTH ${exactAgeMonths + 5}
+              MONTH-BY-MONTH EXECUTIVE-COGNITIVE CARE · MONTH ${exactAgeMonths} TO MONTH ${exactAgeMonths + 5}
             </span>
             <span style="font-size:0.78rem;font-weight:800;color:#059669;">
               Exact Chronological Age: ${exactAgeMonths} Months (${ageY} yrs ${ageRemM} mos)
@@ -3179,7 +3187,7 @@ ${isMasked ? `
                 <span style="font-size:0.72rem;font-weight:800;background:#ECFDF5;color:#059669;padding:0.12rem 0.5rem;border-radius:9999px;">Goal LQ: ${coachedLQDisp} pts</span>
               </div>
               <div style="font-size:0.79rem;color:#334155;line-height:1.48;">
-                <strong>• 180-Day 5-Axis Brain LQ Audit:</strong> Verify +${(coachedLQ - overallLQ).toFixed(1)} pt overall Brain LQ jump and autonomous self-directed study loop.<br>
+                <strong>• 180-Day Executive Focus Index Audit:</strong> Verify +${(coachedLQ - overallLQ).toFixed(1)} pt overall Brain LQ jump and autonomous self-directed study loop.<br>
                 <strong>• Sustained Focus Milestone:</strong> Lock in <strong>${ageMonthFocusMinutes + 10}-min</strong> deep immersion capacity.<br>
                 <strong>• Next Cycle Transition:</strong> Unlock Month ${exactAgeMonths + 6}–${exactAgeMonths + 11} advanced grade-level cognitive pack.
               </div>
@@ -3337,7 +3345,7 @@ ${isMasked ? `
             APPLIED CHILD CONDITIONS &amp; 1:1 SURVEY PARAMETERS (${isLearningMode ? 'BRAIN &amp; LEARNING TRACK' : 'PHYSICAL GROWTH TRACK'})
           </span>
           <span style="font-size:0.76rem;font-weight:800;color:#059669;">
-            ✓ ${isLearningMode ? '2,138 Neuro-Cognitive &amp; Pedagogy' : '1,576 Pediatric Auxology &amp; Endocrine'} PubMed Studies Matched
+            ✓ ${isLearningMode ? '2,138 Executive-Cognitive &amp; Pedagogy' : '1,576 Pediatric Auxology &amp; Endocrine'} PubMed Studies Matched
           </span>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.65rem;font-size:0.83rem;color:#0F172A;line-height:1.5;">
@@ -3347,7 +3355,7 @@ ${isMasked ? `
           </div>
           ${isLearningMode ? `
           <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:0.65rem 0.85rem;">
-            <strong style="color:#1D4ED8;display:block;margin-bottom:0.15rem;">5-Axis Brain LQ &amp; Focus Span</strong>
+            <strong style="color:#1D4ED8;display:block;margin-bottom:0.15rem;">Executive Focus Index &amp; Focus Span</strong>
             <span>Overall LQ ${overallLQDisp} pts (Top ${lqTopPctDisp}%) · ${focusSpanLabel.split(' (')[0]}</span>
           </div>
           <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:0.65rem 0.85rem;">
@@ -3471,13 +3479,13 @@ ${isMasked ? `
     const rxTitleEl = document.getElementById('rx-header-title');
     if (rxTitleEl) {
       rxTitleEl.textContent = isLearningMode
-        ? `Age ${ageY} ${genderLabel} — 5-Axis Brain LQ & Executive Function Report`
+        ? `Age ${ageY} ${genderLabel} — Executive Focus Index & Executive Function Report`
         : `Age ${ageY} ${genderLabel} — US CDC Auxology & Adult Height Report`;
     }
     const rxSubEl = document.getElementById('rx-header-subtitle');
     if (rxSubEl) {
       rxSubEl.textContent = isLearningMode
-        ? 'Harvard / WashU 5-Axis Brain LQ & Executive Function Assessment Complete'
+        ? 'Harvard / WashU Executive Focus Index & Executive Function Assessment Complete'
         : 'US CDC 2000 & WHO Standardized Pediatric Auxology & Bone-Age Analysis Complete';
     }
 
@@ -3569,7 +3577,7 @@ ${isMasked ? `
                 ${isPassPlan ? '✓ 6-MONTH UNLIMITED CARE PASS ACTIVE' : '✓ PRO CLINICAL PASS UNLOCKED'}
               </span>
               <span style="font-size:0.9rem;font-weight:800;color:#065F46;">
-                Full US CDC &amp; 3,722-Paper Clinical Report — Age ${ageY} ${genderLabel} (${isLearningMode ? '5-Axis Brain LQ &amp; Study Roadmap' : `${fmtLen(heightCm)} · ${fmtWt(weightKg)}`})
+                Full US CDC &amp; 3,722-Paper Clinical Report — Age ${ageY} ${genderLabel} (${isLearningMode ? 'Executive Focus Index &amp; Study Roadmap' : `${fmtLen(heightCm)} · ${fmtWt(weightKg)}`})
               </span>
             </div>
             <div style="font-size:0.76rem;font-weight:700;color:#047857;background:#D1FAE5;padding:0.2rem 0.65rem;border-radius:9999px;">
@@ -3926,10 +3934,34 @@ ${isMasked ? `
     }
 
     const singleBuyUrl = getActiveCheckoutUrl('single');
+    const liveChildTeaser = (typeof global.updateKfgPersonalizedChildTeaser === 'function')
+      ? global.updateKfgPersonalizedChildTeaser({
+          sex: isBoy ? 'boy' : 'girl',
+          ageYears: Number(((profile.ageMonths || (ageY * 12)) / 12).toFixed(1)),
+          heightCm: heightCm,
+          percentile: Number(pctValDisp)
+        })
+      : computeChildTeaserPayload({ sex: isBoy ? 'boy' : 'girl', ageYears: ageY, heightCm: heightCm, percentile: Number(pctValDisp) });
     const gateEl = document.createElement('div');
     gateEl.id = 'taller-global-paywall-gate';
     gateEl.style.cssText = 'background:linear-gradient(180deg,#EFF6FF 0%,#FFFFFF 100%);border:2.5px solid #1D4ED8;border-radius:22px;padding:1.5rem 1.4rem;margin-bottom:1.4rem;box-shadow:0 20px 50px rgba(29,78,216,0.12);text-align:left;';
     gateEl.innerHTML = `
+      <!-- Personalized Child Summary Banner -->
+      <div id="kfg-paywall-personalized-child-banner" style="background:linear-gradient(135deg,#0F172A 0%,#1E3A8A 100%);color:#FFFFFF;border-radius:16px;padding:1rem 1.2rem;margin-bottom:0.95rem;box-shadow:0 10px 24px rgba(15,23,42,0.18);">
+        <div style="font-size:0.72rem;font-weight:900;color:#6EE7B7;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.25rem;">
+          ✨ PERSONALIZED CHILD SUMMARY · US CDC 2000 LMS PROFILE
+        </div>
+        <div id="kfg-paywall-personalized-profile" style="font-size:1.02rem;font-weight:900;color:#FFFFFF;line-height:1.35;">
+          ${liveChildTeaser.profileSummary}
+        </div>
+        <div style="font-size:0.86rem;font-weight:800;color:#93C5FD;margin-top:0.25rem;">
+          Modifiable Sleep / Posture / Nutrition Recovery Window: <span id="kfg-paywall-personalized-window" style="color:#6EE7B7;">${liveChildTeaser.recoverySummary}</span>
+        </div>
+        <div style="font-size:0.8rem;color:#E2E8F0;margin-top:0.3rem;font-weight:700;">
+          ${liveChildTeaser.ctaHeadline}
+        </div>
+      </div>
+
       <!-- Step 1: Clinical Scan Complete Teaser Banner -->
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.85rem;padding-bottom:0.75rem;border-bottom:1px solid #BFDBFE;">
         <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
@@ -3938,7 +3970,7 @@ ${isMasked ? `
           </span>
           <span style="font-size:0.84rem;font-weight:800;color:#1E3A8A;">
             ${isLearningMode
-              ? `Profile: Age ${ageY} ${genderLabel} · 5-Axis Brain LQ &amp; Executive Function Scan`
+              ? `Profile: Age ${ageY} ${genderLabel} · Executive Focus Index &amp; Executive Function Scan`
               : `Profile: Age ${ageY} ${genderLabel} · Current ${fmtLen(heightCm)} / ${fmtWt(weightKg)}`}
           </span>
         </div>
@@ -3951,7 +3983,7 @@ ${isMasked ? `
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0.75rem;margin-bottom:1.15rem;">
         ${isLearningMode ? `
         <div style="background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:14px;padding:0.85rem 1rem;">
-          <div style="font-size:0.75rem;font-weight:800;color:#475569;">① 5-Axis Brain Learning Quotient (LQ)</div>
+          <div style="font-size:0.75rem;font-weight:800;color:#475569;">① Executive Focus & Study Habit Score</div>
           <div style="font-size:1.35rem;font-weight:900;color:#1D4ED8;margin-top:0.2rem;letter-spacing:-0.02em;">
             🔒 <span style="filter:blur(5px);user-select:none;">??.? pts</span> <span style="font-size:0.82rem;color:#DC2626;font-weight:800;">(Locked)</span>
           </div>
@@ -4019,7 +4051,7 @@ ${isMasked ? `
             </span>
             <h3 style="font-size:1.24rem;font-weight:900;color:#0F172A;margin:0.45rem 0 0.2rem 0;">
               ${isLearningMode
-                ? "Unlock Your Child's Complete 1:1 5-Axis Brain LQ &amp; Neuro-Study Workbook"
+                ? "Unlock Your Child's Complete 1:1 Executive Focus Index &amp; Neuro-Study Workbook"
                 : "Unlock Your Child's Complete 1:1 Pediatric Height &amp; Auxology Workbook"}
             </h3>
             <p style="font-size:0.86rem;color:#475569;margin:0;">
@@ -4050,7 +4082,7 @@ ${isMasked ? `
                 📄 Includes Printable US CDC Percentile & Bone-Age PDF Guide + 30-Day Growth Velocity Tracker
               </div>
               ${isLearningMode ? `
-              ✓ Full 5-Axis Brain LQ &amp; Study Bottleneck Report<br>
+              ✓ Full Executive Focus Index &amp; Study Bottleneck Report<br>
               ✓ Custom 4-Week Feynman &amp; Bar-Modeling Plan<br>
               ✓ Printable Summary PDF + 4 Cognitive Worksheets
               ` : `
@@ -4082,7 +4114,7 @@ ${isMasked ? `
                 📄 Includes Printable US CDC Percentile & Bone-Age PDF Guide + 30-Day Growth Velocity Tracker
               </div>
               ${isLearningMode ? `
-              ✓ <strong>Monthly 30-Day 5-Axis Brain LQ Re-Calibration</strong><br>
+              ✓ <strong>Monthly 30-Day Executive Focus Index Re-Calibration</strong><br>
               ✓ <strong>Cycles 1–6 Progressive Monthly Worksheets</strong><br>
               ✓ <strong>Unlimited Sibling Profiles (3+)</strong> &amp; Daily DHA Reference Guide
               ` : `
@@ -4315,14 +4347,13 @@ ${isMasked ? `
           </div>
         </div>
 
-        <!-- Free CDC Summary Email Lead Capture & Viral Trajectory Card Share Bar -->
+        <!-- Zero-Duplicate-Email Share & Unified Parent Growth Club Jump Bar -->
         <div id="kidsfit-free-email-share-bridge" style="margin-top:0.7rem;padding:0.75rem 0.95rem;background:#F8FAFC;border:1.5px solid #93C5FD;border-radius:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.6rem;">
-          <div style="display:flex;align-items:center;gap:0.45rem;flex-wrap:wrap;flex:1;min-width:240px;">
-            <span style="font-size:0.78rem;font-weight:900;color:#1E3A8A;">📩 Email My Child's Free CDC Summary (${pctValDisp}th %ile):</span>
-            <input type="email" id="kf-free-summary-email" placeholder="parent@email.com" style="padding:0.38rem 0.65rem;border:1px solid #93C5FD;border-radius:8px;font-size:0.78rem;min-width:170px;" />
-            <button type="button" onclick="(function(){var el=document.getElementById('kf-free-summary-email');var em=el&&el.value?el.value.trim():'';if(!em||em.indexOf('@')===-1){alert('Please enter a valid parent email address.');return;}try{localStorage.setItem('kidsfit_global_lead_email',em);if(window.DreamCompanyCRM&&window.DreamCompanyCRM.registerMember){window.DreamCompanyCRM.registerMember({div:'KFG',email:em,segment:'free_cdc_summary',lang:'en-US',notes:'site=kisfitglobal.com | post_scan_summary'});}if(window.recordKfgSignupBeacons){window.recordKfgSignupBeacons({});}else{fetch('https://abacus.jasoncameron.dev/hit/kfg_kisfitglobal/signup',{mode:'cors',keepalive:true}).catch(function(){});fetch('https://abacus.jasoncameron.dev/hit/kfg_kisfitglobal/signup_total',{mode:'cors',keepalive:true}).catch(function(){});}}catch(e){}alert('Sent! Your child\'s US CDC '+('${pctValDisp}')+'th percentile summary &amp; starter habit guide has been saved for '+em+'.');})()" style="background:#1D4ED8;color:#FFFFFF;border:none;border-radius:8px;padding:0.4rem 0.75rem;font-size:0.75rem;font-weight:800;cursor:pointer;">
-              Send Free Summary →
-            </button>
+          <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;flex:1;min-width:240px;">
+            <span style="font-size:0.8rem;font-weight:900;color:#1E3A8A;">📩 Want this ${pctValDisp}th %ile US CDC summary &amp; weekly habit guide emailed free?</span>
+            <a href="#kfg-club-passwordless-box" onclick="var box=document.getElementById('kfg-club-passwordless-box');if(box){event.preventDefault();box.scrollIntoView({behavior:'smooth'});var inp=document.getElementById('kfg-club-passwordless-email');if(inp)setTimeout(function(){inp.focus();},350);}" style="background:#1D4ED8;color:#FFFFFF;text-decoration:none;border-radius:8px;padding:0.42rem 0.8rem;font-size:0.76rem;font-weight:800;display:inline-block;">
+              Save via Free Parent Growth Club →
+            </a>
           </div>
           <div style="display:flex;align-items:center;gap:0.35rem;flex-wrap:wrap;">
             <button type="button" onclick="window.shareKidsFitGlobalReport('native')" style="background:#059669;color:#FFFFFF;border:none;border-radius:8px;padding:0.4rem 0.72rem;font-size:0.74rem;font-weight:800;cursor:pointer;">📤 Share My Child's CDC Trajectory</button>
@@ -4593,7 +4624,7 @@ ${isMasked ? `
           `Offload prefrontal working memory using <strong>3-Box Visual Bar-Modeling (Worksheet 02)</strong> on multi-step math &amp; ELA problems; audit 90-day error drop.`,
           `Execute <strong>Cornell 3-Color Error Tagging</strong> ([Careless Skip] vs [Concept Gap]) with mandatory 72-hour blind re-testing + evening Magnesium Glycinate.`,
           `Advance to <strong>Socratic 3-Step Deep Transfer</strong> ([Observation] → [Why Hypothesis] → [STEM Application]) and increase sprint duration to <strong>${baseMins + 8} mins</strong>.`,
-          `Complete <strong>180-Day 5-Axis Brain LQ Audit</strong>, verify autonomous self-directed study habit at ${baseMins + 12} mins, and unlock Month ${curMonth + 1}+ curriculum.`
+          `Complete <strong>180-Day Executive Focus Index Audit</strong>, verify autonomous self-directed study habit at ${baseMins + 12} mins, and unlock Month ${curMonth + 1}+ curriculum.`
         ];
         reportBox.innerHTML = `
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.35rem;">
@@ -4654,8 +4685,8 @@ ${isMasked ? `
 
   global.shareKidsFitGlobalReport = function (channel) {
     const shareUrl = 'https://kisfitglobal.com/?utm_source=parent_share&utm_medium=' + encodeURIComponent(channel || 'native');
-    const shareTitle = 'KISFIT Bio Labs — 60-Sec US CDC Child Height Predictor & 5-Axis Brain LQ Scan';
-    const shareText = 'Check out this clinical 60-second US CDC 2000 Child Height Predictor & 5-Axis Brain Learning Quotient (LQ) scan (backed by 3,722+ peer-reviewed studies):';
+    const shareTitle = 'KISFIT Bio Labs — 60-Sec US CDC Child Height Predictor & Executive Focus Index Scan';
+    const shareText = 'Check out this clinical 60-second US CDC 2000 Child Height Predictor & Executive Focus & Study Habit Score scan (backed by 3,722+ peer-reviewed studies):';
     try {
       if (!isStaticGitHubPagesHost() && typeof window !== 'undefined' && typeof window.fetch === 'function') {
         window.fetch('/api/visit', {
@@ -5969,6 +6000,7 @@ ${isMasked ? `
     loadSampleDemoProfile: global.loadSampleDemoProfile,
     closeSampleReportPreview: global.closeSampleReportPreview,
     openSampleReportPreview: global.openSampleReportPreview,
+    updateKfgPersonalizedChildTeaser: global.updateKfgPersonalizedChildTeaser,
     isSamplePreviewActive,
     isGlobalPaidEdition,
     isReportUnlocked,

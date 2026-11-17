@@ -244,7 +244,7 @@
             highlight: `Computing 5-Axis Learning Quotient (LQ) & primary cognitive bottleneck...`
           },
           {
-            badge: `Brain Briefing 2/6 · 5-Axis Brain Radar & Bottleneck Detection`,
+            badge: `Brain Briefing 2/6 · Executive Focus Radar & Bottleneck Detection`,
             title: `Analyzing Literacy · Spatial Math · Working Memory · Metacognition · Inquiry`,
             body: `Identifying your child's Top 3 cognitive strengths and Top 3 study bottlenecks to prevent wasted tutoring and study fatigue.`,
             highlight: `Matching 1:1 study methodology (Active Recall / Manipulative / Visual / Goal-Driven)...`
@@ -269,7 +269,7 @@
           },
           {
             badge: `Brain Briefing 6/6 · 1:1 Brain & Learning Master Report Ready`,
-            title: `Your Child's 5-Axis Brain Balance Chart & Bottleneck Rx is Ready!`,
+            title: `Your Child's Executive Focus Balance Chart & Bottleneck Rx is Ready!`,
             body: `Includes 5-Axis Radar SVG, 6-Month LQ Growth Curve, and step-by-step bottleneck correction protocol.`,
             highlight: `Opening your child's clinical Brain & Learning Report now...`
           }

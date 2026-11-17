@@ -11,7 +11,7 @@
   let EndocrinologyEngine = typeof require !== 'undefined' ? (function () { try { return require('./endocrinology-engine'); } catch (e) { return null; } })() : (global.KidsFitEndocrinologyEngine || null);
   let NutritionEngine = typeof require !== 'undefined' ? (function () { try { return require('./nutrition-engine'); } catch (e) { return null; } })() : (global.KidsFitNutritionEngine || null);
   let BiomechanicsStudio = typeof require !== 'undefined' ? (function () { try { return require('./biomechanics-studio'); } catch (e) { return null; } })() : (global.KidsFitBiomechanicsStudio || null);
-  let NeuroCognitiveMatrix = typeof require !== 'undefined' ? (function () { try { return require('./neuro-cognitive-matrix'); } catch (e) { return null; } })() : (global.KidsFitNeuroCognitiveMatrix || null);
+  let NeuroCognitiveMatrix = typeof require !== 'undefined' ? (function () { try { return require('./executive-cognitive-matrix'); } catch (e) { return null; } })() : (global.KidsFitNeuroCognitiveMatrix || null);
   let GrowthTracker = typeof require !== 'undefined' ? (function () { try { return require('./growth-tracker'); } catch (e) { return null; } })() : (global.KidsFitGrowthTracker || null);
   let PinpointCurator = typeof require !== 'undefined' ? (function () { try { return require('./pinpoint-curator'); } catch (e) { return null; } })() : (global.TallerPinpointCurator || global.KidsFitPinpointCurator || null);
   let UserCohortDB = typeof require !== 'undefined' ? (function () { try { return require('./user-cohort-db'); } catch (e) { return null; } })() : (global.TallerUserCohortDB || global.KidsFitUserCohortDB || null);
@@ -1113,7 +1113,7 @@
               </div>
               <div style="display: flex; flex-direction: column; gap: 0.38rem; font-size: 0.85rem; color: #0F172A; line-height: 1.52;">
                 <div style="background: #FFFFFF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 0.55rem 0.75rem;">
-                  <strong style="color: #1D4ED8;">${isEn ? '• Neuro-Cognitive Root Cause:' : '• US CDC Growth Reference:'}</strong> ${card.causeKo}
+                  <strong style="color: #1D4ED8;">${isEn ? '• Executive-Cognitive Root Cause:' : '• US CDC Growth Reference:'}</strong> ${card.causeKo}
                 </div>
                 <div style="background: #FFFFFF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 0.55rem 0.75rem;">
                   <strong style="color: #1D4ED8;">${isEn ? '• Evidence-Based Fix (How-To):' : '• US CDC Growth ReferenceHow-To Fix):'}</strong> ${card.mistakeVsFixKo}
@@ -1272,7 +1272,7 @@
       : `${windowInfo.shortBadge} · ${windowInfo.subLabel}`;
     const goldenTimeMeaningKo = windowInfo.meaningKo;
 
-    // Neuro-Cognitive Target Focus Label
+    // Executive-Cognitive Target Focus Label
     let neuroFocusLabel = isEn ? 'Prefrontal Executive Function & Causal Reasoning' : 'US CDC Growth Reference & US CDC Growth Reference';
     if (ageYears <= 3) neuroFocusLabel = isEn ? 'Fine-Motor Cortex (30%) & Sensory Synapses' : 'US CDC Growth ReferenceExerciseUS CDC Growth Reference 30%) & US CDC Growth Reference';
     else if (ageYears <= 6) neuroFocusLabel = isEn ? '3D Spatial Rotation (Parietal) & Dialogue Turns' : '3US CDC Growth Reference & US CDC Growth Reference';
@@ -3617,7 +3617,7 @@
           </div>
         </div>
         <template id="learning-clinical-archive-metadata" style="display:none" data-age="${ageYears}" data-style="${studyStyleKey}" data-temp="${tempKey}" data-axis="${cogAxisPrimary}">
-          [KISFIT NEURO-COGNITIVE CLINICAL ARCHIVE | US CDC Growth Reference ${ageYears} yrs(${exactMonths.toFixed(1)} mos) × ${activeStyleInfo.badge} × ${tempTraitLabelKo} × ${focusTraitLabelKo}]
+          [KISFIT EXECUTIVE-COGNITIVE CLINICAL ARCHIVE | US CDC Growth Reference ${ageYears} yrs(${exactMonths.toFixed(1)} mos) × ${activeStyleInfo.badge} × ${tempTraitLabelKo} × ${focusTraitLabelKo}]
           1. K-DST US CDC Growth Reference: US CDC Growth Reference${lqData.scores.literacy_vocab} pts), US CDC Growth Reference${lqData.scores.math_spatial} pts), US CDC Growth Reference${lqData.scores.working_memory_focus} pts), US CDC Growth Reference${lqData.scores.metacognition_retrieval} pts), US CDC Growth Reference${lqData.scores.inquiry_creative} pts) — US CDC Growth Reference LQ ${lqData.overallLQ.toFixed(1)} pts(US CDC Growth Reference ${lqData.topPercent}%).
           2. US CDC Growth Reference pts US CDC Growth Reference: ${strengthsList.map(s => s.title + '(' + s.score + 'growth): ' + s.goodTrait + ' -> ' + s.howToBoost + ' [' + s.helpfulTools + ']').join(' | ')}.
           3. US CDC Growth Reference: ${weaknessesList.map(w => w.title + '(' + w.score + 'growth): ' + w.weakTrait + ' -> ' + w.howToFix + ' [' + w.helpfulTools + ']').join(' | ')}.

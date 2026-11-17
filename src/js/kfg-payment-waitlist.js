@@ -481,7 +481,7 @@
     if (!target || typeof target.closest !== 'function') return null;
     if (target.closest('#kfg-vip-waitlist-modal')) return null;
     var el = target.closest(
-      'a[href*="buy.polar.sh"], [data-polar-checkout], .polar-checkout-button, ' +
+      'a[href*="buy.polar.sh"], a[href="#vip-waitlist"], a[href*="#vip-waitlist"], [data-polar-checkout], .polar-checkout-button, ' +
       '#btn-global-paywall-checkout, #btn-one-tap-single-report, #btn-one-tap-six-month-pass, ' +
       '#btn-edge-single-report, #btn-edge-six-month-pass, #btn-polar-official-checkout, ' +
       '.kfg-ba-btn-single, .kfg-ba-btn-pass, .kfg-edge-btn-pass, [data-kfg-paid-plan]'
@@ -546,6 +546,7 @@
   global.recordKfgPaidClickOnce = recordKfgPaidClickOnce;
   global.recordKfgSignupBeacons = recordKfgSignupBeacons;
   global.openKfgVipWaitlistModal = openKfgVipWaitlistModal;
+  global.openKfgWaitlistModal = openKfgVipWaitlistModal;
   global.closeKfgVipWaitlistModal = closeKfgVipWaitlistModal;
   global.selectKfgWaitlistPlan = selectKfgWaitlistPlan;
   global.submitKfgVipWaitlistForm = submitKfgVipWaitlistForm;
@@ -560,7 +561,8 @@
       resolveKfgLiveCheckoutState: resolveKfgLiveCheckoutState,
       recordKfgPaidClickOnce: recordKfgPaidClickOnce,
       recordKfgSignupBeacons: recordKfgSignupBeacons,
-      openKfgVipWaitlistModal: openKfgVipWaitlistModal
+      openKfgVipWaitlistModal: openKfgVipWaitlistModal,
+      openKfgWaitlistModal: openKfgVipWaitlistModal
     };
   }
 })(typeof window !== 'undefined' ? window : global);

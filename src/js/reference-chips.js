@@ -113,7 +113,7 @@
       linkpriceTarget: 'https://www.yes24.com/Product/Search?domain=ALL&query=%EB%B0%94%EB%A5%B8+%EC%9E%90%EC%84%B8+%EA%B3%B5%EB%B6%80%EB%B2%95'
     },
 
-    // Neuro-Cognitive & Havruta (Exact Curated Flagship SKU Queries)
+    // Executive-Cognitive & Havruta (Exact Curated Flagship SKU Queries)
     havruta: {
       ko: 'US CDC Growth Reference',
       en: 'Evan-Moor Daily Higher-Order Thinking Workbook',

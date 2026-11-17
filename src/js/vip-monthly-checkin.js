@@ -104,31 +104,36 @@
   // ---------------------------------------------------------------------------
   // 1. Top Reels / Shorts Visitor Card: Age-Specific Growth Cheat Sheet
   // ---------------------------------------------------------------------------
-  function selectKfgReelsCheatSheetBand(segKey) {
+  function selectKfgReelsCheatSheetBand(segKey, skipClubSync) {
     if (!REELS_CHEAT_BANDS[segKey]) return;
     selectedReelsBand = segKey;
     var info = REELS_CHEAT_BANDS[segKey];
 
-    if (typeof document === 'undefined') return;
-    var btns = document.querySelectorAll('[data-kfg-reels-band]');
-    for (var i = 0; i < btns.length; i++) {
-      var b = btns[i];
-      var isAct = b.getAttribute('data-kfg-reels-band') === segKey;
-      b.classList.toggle('active', isAct);
-      b.setAttribute('aria-pressed', isAct ? 'true' : 'false');
-      b.style.border = isAct ? '2px solid #1D4ED8' : '1.5px solid #CBD5E1';
-      b.style.background = isAct ? '#EFF6FF' : '#FFFFFF';
-      b.style.color = isAct ? '#1D4ED8' : '#334155';
+    if (typeof document !== 'undefined') {
+      var btns = document.querySelectorAll('[data-kfg-reels-band]');
+      for (var i = 0; i < btns.length; i++) {
+        var b = btns[i];
+        var isAct = b.getAttribute('data-kfg-reels-band') === segKey;
+        b.classList.toggle('active', isAct);
+        b.setAttribute('aria-pressed', isAct ? 'true' : 'false');
+        b.style.border = isAct ? '2px solid #1D4ED8' : '1.5px solid #CBD5E1';
+        b.style.background = isAct ? '#EFF6FF' : '#FFFFFF';
+        b.style.color = isAct ? '#1D4ED8' : '#334155';
+      }
+
+      var gainEl = document.getElementById('kfg-reels-cs-gain');
+      var sleepEl = document.getElementById('kfg-reels-cs-sleep');
+      var nutEl = document.getElementById('kfg-reels-cs-nutrition');
+      var tipEl = document.getElementById('kfg-reels-cs-tip');
+      if (gainEl) gainEl.textContent = info.cdcGain;
+      if (sleepEl) sleepEl.textContent = info.lightsOut;
+      if (nutEl) nutEl.textContent = info.nutrition;
+      if (tipEl) tipEl.textContent = info.habitTip;
     }
 
-    var gainEl = document.getElementById('kfg-reels-cs-gain');
-    var sleepEl = document.getElementById('kfg-reels-cs-sleep');
-    var nutEl = document.getElementById('kfg-reels-cs-nutrition');
-    var tipEl = document.getElementById('kfg-reels-cs-tip');
-    if (gainEl) gainEl.textContent = info.cdcGain;
-    if (sleepEl) sleepEl.textContent = info.lightsOut;
-    if (nutEl) nutEl.textContent = info.nutrition;
-    if (tipEl) tipEl.textContent = info.habitTip;
+    if (!skipClubSync && STAGE_MAP[segKey]) {
+      selectKfgFreeClubSegment(segKey, true);
+    }
   }
 
   function submitKfgReelsCheatSheetForm(ev) {
@@ -197,7 +202,7 @@
   // ---------------------------------------------------------------------------
   // 2. Unified Passwordless 3-Sec Parent Growth Club Signup
   // ---------------------------------------------------------------------------
-  function selectKfgFreeClubSegment(segKey) {
+  function selectKfgFreeClubSegment(segKey, skipReelsSync) {
     if (!STAGE_MAP[segKey]) return;
     selectedFreeSegment = segKey;
     global.__kfgSelectedClubSegment = segKey;
@@ -207,13 +212,18 @@
       localStorage.setItem('kfg_parent_member_stage', STAGE_MAP[segKey]);
     } catch (_) {}
 
-    if (typeof document === 'undefined') return;
-    var pills = document.querySelectorAll('[data-kfg-club-seg]');
-    for (var i = 0; i < pills.length; i++) {
-      var p = pills[i];
-      var isAct = p.getAttribute('data-kfg-club-seg') === segKey;
-      p.classList.toggle('active', isAct);
-      p.setAttribute('aria-pressed', isAct ? 'true' : 'false');
+    if (typeof document !== 'undefined') {
+      var pills = document.querySelectorAll('[data-kfg-club-seg]');
+      for (var i = 0; i < pills.length; i++) {
+        var p = pills[i];
+        var isAct = p.getAttribute('data-kfg-club-seg') === segKey;
+        p.classList.toggle('active', isAct);
+        p.setAttribute('aria-pressed', isAct ? 'true' : 'false');
+      }
+    }
+
+    if (!skipReelsSync && REELS_CHEAT_BANDS[segKey]) {
+      selectKfgReelsCheatSheetBand(segKey, true);
     }
   }
 

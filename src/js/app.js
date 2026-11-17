@@ -19,7 +19,7 @@
   let EndocrinologyEngine = typeof require !== 'undefined' ? require('./endocrinology-engine') : (global.KidsFitEndocrinologyEngine || null);
   let NutritionEngine = typeof require !== 'undefined' ? require('./nutrition-engine') : (global.KidsFitNutritionEngine || null);
   let BiomechanicsStudio = typeof require !== 'undefined' ? require('./biomechanics-studio') : (global.KidsFitBiomechanicsStudio || null);
-  let NeuroCognitiveMatrix = typeof require !== 'undefined' ? require('./neuro-cognitive-matrix') : (global.KidsFitNeuroCognitiveMatrix || null);
+  let NeuroCognitiveMatrix = typeof require !== 'undefined' ? require('./executive-cognitive-matrix') : (global.KidsFitNeuroCognitiveMatrix || null);
   let GrowthTracker = typeof require !== 'undefined' ? require('./growth-tracker') : (global.KidsFitGrowthTracker || null);
   let DevelopmentEngine = typeof require !== 'undefined' ? require('./development-engine') : (global.KidsFitDevelopmentEngine || null);
   let WeekendCurator = typeof require !== 'undefined' ? require('./weekend-curator') : (global.KidsFitWeekendCurator || null);
@@ -152,7 +152,7 @@
     },
     {
       step: 4,
-      title: '5-Axis Neuro-Cognitive Priority Matrix',
+      title: '5-Axis Executive-Cognitive Priority Matrix',
       subtitle: 'Configures age-specific cortical rewiring and neuroplasticity stimulation protocols.'
     },
     {
@@ -586,7 +586,7 @@
         },
         {
           pct: 68,
-          title: 'Analyzing ASQ-3 / 5-Axis Neuro-Cognitive & Auxology Matrix...',
+          title: 'Analyzing ASQ-3 / 5-Axis Executive-Cognitive & Auxology Matrix...',
           desc: 'Synthesizing personalized growth-plate and cognitive development protocols.'
         },
         {
@@ -758,7 +758,7 @@
       const isEn = document.documentElement && (document.documentElement.lang === 'en' || (typeof document.documentElement.getAttribute === 'function' && document.documentElement.getAttribute('data-edition') === 'global-paid'));
       headerSubEl.textContent = isEn
         ? (isLearningModeActive
-          ? '6-Step Clinical Scan + Phenotype Synthesis · US CDC & 3,714 Neuro-Cognitive Studies Analyzed'
+          ? '6-Step Clinical Scan + Phenotype Synthesis · US CDC & 3,714 Executive-Cognitive Studies Analyzed'
           : '6-Step Clinical Scan + Phenotype Synthesis · US CDC 2000 & 117 Pediatric Endocrine Studies Analyzed')
         : (isLearningModeActive
           ? 'Assessment 6US CDC Growth Reference yrs US CDC Growth Reference K-DST & US CDC Growth Reference 117US CDC Growth Reference Complete'
@@ -803,7 +803,7 @@
       }
     }
 
-    // Render Core 4: Neuro-Cognitive Matrix
+    // Render Core 4: Executive-Cognitive Matrix
     const neuroCard = document.getElementById('core-4-container') || document.getElementById('neuro-report-card');
     if (neuroCard && NeuroCognitiveMatrix && NeuroCognitiveMatrix.renderNeuroSection) {
       neuroCard.innerHTML = NeuroCognitiveMatrix.renderNeuroSection(state.profile, affConfig, isEnReport);

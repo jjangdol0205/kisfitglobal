@@ -25,7 +25,7 @@
       'nav.auxology': 'Physical Growth & Auxology',
       'nav.endocrinology': 'Endocrinology & Bio-Nutrition',
       'nav.biomechanics': 'Biomechanics & Posture',
-      'nav.neuro': 'Neuro-Cognitive Matrix',
+      'nav.neuro': 'Executive-Cognitive Matrix',
       'nav.tracker': '90-Day Tracker & Clinical PDF',
       'theme.dark': '🌙 Dark Mode',
       'theme.light': '☀️ Light Mode',
@@ -99,8 +99,8 @@
       'results.tab2.desc': 'Slow-wave sleep (SWS) GH suppression simulation (-52% max) and weight-proportional nutrient bioavailability gauges.',
       'results.tab3.title': 'Spinal Decompression & Epiphyseal Biomechanics Studio',
       'results.tab3.desc': 'Intervertebral disc rehydration (+1.8 cm) and Wolff\'s Law mechanical loading routines with interactive countdown timers.',
-      'results.tab4.title': 'Neuro-Cognitive Matrix & Weekend Socratic Inquiry Roadmap',
-      'results.tab4.desc': '5-axis neuro-cognitive balance radar chart, age-specific cortical development guide, and 3-step inquiry dialogue prompts.',
+      'results.tab4.title': 'Executive-Cognitive Matrix & Weekend Socratic Inquiry Roadmap',
+      'results.tab4.desc': '5-axis executive-cognitive balance radar chart, age-specific cortical development guide, and 3-step inquiry dialogue prompts.',
       'results.tab5.title': '90-Day Growth Tracker & Hospital-Style Clinical PDF Report',
       'results.tab5.desc': 'Continuous height/weight streak tracker and 1-click printable 2-page clinical PDF report.',
       'footer.disclaimer': 'Powered by proprietary KISFIT AI™ algorithms and official US CDC 2000, WHO Growth Standards, AAP, PES, and ASQ-3 developmental milestones (117 papers). This guidebook is for educational and wellness guidance and does not replace medical diagnosis. Product recommendation links on this service are part of Amazon Associates and global affiliate programs, through which we may receive a commission.',
@@ -181,7 +181,7 @@
       // Loader
       'loader.step1': 'Loading K-GROWTH AI™ Parameter Matrices...',
       'loader.step2': 'Computing Standardized Z-Scores & 3-Tier Predicted Trajectories...',
-      'loader.step3': 'Finalizing GH Suppression Ratio & 5-Axis Neuro-Cognitive Protocol!',
+      'loader.step3': 'Finalizing GH Suppression Ratio & 5-Axis Executive-Cognitive Protocol!',
       'loader.skip': '⚡ Skip Wait & View Results Immediately ↗',
 
       // Results
@@ -233,7 +233,7 @@
       'quiz.trait.focus.opt2': '15–20 mins · Fits step-by-step missions',
       'quiz.trait.focus.opt3': '30+ mins · Fits deep reading & projects',
       'quiz.trait.learning.label': '📚 Current Learning Bottlenecks (Multi-Select · 1:1 Study Rx)',
-      'quiz.trait.learning.hint': 'Pinpoints neuro-cognitive root causes and tailors study strategies, books, and workbooks.',
+      'quiz.trait.learning.hint': 'Pinpoints executive-cognitive root causes and tailors study strategies, books, and workbooks.',
       'quiz.trait.learning.opt1': 'Struggles with reading comprehension on long text problems',
       'quiz.trait.learning.opt2': 'Can do basic math but gets stuck on applied problem-solving',
       'quiz.trait.learning.opt3': 'Quickly forgets classroom lessons & struggles with independent homework review',

@@ -11,7 +11,7 @@
  *    - Milestone streak badges: 7 days, 30 days, 90 days
  * 2. Dedicated 2-Page Hospital Clinic Style Clinical PDF Report:
  *    - Page 1: Auxology & Trajectory (Demographics, CDC/KDCA percentiles, Tanner MPH, 3-curve trajectory SVG)
- *    - Page 2: Endocrinology, Nutrition, Biomechanics & Neuro-Cognitive Matrix + Doctor Signature
+ *    - Page 2: Endocrinology, Nutrition, Biomechanics & Executive-Cognitive Matrix + Doctor Signature
  *    - Pure white `#FFFFFF` background, `#0F172A` typography, `page-break-after: always;`
  */
 
@@ -929,10 +929,10 @@
             <div style="border-bottom: 2.5px solid #1D4ED8; padding-bottom: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-end;">
               <div>
                 <div style="font-size: 10pt; font-weight: 800; color: #1D4ED8; letter-spacing: 0.08em; text-transform: uppercase;">
-                  KISFIT BIO LABS · HARVARD / WASHU NEURO-COGNITIVE 5-AXIS BRAIN LQ™ v4.0
+                  KISFIT BIO LABS · PEDIATRIC EXECUTIVE FOCUS & STUDY HABIT MATRIX v4.0
                 </div>
                 <h1 style="font-size: 18pt; font-weight: 900; color: #0F172A; margin: 4px 0 0 0;">
-                  5-Axis Brain Learning Quotient (LQ) &amp; Executive Function Clinical Report (Page 1/2)
+                  Executive Focus & Study Habit Score &amp; Executive Function Clinical Report (Page 1/2)
                 </h1>
               </div>
               <div style="text-align: right; font-size: 8.5pt; color: #475569;">
@@ -962,7 +962,7 @@
 
             <div style="margin-bottom: 16px;">
               <h2 style="font-size: 11pt; font-weight: 800; color: #0F172A; border-left: 4px solid #1D4ED8; padding-left: 8px; margin: 0 0 8px 0;">
-                1. 5-Axis Brain Learning Quotient (LQ) Percentile &amp; Neural Circuit Breakdown
+                1. Executive Focus & Study Habit Score Percentile &amp; Neural Circuit Breakdown
               </h2>
               <table style="width: 100%; border: 1px solid #CBD5E1; border-collapse: collapse; font-size: 9pt; text-align: left;">
                 <thead>
@@ -970,7 +970,7 @@
                     <th style="padding: 6px 8px; border-right: 1px solid #CBD5E1;">Neural Circuit Axis</th>
                     <th style="padding: 6px 8px; border-right: 1px solid #CBD5E1; text-align: center;">Baseline Score</th>
                     <th style="padding: 6px 8px; border-right: 1px solid #CBD5E1; text-align: center;">6-Mo Coached Target</th>
-                    <th style="padding: 6px 8px;">Clinical Neuro-Cognitive Assessment</th>
+                    <th style="padding: 6px 8px;">Clinical Executive-Cognitive Assessment</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1014,7 +1014,7 @@
               </h2>
               <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center; margin-bottom: 10px;">
                 <div style="border: 1px solid #93C5FD; border-radius: 6px; padding: 10px; background: #F8FAFC;">
-                  <div style="font-size: 8pt; font-weight: 700; color: #1E3A8A;">Current 5-Axis Brain LQ</div>
+                  <div style="font-size: 8pt; font-weight: 700; color: #1E3A8A;">Current Executive Focus Index</div>
                   <div style="font-size: 14pt; font-weight: 900; color: #1D4ED8; margin: 4px 0;">${overallLQ} pts (Top ${lqTopPct}%)</div>
                   <div style="font-size: 7.5pt; color: #64748B;">Age ${ageYears} Norm: 78.0 pts</div>
                 </div>
@@ -1037,7 +1037,7 @@
             </div>
 
             <div style="border-top: 1px solid #CBD5E1; padding-top: 8px; font-size: 8pt; color: #64748B; display: flex; justify-content: space-between;">
-              <span>KISFIT BIO LABS · NEURO-COGNITIVE 5-AXIS BRAIN LQ™ v4.0</span>
+              <span>KISFIT BIO LABS · EXECUTIVE FOCUS & STUDY HABIT MATRIX v4.0</span>
               <span>Page 1 of 2 (Continued on Page 2)</span>
             </div>
           </div>
@@ -1046,7 +1046,7 @@
             <div style="border-bottom: 2.5px solid #1D4ED8; padding-bottom: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-end;">
               <div>
                 <div style="font-size: 10pt; font-weight: 800; color: #1D4ED8; letter-spacing: 0.08em; text-transform: uppercase;">
-                  KISFIT BIO LABS · HARVARD / WASHU NEURO-COGNITIVE 5-AXIS BRAIN LQ™ v4.0
+                  KISFIT BIO LABS · PEDIATRIC EXECUTIVE FOCUS & STUDY HABIT MATRIX v4.0
                 </div>
                 <h1 style="font-size: 18pt; font-weight: 900; color: #0F172A; margin: 4px 0 0 0;">
                   6-Month Monthly Neuro-Study Roadmap &amp; 4 Printable Cognitive Worksheets (Page 2/2)
@@ -1099,7 +1099,7 @@
                   <tr>
                     <td style="padding: 6px; border-right: 1px solid #E2E8F0; font-weight: 700;">Month 6 (${exactAgeMonths + 5}m)</td>
                     <td style="padding: 6px; border-right: 1px solid #E2E8F0; text-align: center; font-weight: 800; color: #059669;">${coachedLQ} pts</td>
-                    <td style="padding: 6px;">180-Day 5-Axis Brain LQ Audit; verify autonomous self-directed study habit at ${ageMonthFocusMinutes + 12} mins.</td>
+                    <td style="padding: 6px;">180-Day Executive Focus Index Audit; verify autonomous self-directed study habit at ${ageMonthFocusMinutes + 12} mins.</td>
                   </tr>
                 </tbody>
               </table>
@@ -1138,7 +1138,7 @@
             </div>
 
             <div style="border-top: 1px solid #CBD5E1; padding-top: 8px; font-size: 8pt; color: #64748B; display: flex; justify-content: space-between;">
-              <span>KISFIT BIO LABS · NEURO-COGNITIVE 5-AXIS BRAIN LQ™ v4.0 (kisfitglobal.com)</span>
+              <span>KISFIT BIO LABS · EXECUTIVE FOCUS & STUDY HABIT MATRIX v4.0 (kisfitglobal.com)</span>
               <span>Page 2 of 2 (End of Clinical Report)</span>
             </div>
           </div>
