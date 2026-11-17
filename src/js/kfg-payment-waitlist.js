@@ -507,7 +507,8 @@
       String(cls).indexOf('btn-pass') !== -1 ||
       txt.indexOf('19.99') !== -1 ||
       txt.indexOf('6-Month') !== -1 ||
-      href.indexOf('pass') !== -1
+      href.indexOf('pass') !== -1 ||
+      href.indexOf('polar_cl_p8DAvlbz7wPj6SOPKhHjT5aaNyA2F3I528A3c15nBND') !== -1
     ) {
       return 'sixMonth';
     }

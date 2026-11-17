@@ -1,5 +1,9 @@
 {
   "provider": "polar_sh",
-  "store_live_ready": false,
-  "merchant_of_record": "Polar.sh"
+  "store_live_ready": true,
+  "merchant_of_record": "Polar.sh",
+  "checkout_urls": {
+    "single_899": "https://buy.polar.sh/polar_cl_v2pLSQbvj13RJxb57w8fqVjZ4h2C7YopmPUDr3vxfG6",
+    "pass_1999": "https://buy.polar.sh/polar_cl_p8DAvlbz7wPj6SOPKhHjT5aaNyA2F3I528A3c15nBND"
+  }
 }
