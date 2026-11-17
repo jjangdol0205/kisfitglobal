@@ -16,8 +16,25 @@
   var ABACUS_BASE = 'https://abacus.jasoncameron.dev/hit/' + NS + '/';
   var IN_APP_WEBVIEW_RE = /Instagram|FBAN|FBAV|KAKAOTALK|Line/i;
 
-  var LIVE_KFG_SINGLE_URL = 'https://buy.polar.sh/polar_cl_v2pLSQbvj13RJxb57w8fqVjZ4h2C7YopmPUDr3vxfG6';
-  var LIVE_KFG_PASS_URL = 'https://buy.polar.sh/polar_cl_p8DAvlbz7wPj6SOPKhHjT5aaNyA2F3I528A3c15nBND';
+  var LIVE_KFG_SINGLE_URL = 'https://buy.polar.sh/polar_cl_v2pLSQbvj13RJxb57w8fqVjZ4h2C7YopmPUDr3vxfG6?locale=en';
+  var LIVE_KFG_PASS_URL = 'https://buy.polar.sh/polar_cl_p8DAvlbz7wPj6SOPKhHjT5aaNyA2F3I528A3c15nBND?locale=en';
+
+  function ensurePolarLocaleOnly(rawUrl) {
+    var url = String(rawUrl || '').trim();
+    if (!url) return '';
+    if (!/^https:\/\/buy\.polar\.sh\//i.test(url)) return url;
+    try {
+      if (typeof URL === 'function') {
+        var u = new URL(url);
+        u.searchParams.set('locale', 'en');
+        return u.toString();
+      }
+    } catch (_) {}
+    if (!/(?:[?&])locale=/i.test(url)) {
+      return url + (url.indexOf('?') === -1 ? '?' : '&') + 'locale=en';
+    }
+    return url.replace(/([?&])locale=[^&#]*/i, '$1locale=en');
+  }
 
   var DEFAULT_PAYMENT_CONFIG = {
     PROVIDER: 'polar_sh',
@@ -48,22 +65,22 @@
       SUPPORT_EMAIL: 'beable9489@gmail.com'
     };
     if (existing && typeof existing === 'object') {
-      if (typeof existing.STORE_LIVE_READY === 'boolean' && existing.STORE_LIVE_READY === true) {
-        base.STORE_LIVE_READY = true;
+      if (typeof existing.STORE_LIVE_READY === 'boolean') {
+        base.STORE_LIVE_READY = existing.STORE_LIVE_READY;
       }
       if (existing.POLAR_CHECKOUT_URLS && typeof existing.POLAR_CHECKOUT_URLS === 'object') {
         if (typeof existing.POLAR_CHECKOUT_URLS.single_899 === 'string' && existing.POLAR_CHECKOUT_URLS.single_899.trim()) {
-          base.POLAR_CHECKOUT_URLS.single_899 = existing.POLAR_CHECKOUT_URLS.single_899.trim();
+          base.POLAR_CHECKOUT_URLS.single_899 = ensurePolarLocaleOnly(existing.POLAR_CHECKOUT_URLS.single_899.trim());
         }
         if (typeof existing.POLAR_CHECKOUT_URLS.pass_1999 === 'string' && existing.POLAR_CHECKOUT_URLS.pass_1999.trim()) {
-          base.POLAR_CHECKOUT_URLS.pass_1999 = existing.POLAR_CHECKOUT_URLS.pass_1999.trim();
+          base.POLAR_CHECKOUT_URLS.pass_1999 = ensurePolarLocaleOnly(existing.POLAR_CHECKOUT_URLS.pass_1999.trim());
         }
       }
       if (typeof existing.POLAR_KFG_SINGLE_URL === 'string' && existing.POLAR_KFG_SINGLE_URL.trim()) {
-        base.POLAR_KFG_SINGLE_URL = existing.POLAR_KFG_SINGLE_URL.trim();
+        base.POLAR_KFG_SINGLE_URL = ensurePolarLocaleOnly(existing.POLAR_KFG_SINGLE_URL.trim());
       }
       if (typeof existing.POLAR_KFG_PASS_URL === 'string' && existing.POLAR_KFG_PASS_URL.trim()) {
-        base.POLAR_KFG_PASS_URL = existing.POLAR_KFG_PASS_URL.trim();
+        base.POLAR_KFG_PASS_URL = ensurePolarLocaleOnly(existing.POLAR_KFG_PASS_URL.trim());
       }
       if (typeof existing.SUPPORT_EMAIL === 'string' && existing.SUPPORT_EMAIL.trim()) {
         base.SUPPORT_EMAIL = existing.SUPPORT_EMAIL.trim();
@@ -120,20 +137,44 @@
     var urls = cfg.POLAR_CHECKOUT_URLS || {};
     var slotKey = normalizePlanKey(rawPlan);
     if (slotKey === 'sixMonth') {
-      return String(urls.pass_1999 || cfg.POLAR_KFG_PASS_URL || '').trim();
+      return ensurePolarLocaleOnly(String(urls.pass_1999 || cfg.POLAR_KFG_PASS_URL || '').trim());
     }
-    return String(urls.single_899 || cfg.POLAR_KFG_SINGLE_URL || '').trim();
+    return ensurePolarLocaleOnly(String(urls.single_899 || cfg.POLAR_KFG_SINGLE_URL || '').trim());
+  }
+
+  function ensureKfgPolarLocaleUrl(rawUrl, emailOverride) {
+    var url = String(rawUrl || '').trim();
+    if (!url) return '';
+    var isPolar = /^https:\/\/buy\.polar\.sh\//i.test(url);
+    var email = String(emailOverride !== undefined ? emailOverride : getSavedParentEmail()).trim();
+    var hasValidEmail = Boolean(email && email.indexOf('@') !== -1);
+    try {
+      if (typeof URL === 'function' && /^https?:\/\//i.test(url)) {
+        var u = new URL(url);
+        if (isPolar) {
+          u.searchParams.set('locale', 'en');
+        }
+        if (hasValidEmail) {
+          u.searchParams.set('customer_email', email);
+        }
+        return u.toString();
+      }
+    } catch (_) {}
+    if (isPolar && !/(?:[?&])locale=/i.test(url)) {
+      url += (url.indexOf('?') === -1 ? '?' : '&') + 'locale=en';
+    } else if (isPolar) {
+      url = url.replace(/([?&])locale=[^&#]*/i, '$1locale=en');
+    }
+    if (hasValidEmail && !/(?:[?&])customer_email=/i.test(url)) {
+      url += (url.indexOf('?') === -1 ? '?' : '&') + 'customer_email=' + encodeURIComponent(email);
+    } else if (hasValidEmail) {
+      url = url.replace(/([?&])customer_email=[^&#]*/i, '$1customer_email=' + encodeURIComponent(email));
+    }
+    return url;
   }
 
   function appendCustomerEmailToPolarUrl(rawUrl, emailOverride) {
-    var url = String(rawUrl || '').trim();
-    if (!url) return '';
-    var email = String(emailOverride !== undefined ? emailOverride : getSavedParentEmail()).trim();
-    if (email && email.indexOf('@') !== -1 && url.indexOf('customer_email=') === -1) {
-      var sep = url.indexOf('?') === -1 ? '?' : '&';
-      url = url + sep + 'customer_email=' + encodeURIComponent(email);
-    }
-    return url;
+    return ensureKfgPolarLocaleUrl(rawUrl, emailOverride);
   }
 
   function resolveKfgLiveCheckoutState(rawPlan) {
@@ -147,7 +188,7 @@
         isLive: true,
         mode: 'polar_sh',
         slotKey: slotKey,
-        url: appendCustomerEmailToPolarUrl(resolvedPolarUrl)
+        url: ensureKfgPolarLocaleUrl(resolvedPolarUrl)
       };
     }
 
@@ -159,9 +200,39 @@
     };
   }
 
+  function persistSurveyProfileBeforeCheckout() {
+    try {
+      if (typeof global.persistKfgSurveyProfileForCheckout === 'function') {
+        global.persistKfgSurveyProfileForCheckout();
+        return;
+      }
+      if (!global.localStorage) return;
+      var wiz = global.TallerOnboardingWizard || global.KidsFitOnboardingWizard;
+      var wizProf = {};
+      if (wiz && typeof wiz.readProfileFromForm === 'function' && typeof document !== 'undefined' && document.getElementById('diagnosis-form')) {
+        try { wizProf = wiz.readProfileFromForm() || {}; } catch (_) {}
+      } else if (wiz && typeof wiz.getState === 'function' && wiz.getState()) {
+        wizProf = wiz.getState().profile || {};
+      }
+      var appProf = (global.KidsFitApp && global.KidsFitApp.state && global.KidsFitApp.state.profile) || {};
+      var prevRaw = global.localStorage.getItem('kfg_saved_survey_profile_v1') || global.localStorage.getItem('kidsfit_last_quiz_profile_v1') || '';
+      var prevProf = {};
+      if (prevRaw) {
+        try { prevProf = JSON.parse(prevRaw) || {}; } catch (_) {}
+      }
+      var merged = Object.assign({}, prevProf, appProf, wizProf);
+      if (merged && (merged.currentHeight || merged.ageMonths || merged.gender)) {
+        var json = JSON.stringify(merged);
+        global.localStorage.setItem('kfg_saved_survey_profile_v1', json);
+        global.localStorage.setItem('kidsfit_last_quiz_profile_v1', json);
+      }
+    } catch (_) {}
+  }
+
   function navigateToKfgPolarCheckout(rawUrl, rawPlan) {
+    persistSurveyProfileBeforeCheckout();
     var memberEmail = getSavedParentEmail();
-    var checkoutUrl = appendCustomerEmailToPolarUrl(rawUrl, memberEmail);
+    var checkoutUrl = ensureKfgPolarLocaleUrl(rawUrl, memberEmail);
     if (!checkoutUrl) {
       openKfgVipWaitlistModal(rawPlan);
       return false;
@@ -544,6 +615,7 @@
   }
 
   global.resolvePolarPlanUrl = resolvePolarPlanUrl;
+  global.ensureKfgPolarLocaleUrl = ensureKfgPolarLocaleUrl;
   global.appendCustomerEmailToPolarUrl = appendCustomerEmailToPolarUrl;
   global.navigateToKfgPolarCheckout = navigateToKfgPolarCheckout;
   global.resolveKfgLiveCheckoutState = resolveKfgLiveCheckoutState;
@@ -560,6 +632,7 @@
     module.exports = {
       PAYMENT_CONFIG: global.PAYMENT_CONFIG,
       resolvePolarPlanUrl: resolvePolarPlanUrl,
+      ensureKfgPolarLocaleUrl: ensureKfgPolarLocaleUrl,
       appendCustomerEmailToPolarUrl: appendCustomerEmailToPolarUrl,
       navigateToKfgPolarCheckout: navigateToKfgPolarCheckout,
       resolveKfgLiveCheckoutState: resolveKfgLiveCheckoutState,

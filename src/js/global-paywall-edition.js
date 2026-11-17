@@ -17,8 +17,39 @@
   const UNLOCK_STORAGE_KEY = 'kidsfit_global_report_unlocked_v1';
   const CHECKOUT_URLS_KEY = 'kidsfit_global_checkout_urls_v1';
 
-  const DEFAULT_SINGLE_CHECKOUT_URL = 'https://buy.polar.sh/polar_cl_v2pLSQbvj13RJxb57w8fqVjZ4h2C7YopmPUDr3vxfG6';
-  const DEFAULT_PASS_CHECKOUT_URL = 'https://buy.polar.sh/polar_cl_p8DAvlbz7wPj6SOPKhHjT5aaNyA2F3I528A3c15nBND';
+  const DEFAULT_SINGLE_CHECKOUT_URL = 'https://buy.polar.sh/polar_cl_v2pLSQbvj13RJxb57w8fqVjZ4h2C7YopmPUDr3vxfG6?locale=en';
+  const DEFAULT_PASS_CHECKOUT_URL = 'https://buy.polar.sh/polar_cl_p8DAvlbz7wPj6SOPKhHjT5aaNyA2F3I528A3c15nBND?locale=en';
+
+  function ensureKfgPolarLocaleUrl(rawUrl, emailOverride) {
+    let url = String(rawUrl || '').trim();
+    if (!url) return '';
+    const isPolar = /^https:\/\/buy\.polar\.sh\//i.test(url);
+    const email = emailOverride !== undefined ? String(emailOverride || '').trim() : '';
+    const hasValidEmail = Boolean(email && email.indexOf('@') !== -1);
+    try {
+      if (typeof URL === 'function' && /^https?:\/\//i.test(url)) {
+        const u = new URL(url);
+        if (isPolar) {
+          u.searchParams.set('locale', 'en');
+        }
+        if (hasValidEmail) {
+          u.searchParams.set('customer_email', email);
+        }
+        return u.toString();
+      }
+    } catch (_) {}
+    if (isPolar && !/(?:[?&])locale=/i.test(url)) {
+      url += (url.indexOf('?') === -1 ? '?' : '&') + 'locale=en';
+    } else if (isPolar) {
+      url = url.replace(/([?&])locale=[^&#]*/i, '$1locale=en');
+    }
+    if (hasValidEmail && !/(?:[?&])customer_email=/i.test(url)) {
+      url += (url.indexOf('?') === -1 ? '?' : '&') + 'customer_email=' + encodeURIComponent(email);
+    } else if (hasValidEmail) {
+      url = url.replace(/([?&])customer_email=[^&#]*/i, '$1customer_email=' + encodeURIComponent(email));
+    }
+    return url;
+  }
 
   const basePolarConfig = {
     PROVIDER: 'polar_sh',
@@ -34,15 +65,20 @@
     SUPPORT_EMAIL: 'beable9489@gmail.com'
   };
   const existingPayCfg = (global.PAYMENT_CONFIG && typeof global.PAYMENT_CONFIG === 'object') ? global.PAYMENT_CONFIG : {};
+  const mergedUrls = Object.assign(
+    {},
+    basePolarConfig.POLAR_CHECKOUT_URLS,
+    (existingPayCfg.POLAR_CHECKOUT_URLS && typeof existingPayCfg.POLAR_CHECKOUT_URLS === 'object') ? existingPayCfg.POLAR_CHECKOUT_URLS : {}
+  );
+  if (mergedUrls.single_899) mergedUrls.single_899 = ensureKfgPolarLocaleUrl(mergedUrls.single_899, '');
+  if (mergedUrls.pass_1999) mergedUrls.pass_1999 = ensureKfgPolarLocaleUrl(mergedUrls.pass_1999, '');
   global.PAYMENT_CONFIG = Object.assign({}, basePolarConfig, existingPayCfg, {
     PROVIDER: 'polar_sh',
     DIVISION: 'KFG',
     STORE_SLOT: 'PEDIATRIC_STORE_SLOT',
-    POLAR_CHECKOUT_URLS: Object.assign(
-      {},
-      basePolarConfig.POLAR_CHECKOUT_URLS,
-      (existingPayCfg.POLAR_CHECKOUT_URLS && typeof existingPayCfg.POLAR_CHECKOUT_URLS === 'object') ? existingPayCfg.POLAR_CHECKOUT_URLS : {}
-    )
+    POLAR_CHECKOUT_URLS: mergedUrls,
+    POLAR_KFG_SINGLE_URL: ensureKfgPolarLocaleUrl(existingPayCfg.POLAR_KFG_SINGLE_URL || DEFAULT_SINGLE_CHECKOUT_URL, ''),
+    POLAR_KFG_PASS_URL: ensureKfgPolarLocaleUrl(existingPayCfg.POLAR_KFG_PASS_URL || DEFAULT_PASS_CHECKOUT_URL, '')
   });
   if (typeof window !== 'undefined') {
     window.PAYMENT_CONFIG = global.PAYMENT_CONFIG;
@@ -52,7 +88,8 @@
     const cfg = (typeof window !== 'undefined' && window.PAYMENT_CONFIG) || global.PAYMENT_CONFIG || basePolarConfig;
     const urls = cfg.POLAR_CHECKOUT_URLS || {};
     const isPass = plan === 'pass' || plan === 'pass_1999' || plan === 'sixMonth';
-    return String(isPass ? (urls.pass_1999 || cfg.POLAR_KFG_PASS_URL || '') : (urls.single_899 || cfg.POLAR_KFG_SINGLE_URL || '')).trim();
+    const raw = String(isPass ? (urls.pass_1999 || cfg.POLAR_KFG_PASS_URL || '') : (urls.single_899 || cfg.POLAR_KFG_SINGLE_URL || '')).trim();
+    return ensureKfgPolarLocaleUrl(raw, '');
   }
 
   function isStaticGitHubPagesHost() {
@@ -238,7 +275,7 @@
     const isPass = plan === 'pass' || plan === 'pass_1999' || plan === 'sixMonth';
     const configuredPolarUrl = resolvePolarPlanCheckoutUrl(isPass ? 'pass' : 'single');
     if (configuredPolarUrl && /^https:\/\/buy\.polar\.sh\//i.test(configuredPolarUrl)) {
-      return configuredPolarUrl;
+      return ensureKfgPolarLocaleUrl(configuredPolarUrl, '');
     }
     try {
       if (typeof window !== 'undefined' && window.localStorage) {
@@ -247,7 +284,7 @@
           const parsed = JSON.parse(saved);
           const customUrl = isPass ? parsed.passUrl : parsed.singleUrl;
           if (customUrl && /^https:\/\/buy\.polar\.sh\//i.test(customUrl)) {
-            return customUrl;
+            return ensureKfgPolarLocaleUrl(customUrl, '');
           }
         }
       }
@@ -5505,17 +5542,13 @@ ${isMasked ? `
       }
     } catch (_) {}
 
-    let checkoutUrl = resolvedPolarUrl;
-    if (memberEmail && memberEmail.indexOf('@') !== -1 && checkoutUrl.indexOf('customer_email=') === -1) {
-      const sep = checkoutUrl.indexOf('?') === -1 ? '?' : '&';
-      checkoutUrl = checkoutUrl + sep + 'customer_email=' + encodeURIComponent(memberEmail);
-    }
+    const checkoutUrl = ensureKfgPolarLocaleUrl(resolvedPolarUrl, memberEmail);
 
     bindPolarCheckoutSuccessHandler(plan);
     startAutoPaymentProgressionPoller(memberEmail, plan);
 
     if (typeof global.navigateToKfgPolarCheckout === 'function') {
-      global.navigateToKfgPolarCheckout(resolvedPolarUrl, plan === 'pass' ? 'sixMonth' : 'single');
+      global.navigateToKfgPolarCheckout(checkoutUrl, plan === 'pass' ? 'sixMonth' : 'single');
       return Promise.resolve({ ok: true, checkoutUrl: checkoutUrl, mode: 'polar_sh', plan: plan });
     }
 
@@ -5995,6 +6028,7 @@ ${isMasked ? `
     PAYMENT_CONFIG: global.PAYMENT_CONFIG,
     DEFAULT_SINGLE_CHECKOUT_URL,
     DEFAULT_PASS_CHECKOUT_URL,
+    ensureKfgPolarLocaleUrl,
     resolvePolarPlanCheckoutUrl,
     SAMPLE_DEMO_PROFILE,
     loadSampleDemoProfile: global.loadSampleDemoProfile,
