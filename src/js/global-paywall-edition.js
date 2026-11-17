@@ -471,7 +471,7 @@
       winMaxCm: winMaxCm,
       profileSummary: 'Age ' + ageDisp + ' ' + sexLabel + ' · Current Stature ' + statureFtIn + ' / ' + statureCm + ' (' + pctOrdinal + ' CDC Percentile)',
       recoverySummary: '+' + winMinIn.toFixed(1) + ' to +' + winMaxIn.toFixed(1) + ' inches (+' + winMinCm + ' to +' + winMaxCm + ' cm) remaining golden-window potential before growth-plate closure',
-      ctaHeadline: "Unlock Your Child's Custom 90-Day Sleep, Calcium/D3 & Decompression Action Plan ($8.99 PDF Guide) or 6-Month Monthly Velocity Coaching ($19.99 Pass)"
+      ctaHeadline: "Unlock Your Child's Custom 90-Day Sleep, Calcium/D3 & Decompression Action Plan ($8.99 PDF Guide) or 6-Month Automated Velocity Tracker ($19.99 Software Pass)"
     };
   }
 

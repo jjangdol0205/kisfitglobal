@@ -512,7 +512,7 @@
       '<div class="kfg-vip-report-card kfg-vip-teaser-locked" style="border:2px solid #3B82F6;background:#FFFFFF;color:#0F172A;border-radius:16px;padding:1.2rem;">' +
         '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.65rem;">' +
           '<span style="background:#EFF6FF;color:#1D4ED8;border:1px solid #93C5FD;font-size:0.74rem;font-weight:900;padding:0.2rem 0.65rem;border-radius:9999px;">FREE NUMERIC VELOCITY SNAPSHOT</span>' +
-          '<span style="font-size:0.75rem;font-weight:800;color:#B45309;background:#FEF3C7;padding:0.18rem 0.6rem;border-radius:9999px;">4-Pillar Coaching Locked (VIP Pass Only)</span>' +
+          '<span style="font-size:0.75rem;font-weight:800;color:#B45309;background:#FEF3C7;padding:0.18rem 0.6rem;border-radius:9999px;">4-Pillar Automated Habit Tracker (VIP Software Pass)</span>' +
         '</div>' +
         '<h3 style="margin:0 0 0.5rem;font-size:1.06rem;font-weight:900;color:#0F172A;">' +
           'Annualized Height Velocity for ' + childLabel + ': ' +
