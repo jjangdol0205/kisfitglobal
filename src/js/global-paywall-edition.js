@@ -17,20 +17,20 @@
   const UNLOCK_STORAGE_KEY = 'kidsfit_global_report_unlocked_v1';
   const CHECKOUT_URLS_KEY = 'kidsfit_global_checkout_urls_v1';
 
-  const DEFAULT_SINGLE_CHECKOUT_URL = '';
-  const DEFAULT_PASS_CHECKOUT_URL = '';
+  const DEFAULT_SINGLE_CHECKOUT_URL = 'https://buy.polar.sh/polar_cl_v2pLSQbvj13RJxb57w8fqVjZ4h2C7YopmPUDr3vxfG6';
+  const DEFAULT_PASS_CHECKOUT_URL = 'https://buy.polar.sh/polar_cl_p8DAvlbz7wPj6SOPKhHjT5aaNyA2F3I528A3c15nBND';
 
   const basePolarConfig = {
     PROVIDER: 'polar_sh',
     DIVISION: 'KFG',
     STORE_SLOT: 'PEDIATRIC_STORE_SLOT',
-    STORE_LIVE_READY: false,
+    STORE_LIVE_READY: true,
     POLAR_CHECKOUT_URLS: {
-      single_899: '',
-      pass_1999: ''
+      single_899: DEFAULT_SINGLE_CHECKOUT_URL,
+      pass_1999: DEFAULT_PASS_CHECKOUT_URL
     },
-    POLAR_KFG_SINGLE_URL: '',
-    POLAR_KFG_PASS_URL: '',
+    POLAR_KFG_SINGLE_URL: DEFAULT_SINGLE_CHECKOUT_URL,
+    POLAR_KFG_PASS_URL: DEFAULT_PASS_CHECKOUT_URL,
     SUPPORT_EMAIL: 'beable9489@gmail.com'
   };
   const existingPayCfg = (global.PAYMENT_CONFIG && typeof global.PAYMENT_CONFIG === 'object') ? global.PAYMENT_CONFIG : {};

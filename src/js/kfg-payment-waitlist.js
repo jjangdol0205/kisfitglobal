@@ -16,17 +16,20 @@
   var ABACUS_BASE = 'https://abacus.jasoncameron.dev/hit/' + NS + '/';
   var IN_APP_WEBVIEW_RE = /Instagram|FBAN|FBAV|KAKAOTALK|Line/i;
 
+  var LIVE_KFG_SINGLE_URL = 'https://buy.polar.sh/polar_cl_v2pLSQbvj13RJxb57w8fqVjZ4h2C7YopmPUDr3vxfG6';
+  var LIVE_KFG_PASS_URL = 'https://buy.polar.sh/polar_cl_p8DAvlbz7wPj6SOPKhHjT5aaNyA2F3I528A3c15nBND';
+
   var DEFAULT_PAYMENT_CONFIG = {
     PROVIDER: 'polar_sh',
     DIVISION: 'KFG',
     STORE_SLOT: 'PEDIATRIC_STORE_SLOT',
-    STORE_LIVE_READY: false,
+    STORE_LIVE_READY: true,
     POLAR_CHECKOUT_URLS: {
-      single_899: '',
-      pass_1999: ''
+      single_899: LIVE_KFG_SINGLE_URL,
+      pass_1999: LIVE_KFG_PASS_URL
     },
-    POLAR_KFG_SINGLE_URL: '',
-    POLAR_KFG_PASS_URL: '',
+    POLAR_KFG_SINGLE_URL: LIVE_KFG_SINGLE_URL,
+    POLAR_KFG_PASS_URL: LIVE_KFG_PASS_URL,
     SUPPORT_EMAIL: 'beable9489@gmail.com'
   };
 
@@ -35,31 +38,31 @@
       PROVIDER: 'polar_sh',
       DIVISION: 'KFG',
       STORE_SLOT: 'PEDIATRIC_STORE_SLOT',
-      STORE_LIVE_READY: false,
+      STORE_LIVE_READY: true,
       POLAR_CHECKOUT_URLS: {
-        single_899: '',
-        pass_1999: ''
+        single_899: LIVE_KFG_SINGLE_URL,
+        pass_1999: LIVE_KFG_PASS_URL
       },
-      POLAR_KFG_SINGLE_URL: '',
-      POLAR_KFG_PASS_URL: '',
+      POLAR_KFG_SINGLE_URL: LIVE_KFG_SINGLE_URL,
+      POLAR_KFG_PASS_URL: LIVE_KFG_PASS_URL,
       SUPPORT_EMAIL: 'beable9489@gmail.com'
     };
     if (existing && typeof existing === 'object') {
-      if (typeof existing.STORE_LIVE_READY === 'boolean') {
-        base.STORE_LIVE_READY = existing.STORE_LIVE_READY;
+      if (typeof existing.STORE_LIVE_READY === 'boolean' && existing.STORE_LIVE_READY === true) {
+        base.STORE_LIVE_READY = true;
       }
       if (existing.POLAR_CHECKOUT_URLS && typeof existing.POLAR_CHECKOUT_URLS === 'object') {
-        if (typeof existing.POLAR_CHECKOUT_URLS.single_899 === 'string') {
+        if (typeof existing.POLAR_CHECKOUT_URLS.single_899 === 'string' && existing.POLAR_CHECKOUT_URLS.single_899.trim()) {
           base.POLAR_CHECKOUT_URLS.single_899 = existing.POLAR_CHECKOUT_URLS.single_899.trim();
         }
-        if (typeof existing.POLAR_CHECKOUT_URLS.pass_1999 === 'string') {
+        if (typeof existing.POLAR_CHECKOUT_URLS.pass_1999 === 'string' && existing.POLAR_CHECKOUT_URLS.pass_1999.trim()) {
           base.POLAR_CHECKOUT_URLS.pass_1999 = existing.POLAR_CHECKOUT_URLS.pass_1999.trim();
         }
       }
-      if (typeof existing.POLAR_KFG_SINGLE_URL === 'string') {
+      if (typeof existing.POLAR_KFG_SINGLE_URL === 'string' && existing.POLAR_KFG_SINGLE_URL.trim()) {
         base.POLAR_KFG_SINGLE_URL = existing.POLAR_KFG_SINGLE_URL.trim();
       }
-      if (typeof existing.POLAR_KFG_PASS_URL === 'string') {
+      if (typeof existing.POLAR_KFG_PASS_URL === 'string' && existing.POLAR_KFG_PASS_URL.trim()) {
         base.POLAR_KFG_PASS_URL = existing.POLAR_KFG_PASS_URL.trim();
       }
       if (typeof existing.SUPPORT_EMAIL === 'string' && existing.SUPPORT_EMAIL.trim()) {
