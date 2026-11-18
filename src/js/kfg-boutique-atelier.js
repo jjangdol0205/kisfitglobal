@@ -991,7 +991,8 @@
           '<div style="font-size:0.88rem;color:#6B635B;">Current Height: ' + esc(formatHeight(aux.heightCm)) + ' \u00B7 US CDC ' + esc(aux.ordinalPercentile) + ' Percentile</div>' +
         '</div>' +
         '<div class="kfg-no-print" style="display:flex;gap:0.55rem;flex-wrap:wrap;">' +
-          '<button type="button" class="kfg-btn-outline" onclick="window.print()">Print / Save PDF Guide -&gt;</button>' +
+          '<button type="button" id="btn-download-kfg-custom-pdf" class="kfg-btn-primary" style="width:auto;padding:0.55rem 1.05rem;min-height:42px;font-size:0.88rem;" onclick="window.downloadCustomAtelierPdf()">Download Personalized Child Report PDF -&gt;</button>' +
+          '<button type="button" class="kfg-btn-outline" onclick="window.print()">Print View</button>' +
           '<button type="button" class="kfg-btn-outline" onclick="window.beginAtelier()">Edit Inputs</button>' +
         '</div>' +
       '</div>' +
@@ -1157,6 +1158,23 @@
     }
   }
 
+  function downloadCustomAtelierPdf() {
+    var p = atelierState.profile;
+    var aux = computeAtelierAuxology(p);
+    var paidPlan = 'single';
+    try {
+      if (global.localStorage) {
+        paidPlan = global.localStorage.getItem(PAID_PLAN_KEY) || global.localStorage.getItem('kfg_pending_tier_v1') || 'single';
+      }
+    } catch (_) {}
+    var isPass = paidPlan === 'pass' || paidPlan === 'sixMonth';
+    if (global.KfgPersonalizedPdf && typeof global.KfgPersonalizedPdf.downloadPersonalizedAtelierPdf === 'function') {
+      return global.KfgPersonalizedPdf.downloadPersonalizedAtelierPdf(aux, p, isPass);
+    }
+    if (typeof global.print === 'function') global.print();
+    return false;
+  }
+
   var BoutiqueAtelier = {
     state: atelierState,
     ensurePolarLocaleUrl: ensurePolarLocaleUrl,
@@ -1179,10 +1197,12 @@
     openKfgMemberModal: openKfgMemberModal,
     closeKfgMemberModal: closeKfgMemberModal,
     isPaidUnlocked: isPaidUnlocked,
+    downloadCustomAtelierPdf: downloadCustomAtelierPdf,
     initBoutiqueAtelier: initBoutiqueAtelier
   };
 
   global.KfgBoutiqueAtelier = BoutiqueAtelier;
+  global.downloadCustomAtelierPdf = downloadCustomAtelierPdf;
   global.setAtelierUnitSystem = setAtelierUnitSystem;
   global.beginAtelier = beginAtelier;
   global.goToAtelierStep = goToAtelierStep;
