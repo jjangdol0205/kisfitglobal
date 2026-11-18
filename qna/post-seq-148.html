@@ -75,11 +75,180 @@
   <script src="/src/js/hq_member_crm_client.js"></script>
   <script src="/src/js/kfg-payment-waitlist.js"></script>
   <!-- KFG_QNA_HEAD_BUNDLE_END -->
+  <!-- KFG_SUBSTACK_LAYOUT_CSS_START -->
+  <style>
+    body {
+      background: #fcfcfa !important;
+      color: #1c1917 !important;
+      font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, Georgia, 'Times New Roman', serif !important;
+      font-size: 18.5px !important;
+      line-height: 1.85 !important;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap {
+      max-width: 680px !important;
+      margin: 0 auto !important;
+      padding: 2.2rem 1.25rem 4rem !important;
+    }
+    .diagnostic-bridge-top-widget,
+    #kfg-direct-monetization-card {
+      display: none !important;
+    }
+    .kfg-substack-topnav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding-bottom: 1rem;
+      margin-bottom: 1.8rem;
+      border-bottom: 1px solid #e7e5e4;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .kfg-substack-pubname {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #1c1917;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .kfg-substack-allnotes {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: #57534e;
+      text-decoration: none;
+    }
+    article.card,
+    .kfg-substack-article {
+      background: #ffffff !important;
+      border: 1px solid #ece8e1 !important;
+      border-radius: 14px !important;
+      padding: clamp(1.5rem, 4vw, 2.6rem) clamp(1.25rem, 4vw, 2.5rem) !important;
+      box-shadow: 0 2px 14px rgba(28, 25, 23, 0.03) !important;
+    }
+    .kfg-substack-kicker,
+    article.card .badge {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-size: 0.74rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.08em !important;
+      text-transform: uppercase !important;
+      color: #78716c !important;
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      margin: 0 0 0.55rem 0 !important;
+      display: block !important;
+    }
+    article.card h1,
+    .kfg-substack-article h1 {
+      font-family: Georgia, 'Times New Roman', serif !important;
+      font-size: clamp(1.75rem, 4.2vw, 2.35rem) !important;
+      font-weight: 700 !important;
+      line-height: 1.22 !important;
+      letter-spacing: -0.02em !important;
+      color: #1c1917 !important;
+      margin: 0 0 0.65rem 0 !important;
+    }
+    .kfg-substack-subtitle {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 1.08rem;
+      line-height: 1.55;
+      color: #57534e;
+      margin: 0 0 1.25rem 0;
+      font-weight: 400;
+    }
+    .kfg-substack-byline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.85rem 0;
+      margin: 0.85rem 0 1.65rem 0;
+      border-top: 1px solid #ece8e1;
+      border-bottom: 1px solid #ece8e1;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .kfg-substack-author-block {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .kfg-substack-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 9999px;
+      background: #f5f5f0;
+      border: 1px solid #d6d3d1;
+      color: #292524;
+      font-size: 0.8rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .kfg-substack-author-name {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #1c1917;
+      line-height: 1.3;
+    }
+    .kfg-substack-meta-date {
+      font-size: 0.78rem;
+      color: #78716c;
+      line-height: 1.3;
+    }
+    .kfg-substack-share-btn {
+      background: #fcfcfa;
+      border: 1px solid #d6d3d1;
+      border-radius: 9999px;
+      padding: 0.38rem 0.85rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #292524;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .kfg-substack-share-btn:hover {
+      background: #f5f5f4;
+    }
+    article.card p,
+    .kfg-substack-prose p {
+      font-size: 18.5px !important;
+      line-height: 1.85 !important;
+      color: #292524 !important;
+      margin: 0 0 1.4rem 0 !important;
+    }
+    article.card table {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+  </style>
+  <!-- KFG_SUBSTACK_LAYOUT_CSS_END -->
   <!-- KFG_PARENT_SIGNUP_HANDLER_START -->
   <script>
   (function(){
     if (typeof window === 'undefined') return;
     window.HQ_MAILING_CONFIG_PATH = window.HQ_MAILING_CONFIG_PATH || '/hq-mailing-endpoint.json';
+    window.__kfgCopyArticleLink = function(btnEl) {
+      var shareUrl = (window.location && window.location.href) ? window.location.href : 'https://kisfitglobal.com/qna/';
+      if (navigator.share) {
+        navigator.share({ title: document.title || 'KISFIT Parent Growth Essay', url: shareUrl }).catch(function(){});
+        return;
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(shareUrl).then(function() {
+          if (btnEl) {
+            var orig = btnEl.textContent;
+            btnEl.textContent = 'Link Copied';
+            setTimeout(function() { btnEl.textContent = orig; }, 2000);
+          }
+        }).catch(function(){});
+      }
+    };
     window.__kfgSubmitParentSignup = function(ev, formEl, stageLabel) {
       if (ev && ev.preventDefault) ev.preventDefault();
       var input = formEl ? formEl.querySelector('input[type="email"]') : null;
@@ -90,10 +259,8 @@
       }
       var kst = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
       var ns = 'kfg_kisfitglobal';
-      var sl = String(stageLabel || 'US CDC Growth');
-      var seg = 'ages_8_11_golden_window';
-      if (/2|3|4|5|6|7|toddler|early/i.test(sl)) seg = 'ages_3_7_foundation';
-      else if (/12|13|14|15|16|17|teen|puberty|spurt/i.test(sl)) seg = 'ages_12_16_peak_velocity';
+      var sl = String(stageLabel || 'substack_essay_reader');
+      var seg = 'substack_essay_reader';
       try {
         localStorage.setItem('kfg_parent_member_email', email);
         localStorage.setItem('kfg_parent_member_stage', sl);
@@ -106,7 +273,7 @@
             email: email,
             segment: seg,
             lang: 'en-US',
-            notes: 'site=kisfitglobal.com | source=qna_lead | stage=' + sl
+            notes: 'site=kisfitglobal.com | source=substack_essay_reader | stage=' + sl
           });
         } catch (_crmErr) {}
       }
@@ -118,7 +285,7 @@
       }
       document.querySelectorAll('.kfg-parent-signup-status').forEach(function(el) {
         el.style.display = 'block';
-        el.innerHTML = '✅ <strong>Checklist Unlocked!</strong> Your free US CDC Growth, 10 PM Sleep &amp; Nutrition Checklist (' + sl.replace(/[<>&"]/g, '') + ') is active for <strong>' + email.replace(/[<>&"]/g, '') + '</strong>.';
+        el.innerHTML = 'Subscribed. Your next parent growth note and free US CDC bedtime &amp; bone-mineral checklist will arrive at <strong>' + email.replace(/[<>&"]/g, '') + '</strong> (no password required).';
       });
       document.querySelectorAll('.kfg-parent-signup-form input[type="email"]').forEach(function(inp) { inp.value = email; });
       return false;
@@ -144,44 +311,18 @@
     <article class="card">
       <span class="badge">Clinical Auxology &amp; Neuroscience Column #148 · Growth & Habit Velocity · Prefrontal Working Memory & Math Word Problems</span>
       <h1>Why 13-Year-Old Girls Freeze on Math Word Problems: dlPFC Working Memory & 3-Minute Feynman Recall</h1>
-      <!-- KFG_PARENT_LEAD_TOP_START -->
-      <section id="kfg-lead-magnet-top" aria-label="Free Parent Growth Checklist Email Sign-Up and PDF Guide" style="margin:1.15rem 0;padding:1.35rem 1.3rem;background:linear-gradient(135deg,#EFF6FF 0%,#ECFDF5 100%);border:2px solid #2563EB;border-radius:18px;box-shadow:0 8px 22px rgba(37,99,235,0.10);">
-        <div style="display:inline-block;background:#DBEAFE;color:#1E40AF;font-size:0.78rem;font-weight:900;padding:0.25rem 0.75rem;border-radius:999px;margin-bottom:0.5rem;">
-          🎁 FREE US PARENT GROWTH CLUB &bull; AGES 3-7 EARLY FOUNDATION
-        </div>
-        <h2 style="font-size:clamp(1.18rem,2.8vw,1.45rem);font-weight:900;color:#0F172A;margin:0 0 0.45rem;line-height:1.3;">
-          Is My Child Growing on Pace? Free Ages 3-7 Early Foundation CDC Cheat Sheet
-        </h2>
-        <p style="font-size:1rem;color:#334155;margin:0 0 0.9rem;line-height:1.55;">
-          Enter your email for your child's free <strong>US CDC Percentile, 10 PM Sleep &amp; Calcium/D3 Cheat Sheet</strong>—plus monthly growth-window reminders (no password needed).
-        </p>
-        <form class="kfg-parent-signup-form" onsubmit="return window.__kfgSubmitParentSignup(event, this, 'Ages 3-7 Early Foundation');" style="display:flex;flex-wrap:wrap;gap:0.65rem;align-items:stretch;">
-          <label for="kfg-parent-email-top" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Parent email address</label>
-          <input id="kfg-parent-email-top" type="email" required autocomplete="email" placeholder="Enter parent email (e.g., mom@gmail.com)" style="flex:1 1 240px;min-height:54px;padding:0.75rem 1rem;font-size:1rem;font-weight:700;border-radius:12px;border:2px solid #93C5FD;background:#FFFFFF;color:#0F172A;" />
-          <button type="submit" style="min-height:54px;padding:0.75rem 1.35rem;font-size:1rem;font-weight:900;border-radius:12px;border:none;background:#1D4ED8;color:#FFFFFF;cursor:pointer;white-space:nowrap;">
-            📩 Send Free Cheat Sheet (1-Click) &rarr;
-          </button>
-        </form>
-        <div class="kfg-parent-signup-status" role="status" aria-live="polite" style="display:none;margin-top:0.75rem;padding:0.65rem 0.85rem;border-radius:10px;background:#DCFCE7;color:#14532D;font-size:0.95rem;font-weight:700;"></div>
-        <div style="margin-top:0.95rem;padding-top:0.8rem;border-top:1px solid #BFDBFE;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.65rem;">
-          <span style="font-size:0.9rem;font-weight:800;color:#1E293B;">📄 Want the Printable US CDC Percentile &amp; Bone-Age PDF Guide + 30-Day Growth Velocity Tracker?</span>
-          <div style="display:flex;flex-wrap:wrap;gap:0.55rem;">
-            <a href="https://buy.polar.sh/polar_cl_v2pLSQbvj13RJxb57w8fqVjZ4h2C7YopmPUDr3vxfG6?locale=en" data-kfg-paid-plan="single" class="polar-checkout-button" onclick="if(window.openKfgWaitlistModal&amp;&amp;(!window.PAYMENT_CONFIG||!window.PAYMENT_CONFIG.STORE_LIVE_READY)){event.preventDefault();window.openKfgWaitlistModal('single');return false;}" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0.55rem 1rem;border-radius:10px;background:#0F172A;color:#FFFFFF;font-size:0.9rem;font-weight:800;text-decoration:none;">
-              📄 Single Growth &amp; Bone-Age PDF Guide ($8.99)
-            </a>
-            <a href="https://buy.polar.sh/polar_cl_p8DAvlbz7wPj6SOPKhHjT5aaNyA2F3I528A3c15nBND?locale=en" data-kfg-paid-plan="pass" class="polar-checkout-button" onclick="if(window.openKfgWaitlistModal&amp;&amp;(!window.PAYMENT_CONFIG||!window.PAYMENT_CONFIG.STORE_LIVE_READY)){event.preventDefault();window.openKfgWaitlistModal('sixMonth');return false;}" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0.55rem 1rem;border-radius:10px;background:#059669;color:#FFFFFF;font-size:0.9rem;font-weight:900;text-decoration:none;">
-              📈 6-Month Growth &amp; Velocity Pass ($19.99)
-            </a>
+      <!-- KFG_SUBSTACK_BYLINE_START -->
+      <div class="kfg-substack-byline">
+        <div class="kfg-substack-author-block">
+          <div class="kfg-substack-avatar" aria-hidden="true">CB</div>
+          <div>
+            <div class="kfg-substack-author-name">Dr. Clara Bennett, Pediatric Auxology Editorial</div>
+            <div class="kfg-substack-meta-date">Nov 18, 2026 &middot; Editorial Note</div>
           </div>
         </div>
-        <div style="margin-top:0.45rem;font-size:0.74rem;color:#334155;font-weight:700;line-height:1.45;">
-          🔒 Checkout &amp; Billing: Polar.sh (Merchant of Record · Global Card / Apple Pay / Google Pay)
-        </div>
-        <div style="margin-top:0.35rem;font-size:0.74rem;color:#475569;line-height:1.45;">
-          For educational and informational tracking based on public US CDC growth charts only; not a substitute for professional pediatric medical diagnosis or treatment.
-        </div>
-      </section>
-      <!-- KFG_PARENT_LEAD_TOP_END -->
+        <button type="button" class="kfg-substack-share-btn" onclick="if(window.__kfgCopyArticleLink){window.__kfgCopyArticleLink(this);}">Share / Copy Link</button>
+      </div>
+      <!-- KFG_SUBSTACK_BYLINE_END -->
       <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:0.9rem 1.05rem;margin-bottom:1.1rem;font-size:0.93rem;color:#334155;">
         <strong style="color:#1D4ED8;">US Parent Clinical Inquiry (Age 13 Girl · 10th Percentile):</strong> "My 13-year-old girl understands concepts in class and tracks at the 10th growth percentile, so why do they freeze on multi-step math word problems and tests?"
       </div>
@@ -222,65 +363,49 @@
         </div>
       </div>
     
-      <!-- KFG_DIRECT_MONETIZATION_START -->
-      <section id="kfg-direct-monetization-card" style="margin-top:1.25rem;margin-bottom:1.25rem;padding:1.25rem;background:linear-gradient(135deg,#EEF2FF 0%,#F0FDF4 100%);border:2px solid #4F46E5;border-radius:16px;box-shadow:0 8px 20px rgba(79,70,229,0.08);">
-        <div style="font-size:0.76rem;font-weight:900;color:#4338CA;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.3rem;">US CDC 2000 LMS &amp; Khamis-Roche Auxology Guide · Parent Growth Guide Edition</div>
-        <h3 style="font-size:1.08rem;font-weight:900;color:#0F172A;margin:0 0 0.45rem;line-height:1.35;">Unlock the Comprehensive Growth &amp; Habit Percentile PDF Guide</h3>
-        <p style="font-size:0.86rem;color:#334155;margin:0 0 0.85rem;line-height:1.55;">Includes Printable US CDC Percentile &amp; Bone-Age PDF Guide + 30-Day Growth Velocity Tracker (3-scenario adult height projection, bone-age velocity guardrails, and 90-day sleep, Calcium/D3 &amp; spinal decompression roadmap):</p>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0.6rem;margin-bottom:0.65rem;">
-          <a href="https://buy.polar.sh/polar_cl_v2pLSQbvj13RJxb57w8fqVjZ4h2C7YopmPUDr3vxfG6?locale=en" data-kfg-paid-plan="single" class="polar-checkout-button" style="text-decoration:none;text-align:center;background:#1D4ED8;color:#FFFFFF;font-weight:800;font-size:0.84rem;padding:0.75rem 0.9rem;border-radius:11px;display:block;">📄 Single Growth &amp; Bone-Age PDF Guide ($8.99)</a>
-          <a href="https://buy.polar.sh/polar_cl_p8DAvlbz7wPj6SOPKhHjT5aaNyA2F3I528A3c15nBND?locale=en" data-kfg-paid-plan="pass" class="polar-checkout-button" style="text-decoration:none;text-align:center;background:#059669;color:#FFFFFF;font-weight:800;font-size:0.84rem;padding:0.75rem 0.9rem;border-radius:11px;display:block;">📈 6-Month Growth &amp; Velocity Pass ($19.99)</a>
-        </div>
-        <div style="font-size:0.75rem;color:#334155;font-weight:700;margin-bottom:0.35rem;line-height:1.45;">
-          🔒 Checkout &amp; Billing: Polar.sh (Merchant of Record · Global Card / Apple Pay / Google Pay)
-        </div>
-        <div style="font-size:0.75rem;color:#475569;margin-bottom:0.7rem;line-height:1.45;">
-          For educational and informational tracking based on public US CDC growth charts only; not a substitute for professional pediatric medical diagnosis or treatment.
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;padding-top:0.65rem;border-top:1px solid #C7D2FE;font-size:0.76rem;color:#475569;">
-          <span>🌿 <a href="https://www.iherb.com/search?kw=ChildLife+Liquid+Calcium+Magnesium+Vitamin+D3+K2&amp;rcode=IPZ1547" target="_blank" rel="noopener noreferrer" style="color:#065F46;font-weight:800;text-decoration:none;">Official iHerb Pediatric D3+K2 &amp; Ca Citrate (Code: IPZ1547) &nearr;</a></span>
-          <span>📧 <strong>Parent &amp; Institutional Support:</strong> <a href="mailto:beable9489@gmail.com" style="color:#1D4ED8;font-weight:800;text-decoration:none;">beable9489@gmail.com</a></span>
-        </div>
-      </section>
-      <!-- KFG_DIRECT_MONETIZATION_END -->
-    
       <!-- KFG_PARENT_LEAD_BOTTOM_START -->
-      <section id="kfg-lead-magnet-bottom" aria-label="Free Parent Growth Checklist Email Sign-Up and PDF Guide" style="margin:1.15rem 0;padding:1.35rem 1.3rem;background:linear-gradient(135deg,#EFF6FF 0%,#ECFDF5 100%);border:2px solid #2563EB;border-radius:18px;box-shadow:0 8px 22px rgba(37,99,235,0.10);">
-        <div style="display:inline-block;background:#DBEAFE;color:#1E40AF;font-size:0.78rem;font-weight:900;padding:0.25rem 0.75rem;border-radius:999px;margin-bottom:0.5rem;">
-          🎁 FREE US PARENT GROWTH CLUB &bull; AGES 3-7 EARLY FOUNDATION
-        </div>
-        <h2 style="font-size:clamp(1.18rem,2.8vw,1.45rem);font-weight:900;color:#0F172A;margin:0 0 0.45rem;line-height:1.3;">
-          Track Every Growth Spurt — Free Monthly Ages 3-7 Early Foundation Parent Club
-        </h2>
-        <p style="font-size:1rem;color:#334155;margin:0 0 0.9rem;line-height:1.55;">
-          Enter your email for your child's free <strong>US CDC Percentile, 10 PM Sleep &amp; Calcium/D3 Cheat Sheet</strong>—plus monthly growth-window reminders (no password needed).
+      <section id="kfg-substack-subscribe-widget" aria-label="Parent Growth Notes Email Subscription" style="margin:2.2rem 0 1.35rem;padding:1.5rem 1.35rem;background:#fcfcfa;border-top:1px solid #d6d3d1;border-bottom:1px solid #d6d3d1;text-align:center;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+        <p style="margin:0 0 0.35rem;font-family:Georgia,'Times New Roman',serif;font-size:1.22rem;font-weight:700;color:#1c1917;line-height:1.35;">
+          Ready for the next parent growth note?
         </p>
-        <form class="kfg-parent-signup-form" onsubmit="return window.__kfgSubmitParentSignup(event, this, 'Ages 3-7 Early Foundation');" style="display:flex;flex-wrap:wrap;gap:0.65rem;align-items:stretch;">
-          <label for="kfg-parent-email-bottom" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Parent email address</label>
-          <input id="kfg-parent-email-bottom" type="email" required autocomplete="email" placeholder="Enter parent email (e.g., mom@gmail.com)" style="flex:1 1 240px;min-height:54px;padding:0.75rem 1rem;font-size:1rem;font-weight:700;border-radius:12px;border:2px solid #93C5FD;background:#FFFFFF;color:#0F172A;" />
-          <button type="submit" style="min-height:54px;padding:0.75rem 1.35rem;font-size:1rem;font-weight:900;border-radius:12px;border:none;background:#1D4ED8;color:#FFFFFF;cursor:pointer;white-space:nowrap;">
-            📩 Send Free Cheat Sheet (1-Click) &rarr;
+        <p style="margin:0 0 0.95rem;font-size:0.9rem;color:#57534e;line-height:1.55;">
+          One calm weekly note on US CDC growth curves, 9:30 PM sleep physiology, and childhood bone nutrition. Free, passwordless, 1-click unsubscribe.
+        </p>
+        <form class="kfg-parent-signup-form" onsubmit="return window.__kfgSubmitParentSignup(event, this, 'Ages 3-7 Early Foundation');" style="display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;max-width:480px;margin:0 auto;">
+          <label for="kfg-parent-email-bottom" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Email address</label>
+          <input id="kfg-parent-email-bottom" type="email" required autocomplete="email" placeholder="Type your email..." style="flex:1 1 220px;min-height:46px;padding:0.6rem 0.9rem;font-size:0.95rem;border-radius:8px;border:1px solid #a8a29e;background:#ffffff;color:#1c1917;" />
+          <button type="submit" style="min-height:46px;padding:0.6rem 1.2rem;font-size:0.92rem;font-weight:700;border-radius:8px;border:none;background:#1c1917;color:#ffffff;cursor:pointer;white-space:nowrap;">
+            Subscribe Free
           </button>
         </form>
-        <div class="kfg-parent-signup-status" role="status" aria-live="polite" style="display:none;margin-top:0.75rem;padding:0.65rem 0.85rem;border-radius:10px;background:#DCFCE7;color:#14532D;font-size:0.95rem;font-weight:700;"></div>
-        <div style="margin-top:0.95rem;padding-top:0.8rem;border-top:1px solid #BFDBFE;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.65rem;">
-          <span style="font-size:0.9rem;font-weight:800;color:#1E293B;">📄 Want the Printable US CDC Percentile &amp; Bone-Age PDF Guide + 30-Day Growth Velocity Tracker?</span>
-          <div style="display:flex;flex-wrap:wrap;gap:0.55rem;">
-            <a href="https://buy.polar.sh/polar_cl_v2pLSQbvj13RJxb57w8fqVjZ4h2C7YopmPUDr3vxfG6?locale=en" data-kfg-paid-plan="single" class="polar-checkout-button" onclick="if(window.openKfgWaitlistModal&amp;&amp;(!window.PAYMENT_CONFIG||!window.PAYMENT_CONFIG.STORE_LIVE_READY)){event.preventDefault();window.openKfgWaitlistModal('single');return false;}" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0.55rem 1rem;border-radius:10px;background:#0F172A;color:#FFFFFF;font-size:0.9rem;font-weight:800;text-decoration:none;">
-              📄 Single Growth &amp; Bone-Age PDF Guide ($8.99)
-            </a>
-            <a href="https://buy.polar.sh/polar_cl_p8DAvlbz7wPj6SOPKhHjT5aaNyA2F3I528A3c15nBND?locale=en" data-kfg-paid-plan="pass" class="polar-checkout-button" onclick="if(window.openKfgWaitlistModal&amp;&amp;(!window.PAYMENT_CONFIG||!window.PAYMENT_CONFIG.STORE_LIVE_READY)){event.preventDefault();window.openKfgWaitlistModal('sixMonth');return false;}" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0.55rem 1rem;border-radius:10px;background:#059669;color:#FFFFFF;font-size:0.9rem;font-weight:900;text-decoration:none;">
-              📈 6-Month Growth &amp; Velocity Pass ($19.99)
-            </a>
-          </div>
-        </div>
-        <div style="margin-top:0.45rem;font-size:0.74rem;color:#334155;font-weight:700;line-height:1.45;">
-          🔒 Checkout &amp; Billing: Polar.sh (Merchant of Record · Global Card / Apple Pay / Google Pay)
-        </div>
-        <div style="margin-top:0.35rem;font-size:0.74rem;color:#475569;line-height:1.45;">
-          For educational and informational tracking based on public US CDC growth charts only; not a substitute for professional pediatric medical diagnosis or treatment.
-        </div>
+        <div class="kfg-parent-signup-status" role="status" aria-live="polite" style="display:none;margin-top:0.75rem;padding:0.55rem 0.8rem;border-radius:8px;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;font-size:0.86rem;line-height:1.45;"></div>
       </section>
+
+      <aside class="kfg-dignified-funnel-bridge" aria-label="US CDC Growth Survey and Printable PDF Guide" style="margin:0 0 0.75rem;padding:1.25rem 1.3rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;text-align:left;">
+        <div style="font-size:0.72rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:#475569;margin-bottom:0.3rem;">
+          Interactive Auxology Tool &amp; Printable Guide
+        </div>
+        <div style="font-size:1rem;font-weight:800;color:#0f172a;margin-bottom:0.35rem;line-height:1.4;">
+          Check your child&apos;s exact US CDC percentile &amp; bone-age time lag (&Delta;t) in 5 guided steps
+        </div>
+        <p style="margin:0 0 0.85rem;font-size:0.86rem;color:#475569;line-height:1.55;">
+          Works with or without a hospital wrist X-ray, and pairs with our printable 14-page Comprehensive Growth &amp; Habit Percentile PDF Guide.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:0.55rem;margin-bottom:0.65rem;">
+          <a href="/#quiz-section" style="display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0.48rem 0.95rem;border-radius:8px;background:#1d4ed8;color:#ffffff;font-size:0.84rem;font-weight:800;text-decoration:none;">
+            Start 5-Step US CDC Growth Survey &rarr;
+          </a>
+          <a href="https://buy.polar.sh/polar_cl_v2pLSQbvj13RJxb57w8fqVjZ4h2C7YopmPUDr3vxfG6?locale=en" data-kfg-paid-plan="single" class="polar-checkout-button" style="display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0.48rem 0.9rem;border-radius:8px;background:#ffffff;border:1px solid #cbd5e1;color:#0f172a;font-size:0.82rem;font-weight:700;text-decoration:none;">
+            Full Growth &amp; Bone-Age PDF Guide ($8.99)
+          </a>
+          <a href="https://buy.polar.sh/polar_cl_p8DAvlbz7wPj6SOPKhHjT5aaNyA2F3I528A3c15nBND?locale=en" data-kfg-paid-plan="pass" class="polar-checkout-button" style="display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0.48rem 0.9rem;border-radius:8px;background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46;font-size:0.82rem;font-weight:700;text-decoration:none;">
+            6-Month Growth &amp; Velocity Pass ($19.99)
+          </a>
+        </div>
+        <div style="font-size:0.73rem;color:#64748b;line-height:1.45;">
+          For educational and informational tracking based on public US CDC growth charts only; not a substitute for professional pediatric medical diagnosis or treatment. Checkout via Polar.sh (USD).
+        </div>
+      </aside>
       <!-- KFG_PARENT_LEAD_BOTTOM_END -->
     </article>
   </div>

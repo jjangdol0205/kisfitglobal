@@ -15,6 +15,8 @@
   'use strict';
 
   const UNLOCK_STORAGE_KEY = 'kidsfit_global_report_unlocked_v1';
+  const KFG_PAID_UNLOCKED_KEY = 'kfg_paid_unlocked_v1';
+  const KFG_SAVED_SURVEY_PROFILE_KEY = 'kfg_saved_survey_profile_v1';
   const CHECKOUT_URLS_KEY = 'kidsfit_global_checkout_urls_v1';
 
   const DEFAULT_SINGLE_CHECKOUT_URL = 'https://buy.polar.sh/polar_cl_v2pLSQbvj13RJxb57w8fqVjZ4h2C7YopmPUDr3vxfG6?locale=en';
@@ -138,15 +140,84 @@
       if (typeof window !== 'undefined' && window.location) {
         const s = String(window.location.search || '').toLowerCase();
         if (/(?:^\?|&)lock=1(?:&|$)/.test(s)) {
-          if (window.localStorage) window.localStorage.removeItem(UNLOCK_STORAGE_KEY);
+          if (window.localStorage) {
+            window.localStorage.removeItem(UNLOCK_STORAGE_KEY);
+            window.localStorage.removeItem(KFG_PAID_UNLOCKED_KEY);
+          }
           return false;
         }
       }
       if (typeof window !== 'undefined' && window.localStorage) {
-        return window.localStorage.getItem(UNLOCK_STORAGE_KEY) === 'true';
+        return (
+          window.localStorage.getItem(KFG_PAID_UNLOCKED_KEY) === 'true' ||
+          window.localStorage.getItem(UNLOCK_STORAGE_KEY) === 'true'
+        );
       }
     } catch (_) {}
     return false;
+  }
+
+  function persistKfgSurveyProfileBeforePolar(overrideProfile) {
+    try {
+      let existingSaved = {};
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const rawPrimary = window.localStorage.getItem(KFG_SAVED_SURVEY_PROFILE_KEY) || window.localStorage.getItem('kidsfit_last_quiz_profile_v1');
+        if (rawPrimary) existingSaved = JSON.parse(rawPrimary) || {};
+      }
+      let freshFormProfile = {};
+      if (typeof global.persistKfgSurveyProfileForCheckout === 'function') {
+        freshFormProfile = global.persistKfgSurveyProfileForCheckout() || {};
+      }
+      const wizObj = global.TallerOnboardingWizard || global.KidsFitOnboardingWizard;
+      const wizProf = (wizObj && typeof wizObj.getState === 'function' && wizObj.getState().profile) || {};
+      const appProf = (global.KidsFitApp && global.KidsFitApp.state && global.KidsFitApp.state.profile) || {};
+      const merged = Object.assign({}, existingSaved, wizProf, appProf, freshFormProfile, overrideProfile || {}, {
+        savedAtIso: new Date().toISOString()
+      });
+      if (typeof window !== 'undefined' && window.localStorage && Object.keys(merged).length > 1) {
+        const payload = JSON.stringify(merged);
+        window.localStorage.setItem(KFG_SAVED_SURVEY_PROFILE_KEY, payload);
+        window.localStorage.setItem('kidsfit_last_quiz_profile_v1', payload);
+      }
+      return merged;
+    } catch (_) {
+      return overrideProfile || {};
+    }
+  }
+
+  function buildPriorityGrowthBottleneckSummary(profile) {
+    const p = profile || {};
+    const sleepList = Array.isArray(p.traitSleepList) ? p.traitSleepList : [];
+    const dietList = Array.isArray(p.traitDietList) ? p.traitDietList : [];
+    const postureList = Array.isArray(p.traitPostureList) ? p.traitPostureList : [];
+    const detailList = Array.isArray(p.traitGrowthDetails) ? p.traitGrowthDetails : [];
+    const exerciseVal = String(p.traitExercise || 'low_indoor');
+
+    const bottlenecks = [];
+    if (sleepList.indexOf('late_bedtime') !== -1 || sleepList.indexOf('night_snack') !== -1) {
+      bottlenecks.push('Late lights-out window');
+    } else if (sleepList.indexOf('toss_mouth') !== -1 || detailList.indexOf('rhinitis_mouth') !== -1) {
+      bottlenecks.push('Nocturnal nasal / mouth-breathing sleep fragmentation');
+    }
+    if (postureList.indexOf('turtle_slouch') !== -1 || postureList.indexOf('leg_cross_pelvis') !== -1 || detailList.indexOf('slouch_disc_loss') !== -1) {
+      bottlenecks.push('postural spinal disc compression');
+    }
+    if (dietList.indexOf('dairy_sensitive') !== -1 || dietList.indexOf('meat_veggie_picky') !== -1 || dietList.indexOf('small_appetite') !== -1) {
+      bottlenecks.push('sub-optimal evening Calcium / D3 / protein absorption');
+    }
+    if (bottlenecks.length === 0 && exerciseVal === 'low_indoor') {
+      bottlenecks.push('Low daily vertical jumping stimulus');
+    }
+    const coreText = bottlenecks.length > 0
+      ? 'Primary modifiable bottleneck detected: ' + bottlenecks.slice(0, 2).join(' + ')
+      : 'Primary modifiable bottleneck detected: Evening deep-sleep GH timing + daily osteogenic jumping alignment';
+
+    const hasBa = Boolean(p.hasBoneAge && Number(p.baProjectedTodayYears || p.baExamYears) > 0);
+    if (hasBa) {
+      const lagMo = Math.max(0, Math.round(Number(p.baDeltaMonths) || 0));
+      return coreText + ' · Bone-Age time-lag (+' + lagMo + ' mo) calibrated & ready to unlock';
+    }
+    return coreText;
   }
 
   function hashAccessCode(str) {
@@ -1580,19 +1651,19 @@
     const heroHeadline = document.querySelector('.hero-headline');
     if (heroHeadline) {
       heroHeadline.style.cssText = 'max-width:840px;margin:0 auto 0.6rem;color:#0F172A;font-weight:800;font-size:clamp(1.62rem,4.5vw,2.65rem);line-height:1.16;letter-spacing:-0.03em;';
-      heroHeadline.innerHTML = '<span>Track Your Child&apos;s US CDC Growth Curve—</span><span class="hero-headline-highlight" style="background:linear-gradient(90deg,#1D4ED8 0%,#0284C7 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;color:#1D4ED8;font-weight:800;">And Get an Age-by-Age Growth Plan.</span>';
+      heroHeadline.innerHTML = '<span>Grow Taller Than Classmates&mdash;</span><span class="hero-headline-highlight" style="background:linear-gradient(90deg,#1D4ED8 0%,#0284C7 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;color:#1D4ED8;font-weight:800;">5-Step US CDC &amp; Bone-Age Height Forecast.</span>';
     }
 
     const heroSubtitle = document.querySelector('.hero-subtitle');
     if (heroSubtitle) {
       heroSubtitle.style.cssText = 'color:#475569;font-weight:500;max-width:660px;margin:0 auto 1rem;font-size:clamp(0.92rem,2.1vw,1.06rem);line-height:1.5;';
-      heroSubtitle.textContent = 'Check your child\'s predicted adult height in 60 seconds and save quarterly US CDC milestones to your free Parent Dashboard.';
+      heroSubtitle.textContent = 'Step through 5 guided pediatric checkpoints—with or without a hospital wrist X-ray, automatically calibrating exam-date time lag (Δt) to today.';
     }
 
     const trustBar = document.querySelector('.clinical-survey-trust-bar');
     if (trustBar) {
       trustBar.style.cssText = 'max-width:860px;margin:0 auto 1.5rem;background:#FFFFFF;border:1px solid #E2E8F0;box-shadow:0 8px 24px rgba(15,23,42,0.04);border-radius:9999px;padding:0.65rem 1.35rem;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:0.55rem 1.4rem;font-size:0.82rem;color:#0F172A;font-weight:600;';
-      trustBar.innerHTML = '<span><strong style="color:#059669;">US CDC 2000 LMS</strong> · Multi-Ethnic Auxology Calibrated</span><span style="color:#CBD5E1;" class="pc-view-block">|</span><span><strong style="color:#1D4ED8;">Khamis-Roche &amp; Tanner MPH</strong> · Bone-Age &amp; HGH Model</span><span style="color:#CBD5E1;" class="pc-view-block">|</span><span><strong style="color:#0F172A;">Dual-Unit Ready</strong> · Instant ft/in · lbs &amp; cm · kg</span>';
+      trustBar.innerHTML = '<span><strong style="color:#059669;">US CDC 2000 LMS</strong> · Multi-Ethnic Auxology Calibrated</span><span style="color:#CBD5E1;" class="pc-view-block">|</span><span><strong style="color:#1D4ED8;">Optional Bone-Age Δt</strong> · Exam-Lag Calibrated</span><span style="color:#CBD5E1;" class="pc-view-block">|</span><span><strong style="color:#0F172A;">Dual-Unit Ready</strong> · Instant ft/in · lbs &amp; cm · kg</span>';
     }
 
     // Enforce 100% Pediatric Height-Growth Single Focus (remove legacy Dual Diagnostic / LQ showcase if present)
@@ -1603,6 +1674,10 @@
     const brandShowcase = document.getElementById('brand-editorial-showcase');
     if (brandShowcase) {
       brandShowcase.remove();
+    }
+    const legacyExpressBar = document.getElementById('kidsfit-instant-express-preview-bar');
+    if (legacyExpressBar) {
+      legacyExpressBar.remove();
     }
 
     if (global.__kfgLatestChildTeaser && typeof global.updateKfgPersonalizedChildTeaser === 'function') {
@@ -1616,7 +1691,7 @@
     if (mobAppBar) mobAppBar.style.display = 'none';
 
     const btnEnterStudio = document.getElementById('btn-enter-studio-parent');
-    if (btnEnterStudio) btnEnterStudio.textContent = 'Start 1:1 Clinical Scan →';
+    if (btnEnterStudio) btnEnterStudio.textContent = 'Start 5-Step Growth Scan →';
 
     const appModalTitle = document.getElementById('app-modal-title');
     if (appModalTitle) appModalTitle.textContent = 'Add KISFIT Web App to Home Screen';
@@ -1629,35 +1704,10 @@
     const btnFileDl = document.getElementById('btn-modal-file-download');
     if (btnFileDl) btnFileDl.textContent = 'Download Quick-Launch Shortcut';
 
-    // Guidebook Mode Banner inside Step 1 (Respects Growth vs. Brain Learning Mode)
+    // Guidebook Mode Banner inside Step 1 (Pure 5-Step Guided US CDC Growth & Bone-Age Track)
     const modeBanner = document.getElementById('guidebook-mode-banner');
-    const diagForm = document.getElementById('diagnosis-form');
-    const isLearningActive = (global.__KIDSFIT_PREFERRED_REPORT_MODE === 'learning') ||
-      Boolean(diagForm && diagForm.className && diagForm.className.includes('wizard-mode-learning'));
     if (modeBanner) {
-      if (isLearningActive) {
-        modeBanner.innerHTML = '<strong>[Report 02 · Executive Focus Index &amp; Executive Function Assessment]</strong> Powered by Harvard / WashU Developmental Neuroscience &amp; 3,722 Peer-Reviewed PubMed Studies.';
-      } else {
-        modeBanner.innerHTML = '<strong>[Report 01 · Pediatric Auxology &amp; Bone-Age Assessment]</strong> Powered by US CDC 2000 Growth Charts, Tanner Auxology &amp; 3,722 Peer-Reviewed PubMed Studies.';
-      }
-      if (!document.getElementById('kidsfit-instant-express-preview-bar')) {
-        const expressBar = document.createElement('div');
-        expressBar.id = 'kidsfit-instant-express-preview-bar';
-        expressBar.style.cssText = 'margin-top:0.65rem;padding:0.75rem 0.9rem;background:linear-gradient(135deg,#EFF6FF 0%,#F0FDF4 100%);border:1.5px solid #3B82F6;border-radius:14px;text-align:left;';
-        expressBar.innerHTML = `
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.45rem;">
-            <span style="font-size:0.8rem;font-weight:900;color:#1D4ED8;">⚡ Short on Time? 1-Tap Instant Report &amp; Prescription Preview (Skip 6 Steps):</span>
-            <span style="font-size:0.7rem;font-weight:800;color:#059669;background:#DCFCE7;padding:0.12rem 0.5rem;border-radius:9999px;">Instant 0.5s Result</span>
-          </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:0.45rem;">
-            <a href="/?preset=child_4_5" style="text-decoration:none;text-align:center;background:#FFFFFF;border:1.5px solid #93C5FD;color:#1E3A8A;font-size:0.76rem;font-weight:800;padding:0.48rem 0.5rem;border-radius:10px;display:block;">👶 Ages 4–6 Report →</a>
-            <a href="/?preset=elem_low" style="text-decoration:none;text-align:center;background:#FFFFFF;border:1.5px solid #93C5FD;color:#1E3A8A;font-size:0.76rem;font-weight:800;padding:0.48rem 0.5rem;border-radius:10px;display:block;">🧒 Ages 7–9 Report →</a>
-            <a href="/?preset=elem_high" style="text-decoration:none;text-align:center;background:#1D4ED8;border:1.5px solid #1D4ED8;color:#FFFFFF;font-size:0.76rem;font-weight:900;padding:0.48rem 0.5rem;border-radius:10px;display:block;">👦 Ages 10–12 Report →</a>
-            <a href="/?preset=teen" style="text-decoration:none;text-align:center;background:#FFFFFF;border:1.5px solid #93C5FD;color:#1E3A8A;font-size:0.76rem;font-weight:800;padding:0.48rem 0.5rem;border-radius:10px;display:block;">🧑 Ages 13–16 Report →</a>
-          </div>
-        `;
-        modeBanner.parentNode.insertBefore(expressBar, modeBanner.nextSibling);
-      }
+      modeBanner.innerHTML = '<strong>[5-Step Guided US CDC 2000 &amp; Optional Bone-Age Lag (&Delta;t) Assessment]</strong> Complete Steps 1/5 &rarr; 5/5 in order (no hospital X-ray required).';
     }
 
     // Global Region Options
@@ -1855,10 +1905,36 @@
 
     const isRedFlagVelocity = (ageY >= 4 && ageY <= 9 && annualVelocityCm < 4.0) || (annualVelocityCm < 4.0);
 
-    const unmanagedCm = Number(pred.predictedCurrent || (mphCm - 2.3)).toFixed(1);
+    const hasBoneAge = Boolean(profile.hasBoneAge && Number(profile.baProjectedTodayYears || profile.baExamYears) > 0);
+    const baExamYrs = hasBoneAge ? Number(profile.baExamYears || profile.baProjectedTodayYears || (ageMonths / 12)) : 0;
+    const baDeltaMo = hasBoneAge ? Math.max(0, Math.round(Number(profile.baDeltaMonths) || 0)) : 0;
+    const baTempo = hasBoneAge ? (Number(profile.baTempoFactor) || 1.0) : 1.0;
+    const rawBaProj = hasBoneAge
+      ? (Number(profile.baProjectedTodayYears) || (baExamYrs + (baDeltaMo / 12) * baTempo))
+      : 0;
+    const baProjTodayYrs = hasBoneAge
+      ? Math.max(3.0, Math.min(isBoy ? 18.5 : 17.5, Number(rawBaProj.toFixed(2))))
+      : 0;
+    const baExamDateYm = String(profile.baExamDateYm || '').trim();
+    const baFollowUpRec = Boolean(hasBoneAge && (profile.baFollowUpRecommended || baDeltaMo >= 12));
+    const baSkeletalOffsetCm = hasBoneAge
+      ? Number(Math.max(-6.0, Math.min(6.0, ((ageMonths / 12) - baProjTodayYrs) * 2.05)).toFixed(1))
+      : 0;
+
+    function fmtBoneAgeYm(valYrs) {
+      const safe = Math.max(0, Number(valYrs) || 0);
+      const totalMos = Math.round(safe * 12);
+      const y = Math.floor(totalMos / 12);
+      const m = totalMos % 12;
+      return `${y}y ${m}m`;
+    }
+
+    const baseUnmanagedNum = Number(pred.predictedCurrent || (mphCm - 2.3)) + baSkeletalOffsetCm;
+    const baseOptimizedNum = Number(pred.potentialHeight || (mphCm + 4.8)) + baSkeletalOffsetCm;
+    const unmanagedCm = Math.max(heightCm + 1.5, baseUnmanagedNum).toFixed(1);
     const geneticCm = Number(mphCm).toFixed(1);
-    const optimizedCm = Number(pred.potentialHeight || (mphCm + 4.8)).toFixed(1);
-    const hiddenGainCm = Math.max(3.5, Number((optimizedCm - unmanagedCm).toFixed(1)));
+    const optimizedCm = Math.max(Number(unmanagedCm) + 3.5, baseOptimizedNum).toFixed(1);
+    const hiddenGainCm = Math.max(3.5, Number((Number(optimizedCm) - Number(unmanagedCm)).toFixed(1)));
 
     const isImperial = (global.TallerI18n && typeof global.TallerI18n.getUnitSystem === 'function')
       ? global.TallerI18n.getUnitSystem() === 'imperial'
@@ -1895,6 +1971,13 @@
       return isImperial ? `+${inVal} in (+${cmStr} cm)` : `+${cmStr} cm (+${inVal} in)`;
     }
 
+    function fmtMaskedGain(cmVal) {
+      if (isMasked) {
+        return isImperial ? '+█.█ in (+██.█ cm)' : '+██.█ cm (+█.█ in)';
+      }
+      return fmtGain(cmVal);
+    }
+
     const unmanagedImp = isMasked ? '5\' █.█″' : cmToFtInStr(unmanagedCm);
     const geneticImp = isMasked ? '5\' █.█″' : cmToFtInStr(geneticCm);
     const optimizedImp = isMasked ? '5\' █.█″' : cmToFtInStr(optimizedCm);
@@ -1906,7 +1989,9 @@
     const pctVal = Number(kdca.percentile || 50).toFixed(1);
     const pctValDisp = pctVal;
     const zScoreDisp = (kdca.zScore !== undefined && kdca.zScore !== null) ? String(kdca.zScore) : '0.00';
-    const remainYears = Math.max(1, (isBoy ? 17 : 15) - ageY);
+    const effectiveBoneOrChronoYrs = hasBoneAge ? baProjTodayYrs : (ageMonths / 12);
+    const remainYears = Math.max(0.5, Number(((isBoy ? 17.0 : 15.0) - effectiveBoneOrChronoYrs).toFixed(1)));
+    const priorityBottleneckSummary = buildPriorityGrowthBottleneckSummary(profile);
 
     // Nutrient targets scaled by weight & survey diet traits
     const caMg = Math.min(1300, Math.max(700, Math.round(weightKg * (traitDietList.includes('dairy_sensitive') ? 28 : 26))));
@@ -2109,7 +2194,9 @@
         <div id="global-report-child-conditions-box" style="background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:12px;padding:0.75rem 1rem;color:#0F172A;font-size:0.86rem;line-height:1.55;">
           ${isLearningMode
             ? `<strong style="color:#1D4ED8;">Evaluated Child Conditions (Brain &amp; Learning Mode):</strong> Age <strong>${ageY} yrs ${ageRemM} mos (${genderLabel})</strong> · Overall Brain LQ: <strong style="color:#1D4ED8;">${overallLQDisp} pts (Top ${lqTopPctDisp}%)</strong> · Attention Span: <strong>${focusSpanLabel}</strong> · Preferred Absorption Style: <strong>${studyStyleLabel}</strong>`
-            : `<strong style="color:#1D4ED8;">Evaluated Child Conditions (Physical Growth Mode):</strong> Age <strong>${ageY} yrs ${ageRemM} mos (${genderLabel})</strong> · Current Stature: <strong style="color:#1D4ED8;">${fmtLen(heightCm)} · ${pctValDisp}th CDC Percentile</strong> · Weight: <strong>${fmtWt(weightKg)} · BMI ${bmi}</strong> · 6-Mo Gain: <strong>${isImperial ? (recentGrowth6mCm / 2.54).toFixed(1) + ' in (' + recentGrowth6mCm.toFixed(1) + ' cm)' : recentGrowth6mCm.toFixed(1) + ' cm (' + (recentGrowth6mCm / 2.54).toFixed(1) + ' in)'}</strong> · Reference: <strong>${ethInfo.label}</strong>`}
+            : (isMasked
+              ? `<strong style="color:#1D4ED8;">Free Assessment Baseline:</strong> <strong>${ageY} yrs ${ageRemM} mos ${isBoy ? 'Boy' : 'Girl'}</strong> &middot; Current US CDC 2000 Stature: <strong style="color:#059669;">${Math.round(Number(pctValDisp))}th Percentile (${pctValDisp}th %ile)</strong> &middot; <strong style="color:#1E3A8A;">${priorityBottleneckSummary}</strong>`
+              : `<strong style="color:#1D4ED8;">Evaluated Child Conditions (Physical Growth Mode):</strong> Age <strong>${ageY} yrs ${ageRemM} mos (${genderLabel})</strong> · Current Stature: <strong style="color:#1D4ED8;">${fmtLen(heightCm)} · ${pctValDisp}th CDC Percentile</strong> · Weight: <strong>${fmtWt(weightKg)} · BMI ${bmi}</strong> · 6-Mo Gain: <strong>${isImperial ? (recentGrowth6mCm / 2.54).toFixed(1) + ' in (' + recentGrowth6mCm.toFixed(1) + ' cm)' : recentGrowth6mCm.toFixed(1) + ' cm (' + (recentGrowth6mCm / 2.54).toFixed(1) + ' in)'}</strong>${hasBoneAge ? ` · Calibrated Today&apos;s Bone Age: <strong style="color:#059669;">${fmtBoneAgeYm(baProjTodayYrs)} (&Delta;t +${baDeltaMo}m)</strong>` : ''} · Reference: <strong>${ethInfo.label}</strong>`)}
         </div>
       </div>
 
@@ -2118,9 +2205,41 @@
            ========================================================================= -->
       ${!isLearningMode ? `
       <div id="pillar-1-container" style="display:block;">
+${isMasked ? `
+      <div id="paywall-frosted-teaser-container" class="paywall-frosted-teaser-container">
+        <div class="paywall-frosted-glass-overlay">
+          <div class="paywall-unlock-action-card">
+            <div style="display:inline-flex;align-items:center;gap:0.45rem;background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;padding:0.25rem 0.8rem;border-radius:9999px;font-size:0.76rem;font-weight:900;margin-bottom:0.75rem;">
+              🔒 FULL ADULT HEIGHT FORECAST &amp; 14-PAGE PDF LOCKED
+            </div>
+            <h3 style="font-size:1.22rem;font-weight:900;color:#0F172A;margin:0 0 0.4rem 0;line-height:1.28;">
+              Unlock 3-Tier Adult Height Forecast, Calibrated Bone-Age Runway &amp; 90-Day Plan ($8.99)
+            </h3>
+            <p style="font-size:0.83rem;color:#475569;line-height:1.55;margin:0 0 1.05rem 0;">
+              Unmask your child&apos;s predicted adult stature (ft/in &amp; cm), calibrated Today&apos;s Bone-Age remaining growth runway, personalized 90-day sleep/nutrition/jump schedule, and printable 14-page Growth &amp; Bone-Age PDF Guide.
+            </p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0.6rem;margin-bottom:0.8rem;">
+              <button type="button" onclick="window.launchPolarCheckout('single')" style="width:100%;padding:0.9rem 1.05rem;border-radius:12px;border:none;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:0.93rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(29,78,216,0.25);">
+                🔓 Unlock Full Report &amp; 14-Page PDF ($8.99) →
+              </button>
+              <button type="button" onclick="window.launchPolarCheckout('pass')" style="width:100%;padding:0.9rem 1.05rem;border-radius:12px;border:1.5px solid #047857;background:linear-gradient(90deg,#059669 0%,#10B981 100%);color:#FFFFFF;font-size:0.9rem;font-weight:900;cursor:pointer;">
+                ⭐ Unlock 6-Month Velocity Pass ($19.99) →
+              </button>
+            </div>
+            <div style="display:flex;justify-content:center;align-items:center;gap:0.8rem;flex-wrap:wrap;font-size:0.74rem;color:#64748B;">
+              <span style="color:#059669;font-weight:800;">✓ Instant Auto-Unlock on Return</span>
+              <span>•</span>
+              <span>🖨️ 14-Page Printable PDF Guide</span>
+              <span>•</span>
+              <span>🔒 14-Day Refund Policy</span>
+            </div>
+          </div>
+        </div>
+        <div class="paywall-blurred-chapters-content">
+` : ''}
         <!-- CHAPTER 1: 3-Tier Adult Height Trajectory & BMI Endocrine Balance -->
         <section style="background:#FFFFFF;border:1.5px solid #BFDBFE;border-radius:18px;padding:1.35rem 1.3rem;margin-bottom:1.25rem;box-shadow:0 8px 24px rgba(15,23,42,0.04);">
-          ${isRedFlagVelocity ? `
+          ${isRedFlagVelocity && !isMasked ? `
           <!-- Prominent Pediatric Red-Flag Auxology Warning Card (<4.0 cm/yr) -->
           <div class="pediatric-red-flag-card" style="background:#FEF2F2;border:2px solid #DC2626;border-radius:16px;padding:1.15rem 1.25rem;margin-bottom:1.15rem;box-shadow:0 8px 24px rgba(220,38,38,0.12);">
             <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.5rem;flex-wrap:wrap;">
@@ -2156,14 +2275,14 @@
               CHAPTER 01 · 3-TIER ADULT HEIGHT TRAJECTORY &amp; BIOMETRIC SUMMARY
             </span>
             <span style="font-size:0.78rem;font-weight:800;color:#059669;">
-              ${fmtGain(hiddenGainCm)} Hidden Growth Window Open
+              ${fmtMaskedGain(hiddenGainCm)} Hidden Growth Window Open
             </span>
           </div>
           <h3 style="font-size:1.2rem;font-weight:900;color:#0F172A;margin:0 0 0.45rem 0;">
             Predicted Adult Height: Unmanaged (${fmtMaskedLen(unmanagedCm)}) vs. Genetic Target (${fmtMaskedLen(geneticCm)}) vs. Optimized (${fmtMaskedLen(optimizedCm)})
           </h3>
           <p style="font-size:0.86rem;color:#475569;margin:0 0 1rem 0;line-height:1.55;">
-            Based on Tanner Mid-Parental Height (Father ${fmtLen(fatherCm)}, Mother ${fmtLen(motherCm)}) and current CDC LMS Z-score (${zScoreDisp}), correcting nocturnal GH suppression and spinal disc compression unlocks up to <strong>${fmtGain(hiddenGainCm)}</strong> before epiphyseal fusion.
+            Based on Tanner Mid-Parental Height (Father ${fmtLen(fatherCm)}, Mother ${fmtLen(motherCm)}) and current CDC LMS Z-score (${zScoreDisp}), correcting nocturnal GH suppression and spinal disc compression unlocks up to <strong>${fmtMaskedGain(hiddenGainCm)}</strong> before epiphyseal fusion.
           </p>
 
           <!-- 3-Tier Height Cards -->
@@ -2174,7 +2293,7 @@
                 ${isImperial ? `${unmanagedImp} <span style="font-size:0.9rem;">(${unmanagedCmDisp} cm)</span>` : `${unmanagedCmDisp} cm <span style="font-size:0.9rem;">(${unmanagedImp})</span>`}
               </div>
               <div style="font-size:0.76rem;color:#DC2626;font-weight:700;">
-                -${isImperial ? `${((pred.totalLoss || 2.3) / 2.54).toFixed(1)} in (-${pred.totalLoss || 2.3} cm)` : `${pred.totalLoss || 2.3} cm (-${((pred.totalLoss || 2.3) / 2.54).toFixed(1)} in)`} loss from late sleep / posture
+                ${isMasked ? '-█.█ in (-█.█ cm) loss from late sleep / posture' : `-${isImperial ? `${((pred.totalLoss || 2.3) / 2.54).toFixed(1)} in (-${pred.totalLoss || 2.3} cm)` : `${pred.totalLoss || 2.3} cm (-${((pred.totalLoss || 2.3) / 2.54).toFixed(1)} in)`} loss from late sleep / posture`}
               </div>
             </div>
             <div style="background:#F8FAFC;border:1.5px solid #93C5FD;border-radius:14px;padding:0.95rem 1rem;">
@@ -2192,9 +2311,35 @@
                 ${isImperial ? `${optimizedImp} <span style="font-size:0.9rem;">(${optimizedCmDisp} cm)</span>` : `${optimizedCmDisp} cm <span style="font-size:0.9rem;">(${optimizedImp})</span>`}
               </div>
               <div style="font-size:0.76rem;color:#059669;font-weight:800;">
-                ▲ ${fmtGain(hiddenGainCm)} vs. Unmanaged
+                ▲ ${fmtMaskedGain(hiddenGainCm)} vs. Unmanaged
               </div>
             </div>
+          </div>
+
+          <!-- Calibrated Today's Bone-Age & Remaining Epiphyseal Runway Card -->
+          <div id="kfg-report-calibrated-bone-age-card" style="background:linear-gradient(135deg,#F0FDF4 0%,#EFF6FF 100%);border:1.5px solid #10B981;border-radius:16px;padding:1.1rem 1.2rem;margin-bottom:1.15rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.55rem;">
+              <span style="font-size:0.74rem;font-weight:900;color:#065F46;background:#DCFCE7;border:1px solid #86EFAC;padding:0.2rem 0.65rem;border-radius:9999px;">
+                ${hasBoneAge ? '🦴 STEP 3 HOSPITAL BONE-AGE TIME-LAG (&Delta;t) CALIBRATED' : '🦴 SOMATIC GROWTH-PLATE RUNWAY (PREDICTED WITHOUT X-RAY)'}
+              </span>
+              <span style="font-size:0.76rem;font-weight:800;color:#1D4ED8;">
+                Remaining Runway: ${fmtMaskedGain(remainLinearCm)}
+              </span>
+            </div>
+            ${hasBoneAge ? `
+            <div style="font-size:0.92rem;font-weight:900;color:#0F172A;line-height:1.45;margin-bottom:0.35rem;">
+              ${isMasked
+                ? 'Examined Bone Age &rarr; Calibrated Today&apos;s Estimated Bone Age: <span style="color:#1D4ED8;">██y █m (Locked)</span>'
+                : `Examined ${baExamDateYm || 'at clinic'} (${baDeltaMo} months ago) at Bone Age <strong>${fmtBoneAgeYm(baExamYrs)}</strong> &rarr; Elapsed lag (+${baDeltaMo} mo · ${baTempo.toFixed(2)}x tempo) calibrated to <strong>Today&apos;s Estimated Bone Age ${fmtBoneAgeYm(baProjTodayYrs)}</strong>`}
+            </div>
+            <div style="font-size:0.81rem;color:#334155;line-height:1.5;">
+              Chronological Age: <strong>${ageY}y ${ageRemM}m</strong> &middot; Remaining Open Epiphyseal Runway: <strong>${isMasked ? '+█.█ in (+██.█ cm) over ~█.█ yrs' : `${fmtGain(remainLinearCm)} over ~${remainYears} skeletal yrs`}</strong>.${baFollowUpRec && !isMasked ? ' <strong style="color:#B45309;">Note: Because more than 12 months have elapsed since that wrist X-ray, consider requesting an updated Greulich-Pyle wrist radiograph at your next routine pediatric checkup.</strong>' : ''}
+            </div>
+            ` : `
+            <div style="font-size:0.86rem;color:#0F172A;font-weight:700;line-height:1.5;">
+              No hospital wrist X-ray needed: Remaining linear stature runway (<strong>${fmtMaskedGain(remainLinearCm)}</strong> over <strong>${isMasked ? '~█.█ yrs' : `~${remainYears} yrs`}</strong>) is modeled via US CDC 2000 LMS, parental MPH, and Fels Khamis-Roche equations.
+            </div>
+            `}
           </div>
 
           <!-- Khamis-Roche Empirical Stature Prediction & 90% Confidence Corridor Card -->
@@ -2229,12 +2374,12 @@
                   Genetic Baseline: ±3.3 in (±8.5 cm)
                 </div>
                 <div style="font-size:0.72rem;color:#64748B;margin-top:0.2rem;">
-                  Mid-parent unadjusted: ${fmtLen((fatherCm + motherCm) / 2)}
+                  Mid-parent unadjusted: ${fmtMaskedLen((fatherCm + motherCm) / 2)}
                 </div>
               </div>
             </div>
             <p style="margin:0;font-size:0.8rem;color:#475569;line-height:1.5;">
-              <strong>Clinical Auxology Note:</strong> Unlike the Tanner MPH which relies purely on parental midpoints (±8.5 cm margin), the <strong>Khamis-Roche method</strong> incorporates the child's actual chronological age (${(ageY + ageRemM / 12).toFixed(1)}y), current standing stature (${fmtLen(heightCm)}), current weight (${fmtWt(weightKg)}), and mid-parent stature (${fmtLen((fatherCm + motherCm) / 2)}). This reduces adult prediction error by over <strong>38%</strong>, yielding a tighter 90% confidence corridor of <strong>${isBoy ? '±5.3 cm (±2.1 in)' : '±4.3 cm (±1.7 in)'}</strong>.
+              <strong>Clinical Auxology Note:</strong> Unlike the Tanner MPH which relies purely on parental midpoints (±8.5 cm margin), the <strong>Khamis-Roche method</strong> incorporates the child's actual chronological age (${(ageY + ageRemM / 12).toFixed(1)}y), current standing stature (${fmtLen(heightCm)}), current weight (${fmtWt(weightKg)}), and mid-parent stature (${fmtMaskedLen((fatherCm + motherCm) / 2)}). This reduces adult prediction error by over <strong>38%</strong>, yielding a tighter 90% confidence corridor of <strong>${isBoy ? '±5.3 cm (±2.1 in)' : '±4.3 cm (±1.7 in)'}</strong>.
             </p>
           </div>
 
@@ -2258,7 +2403,7 @@
                 </tr>
                 <tr style="border-bottom:1px solid #E2E8F0;">
                   <td style="padding:0.65rem 0.8rem;font-weight:800;color:#0F172A;">6-Mo Growth Velocity (Annualized)</td>
-                  <td style="padding:0.65rem 0.8rem;font-weight:800;color:#059669;">${isImperial ? `${annualVelocityIn} in/yr (${annualVelocityCm} cm/yr)` : `${annualVelocityCm} cm/yr (${annualVelocityIn} in/yr)`}</td>
+                  <td style="padding:0.65rem 0.8rem;font-weight:800;color:#059669;">${isMasked ? '█.█ in/yr (█.█ cm/yr)' : (isImperial ? `${annualVelocityIn} in/yr (${annualVelocityCm} cm/yr)` : `${annualVelocityCm} cm/yr (${annualVelocityIn} in/yr)`)}</td>
                   <td style="padding:0.65rem 0.8rem;color:#475569;">Norm: 2.0–2.8 in/yr (5.0–7.0 cm/yr)</td>
                   <td style="padding:0.65rem 0.8rem;color:#334155;">${annualVelocityCm < 5.0 ? 'Sub-Optimal Velocity Alert (<2.0 in/yr) · Check IGF-1 &amp; Sleep' : (annualVelocityCm >= 7.0 ? 'Peak Height Velocity (PHV) Acceleration Phase' : 'Steady Normative Linear Growth Velocity')}</td>
                 </tr>
@@ -2276,7 +2421,7 @@
                 </tr>
                 <tr>
                   <td style="padding:0.65rem 0.8rem;font-weight:800;color:#0F172A;">Remaining Growth-Plate Window</td>
-                  <td style="padding:0.65rem 0.8rem;font-weight:800;color:#059669;">Approx. ${remainYears} Years (${remainYears * 12} Months)</td>
+                  <td style="padding:0.65rem 0.8rem;font-weight:800;color:#059669;">${isMasked ? 'Approx. █.█ Years (██ Months)' : `Approx. ${remainYears} Years (${Math.round(remainYears * 12)} Months)`}</td>
                   <td style="padding:0.65rem 0.8rem;color:#475569;">Epiphyseal Fusion: ${isBoy ? 'Age 16.5–17.5' : 'Age 14.5–15.5'}</td>
                   <td style="padding:0.65rem 0.8rem;color:#334155;">Critical Golden Window Before Chondrocyte Senescence</td>
                 </tr>
@@ -2303,14 +2448,14 @@
               </div>
             </div>
             <div style="width:100%;overflow-x:auto;">
-              ${GrowthEngine && typeof GrowthEngine.renderSvgGrowthCurve === 'function'
+              ${!isMasked && GrowthEngine && typeof GrowthEngine.renderSvgGrowthCurve === 'function'
                 ? GrowthEngine.renderSvgGrowthCurve(isBoy ? 'boy' : 'girl', ageMonths, heightCm, {
                     mph: mphCm,
                     habits,
                     tannerPhase: profile.tannerPhase || 'phase_2',
                     standard: 'CDC'
                   })
-                : ''}
+                : `<div style="height:180px;border-radius:12px;background:linear-gradient(90deg,#EFF6FF 0%,#F0FDF4 100%);border:1px dashed #93C5FD;display:flex;align-items:center;justify-content:center;color:#1E3A8A;font-size:0.86rem;font-weight:800;">🔒 3-Curve US CDC Adult Stature Trajectory SVG Locked</div>`}
             </div>
             <div style="margin-top:0.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.4rem;font-size:0.72rem;color:#64748B;">
               <span>Corridors: CDC 2000 Percentiles (P3, P10, P50, P90, P97)</span>
@@ -2325,25 +2470,25 @@
                 TARGET ADULT HEIGHT &amp; KHAMIS-ROCHE AUXOLOGY ANALYSIS
               </span>
               <span style="font-size:0.78rem;font-weight:900;color:#059669;">
-                Target Goal: ${fmtMaskedLen(targetHeightCm)} · ${dreamReachabilityPct}% Reachability Score
+                Target Goal: ${fmtMaskedLen(targetHeightCm)} · ${isMasked ? '██' : dreamReachabilityPct}% Reachability Score
               </span>
             </div>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:0.75rem;">
               <div style="background:#FFFFFF;border:1px solid #BFDBFE;border-radius:10px;padding:0.7rem 0.85rem;">
                 <div style="font-size:0.73rem;font-weight:800;color:#475569;">Target Adult Height</div>
                 <div style="font-size:1.18rem;font-weight:900;color:#1D4ED8;margin:0.15rem 0;">${fmtMaskedLen(targetHeightCm)}</div>
-                <div style="font-size:0.73rem;color:#059669;font-weight:800;">Reachability Odds: ${dreamReachabilityPct}% (6-Mo Protocol)</div>
+                <div style="font-size:0.73rem;color:#059669;font-weight:800;">Reachability Odds: ${isMasked ? '██' : dreamReachabilityPct}% (6-Mo Protocol)</div>
               </div>
               <div style="background:#FFFFFF;border:1px solid #BFDBFE;border-radius:10px;padding:0.7rem 0.85rem;">
                 <div style="font-size:0.73rem;font-weight:800;color:#475569;">Remaining Growth Potential</div>
-                <div style="font-size:1.18rem;font-weight:900;color:#059669;margin:0.15rem 0;">${fmtGain(remainLinearCm)}</div>
+                <div style="font-size:1.18rem;font-weight:900;color:#059669;margin:0.15rem 0;">${fmtMaskedGain(remainLinearCm)}</div>
                 <div style="font-size:0.73rem;color:#475569;font-weight:700;">From current ${fmtLen(heightCm)} to ${fmtMaskedLen(optimizedCm)}</div>
               </div>
               <div style="background:#FFFFFF;border:1px solid #BFDBFE;border-radius:10px;padding:0.7rem 0.85rem;">
                 <div style="font-size:0.73rem;font-weight:800;color:#475569;">Growth Plate Openness Meter</div>
-                <div style="font-size:1.18rem;font-weight:900;color:#0F172A;margin:0.15rem 0;">${plateOpennessPct}% Open · ~${remainYears} Yrs</div>
+                <div style="font-size:1.18rem;font-weight:900;color:#0F172A;margin:0.15rem 0;">${isMasked ? '██% Open · ~█.█ Yrs' : `${plateOpennessPct}% Open · ~${remainYears} Yrs`}</div>
                 <div style="width:100%;height:7px;background:#E2E8F0;border-radius:9999px;overflow:hidden;margin-top:0.2rem;">
-                  <div style="width:${plateOpennessPct}%;height:100%;background:linear-gradient(90deg,#1D4ED8,#10B981);"></div>
+                  <div style="width:${isMasked ? 50 : plateOpennessPct}%;height:100%;background:linear-gradient(90deg,#1D4ED8,#10B981);"></div>
                 </div>
               </div>
             </div>
@@ -2451,65 +2596,12 @@
               Interactive Lifestyle &amp; Clinical Intervention Simulator
             </h4>
             <p style="font-size:0.82rem;color:#64748B;line-height:1.55;margin:0 0 0.9rem 0;">
-              Simulate real-time adult height recovery (+1.1 to +5.2 cm / +0.4 to +2.0 in) by dynamically adjusting SWS sleep lights-out timing, 3h pre-bed glycemic fasting, Wolff's law exercise, and bone-matrix mineral dosing.
+              Simulate real-time adult height recovery by dynamically adjusting SWS sleep lights-out timing, 3h pre-bed glycemic fasting, Wolff&apos;s law exercise, and bone-matrix mineral dosing.
             </p>
-
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0.6rem;opacity:0.6;pointer-events:none;margin-bottom:0.9rem;">
-              <div style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:10px;padding:0.6rem 0.8rem;font-size:0.78rem;">
-                <strong>🌙 Circadian SWS Shift:</strong> +1.5 cm locked
-              </div>
-              <div style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:10px;padding:0.6rem 0.8rem;font-size:0.78rem;">
-                <strong>🛑 3h Glycemic Fast:</strong> +1.2 cm locked
-              </div>
-              <div style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:10px;padding:0.6rem 0.8rem;font-size:0.78rem;">
-                <strong>⚡ Wolff's Law Exercise:</strong> +1.4 cm locked
-              </div>
-              <div style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:10px;padding:0.6rem 0.8rem;font-size:0.78rem;">
-                <strong>🦴 Targeted Bone Minerals:</strong> +1.1 cm locked
-              </div>
-            </div>
-
-            <button type="button" onclick="window.openKidsFitGlobalCheckoutModal()" style="display:inline-flex;align-items:center;gap:0.4rem;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;border:none;border-radius:10px;padding:0.65rem 1.1rem;font-size:0.84rem;font-weight:900;cursor:pointer;box-shadow:0 4px 14px rgba(29,78,216,0.25);">
-              🔓 Unlock Interactive What-If Simulator ($8.99) →
-            </button>
           </div>
           `}
         </section>
 
-${isMasked ? `
-      <div id="paywall-frosted-teaser-container" class="paywall-frosted-teaser-container">
-        <!-- High-Aesthetic Frosted-Glass Overlay -->
-        <div class="paywall-frosted-glass-overlay">
-          <div class="paywall-unlock-action-card">
-            <div style="display:inline-flex;align-items:center;gap:0.45rem;background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;padding:0.25rem 0.8rem;border-radius:9999px;font-size:0.76rem;font-weight:900;margin-bottom:0.75rem;">
-              🔒 CHAPTERS 02, 03 &amp; 04-B LOCKED · CLINICAL DOSSIER READY
-            </div>
-            <h3 style="font-size:1.26rem;font-weight:900;color:#0F172A;margin:0 0 0.4rem 0;line-height:1.25;">
-              Unlock Full 7-Chapter Clinical Report &amp; Hospital PDF ($8.99)
-            </h3>
-            <p style="font-size:0.83rem;color:#475569;line-height:1.55;margin:0 0 1.1rem 0;">
-              You're previewing Chapter 01 (CDC LMS Stature Baseline). Unlock 1:1 Sleep Endocrine &amp; rhGH Fact-Check, Weight-Matched Micronutrient Dosages (Ca / D3 / K2 / Zinc), 10-Min Spinal Decompression Timer, and Month-by-Month Care Protocol.
-            </p>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0.6rem;margin-bottom:0.9rem;">
-              <button type="button" onclick="window.openKidsFitGlobalCheckoutModal()" style="width:100%;padding:0.92rem 1.1rem;border-radius:12px;border:none;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:0.96rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(29,78,216,0.25);">
-                🔓 Unlock Complete Report ($8.99) →
-              </button>
-              <button type="button" onclick="if(window.openSampleReportPreview){window.openSampleReportPreview();}else if(window.loadSampleDemoProfile){window.loadSampleDemoProfile();}" style="width:100%;padding:0.92rem 1rem;border-radius:12px;border:1.5px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-size:0.86rem;font-weight:900;cursor:pointer;">
-                👀 View Live Sample Report (Demo Profile) →
-              </button>
-            </div>
-            <div style="display:flex;justify-content:center;align-items:center;gap:0.8rem;flex-wrap:wrap;font-size:0.75rem;color:#64748B;">
-              <span style="color:#059669;font-weight:800;">✓ 100% 30-Day Money-Back Guarantee</span>
-              <span>•</span>
-              <span>⚡ Instant Access</span>
-              <span>•</span>
-              <span>🖨️ Printable Clinic PDF</span>
-            </div>
-          </div>
-        </div>
-        <!-- Actual Chapter Structures Underneath the Blur (Chapters 02, 03, 04-A, 04-B) -->
-        <div class="paywall-blurred-chapters-content">
-` : ''}
         <!-- CHAPTER 2: Personalized Sleep/Endocrine Survey Synthesis & Growth Literature Review -->
         <section style="background:#FFFFFF;border:1.5px solid #BFDBFE;border-radius:18px;padding:1.35rem 1.3rem;margin-bottom:1.25rem;">
           <span style="display:inline-block;font-size:0.75rem;font-weight:900;color:#1D4ED8;background:#EFF6FF;border:1px solid #BFDBFE;padding:0.2rem 0.65rem;border-radius:9999px;margin-bottom:0.5rem;">
@@ -3440,7 +3532,7 @@ ${isMasked ? `
     let savedProfile = {};
     try {
       if (typeof window !== 'undefined' && window.localStorage) {
-        const rawSaved = window.localStorage.getItem('kidsfit_last_quiz_profile_v1');
+        const rawSaved = window.localStorage.getItem(KFG_SAVED_SURVEY_PROFILE_KEY) || window.localStorage.getItem('kidsfit_last_quiz_profile_v1');
         if (rawSaved) savedProfile = JSON.parse(rawSaved) || {};
       }
     } catch (_) {}
@@ -3457,7 +3549,9 @@ ${isMasked ? `
     }
     try {
       if (typeof window !== 'undefined' && window.localStorage && (profile.currentHeight || profile.ageMonths)) {
-        window.localStorage.setItem('kidsfit_last_quiz_profile_v1', JSON.stringify(profile));
+        const serializedProf = JSON.stringify(profile);
+        window.localStorage.setItem(KFG_SAVED_SURVEY_PROFILE_KEY, serializedProf);
+        window.localStorage.setItem('kidsfit_last_quiz_profile_v1', serializedProf);
       }
     } catch (_) {}
 
@@ -3971,576 +4065,160 @@ ${isMasked ? `
     }
 
     const singleBuyUrl = getActiveCheckoutUrl('single');
-    const liveChildTeaser = (typeof global.updateKfgPersonalizedChildTeaser === 'function')
-      ? global.updateKfgPersonalizedChildTeaser({
-          sex: isBoy ? 'boy' : 'girl',
-          ageYears: Number(((profile.ageMonths || (ageY * 12)) / 12).toFixed(1)),
-          heightCm: heightCm,
-          percentile: Number(pctValDisp)
-        })
-      : computeChildTeaserPayload({ sex: isBoy ? 'boy' : 'girl', ageYears: ageY, heightCm: heightCm, percentile: Number(pctValDisp) });
+    const exactAgeTotalMos = Math.max(12, Math.min(240, Number(profile.ageMonths) || (ageY * 12)));
+    const exactYrs = Math.floor(exactAgeTotalMos / 12);
+    const exactRemMos = Math.round(exactAgeTotalMos % 12);
+    const exactChronoAgeLabel = `${exactYrs} yrs ${exactRemMos} ${exactRemMos === 1 ? 'mo' : 'mos'} ${genderLabel}`;
+    const roundedPctInt = Math.max(1, Math.min(99, Math.round(Number(pctValDisp) || 50)));
+    const ordSuffix = (roundedPctInt % 10 === 1 && roundedPctInt % 100 !== 11) ? 'st'
+      : ((roundedPctInt % 10 === 2 && roundedPctInt % 100 !== 12) ? 'nd'
+        : ((roundedPctInt % 10 === 3 && roundedPctInt % 100 !== 13) ? 'rd' : 'th'));
+    const bottleneckOneLiner = buildPriorityGrowthBottleneckSummary(profile);
+
     const gateEl = document.createElement('div');
     gateEl.id = 'taller-global-paywall-gate';
-    gateEl.style.cssText = 'background:linear-gradient(180deg,#EFF6FF 0%,#FFFFFF 100%);border:2.5px solid #1D4ED8;border-radius:22px;padding:1.5rem 1.4rem;margin-bottom:1.4rem;box-shadow:0 20px 50px rgba(29,78,216,0.12);text-align:left;';
+    gateEl.style.cssText = 'background:linear-gradient(180deg,#EFF6FF 0%,#FFFFFF 100%);border:2.5px solid #1D4ED8;border-radius:22px;padding:1.45rem 1.35rem;margin-bottom:1.4rem;box-shadow:0 20px 50px rgba(29,78,216,0.12);text-align:left;';
     gateEl.innerHTML = `
-      <!-- Personalized Child Summary Banner -->
-      <div id="kfg-paywall-personalized-child-banner" style="background:linear-gradient(135deg,#0F172A 0%,#1E3A8A 100%);color:#FFFFFF;border-radius:16px;padding:1rem 1.2rem;margin-bottom:0.95rem;box-shadow:0 10px 24px rgba(15,23,42,0.18);">
-        <div style="font-size:0.72rem;font-weight:900;color:#6EE7B7;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.25rem;">
-          ✨ PERSONALIZED CHILD SUMMARY · US CDC 2000 LMS PROFILE
-        </div>
-        <div id="kfg-paywall-personalized-profile" style="font-size:1.02rem;font-weight:900;color:#FFFFFF;line-height:1.35;">
-          ${liveChildTeaser.profileSummary}
-        </div>
-        <div style="font-size:0.86rem;font-weight:800;color:#93C5FD;margin-top:0.25rem;">
-          Modifiable Sleep / Posture / Nutrition Recovery Window: <span id="kfg-paywall-personalized-window" style="color:#6EE7B7;">${liveChildTeaser.recoverySummary}</span>
-        </div>
-        <div style="font-size:0.8rem;color:#E2E8F0;margin-top:0.3rem;font-weight:700;">
-          ${liveChildTeaser.ctaHeadline}
-        </div>
-      </div>
-
-      <!-- Step 1: Clinical Scan Complete Teaser Banner -->
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.85rem;padding-bottom:0.75rem;border-bottom:1px solid #BFDBFE;">
-        <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
-          <span style="background:#1D4ED8;color:#FFFFFF;font-size:0.76rem;font-weight:900;padding:0.24rem 0.75rem;border-radius:9999px;">
-            SCAN COMPLETE · REPORT READY TO UNLOCK
-          </span>
-          <span style="font-size:0.84rem;font-weight:800;color:#1E3A8A;">
-            ${isLearningMode
-              ? `Profile: Age ${ageY} ${genderLabel} · Executive Focus Index &amp; Executive Function Scan`
-              : `Profile: Age ${ageY} ${genderLabel} · Current ${fmtLen(heightCm)} / ${fmtWt(weightKg)}`}
-          </span>
-        </div>
-        <span style="font-size:0.78rem;font-weight:800;color:#059669;background:#ECFDF5;border:1px solid #A7F3D0;padding:0.2rem 0.65rem;border-radius:9999px;">
-          ${isLearningMode ? '2,138 Cognitive &amp; Pedagogy' : '1,576 Pediatric Auxology'} PubMed Papers Matched
-        </span>
-      </div>
-
-      <!-- Step 2: Masked Teaser Grid (Strictly Separated: Brain LQ vs Physical Growth Mode) -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0.75rem;margin-bottom:1.15rem;">
-        ${isLearningMode ? `
-        <div style="background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:14px;padding:0.85rem 1rem;">
-          <div style="font-size:0.75rem;font-weight:800;color:#475569;">① Executive Focus & Study Habit Score</div>
-          <div style="font-size:1.35rem;font-weight:900;color:#1D4ED8;margin-top:0.2rem;letter-spacing:-0.02em;">
-            🔒 <span style="filter:blur(5px);user-select:none;">??.? pts</span> <span style="font-size:0.82rem;color:#DC2626;font-weight:800;">(Locked)</span>
-          </div>
-          <div style="font-size:0.76rem;color:#059669;font-weight:800;margin-top:0.2rem;">
-            ▲ +14.5 Pt Coached LQ Gain Window!
-          </div>
-        </div>
-        <div style="background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:14px;padding:0.85rem 1rem;">
-          <div style="font-size:0.75rem;font-weight:800;color:#475569;">② Prefrontal &amp; Recall Bottleneck</div>
-          <div style="font-size:1.05rem;font-weight:900;color:#0F172A;margin-top:0.25rem;">
-            🔒 <span style="color:#1D4ED8;">2 Priority Bottlenecks Found</span>
-          </div>
-          <div style="font-size:0.76rem;color:#475569;font-weight:700;margin-top:0.2rem;">
-            Working Memory &amp; Blank-Page Recall Analysis
-          </div>
-        </div>
-        <div style="background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:14px;padding:0.85rem 1rem;">
-          <div style="font-size:0.75rem;font-weight:800;color:#475569;">③ 4-Week Neuro-Study &amp; Nutrition Guide</div>
-          <div style="font-size:1.05rem;font-weight:900;color:#0F172A;margin-top:0.25rem;">
-            🔒 <span style="color:#1D4ED8;">1:1 Study Roadmap Ready</span>
-          </div>
-          <div style="font-size:0.76rem;color:#475569;font-weight:700;margin-top:0.2rem;">
-            Feynman Recall, Bar Modeling &amp; Neuro-DHA
-          </div>
-        </div>
-        ` : `
-        <div style="background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:14px;padding:0.85rem 1rem;">
-          <div style="font-size:0.75rem;font-weight:800;color:#475569;">① US CDC Percentile &amp; Adult Height</div>
-          <div style="font-size:0.86rem;font-weight:900;color:#059669;margin-top:0.18rem;">
-            ✓ Current CDC 2000: ${pctValDisp}th %ile (Z=${zScoreDisp})
-          </div>
-          <div style="font-size:1.22rem;font-weight:900;color:#1D4ED8;margin-top:0.15rem;letter-spacing:-0.02em;">
-            🔒 Adult: <span style="filter:blur(5px);user-select:none;">${isImperial ? "5' ?.?″" : '???.? cm'}</span> <span style="font-size:0.78rem;color:#DC2626;font-weight:800;">(▲ ${fmtGain(hiddenGainCm)} Gain)</span>
-          </div>
-        </div>
-
-        <div style="background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:14px;padding:0.85rem 1rem;">
-          <div style="font-size:0.75rem;font-weight:800;color:#475569;">② Growth Literature &amp; Bone-Age Review</div>
-          <div style="font-size:1.05rem;font-weight:900;color:#0F172A;margin-top:0.25rem;">
-            🔒 <span style="color:#1D4ED8;">Tier Analysis Ready</span>
-          </div>
-          <div style="font-size:0.76rem;color:#475569;font-weight:700;margin-top:0.2rem;">
-            BMJ &amp; Cochrane Peer-Reviewed Auxology Summary
-          </div>
-        </div>
-
-        <div style="background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:14px;padding:0.85rem 1rem;">
-          <div style="font-size:0.75rem;font-weight:800;color:#475569;">③ 24h Sleep HGH &amp; Bio-Nutrition Guide</div>
-          <div style="font-size:1.05rem;font-weight:900;color:#0F172A;margin-top:0.25rem;">
-            🔒 <span style="color:#1D4ED8;">1:1 Growth Workbook Ready</span>
-          </div>
-          <div style="font-size:0.76rem;color:#475569;font-weight:700;margin-top:0.2rem;">
-            10 PM SWS Sleep, Ca Citrate, D3+K2 &amp; Chelated Zinc
-          </div>
-        </div>
-        `}
-      </div>
-
-      <!-- Step 3: Taller-Style Pricing & Instant Unlock Card (Strictly Separated by Mode + Monthly Retention Value) -->
-      <div id="taller-global-paywall-card" style="background:#FFFFFF;border:2px solid #1D4ED8;border-radius:18px;padding:1.25rem 1.3rem;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.75rem;margin-bottom:0.9rem;">
-          <div>
-            <span style="background:#FEF2F2;color:#DC2626;border:1px solid #FECACA;font-size:0.75rem;font-weight:900;padding:0.2rem 0.65rem;border-radius:9999px;">
-              ${getActiveRlPaywallArm().badge}
+      <div id="kidsfit-report-unlock-gate">
+        <!-- Free Visible Teaser: ONLY Exact Chronological Age, Current US CDC 2000 Height Percentile & 1-Line Priority Bottleneck Summary -->
+        <div id="kfg-free-assessment-teaser" style="background:linear-gradient(135deg,#0F172A 0%,#1E3A8A 100%);color:#FFFFFF;border-radius:16px;padding:1.1rem 1.25rem;margin-bottom:1rem;box-shadow:0 10px 24px rgba(15,23,42,0.18);">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.55rem;">
+            <span style="font-size:0.72rem;font-weight:900;color:#6EE7B7;letter-spacing:0.05em;text-transform:uppercase;">
+              ✓ STEP 5 SCAN COMPLETE · FREE BASELINE SUMMARY
             </span>
-            <h3 style="font-size:1.24rem;font-weight:900;color:#0F172A;margin:0.45rem 0 0.2rem 0;">
-              ${isLearningMode
-                ? "Unlock Your Child's Complete 1:1 Executive Focus Index &amp; Neuro-Study Workbook"
-                : "Unlock Your Child's Complete 1:1 Pediatric Height &amp; Auxology Workbook"}
+            <span style="font-size:0.74rem;font-weight:800;color:#BFDBFE;background:rgba(255,255,255,0.12);padding:0.18rem 0.65rem;border-radius:9999px;">
+              US CDC 2000 LMS Standardized
+            </span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.65rem;margin-bottom:0.75rem;">
+            <div style="background:rgba(255,255,255,0.10);border:1px solid rgba(147,197,253,0.32);border-radius:12px;padding:0.65rem 0.85rem;">
+              <div style="font-size:0.71rem;font-weight:800;color:#93C5FD;text-transform:uppercase;">Child&apos;s Exact Age</div>
+              <div id="kfg-teaser-exact-age" style="font-size:1.08rem;font-weight:900;color:#FFFFFF;margin-top:0.15rem;">${exactChronoAgeLabel}</div>
+            </div>
+            <div style="background:rgba(16,185,129,0.16);border:1px solid rgba(110,231,183,0.45);border-radius:12px;padding:0.65rem 0.85rem;">
+              <div style="font-size:0.71rem;font-weight:800;color:#A7F3D0;text-transform:uppercase;">Current US CDC 2000 Height Percentile</div>
+              <div id="kfg-teaser-cdc-percentile" style="font-size:1.08rem;font-weight:900;color:#6EE7B7;margin-top:0.15rem;">${roundedPctInt}${ordSuffix} Percentile (${pctValDisp}th %ile)</div>
+            </div>
+          </div>
+          <div id="kfg-teaser-bottleneck-summary" style="background:rgba(255,255,255,0.08);border-left:3px solid #6EE7B7;border-radius:8px;padding:0.6rem 0.85rem;font-size:0.86rem;font-weight:800;color:#F8FAFC;line-height:1.45;">
+            ${bottleneckOneLiner}
+          </div>
+        </div>
+
+        <!-- Locked Sections Inventory (Zero Adult Height or Remaining Inches Leaked) -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:0.65rem;margin-bottom:1.05rem;">
+          <div style="background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:13px;padding:0.78rem 0.9rem;">
+            <div style="font-size:0.73rem;font-weight:800;color:#475569;">① 3-Tier Adult Height Forecast</div>
+            <div style="font-size:1.02rem;font-weight:900;color:#1D4ED8;margin-top:0.2rem;">🔒 Locked (ft/in &amp; cm)</div>
+            <div style="font-size:0.74rem;color:#64748B;margin-top:0.15rem;">Unmanaged vs. Genetic MPH vs. Optimized</div>
+          </div>
+          <div style="background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:13px;padding:0.78rem 0.9rem;">
+            <div style="font-size:0.73rem;font-weight:800;color:#475569;">② Calibrated Today&apos;s Bone-Age Runway</div>
+            <div style="font-size:1.02rem;font-weight:900;color:#1D4ED8;margin-top:0.2rem;">🔒 Locked (in &amp; cm)</div>
+            <div style="font-size:0.74rem;color:#64748B;margin-top:0.15rem;">Exam-date lag (&Delta;t) &amp; open plate window</div>
+          </div>
+          <div style="background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:13px;padding:0.78rem 0.9rem;">
+            <div style="font-size:0.73rem;font-weight:800;color:#475569;">③ 90-Day Sleep, Nutrition &amp; Jump Plan</div>
+            <div style="font-size:1.02rem;font-weight:900;color:#1D4ED8;margin-top:0.2rem;">🔒 Personalized Protocol Ready</div>
+            <div style="font-size:0.74rem;color:#64748B;margin-top:0.15rem;">10 PM SWS HGH, Ca/D3/K2 &amp; decompression</div>
+          </div>
+          <div style="background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:13px;padding:0.78rem 0.9rem;">
+            <div style="font-size:0.73rem;font-weight:800;color:#475569;">④ Printable 14-Page Growth &amp; Bone-Age PDF</div>
+            <div style="font-size:1.02rem;font-weight:900;color:#059669;margin-top:0.2rem;">🔒 Instant Print &amp; Save Ready</div>
+            <div style="font-size:0.74rem;color:#64748B;margin-top:0.15rem;">Comprehensive Growth &amp; Habit Percentile PDF Guide</div>
+          </div>
+        </div>
+
+        <!-- Pricing & Instant Polar.sh Unlock Card -->
+        <div id="taller-global-paywall-card" style="background:#FFFFFF;border:2px solid #1D4ED8;border-radius:18px;padding:1.2rem 1.25rem;">
+          <div style="margin-bottom:0.85rem;">
+            <span style="background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;font-size:0.73rem;font-weight:900;padding:0.2rem 0.65rem;border-radius:9999px;">
+              INSTANT ON-SCREEN UNLOCK + PRINTABLE 14-PAGE PDF GUIDE
+            </span>
+            <h3 style="font-size:1.22rem;font-weight:900;color:#0F172A;margin:0.45rem 0 0.2rem 0;">
+              Unlock Your Child&apos;s Complete US CDC Adult Height Forecast &amp; 90-Day Action Plan
             </h3>
-            <p style="font-size:0.86rem;color:#475569;margin:0;">
-              ${isLearningMode
-                ? 'Instant access to your child&#39;s 5-Axis Cognitive Radar, Top 2 Study Bottleneck Analysis, 4-Week Feynman &amp; Cornell Action Plan, and 4 Printable Cognitive Worksheets.'
-                : 'Instant access to your child&#39;s US CDC 2000 &amp; WHO Height Trajectory, 3-Scenario Adult Height Projection, Peer-Reviewed Literature Summary, 24h Sleep Rhythm Simulator, and Printable Growth Trackers.'}
+            <p style="font-size:0.85rem;color:#475569;margin:0;">
+              Your Step 1&ndash;5 survey answers are saved automatically on this device and unlock on screen the moment Polar.sh checkout completes.
             </p>
           </div>
-        </div>
 
-        <!-- 2-Tier Plan Selector -->
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:0.8rem;margin-bottom:0.95rem;">
-          <label id="paywall-plan-label-single" onclick="window.selectKidsFitGlobalPlan('single')" style="cursor:pointer;background:#EFF6FF;border:2px solid #1D4ED8;border-radius:14px;padding:0.95rem 1rem;display:flex;flex-direction:column;justify-content:space-between;transition:all 0.2s ease;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">
-              <span style="font-size:0.82rem;font-weight:900;color:#1D4ED8;">
-                <input type="radio" name="kidsfit-global-plan" value="single" checked style="accent-color:#1D4ED8;margin-right:0.3rem;">
-                SINGLE REPORT PASS (DAY-1 SNAPSHOT)
-              </span>
-              <span style="background:#1D4ED8;color:#FFFFFF;font-size:0.7rem;font-weight:900;padding:0.15rem 0.5rem;border-radius:9999px;">SAVE 70%</span>
-            </div>
-            <div style="display:flex;align-items:baseline;gap:0.45rem;margin-bottom:0.3rem;">
-              <span style="font-size:1.65rem;font-weight:900;color:#0F172A;">$8.99</span>
-              <span style="font-size:0.85rem;color:#94A3B8;text-decoration:line-through;font-weight:700;">$29.99</span>
-              <span style="font-size:0.78rem;color:#475569;font-weight:700;">· One-Time Snapshot</span>
-            </div>
-            <div style="font-size:0.78rem;color:#334155;line-height:1.45;">
-              <div style="margin-bottom:0.35rem;padding:0.32rem 0.5rem;border-radius:8px;background:#DBEAFE;border:1px solid #93C5FD;color:#1E3A8A;font-size:0.75rem;font-weight:800;line-height:1.35;">
-                📄 Includes Printable US CDC Percentile & Bone-Age PDF Guide + 30-Day Growth Velocity Tracker
+          <!-- 2-Tier Plan Selector -->
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:0.8rem;margin-bottom:0.95rem;">
+            <label id="paywall-plan-label-single" onclick="window.selectKidsFitGlobalPlan('single')" style="cursor:pointer;background:#EFF6FF;border:2px solid #1D4ED8;border-radius:14px;padding:0.95rem 1rem;display:flex;flex-direction:column;justify-content:space-between;transition:all 0.2s ease;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">
+                <span style="font-size:0.82rem;font-weight:900;color:#1D4ED8;">
+                  <input type="radio" name="kidsfit-global-plan" value="single" checked style="accent-color:#1D4ED8;margin-right:0.3rem;">
+                  SINGLE REPORT &amp; 14-PAGE PDF
+                </span>
+                <span style="background:#1D4ED8;color:#FFFFFF;font-size:0.7rem;font-weight:900;padding:0.15rem 0.5rem;border-radius:9999px;">ONE-TIME</span>
               </div>
-              ${isLearningMode ? `
-              ✓ Full Executive Focus Index &amp; Study Bottleneck Report<br>
-              ✓ Custom 4-Week Feynman &amp; Bar-Modeling Plan<br>
-              ✓ Printable Summary PDF + 4 Cognitive Worksheets
-              ` : `
-              ✓ Full US CDC 2000 Adult Height + Literature Review<br>
-              ✓ 24h Sleep HGH Simulator &amp; Weight-Matched Ca/D3/K2 Guide<br>
-              ✓ Printable 2-Page Growth Summary PDF + <strong>1x 30-Day Growth Check-in Bonus</strong>
-              `}
-            </div>
-          </label>
-
-          <label id="paywall-plan-label-pass" onclick="window.selectKidsFitGlobalPlan('pass')" style="cursor:pointer;background:#F8FAFC;border:2.5px solid #1D4ED8;border-radius:14px;padding:0.95rem 1rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;box-shadow:0 12px 30px rgba(29,78,216,0.18);transition:all 0.2s ease;">
-            <div style="position:absolute;top:-10px;right:14px;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:0.65rem;font-weight:900;padding:0.18rem 0.55rem;border-radius:9999px;box-shadow:0 3px 8px rgba(29,78,216,0.35);letter-spacing:0.02em;">
-              ⭐ BEST VALUE · 78% CHOOSE
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">
-              <span style="font-size:0.82rem;font-weight:900;color:#0F172A;">
-                <input type="radio" name="kidsfit-global-plan" value="pass" style="accent-color:#1D4ED8;margin-right:0.3rem;">
-                ${isLearningMode ? '6-MONTH MONTHLY BRAIN LQ TRACKER' : '6-MONTH MONTHLY GROWTH VELOCITY PASS'}
-              </span>
-              <span style="background:#ECFDF5;color:#059669;border:1px solid #A7F3D0;font-size:0.7rem;font-weight:900;padding:0.15rem 0.5rem;border-radius:9999px;">SAVE 63% · $3.33/MO</span>
-            </div>
-            <div style="display:flex;align-items:baseline;gap:0.45rem;margin-bottom:0.3rem;">
-              <span style="font-size:1.65rem;font-weight:900;color:#0F172A;">$19.99</span>
-              <span style="font-size:0.85rem;color:#94A3B8;text-decoration:line-through;font-weight:700;">$53.94</span>
-              <span style="font-size:0.78rem;color:#059669;font-weight:800;">· Only $3.33/mo (11¢/day)</span>
-            </div>
-            <div style="font-size:0.78rem;color:#334155;line-height:1.45;">
-              <div style="margin-bottom:0.35rem;padding:0.32rem 0.5rem;border-radius:8px;background:#ECFDF5;border:1px solid #6EE7B7;color:#065F46;font-size:0.75rem;font-weight:800;line-height:1.35;">
-                📄 Includes Printable US CDC Percentile & Bone-Age PDF Guide + 30-Day Growth Velocity Tracker
+              <div style="display:flex;align-items:baseline;gap:0.45rem;margin-bottom:0.3rem;">
+                <span style="font-size:1.65rem;font-weight:900;color:#0F172A;">$8.99</span>
+                <span style="font-size:0.78rem;color:#475569;font-weight:700;">USD · Instant Unlock</span>
               </div>
-              ${isLearningMode ? `
-              ✓ <strong>Monthly 30-Day Executive Focus Index Re-Calibration</strong><br>
-              ✓ <strong>Cycles 1–6 Progressive Monthly Worksheets</strong><br>
-              ✓ <strong>Unlimited Sibling Profiles (3+)</strong> &amp; Daily DHA Reference Guide
-              ` : `
-              ✓ <strong>Monthly Growth Checklist Emailing &amp; Velocity Commentary (6 Months)</strong><br>
-              ✓ <strong>Auto-Updated Weight-Matched Ca/D3/K2/Zinc Reference Guide</strong><br>
-              ✓ <strong>Physis Fusion Watch + Unlimited Sibling Profiles (3+)</strong>
-              `}
-            </div>
-          </label>
-        </div>
+              <div style="font-size:0.78rem;color:#334155;line-height:1.48;">
+                ✓ 3-Tier Adult Height Forecast (ft/in &amp; cm)<br>
+                ✓ Calibrated Today&apos;s Bone-Age Remaining Runway<br>
+                ✓ 90-Day Sleep/Nutrition/Jump Plan + <strong>14-Page PDF Guide</strong>
+              </div>
+            </label>
 
-        <!-- Primary 2x Large 64px+ 1-Tap Express Checkout Buttons Front-and-Center -->
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:0.75rem;margin-bottom:0.65rem;">
-          <button type="button" id="btn-one-tap-single-report" data-kfg-paid-plan="single" onclick="window.launchPolarCheckout('single')" style="min-height:66px;padding:0.95rem 1.1rem;border-radius:14px;border:2px solid #1D4ED8;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:1.02rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(29,78,216,0.26);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.18rem;line-height:1.25;">
-            <span>🔓 Single Growth &amp; Bone-Age PDF Guide — $8.99</span>
-            <span style="font-size:0.74rem;font-weight:700;color:#DBEAFE;">One-Time · Instant On-Screen Unlock &amp; PDF</span>
-          </button>
-          <button type="button" id="btn-one-tap-six-month-pass" data-kfg-paid-plan="pass" onclick="window.launchPolarCheckout('pass')" style="min-height:66px;padding:0.95rem 1.1rem;border-radius:14px;border:2px solid #047857;background:linear-gradient(90deg,#059669 0%,#10B981 100%);color:#FFFFFF;font-size:1.02rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(5,150,105,0.26);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.18rem;line-height:1.25;">
-            <span>⭐ 6-Month Growth &amp; Velocity Pass — $19.99</span>
-            <span style="font-size:0.74rem;font-weight:700;color:#D1FAE5;">Save 63% · Unlimited Siblings + Brain LQ</span>
-          </button>
-        </div>
+            <label id="paywall-plan-label-pass" onclick="window.selectKidsFitGlobalPlan('pass')" style="cursor:pointer;background:#F8FAFC;border:2.5px solid #1D4ED8;border-radius:14px;padding:0.95rem 1rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;box-shadow:0 12px 30px rgba(29,78,216,0.16);transition:all 0.2s ease;">
+              <div style="position:absolute;top:-10px;right:14px;background:linear-gradient(90deg,#1D4ED8 0%,#059669 100%);color:#FFFFFF;font-size:0.65rem;font-weight:900;padding:0.18rem 0.55rem;border-radius:9999px;letter-spacing:0.02em;">
+                ⭐ BEST VALUE · 6-MONTH TRACKER
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">
+                <span style="font-size:0.82rem;font-weight:900;color:#0F172A;">
+                  <input type="radio" name="kidsfit-global-plan" value="pass" style="accent-color:#1D4ED8;margin-right:0.3rem;">
+                  6-MONTH GROWTH &amp; VELOCITY PASS
+                </span>
+                <span style="background:#ECFDF5;color:#059669;border:1px solid #A7F3D0;font-size:0.7rem;font-weight:900;padding:0.15rem 0.5rem;border-radius:9999px;">$3.33/MO</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:0.45rem;margin-bottom:0.3rem;">
+                <span style="font-size:1.65rem;font-weight:900;color:#0F172A;">$19.99</span>
+                <span style="font-size:0.78rem;color:#059669;font-weight:800;">USD · 6-Month Pass</span>
+              </div>
+              <div style="font-size:0.78rem;color:#334155;line-height:1.48;">
+                ✓ Everything in Single Report + 14-Page PDF Guide<br>
+                ✓ <strong>6 Monthly Growth Velocity (cm/yr &amp; in/yr) Check-Ins</strong><br>
+                ✓ <strong>Unlimited Sibling Profiles (Up to 4 Kids)</strong>
+              </div>
+            </label>
+          </div>
 
-        <div style="text-align:center;font-size:0.8rem;font-weight:800;color:#0F172A;margin-bottom:0.45rem;line-height:1.45;">
-          🔒 Polar.sh (Merchant of Record · Global Card / Apple Pay / Google Pay) &nbsp;|&nbsp; <span style="color:#059669;">✨ Unlocks Automatically on Screen Right After Payment (14-Day Refund Policy)</span>
-        </div>
-        <div class="kfg-educational-pricing-disclaimer" style="text-align:center;font-size:0.75rem;color:#475569;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:0.5rem 0.8rem;margin-bottom:0.75rem;line-height:1.45;">
-          For educational and informational tracking based on public US CDC growth charts only; not a substitute for professional pediatric medical diagnosis or treatment.
-        </div>
-
-        <details style="background:#F8FAFC;border:1px solid #CBD5E1;border-radius:10px;padding:0.55rem 0.85rem;margin-bottom:0.85rem;">
-          <summary style="cursor:pointer;font-size:0.78rem;font-weight:800;color:#1D4ED8;">
-            🔑 Switching devices or already paid? Restore your report with a License Key ▾
-          </summary>
-          <div style="margin-top:0.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-size:0.76rem;color:#475569;">
-            <span>Open the license restore box if you purchased on another phone or computer:</span>
-            <button type="button" onclick="window.openKidsFitGlobalCheckoutModal({focusRestore:true})" style="padding:0.42rem 0.8rem;border-radius:8px;border:1.5px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-weight:800;cursor:pointer;">
-              Restore License Key →
+          <!-- Primary 2x Large 64px+ 1-Tap Polar.sh Checkout Buttons -->
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:0.75rem;margin-bottom:0.65rem;">
+            <button type="button" id="btn-one-tap-single-report" data-kfg-paid-plan="single" data-checkout-url="${singleBuyUrl}" onclick="window.launchPolarCheckout('single')" style="min-height:66px;padding:0.95rem 1.1rem;border-radius:14px;border:2px solid #1D4ED8;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:0.98rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(29,78,216,0.26);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.18rem;line-height:1.25;">
+              <span>🔓 Unlock Full Report &amp; 14-Page PDF Guide ($8.99)</span>
+              <span style="font-size:0.73rem;font-weight:700;color:#DBEAFE;">One-Time USD · Saves Survey &amp; Auto-Unlocks on Return</span>
+            </button>
+            <button type="button" id="btn-one-tap-six-month-pass" data-kfg-paid-plan="pass" onclick="window.launchPolarCheckout('pass')" style="min-height:66px;padding:0.95rem 1.1rem;border-radius:14px;border:2px solid #047857;background:linear-gradient(90deg,#059669 0%,#10B981 100%);color:#FFFFFF;font-size:0.98rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(5,150,105,0.26);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.18rem;line-height:1.25;">
+              <span>⭐ Unlock 6-Month Growth &amp; Velocity Pass ($19.99)</span>
+              <span style="font-size:0.73rem;font-weight:700;color:#D1FAE5;">6 Monthly Velocity Check-Ins + Sibling Vault + PDF</span>
             </button>
           </div>
-        </details>
+          <button type="button" id="btn-global-paywall-checkout" data-kfg-paid-plan="single" data-checkout-url="${singleBuyUrl}" onclick="window.launchPolarCheckout(window.__kfgSelectedPaywallPlan || 'single')" style="display:none;">Unlock Full Report ($8.99)</button>
 
-        <details style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:12px;padding:0.65rem 0.9rem;margin-bottom:0.75rem;">
-          <summary style="cursor:pointer;font-size:0.82rem;font-weight:800;color:#334155;">
-            📊 View Full Plan Comparison Table, Sample Preview &amp; Included PDF Pack ▾
-          </summary>
-          <div style="margin-top:0.75rem;">
-        <!-- Monthly Retention Value Box: Why Parents Need Ongoing Monthly Re-Calibration -->
-        <div style="background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:12px;padding:0.85rem 1rem;margin-bottom:0.85rem;font-size:0.8rem;color:#065F46;line-height:1.5;">
-          <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.35rem;flex-wrap:wrap;">
-            <span style="font-size:1.1rem;">🔄</span>
-            <strong style="color:#047857;font-size:0.86rem;">
-              Why 78% of Parents Choose the 6-Month Re-Calibration Pass ($19.99 One-Time):
-            </strong>
+          <div style="text-align:center;font-size:0.79rem;font-weight:800;color:#0F172A;margin-bottom:0.45rem;line-height:1.45;">
+            🔒 Polar.sh Official USD Checkout (Card / Apple Pay / Google Pay) &nbsp;|&nbsp; <span style="color:#059669;">14-Day Satisfaction &amp; Refund Policy</span>
           </div>
-          <p style="margin:0 0 0.35rem 0;">
-            <strong>• Concrete Value Framing:</strong> 6 individual monthly reports ($8.99 &times; 6 = $53.94) vs. 6-Month Pass ($19.99) = <strong>63% Savings ($33.95 instant savings)</strong>. Breaks down to <strong>"Only $3.33 / month"</strong> (just 11 cents/day).
-          </p>
-          <p style="margin:0 0 0.45rem 0;">
-            <strong>• Dynamic Auxology vs. Static Check:</strong> Single height checks are mere Day-1 photographs. Height velocity (cm/year), pubertal Tanner acceleration, and bone-age drift fluctuate every 30 days. The 6-Month Pass detects growth stagnation early before epiphyseal plates close.
-          </p>
-          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;font-size:0.74rem;">
-            <span style="background:#DCFCE7;color:#166534;border:1px solid #BBF7D0;padding:0.18rem 0.55rem;border-radius:9999px;font-weight:800;">👨‍👩‍👧‍👦 Unlimited Sibling Profiles (Up to 3+ Children)</span>
-            <span style="background:#DCFCE7;color:#166534;border:1px solid #BBF7D0;padding:0.18rem 0.55rem;border-radius:9999px;font-weight:800;">🧠 Both Pillar 1 (Growth) &amp; Pillar 2 (Brain LQ)</span>
-            <span style="background:#DCFCE7;color:#166534;border:1px solid #BBF7D0;padding:0.18rem 0.55rem;border-radius:9999px;font-weight:800;">🩺 Priority Pediatrician Email Review (beable9489@gmail.com)</span>
+          <div class="kfg-educational-pricing-disclaimer" style="text-align:center;font-size:0.74rem;color:#475569;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:0.5rem 0.8rem;margin-bottom:0.8rem;line-height:1.45;">
+            For educational and informational tracking based on public US CDC growth charts only; not a substitute for professional pediatric medical diagnosis or treatment.
           </div>
-        </div>
 
-        <!-- Feature Comparison Matrix (1-Time Snapshot vs 6-Month Longitudinal Tracking) -->
-        <div class="paywall-feature-comparison-matrix" style="background:#F8FAFC;border:1.5px solid #CBD5E1;border-radius:14px;padding:0.85rem 1rem;margin-bottom:0.85rem;overflow-x:auto;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.55rem;flex-wrap:wrap;gap:0.4rem;">
-            <strong style="font-size:0.82rem;color:#1E3A8A;display:flex;align-items:center;gap:0.35rem;">
-              <span>⚖️</span> Plan Feature Comparison Matrix (1-Time Snapshot vs 6-Month Protocol)
-            </strong>
-            <span style="font-size:0.7rem;font-weight:800;color:#059669;background:#ECFDF5;border:1px solid #A7F3D0;padding:0.12rem 0.5rem;border-radius:9999px;">
-              63% Savings ($33.95 Saved)
-            </span>
-          </div>
-          <table style="width:100%;border-collapse:collapse;font-size:0.76rem;color:#334155;text-align:left;">
-            <thead>
-              <tr style="border-bottom:1.5px solid #CBD5E1;background:#F1F5F9;">
-                <th style="padding:0.45rem 0.6rem;color:#475569;font-weight:800;width:42%;">Clinical Feature &amp; Deliverables</th>
-                <th style="padding:0.45rem 0.5rem;color:#1D4ED8;font-weight:800;text-align:center;width:28%;">Single Report ($8.99)</th>
-                <th style="padding:0.45rem 0.5rem;color:#047857;font-weight:900;text-align:center;width:30%;background:#ECFDF5;">6-Month Pass ($19.99)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border-bottom:1px solid #E2E8F0;">
-                <td style="padding:0.45rem 0.6rem;font-weight:700;">Dossier Scope &amp; Protocol</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;color:#64748B;">Day-1 Baseline Only</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;font-weight:800;color:#047857;background:#F0FDF4;">Full 6-Month Protocol</td>
-              </tr>
-              <tr style="border-bottom:1px solid #E2E8F0;">
-                <td style="padding:0.45rem 0.6rem;font-weight:700;">Monthly Growth Checklist &amp; Velocity Emailing</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;color:#1D4ED8;font-weight:700;">1x 30-Day Check-in Bonus</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;font-weight:800;color:#047857;background:#F0FDF4;">6 Monthly Checklists + Commentary</td>
-              </tr>
-              <tr style="border-bottom:1px solid #E2E8F0;">
-                <td style="padding:0.45rem 0.6rem;font-weight:700;">Growth Plate Closure Monitor</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;color:#64748B;">Day-1 Tanner Check</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;font-weight:800;color:#047857;background:#F0FDF4;">Continuous Physis Watch</td>
-              </tr>
-              <tr style="border-bottom:1px solid #E2E8F0;">
-                <td style="padding:0.45rem 0.6rem;font-weight:700;">Weight-Calibrated Nutrition Updates</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;color:#64748B;">Day-1 Snapshot</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;font-weight:800;color:#047857;background:#F0FDF4;">Dynamic Monthly Dosing</td>
-              </tr>
-              <tr style="border-bottom:1px solid #E2E8F0;">
-                <td style="padding:0.45rem 0.6rem;font-weight:700;">Household Multi-Child Coverage</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;color:#64748B;">1 Child Profile</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;font-weight:800;color:#047857;background:#F0FDF4;">Unlimited Siblings (3+)</td>
-              </tr>
-              <tr style="border-bottom:1px solid #E2E8F0;">
-                <td style="padding:0.45rem 0.6rem;font-weight:700;">Dual-Pillar Cognitive Access</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;color:#64748B;">Single Pillar Only</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;font-weight:800;color:#047857;background:#F0FDF4;">Both Growth &amp; Brain LQ</td>
-              </tr>
-              <tr style="border-bottom:1px solid #E2E8F0;">
-                <td style="padding:0.45rem 0.6rem;font-weight:700;">Comprehensive Growth &amp; Habit Percentile PDF Guide</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;color:#64748B;">1-Time Printable Guide</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;font-weight:800;color:#047857;background:#F0FDF4;">Unlimited Printable PDF Guides</td>
-              </tr>
-              <tr style="border-bottom:1px solid #E2E8F0;">
-                <td style="padding:0.45rem 0.6rem;font-weight:700;">Pediatrician Email Review</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;color:#64748B;">Standard Support</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;font-weight:800;color:#047857;background:#F0FDF4;">Priority Review (beable9489@gmail.com)</td>
-              </tr>
-              <tr style="border-bottom:1px solid #E2E8F0;background:#F1F5F9;">
-                <td style="padding:0.45rem 0.6rem;font-weight:800;color:#0F172A;">Total Value &amp; Price</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;font-weight:800;color:#0F172A;">$8.99 One-Time</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;font-weight:900;color:#047857;background:#ECFDF5;">$19.99 (Value $53.94)</td>
-              </tr>
-              <tr style="background:#F0FDF4;">
-                <td style="padding:0.45rem 0.6rem;font-weight:800;color:#047857;">Cost Breakdown per Month</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;color:#64748B;">-</td>
-                <td style="padding:0.45rem 0.5rem;text-align:center;font-weight:900;color:#047857;background:#DCFCE7;">Only $3.33 / mo (11¢/day)</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Paid Subscriber Exclusive 6-Pack Downloadable Clinical Vault Preview ($149 Value Included Free) -->
-        <details id="paywall-vip-bonus-pack-preview" class="paywall-vip-bonus-pack-preview" style="background:linear-gradient(135deg,#0F172A 0%,#1E3A8A 100%);color:#FFFFFF;border:1.5px solid #3B82F6;border-radius:14px;padding:0.85rem 1rem;margin-bottom:0.85rem;">
-          <summary style="cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.4rem;min-height:48px;outline:none;">
-            <span style="font-size:0.75rem;font-weight:900;color:#FCD34D;letter-spacing:0.03em;display:flex;align-items:center;gap:0.35rem;">
-              <span>🎁</span> INCLUDED FREE WITH EVERY PAID PASS · 6-PACK VIP CLINICAL VAULT
-            </span>
-            <span style="background:rgba(16,185,129,0.25);border:1px solid #6EE7B7;color:#A7F3D0;font-size:0.68rem;font-weight:900;padding:0.18rem 0.55rem;border-radius:9999px;display:inline-flex;align-items:center;gap:0.25rem;">
-              <span>$149 VALUE · INSTANT UNLOCK</span>
-              <span class="vip-vault-chevron" style="display:inline-block;transition:transform 0.25s ease;">▾</span>
-            </span>
-          </summary>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:0.45rem;font-size:0.74rem;color:#E2E8F0;line-height:1.4;margin-top:0.65rem;">
-            <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(147,197,253,0.25);border-radius:8px;padding:0.45rem 0.6rem;">
-              <strong style="color:#6EE7B7;display:block;">📊 01 · 90-Day Auxology &amp; HGH Tracker (.CSV)</strong>
-              <span>Excel/Sheets log for 10 PM sleep, 3h fast &amp; Ca/D3/K2 dosing.</span>
+          <!-- Compact Bottom Inline Restore Row -->
+          <div id="kfg-inline-restore-row" style="background:#F8FAFC;border:1px solid #CBD5E1;border-radius:12px;padding:0.7rem 0.85rem;">
+            <label for="kfg-inline-restore-input" style="display:block;font-size:0.77rem;font-weight:800;color:#1E3A8A;margin-bottom:0.4rem;">
+              🔑 Already purchased? Restore with your checkout email or license key
+            </label>
+            <div style="display:flex;flex-wrap:wrap;gap:0.45rem;align-items:center;">
+              <input type="text" id="kfg-inline-restore-input" placeholder="Enter Polar.sh checkout email or license key..." style="flex:1 1 220px;min-height:42px;padding:0.5rem 0.75rem;border:1.5px solid #CBD5E1;border-radius:9px;font-size:0.84rem;color:#0F172A;background:#FFFFFF;">
+              <button type="button" id="btn-kfg-inline-restore" onclick="window.restoreKidsFitInlineAccess()" style="min-height:42px;padding:0.5rem 0.95rem;border-radius:9px;border:1.5px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-size:0.82rem;font-weight:900;cursor:pointer;white-space:nowrap;">
+                Restore Access &rarr;
+              </button>
             </div>
-            <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(147,197,253,0.25);border-radius:8px;padding:0.45rem 0.6rem;">
-              <strong style="color:#FCD34D;display:block;">🍽️ 02 · 28-Day IGF-1 Meal Plan &amp; Grocery List (.CSV)</strong>
-              <span>4-week amino-acid menu &amp; supermarket shopping checklist.</span>
-            </div>
-            <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(147,197,253,0.25);border-radius:8px;padding:0.45rem 0.6rem;">
-              <strong style="color:#93C5FD;display:block;">🩺 03 · Pediatric Endocrinologist Lab Sheet (.TXT)</strong>
-              <span>Bone-Age X-Ray, IGF-1, IGFBP-3, 25(OH)D &amp; TSH doctor brief.</span>
-            </div>
-            <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(147,197,253,0.25);border-radius:8px;padding:0.45rem 0.6rem;">
-              <strong style="color:#6EE7B7;display:block;">🦴 04 · 12-Wk Wolff's Law Decompression Plan (.CSV)</strong>
-              <span>Progressive bar dead-hang &amp; plyometric +0.8 in disc protocol.</span>
-            </div>
-            <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(147,197,253,0.25);border-radius:8px;padding:0.45rem 0.6rem;">
-              <strong style="color:#C4B5FD;display:block;">🧠 05 · 30-Day Feynman &amp; Dopamine Reset Log (.CSV)</strong>
-              <span>Prefrontal focus sprint timer, Bar-Model &amp; screen detox matrix.</span>
-            </div>
-            <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(147,197,253,0.25);border-radius:8px;padding:0.45rem 0.6rem;">
-              <strong style="color:#FCD34D;display:block;">🖨️ 06 · 2-Page Hospital PDF + 4-Sibling Vault</strong>
-              <span>Instant printable clinical chart &amp; multi-child profile storage.</span>
-            </div>
-          </div>
-        </details>
-
-        <!-- Sample Report Preview Action Button -->
-        <button type="button" onclick="if(window.openSampleReportPreview){window.openSampleReportPreview();}else if(window.loadSampleDemoProfile){window.loadSampleDemoProfile();}" style="width:100%;min-height:48px;padding:0.75rem 1rem;border-radius:12px;border:1.5px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-size:0.88rem;font-weight:900;cursor:pointer;margin-bottom:0.75rem;box-shadow:0 4px 12px rgba(29,78,216,0.08);display:flex;align-items:center;justify-content:center;gap:0.45rem;">
-          <span>👀 View Live Sample Report (Comprehensive Growth &amp; Habit Percentile PDF Guide)</span>
-          <span>→</span>
-        </button>
-
-        <!-- Primary Checkout CTA Button + 1-Tap Direct Express Checkout -->
-        <button type="button" id="btn-global-paywall-checkout" data-kfg-paid-plan="single" data-checkout-url="${singleBuyUrl}" onclick="window.launchPolarCheckout(window.__kfgSelectedPaywallPlan || 'single')" style="width:100%;min-height:62px;padding:1rem 1.2rem;border-radius:14px;border:none;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:1.05rem;font-weight:900;cursor:pointer;box-shadow:0 10px 25px rgba(29,78,216,0.28);margin-bottom:0.55rem;display:flex;align-items:center;justify-content:center;gap:0.45rem;">
-          🔓 Get Single Growth &amp; Bone-Age PDF Guide — $8.99 →
-        </button>
-
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0.5rem;margin-bottom:0.65rem;">
-          <button type="button" data-kfg-paid-plan="single" onclick="window.launchPolarCheckout('single')" style="min-height:60px;padding:0.75rem 0.95rem;border-radius:12px;border:1.5px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-size:0.88rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.35rem;">
-            ⚡ Single Growth &amp; Bone-Age PDF Guide — $8.99 →
-          </button>
-          <button type="button" data-kfg-paid-plan="pass" onclick="window.launchPolarCheckout('pass')" style="min-height:60px;padding:0.75rem 0.95rem;border-radius:12px;border:1.5px solid #059669;background:#ECFDF5;color:#047857;font-size:0.88rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.35rem;">
-            ⭐ 6-Month Growth &amp; Velocity Pass — $19.99 (Save 63%) →
-          </button>
-        </div>
-
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;font-size:0.76rem;color:#64748B;">
-          <span>🔒 Polar.sh (Merchant of Record · Global Card / Apple Pay / Google Pay)</span>
-          <span>✨ Instant Auto-Unlock · 14-Day Refund Policy</span>
-        </div>
-          </div>
-        </details>
-
-        <!-- Above-the-Fold Section 01 Free Starter Guide (iHerb IPZ1547 & Amazon kidfit-20) -->
-        <div id="kidsfit-above-fold-affiliate-kit" style="display:none !important;">
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.5rem;">
-            <span style="font-size:0.82rem;font-weight:900;color:#065F46;">🌿 Section 01 Free Starter Guide (Weight-Proportioned for ${fmtWt(weightKg)}):</span>
-            <span style="font-size:0.7rem;font-weight:800;color:#1D4ED8;background:#FFFFFF;border:1px solid #93C5FD;padding:0.12rem 0.5rem;border-radius:9999px;">Free Unlocked Kit · iHerb &amp; Amazon</span>
-          </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.5rem;">
-            <a href="https://www.iherb.com/search?kw=ChildLife+Liquid+Calcium+Magnesium+Vitamin+D3+K2&amp;rcode=IPZ1547" target="_blank" rel="noopener noreferrer" onclick="window.trackKidsFitAffiliateClick('growth','iHerb ChildLife Ca Citrate + D3/K2 (IPZ1547)',this.href)" style="text-decoration:none;background:#FFFFFF;border:1.5px solid #86EFAC;border-radius:10px;padding:0.55rem 0.75rem;display:block;">
-              <div style="font-size:0.71rem;font-weight:900;color:#059669;">🌿 Official iHerb Pick (Code: IPZ1547)</div>
-              <div style="font-size:0.8rem;font-weight:900;color:#0F172A;margin:0.12rem 0;">Liquid Ca Citrate (${caMg} mg) + D3 (${d3Iu} IU)</div>
-              <div style="font-size:0.71rem;font-weight:800;color:#1D4ED8;">Shop Pediatric Bone Matrix on iHerb ↗</div>
-            </a>
-            <a href="https://www.iherb.com/search?kw=Nordic+Naturals+Children+DHA+Omega+3+Magnesium&amp;rcode=IPZ1547" target="_blank" rel="noopener noreferrer" onclick="window.trackKidsFitAffiliateClick('learning','iHerb Nordic Naturals Kids DHA + Mg (IPZ1547)',this.href)" style="text-decoration:none;background:#FFFFFF;border:1.5px solid #86EFAC;border-radius:10px;padding:0.55rem 0.75rem;display:block;">
-              <div style="font-size:0.71rem;font-weight:900;color:#059669;">🧠 Official iHerb Neuro Pick (IPZ1547)</div>
-              <div style="font-size:0.8rem;font-weight:900;color:#0F172A;margin:0.12rem 0;">Prefrontal Myelin DHA &amp; N3 Sleep Mg</div>
-              <div style="font-size:0.71rem;font-weight:800;color:#1D4ED8;">Shop Focus &amp; Deep-Sleep Picks on iHerb ↗</div>
-            </a>
-            <a href="https://www.amazon.com/s?k=kids+doorway+pull+up+bar+posture+corrector&amp;tag=kidfit-20" target="_blank" rel="noopener noreferrer" onclick="window.trackKidsFitAffiliateClick('growth','Amazon Kids Dead-Hang Bar &amp; Posture Kit (kidfit-20)',this.href)" style="text-decoration:none;background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:10px;padding:0.55rem 0.75rem;display:block;">
-              <div style="font-size:0.71rem;font-weight:900;color:#1D4ED8;">📦 Official Amazon US Pick (kidfit-20)</div>
-              <div style="font-size:0.8rem;font-weight:900;color:#0F172A;margin:0.12rem 0;">Spinal Decompression Bar &amp; Posture Kit</div>
-              <div style="font-size:0.71rem;font-weight:800;color:#059669;">Restore +0.7 in Hidden Disc Height ↗</div>
-            </a>
-          </div>
-        </div>
-
-        <!-- Zero-Duplicate-Email Share & Unified Parent Growth Club Jump Bar -->
-        <div id="kidsfit-free-email-share-bridge" style="margin-top:0.7rem;padding:0.75rem 0.95rem;background:#F8FAFC;border:1.5px solid #93C5FD;border-radius:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.6rem;">
-          <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;flex:1;min-width:240px;">
-            <span style="font-size:0.8rem;font-weight:900;color:#1E3A8A;">📩 Want this ${pctValDisp}th %ile US CDC summary &amp; weekly habit guide emailed free?</span>
-            <a href="#kfg-club-passwordless-box" onclick="var box=document.getElementById('kfg-club-passwordless-box');if(box){event.preventDefault();box.scrollIntoView({behavior:'smooth'});var inp=document.getElementById('kfg-club-passwordless-email');if(inp)setTimeout(function(){inp.focus();},350);}" style="background:#1D4ED8;color:#FFFFFF;text-decoration:none;border-radius:8px;padding:0.42rem 0.8rem;font-size:0.76rem;font-weight:800;display:inline-block;">
-              Save via Free Parent Growth Club →
-            </a>
-          </div>
-          <div style="display:flex;align-items:center;gap:0.35rem;flex-wrap:wrap;">
-            <button type="button" onclick="window.shareKidsFitGlobalReport('native')" style="background:#059669;color:#FFFFFF;border:none;border-radius:8px;padding:0.4rem 0.72rem;font-size:0.74rem;font-weight:800;cursor:pointer;">📤 Share My Child's CDC Trajectory</button>
-            <button type="button" onclick="window.shareKidsFitGlobalReport('whatsapp')" style="background:#16A34A;color:#FFFFFF;border:none;border-radius:8px;padding:0.4rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;">💬 WhatsApp</button>
-          </div>
-        </div>
-
-        <!-- 30-Day Money-Back Guarantee Badge -->
-        <div class="paywall-guarantee-badge" style="background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:14px;padding:0.9rem 1rem;margin:0.85rem 0 0.75rem 0;display:flex;align-items:flex-start;gap:0.75rem;">
-          <span style="font-size:1.6rem;line-height:1;">🛡️</span>
-          <div style="flex:1;">
-            <div style="display:flex;align-items:center;gap:0.45rem;flex-wrap:wrap;margin-bottom:0.25rem;">
-              <strong style="font-size:0.88rem;color:#065F46;font-weight:900;">100% Satisfaction · 30-Day Money-Back Guarantee</strong>
-              <span style="font-size:0.7rem;font-weight:800;background:#DCFCE7;color:#166534;border:1px solid #BBF7D0;padding:0.12rem 0.5rem;border-radius:9999px;">RISK-FREE</span>
-            </div>
-            <div style="font-size:0.78rem;color:#14532D;line-height:1.5;">
-              If your pediatrician or pediatric endocrinologist disagrees with our CDC LMS auxology methodology, email beable9489@gmail.com for an immediate, no-questions-asked refund.
-            </div>
-          </div>
-        </div>
-
-        <!-- Clinical Advisory & Scientific Methodology Panel -->
-        <div class="paywall-clinical-advisory-panel" style="background:#F8FAFC;border:1.5px solid #CBD5E1;border-radius:14px;padding:0.85rem 1rem;margin-bottom:0.75rem;">
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.5rem;">
-            <span style="font-size:0.76rem;font-weight:900;color:#1E3A8A;display:inline-flex;align-items:center;gap:0.35rem;">
-              <span>🏛️</span> CLINICAL ADVISORY &amp; SCIENTIFIC METHODOLOGY PANEL
-            </span>
-            <span style="font-size:0.7rem;font-weight:800;color:#059669;background:#ECFDF5;border:1px solid #A7F3D0;padding:0.12rem 0.45rem;border-radius:9999px;">
-              EVIDENCE-BASED AUXOLOGY
-            </span>
-          </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.45rem;font-size:0.73rem;color:#334155;line-height:1.4;">
-            <div style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:8px;padding:0.4rem 0.55rem;">
-              <strong>✓ US CDC 2000</strong><br>
-              <span style="color:#64748B;">LMS Auxological Curves</span>
-            </div>
-            <div style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:8px;padding:0.4rem 0.55rem;">
-              <strong>✓ WHO Growth Standards</strong><br>
-              <span style="color:#64748B;">0–19y Stature Velocity</span>
-            </div>
-            <div style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:8px;padding:0.4rem 0.55rem;">
-              <strong>✓ AAP Guidelines</strong><br>
-              <span style="color:#64748B;">Pediatric Endocrinology</span>
-            </div>
-            <div style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:8px;padding:0.4rem 0.55rem;">
-              <strong>✓ Fels Longitudinal</strong><br>
-              <span style="color:#64748B;">Khamis-Roche SEE ±2.1 cm</span>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.4rem;margin-top:0.55rem;padding-top:0.45rem;border-top:1px dashed #E2E8F0;font-size:0.7rem;color:#64748B;">
-            <span>🔒 256-Bit SSL Banking Encryption</span>
-            <span>🛡️ HIPAA &amp; GDPR Privacy Compliant</span>
-            <span>🏪 Polar.sh (Merchant of Record · Global Card / Apple Pay / Google Pay)</span>
-          </div>
-        </div>
-
-        <!-- 5-Item Paywall FAQ Accordion -->
-        <div class="paywall-faq-accordion-section" style="margin-top:0.85rem;border-top:1.5px solid #E2E8F0;padding-top:0.85rem;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.65rem;">
-            <strong style="font-size:0.86rem;color:#0F172A;font-weight:900;">❓ Frequently Asked Questions</strong>
-            <span style="font-size:0.72rem;color:#64748B;">Tap question to expand</span>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:0.5rem;">
-            <details class="paywall-faq-item">
-              <summary>
-                <span>1. How accurate is the Khamis-Roche adult height prediction?</span>
-                <span class="faq-chevron">▼</span>
-              </summary>
-              <div style="font-size:0.78rem;color:#334155;line-height:1.55;margin-top:0.5rem;padding-top:0.45rem;border-top:1px dashed #E2E8F0;">
-                Validated at <strong>±2.1 cm (0.83 inches)</strong> standard error of estimate (SEE) across 9-to-17-year-olds using the Fels Longitudinal Study dataset (Khamis &amp; Roche, <em>Pediatrics</em> 1994/1995), when parent stature and current skeletal maturation indices are provided. Unlike simplistic mid-parental formulas, it dynamically updates based on your child's exact current percentile tempo.
-              </div>
-            </details>
-            <details class="paywall-faq-item">
-              <summary>
-                <span>2. Can I track multiple children under the 6-Month Pass?</span>
-                <span class="faq-chevron">▼</span>
-              </summary>
-              <div style="font-size:0.78rem;color:#334155;line-height:1.55;margin-top:0.5rem;padding-top:0.45rem;border-top:1px dashed #E2E8F0;">
-                <strong>Yes.</strong> The 6-Month Re-Calibration Pass includes unlimited profiles for all biological siblings in your household. Each child maintains an independent auxology velocity log, bone-age timeline, and weight-adjusted Ca/D3/K2/Zinc dosing schedule.
-              </div>
-            </details>
-            <details class="paywall-faq-item">
-              <summary>
-                <span>3. Can I print this report for my child's pediatrician?</span>
-                <span class="faq-chevron">▼</span>
-              </summary>
-              <div style="font-size:0.78rem;color:#334155;line-height:1.55;margin-top:0.5rem;padding-top:0.45rem;border-top:1px dashed #E2E8F0;">
-                <strong>Yes.</strong> The dossier includes an official 2-Page Clinical Auxology &amp; Bone-Age PDF chart formatted according to US CDC 2000 percentile curves and AAP clinical guidelines, designed specifically for pediatrician and pediatric endocrinology consults.
-              </div>
-            </details>
-            <details class="paywall-faq-item">
-              <summary>
-                <span>4. What payment methods are supported?</span>
-                <span class="faq-chevron">▼</span>
-              </summary>
-              <div style="font-size:0.78rem;color:#334155;line-height:1.55;margin-top:0.5rem;padding-top:0.45rem;border-top:1px dashed #E2E8F0;">
-                All major credit and debit cards (Visa, Mastercard, American Express, Discover), Apple Pay, and Google Pay are securely processed in USD via <strong>Polar.sh (Merchant of Record · Global Card / Apple Pay / Google Pay)</strong> with 256-bit banking-grade SSL encryption and a 14-day refund policy.
-              </div>
-            </details>
-            <details class="paywall-faq-item">
-              <summary>
-                <span>5. How soon do I receive my report after payment?</span>
-                <span class="faq-chevron">▼</span>
-              </summary>
-              <div style="font-size:0.78rem;color:#334155;line-height:1.55;margin-top:0.5rem;padding-top:0.45rem;border-top:1px dashed #E2E8F0;">
-                <strong>Instant access.</strong> Your full 7-chapter clinical dossier and 2-page printable hospital PDF are unlocked immediately on screen within 2 seconds of payment confirmation, and a permanent access link is dispatched to your email.
-              </div>
-            </details>
-          </div>
-        </div>
-
-        <!-- Unlocked Section 01 Bio-Nutrition & Posture Starter Kit (Dual-Track Affiliate Monetization: iHerb IPZ1547 & Amazon kidfit-20) -->
-        <div id="kidsfit-unlocked-section01-affiliate-kit" style="margin-top:0.9rem;padding:0.9rem 1rem;background:linear-gradient(135deg,#F0FDF4 0%,#EFF6FF 100%);border:1.5px solid #86EFAC;border-radius:14px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.55rem;">
-            <span style="font-size:0.82rem;font-weight:900;color:#065F46;">🌿 Section 01 Free Starter Guide: Editor-Picked Bio-Nutrition &amp; Growth Tools</span>
-            <span style="font-size:0.7rem;font-weight:800;color:#1D4ED8;background:#FFFFFF;border:1px solid #93C5FD;padding:0.12rem 0.5rem;border-radius:9999px;">Unlocked for All Parents</span>
-          </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.55rem;">
-            <a href="https://www.iherb.com/search?kw=ChildLife+Liquid+Calcium+Magnesium+Vitamin+D3+K2&amp;rcode=IPZ1547" target="_blank" rel="noopener noreferrer" onclick="window.trackKidsFitAffiliateClick('growth','iHerb ChildLife Ca Citrate + D3/K2 (IPZ1547)',this.href)" style="text-decoration:none;background:#FFFFFF;border:1.5px solid #86EFAC;border-radius:10px;padding:0.6rem 0.75rem;display:block;">
-              <div style="font-size:0.72rem;font-weight:900;color:#059669;">🌿 Official iHerb Pick (Code: IPZ1547)</div>
-              <div style="font-size:0.82rem;font-weight:900;color:#0F172A;margin:0.15rem 0;">Liquid Ca Citrate + D3/K2 + Zinc</div>
-              <div style="font-size:0.72rem;font-weight:800;color:#1D4ED8;">Shop Pediatric Bone Matrix on iHerb ↗</div>
-            </a>
-            <a href="https://www.iherb.com/search?kw=Nordic+Naturals+Children+DHA+Omega+3+Magnesium&amp;rcode=IPZ1547" target="_blank" rel="noopener noreferrer" onclick="window.trackKidsFitAffiliateClick('learning','iHerb Nordic Naturals Kids DHA + Mg (IPZ1547)',this.href)" style="text-decoration:none;background:#FFFFFF;border:1.5px solid #86EFAC;border-radius:10px;padding:0.6rem 0.75rem;display:block;">
-              <div style="font-size:0.72rem;font-weight:900;color:#059669;">🧠 Official iHerb Neuro Pick (IPZ1547)</div>
-              <div style="font-size:0.82rem;font-weight:900;color:#0F172A;margin:0.15rem 0;">Prefrontal Myelin DHA &amp; N3 Sleep Mg</div>
-              <div style="font-size:0.72rem;font-weight:800;color:#1D4ED8;">Shop Focus &amp; Deep-Sleep Picks on iHerb ↗</div>
-            </a>
-            <a href="https://www.amazon.com/s?k=kids+doorway+pull+up+bar+posture+corrector&amp;tag=kidfit-20" target="_blank" rel="noopener noreferrer" onclick="window.trackKidsFitAffiliateClick('growth','Amazon Kids Dead-Hang Bar &amp; Posture Kit (kidfit-20)',this.href)" style="text-decoration:none;background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:10px;padding:0.6rem 0.75rem;display:block;">
-              <div style="font-size:0.72rem;font-weight:900;color:#1D4ED8;">📦 Official Amazon US Pick (kidfit-20)</div>
-              <div style="font-size:0.82rem;font-weight:900;color:#0F172A;margin:0.15rem 0;">Spinal Decompression Bar &amp; Posture Kit</div>
-              <div style="font-size:0.72rem;font-weight:800;color:#059669;">Restore +0.7 in Hidden Disc Height ↗</div>
-            </a>
-          </div>
-        </div>
-
-        <!-- Member Account & Order Verification Bar -->
-        <div style="margin-top:0.8rem;padding-top:0.75rem;border-top:1px dashed #E2E8F0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
-          <span style="font-size:0.78rem;font-weight:700;color:#475569;">Already a member or completed purchase?</span>
-          <button type="button" onclick="window.openKidsFitAuthModal('login')" style="padding:0.4rem 0.85rem;border-radius:8px;border:1px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-size:0.78rem;font-weight:800;cursor:pointer;">
-            👤 Sign In / Verify Order →
-          </button>
-        </div>
-        <div id="kidsfit-viral-share-bar" style="background:#F8FAFC;border:1.5px solid #93C5FD;border-radius:12px;padding:0.7rem 0.9rem;margin-top:0.75rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
-          <span style="font-size:0.79rem;font-weight:800;color:#1E3A8A;">📲 Know another parent? Share this free 60-sec US CDC Height &amp; Brain LQ Scan:</span>
-          <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;">
-            <button type="button" id="btn-kidsfit-share-native" onclick="window.shareKidsFitGlobalReport('native')" style="background:#1D4ED8;color:#FFFFFF;border:none;border-radius:8px;padding:0.36rem 0.72rem;font-size:0.75rem;font-weight:800;cursor:pointer;">📤 Share / Copy Link</button>
-            <button type="button" onclick="window.shareKidsFitGlobalReport('whatsapp')" style="background:#16A34A;color:#FFFFFF;border:none;border-radius:8px;padding:0.36rem 0.72rem;font-size:0.75rem;font-weight:800;cursor:pointer;">💬 WhatsApp</button>
-            <button type="button" onclick="window.shareKidsFitGlobalReport('sms')" style="background:#0F172A;color:#FFFFFF;border:none;border-radius:8px;padding:0.36rem 0.72rem;font-size:0.75rem;font-weight:800;cursor:pointer;">📱 iMessage / SMS</button>
-            <button type="button" onclick="window.shareKidsFitGlobalReport('x')" style="background:#334155;color:#FFFFFF;border:none;border-radius:8px;padding:0.36rem 0.72rem;font-size:0.75rem;font-weight:800;cursor:pointer;">𝕏 Post</button>
+            <div id="kfg-inline-restore-msg" style="display:none;margin-top:0.45rem;font-size:0.76rem;font-weight:700;padding:0.4rem 0.6rem;border-radius:8px;"></div>
           </div>
         </div>
       </div>
@@ -5334,6 +5012,7 @@ ${isMasked ? `
     try {
       if (typeof window !== 'undefined' && window.localStorage) {
         window.localStorage.setItem(UNLOCK_STORAGE_KEY, 'true');
+        window.localStorage.setItem(KFG_PAID_UNLOCKED_KEY, 'true');
         const resolvedEmail = (data && data.email) || fallbackEmail || '';
         const resolvedPlan = (data && data.planType) || fallbackPlan || selectedPlan || 'single';
         const resolvedOrderId = (data && data.orderId) || '';
@@ -5490,7 +5169,10 @@ ${isMasked ? `
     const code = String((inp && inp.value) || '').trim().toUpperCase();
     if (code && AUTHORIZED_CODE_HASHES.indexOf(hashAccessCode(code)) !== -1) {
       try {
-        if (window.localStorage) window.localStorage.setItem(UNLOCK_STORAGE_KEY, 'true');
+        if (window.localStorage) {
+          window.localStorage.setItem(UNLOCK_STORAGE_KEY, 'true');
+          window.localStorage.setItem(KFG_PAID_UNLOCKED_KEY, 'true');
+        }
       } catch (_) {}
       transformGlobalReportAndApplyPaywall();
     } else {
@@ -5499,6 +5181,76 @@ ${isMasked ? `
       }
     }
   };
+
+  global.restoreKidsFitInlineAccess = function () {
+    const inp = typeof document !== 'undefined' ? document.getElementById('kfg-inline-restore-input') : null;
+    const msg = typeof document !== 'undefined' ? document.getElementById('kfg-inline-restore-msg') : null;
+    const val = String((inp && inp.value) || '').trim();
+    const showMsg = function (text, isErr) {
+      if (!msg) return;
+      msg.style.display = 'block';
+      msg.style.background = isErr ? '#FEF2F2' : '#ECFDF5';
+      msg.style.color = isErr ? '#DC2626' : '#065F46';
+      msg.style.border = isErr ? '1px solid #FECACA' : '1px solid #A7F3D0';
+      msg.textContent = text;
+    };
+    if (!val) {
+      showMsg('Please enter the email address or license key from your Polar.sh receipt.', true);
+      return Promise.resolve({ ok: false });
+    }
+    if (isValidAuthorizedAccessCode(val) || /^polar_ch_[A-Za-z0-9_-]{6,}$/i.test(val)) {
+      applyAutoPaidOrderUnlock({ verified: true, orderId: val, planType: selectedPlan || 'single' }, '', selectedPlan || 'single');
+      return Promise.resolve({ ok: true, mode: 'code_or_checkout_id' });
+    }
+    if (val.indexOf('@') !== -1) {
+      let matchedStoredEmail = false;
+      try {
+        if (typeof window !== 'undefined' && window.localStorage) {
+          const lower = val.toLowerCase();
+          const pending = String(window.localStorage.getItem('kidsfit_pending_polar_checkout_email_v1') || '').trim().toLowerCase();
+          const buyer = String(window.localStorage.getItem('kidsfit_global_buyer_email') || '').trim().toLowerCase();
+          if ((pending && pending === lower) || (buyer && buyer === lower)) {
+            matchedStoredEmail = true;
+          }
+        }
+      } catch (_) {}
+      if (matchedStoredEmail) {
+        applyAutoPaidOrderUnlock({ verified: true, email: val, orderId: 'EMAIL-RESTORE', planType: selectedPlan || 'single' }, val, selectedPlan || 'single');
+        return Promise.resolve({ ok: true, mode: 'stored_checkout_email' });
+      }
+      if (!isStaticGitHubPagesHost() && typeof window !== 'undefined' && typeof window.fetch === 'function') {
+        showMsg('Checking Polar.sh order records...', false);
+        return window.fetch('/api/polar-orders/verify?email=' + encodeURIComponent(val))
+          .then(function (r) { return r && r.ok ? r.json() : { verified: false }; })
+          .then(function (data) {
+            if (data && data.verified) {
+              applyAutoPaidOrderUnlock(data, val, selectedPlan || 'single');
+              return { ok: true, mode: 'api_email' };
+            }
+            showMsg('No completed checkout found for ' + val + ' yet. Paste your Polar.sh License Key from your receipt email or complete checkout above.', true);
+            return { ok: false };
+          })
+          .catch(function () {
+            showMsg('Paste your Polar.sh License Key (UUID) from your receipt email to restore across devices.', true);
+            return { ok: false };
+          });
+      }
+      showMsg('On a new device, paste the Polar.sh License Key (UUID) from your receipt email above to unlock immediately.', true);
+      return Promise.resolve({ ok: false });
+    }
+    showMsg('Verifying Polar.sh license key...', false);
+    return verifyPolarLicenseOnline(val).then(function (valid) {
+      if (valid) {
+        applyAutoPaidOrderUnlock({ verified: true, orderId: val, planType: selectedPlan || 'single' }, '', selectedPlan || 'single');
+        return { ok: true, mode: 'polar_license' };
+      }
+      showMsg('Invalid license key. Please check your Polar.sh receipt email or complete checkout above.', true);
+      return { ok: false };
+    });
+  };
+  if (typeof window !== 'undefined') {
+    window.restoreKidsFitInlineAccess = global.restoreKidsFitInlineAccess;
+  }
 
   global.triggerGlobalPolarCheckout = function (plan) {
     if (plan) global.selectKidsFitGlobalPlan(plan);
@@ -5509,6 +5261,8 @@ ${isMasked ? `
     const rawPlan = planOverride || selectedPlan || 'single';
     const plan = (rawPlan === 'pass' || rawPlan === 'pass_1999' || rawPlan === 'sixMonth') ? 'pass' : 'single';
     selectedPlan = plan;
+
+    persistKfgSurveyProfileBeforePolar();
 
     if (typeof global.recordKfgPaidClickOnce === 'function') {
       global.recordKfgPaidClickOnce(plan);
@@ -5866,6 +5620,7 @@ ${isMasked ? `
           }, 350);
         }
         const isPolarSuccessReturn =
+          lowerSearch.indexOf('checkout_success=1') !== -1 ||
           lowerSearch.indexOf('payment=success') !== -1 ||
           lowerSearch.indexOf('polar_success=1') !== -1 ||
           lowerSearch.indexOf('checkout_id=') !== -1;
@@ -5875,23 +5630,35 @@ ${isMasked ? `
           lowerSearch.indexOf('license_key=') !== -1 ||
           lowerSearch.indexOf('order_key=') !== -1
         ) {
+          if (isPolarSuccessReturn && window.localStorage) {
+            window.localStorage.setItem(UNLOCK_STORAGE_KEY, 'true');
+            window.localStorage.setItem(KFG_PAID_UNLOCKED_KEY, 'true');
+          }
           if (window.localStorage) {
-            const rawSaved = window.localStorage.getItem('kidsfit_last_quiz_profile_v1');
+            const rawSaved = window.localStorage.getItem(KFG_SAVED_SURVEY_PROFILE_KEY) || window.localStorage.getItem('kidsfit_last_quiz_profile_v1');
             if (rawSaved) {
               const restoredProfile = JSON.parse(rawSaved);
               if (global.KidsFitApp && global.KidsFitApp.state) {
                 global.KidsFitApp.state.profile = Object.assign({}, global.KidsFitApp.state.profile || {}, restoredProfile);
               }
-              const dash = document.getElementById('results-dashboard');
-              if (dash) {
-                dash.classList.remove('hidden');
-                dash.style.display = 'block';
+              if (global.TallerOnboardingWizard && typeof global.TallerOnboardingWizard.getState === 'function') {
+                const wzState = global.TallerOnboardingWizard.getState();
+                if (wzState) wzState.profile = Object.assign({}, wzState.profile || {}, restoredProfile);
               }
-              transformGlobalReportAndApplyPaywall();
             }
+            const heroSec = document.getElementById('hero-section');
+            if (heroSec) heroSec.style.display = 'none';
+            const quizSec = document.getElementById('quiz-section');
+            if (quizSec) quizSec.style.display = 'none';
+            const dash = document.getElementById('results-dashboard');
+            if (dash) {
+              dash.classList.remove('hidden');
+              dash.style.display = 'block';
+            }
+            transformGlobalReportAndApplyPaywall();
           }
 
-          if (!isReportUnlocked()) {
+          if (isPolarSuccessReturn || !isReportUnlocked()) {
             let queryEmail = '';
             let queryOrderId = '';
             let queryPlan = selectedPlan || 'single';
@@ -6028,8 +5795,13 @@ ${isMasked ? `
     PAYMENT_CONFIG: global.PAYMENT_CONFIG,
     DEFAULT_SINGLE_CHECKOUT_URL,
     DEFAULT_PASS_CHECKOUT_URL,
+    KFG_PAID_UNLOCKED_KEY,
+    KFG_SAVED_SURVEY_PROFILE_KEY,
     ensureKfgPolarLocaleUrl,
     resolvePolarPlanCheckoutUrl,
+    persistKfgSurveyProfileBeforePolar,
+    buildPriorityGrowthBottleneckSummary,
+    restoreKidsFitInlineAccess: global.restoreKidsFitInlineAccess,
     SAMPLE_DEMO_PROFILE,
     loadSampleDemoProfile: global.loadSampleDemoProfile,
     closeSampleReportPreview: global.closeSampleReportPreview,

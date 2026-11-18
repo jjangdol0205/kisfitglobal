@@ -215,8 +215,7 @@
     // Update Step Indicators
     const tagEl = document.getElementById('quiz-step-tag');
     if (tagEl) {
-      const totalSteps = (typeof document !== 'undefined' && (document.getElementById('slide-step-6') || document.getElementById('step-content-6'))) ? 6 : state.maxStep;
-      tagEl.textContent = `Step ${stepNumber} / ${totalSteps}`;
+      tagEl.textContent = `Step ${stepNumber} / ${state.maxStep}`;
     }
 
     const isEn = typeof document !== 'undefined' && document.documentElement && (document.documentElement.lang === 'en' || (typeof document.documentElement.getAttribute === 'function' && document.documentElement.getAttribute('data-edition') === 'global-paid'));

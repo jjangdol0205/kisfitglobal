@@ -1662,19 +1662,14 @@ body[data-theme="dark"] {
   font-weight: 800;
 }
 
-/* First-Screen Gate: Hide Survey & Presets until user clicks "Start Diagnosis" */
+/* Top-of-Page Guided 5-Step Assessment: Show Hero + #quiz-section immediately on load */
 body:not(.studio-mode-active) #quick-presets-bar,
-body:not(.studio-mode-active) #quiz-section {
+body:not(.studio-mode-active) #studio-utility-return-bar {
   display: none !important;
 }
 
-body.studio-mode-active #hero-section,
 body.studio-mode-active #brand-editorial-showcase,
 body.studio-mode-active .editorial-cta-bar {
-  display: none !important;
-}
-
-body:not(.studio-mode-active) #studio-utility-return-bar {
   display: none !important;
 }
 
@@ -2422,18 +2417,15 @@ svg {
   }
 }
 
-/* 24. DUAL-MODE SURVEY STUDIO (Growth Quiz vs Learning Quiz) */
-.wizard-mode-learning .mode-growth-field {
-  display: none !important;
-}
-.wizard-mode-learning .mode-learning-field {
-  display: block !important;
-}
-.wizard-mode-growth .mode-growth-field {
-  display: block !important;
-}
+/* 24. PURE PEDIATRIC HEIGHT-GROWTH SURVEY STUDIO (0 Brain/Learning Clutter) */
+.mode-learning-field,
+.wizard-mode-learning .mode-learning-field,
 .wizard-mode-growth .mode-learning-field {
   display: none !important;
+}
+.mode-growth-field,
+.wizard-mode-growth .mode-growth-field {
+  display: block !important;
 }
 
 /* ==========================================================================
@@ -5560,3 +5552,120 @@ button,
 
 
 
+
+/* ==========================================================================
+   KFG 5-STEP GUIDED SURVEY, STEP 3 BONE-AGE BRANCHING & LAG CALIBRATION UI
+   ========================================================================== */
+#quiz-section .kfg-ba-branch-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+  gap: 0.75rem !important;
+  margin-bottom: 1rem;
+}
+.kfg-ba-branch-card {
+  width: 100%;
+  min-height: 82px;
+  padding: 0.95rem 1.05rem;
+  border-radius: 16px;
+  border: 2px solid #CBD5E1;
+  background: #FFFFFF;
+  color: #0F172A;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  transition: all 0.18s ease;
+}
+.kfg-ba-branch-card:hover {
+  border-color: #60A5FA;
+  background: #F8FAFC;
+}
+.kfg-ba-branch-card.active {
+  border-color: #1D4ED8;
+  background: linear-gradient(135deg, #EFF6FF 0%, #F0FDF4 100%);
+  box-shadow: 0 10px 24px rgba(29, 78, 216, 0.12);
+}
+.kfg-ba-branch-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: #1D4ED8;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.kfg-ba-branch-title {
+  font-size: 0.98rem;
+  font-weight: 900;
+  color: #0F172A;
+  line-height: 1.3;
+}
+.kfg-ba-branch-desc {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+  line-height: 1.45;
+}
+#quiz-section .kfg-lag-chip-row,
+.kfg-lag-chip-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.45rem !important;
+  margin: 0.45rem 0 0.75rem;
+}
+.kfg-lag-chip {
+  min-height: 40px;
+  padding: 0.4rem 0.8rem;
+  border-radius: 9999px;
+  border: 1.5px solid #CBD5E1;
+  background: #FFFFFF;
+  color: #334155;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.kfg-lag-chip.active {
+  border-color: #1D4ED8;
+  background: #1D4ED8;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.24);
+}
+.kfg-ba-callout-live {
+  background: linear-gradient(135deg, #EFF6FF 0%, #ECFDF5 100%);
+  border: 1.5px solid #3B82F6;
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  margin-top: 0.8rem;
+  font-size: 0.84rem;
+  color: #0F172A;
+  line-height: 1.5;
+}
+.kfg-secondary-hub {
+  max-width: 920px;
+  margin: 1.8rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.kfg-secondary-collapsible {
+  background: #FFFFFF;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 20px;
+  padding: 0.9rem 1.15rem;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
+}
+.kfg-secondary-collapsible > summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.96rem;
+  font-weight: 900;
+  color: #0F172A;
+  padding: 0.25rem 0;
+}
+.kfg-secondary-collapsible > summary::-webkit-details-marker {
+  display: none;
+}

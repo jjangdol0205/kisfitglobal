@@ -441,7 +441,11 @@
       var params = new URLSearchParams((global.location && global.location.search) || '');
       var vipToken = String(params.get('vip_token') || (global.localStorage && global.localStorage.getItem('kfg_vip_token')) || '').trim();
       var orderRef = String((global.localStorage && global.localStorage.getItem('kidsfit_global_order_id_v1')) || '').trim();
-      var unlocked = Boolean(global.localStorage && global.localStorage.getItem('kidsfit_global_report_unlocked_v1') === 'true');
+      var unlocked = Boolean(
+        global.localStorage &&
+        (global.localStorage.getItem('kidsfit_global_report_unlocked_v1') === 'true' ||
+          global.localStorage.getItem('kfg_paid_unlocked_v1') === 'true')
+      );
       var paidVipObj = Boolean(global.localStorage && global.localStorage.getItem('dc_kfg_paid_vip'));
       return Boolean(unlocked || paidVipObj || (vipToken && vipToken.length >= 6) || (orderRef && orderRef.length >= 4));
     } catch (_) {
@@ -478,6 +482,7 @@
 
     if (isHashMatch || isUuidKey) {
       try {
+        localStorage.setItem('kfg_paid_unlocked_v1', 'true');
         localStorage.setItem('kidsfit_global_report_unlocked_v1', 'true');
         localStorage.setItem('kidsfit_global_order_id_v1', code);
       } catch (_) {}

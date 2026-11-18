@@ -1,20 +1,26 @@
 /**
  * src/js/bone-age-interpreter.js
- * Division 2 (kisfitglobal.com) — Clinical Bone-Age X-Ray Report Interpreter & Remaining Inches Simulator
+ * Division 2 (kisfitglobal.com) — Clinical Bone-Age X-Ray Report Interpreter,
+ * Exam-Date Time-Lag (Delta-t) Calibration Engine & Remaining Inches Simulator
  *
  * Architecture:
  * - 100% Client-Side Static Auxology Calculation (Bayley-Pinneau Mature Height Multiplier + Mid-Parental Height)
+ * - Clinical Exam-Date Time-Lag (Delta-t) Auto-Calibration:
+ *     deltaMonths = Math.max(0, (todayYear - examYear) * 12 + (todayMonth - examMonth))
+ *     tempoFactor = (hasEarlyPubertyOrRapidWeightSign ? 1.08 : 1.0)
+ *     BA_projected_today = clamp(BA_exam + (deltaMonths / 12) * tempoFactor, 3.0, maxBa)
  * - Supports both US Imperial (ft / in) and Metric (cm) seamlessly
  * - Zero X-ray image upload, zero server transmission, 100% Zero-Hangul English codebase
  * - Connects naturally to Polar.sh Global MoR ($8.99 Single Growth & Bone-Age PDF Guide & $19.99 6-Month Growth & Velocity Pass)
  */
-(function () {
+(function (global) {
   'use strict';
 
   var STORAGE_KEY = 'kfg_bone_age_interpreter_v1';
 
-  // Monotonic Bayley-Pinneau mature height achieved percentages (%) by skeletal Bone Age (4.0 to 18.5 yrs)
+  // Monotonic Bayley-Pinneau mature height achieved percentages (%) by skeletal Bone Age (3.0 to 18.5 yrs)
   var BP_TABLE_BOY = [
+    { ba: 3.0, pct: 57.8 },
     { ba: 4.0, pct: 61.5 },
     { ba: 5.0, pct: 64.6 },
     { ba: 6.0, pct: 67.6 },
@@ -34,6 +40,7 @@
   ];
 
   var BP_TABLE_GIRL = [
+    { ba: 3.0, pct: 63.0 },
     { ba: 4.0, pct: 66.8 },
     { ba: 5.0, pct: 70.1 },
     { ba: 6.0, pct: 73.3 },
@@ -123,8 +130,13 @@
     return ft + "'" + inStr + '"';
   }
 
+  function isFemaleSex(sex) {
+    var s = String(sex || '').toUpperCase();
+    return s === 'F' || s === 'GIRL' || s === 'FEMALE';
+  }
+
   function interpolateMaturePct(sex, boneAgeYears) {
-    var table = sex === 'F' ? BP_TABLE_GIRL : BP_TABLE_BOY;
+    var table = isFemaleSex(sex) ? BP_TABLE_GIRL : BP_TABLE_BOY;
     var minBa = table[0].ba;
     var maxBa = table[table.length - 1].ba;
     var ba = clamp(boneAgeYears, minBa, maxBa);
@@ -160,7 +172,71 @@
     return sign + m + 'm';
   }
 
+  /**
+   * Clinical Time-Lag (Delta-t) Auto-Calibration Formula:
+   *   deltaMonths = Math.max(0, (todayYear - examYear) * 12 + (todayMonth - examMonth))
+   *   tempoFactor = (hasEarlyPubertyOrRapidWeightSign ? 1.08 : 1.0)
+   *   BA_projected_today = clamp(BA_exam + (deltaMonths / 12) * tempoFactor, 3.0, maxBa)
+   */
+  function calibrateBoneAgeTimeLag(opts) {
+    var o = opts || {};
+    var rawDate = o.todayDate || o.nowDate;
+    var now = (rawDate instanceof Date && !isNaN(rawDate.getTime())) ? rawDate : new Date();
+    var todayYear = typeof o.todayYear === 'number' ? o.todayYear : now.getFullYear();
+    var todayMonth = typeof o.todayMonth === 'number' ? o.todayMonth : (now.getMonth() + 1);
+
+    var examYear = parseInt(o.examYear, 10);
+    var examMonth = parseInt(o.examMonth, 10);
+    if (isNaN(examYear) || examYear < 2005 || examYear > todayYear + 1) examYear = todayYear;
+    if (isNaN(examMonth) || examMonth < 1 || examMonth > 12) examMonth = todayMonth;
+
+    var deltaMonths = Math.max(0, (todayYear - examYear) * 12 + (todayMonth - examMonth));
+    var hasAccelSign = Boolean(o.hasEarlyPubertyOrRapidWeightSign || o.hasTempoAcceleration || o.hasTempoSign);
+    var tempoFactor = hasAccelSign ? 1.08 : 1.0;
+
+    var female = isFemaleSex(o.sex);
+    var maxBa = female ? 17.5 : 18.5;
+    var baY = clamp(parseFloat(o.baExamYears !== undefined ? o.baExamYears : o.baYears) || 10, 3, 18);
+    var baM = clamp(parseFloat(o.baExamMonths !== undefined ? o.baExamMonths : o.baMonths) || 0, 0, 11);
+    var baExam = clamp(baY + (baM / 12), 3.0, maxBa);
+    var baProjectedToday = clamp(baExam + (deltaMonths / 12) * tempoFactor, 3.0, maxBa);
+
+    var examDateYm = String(examYear) + '-' + String(examMonth).padStart(2, '0');
+    var todayDateYm = String(todayYear) + '-' + String(todayMonth).padStart(2, '0');
+    var baExamLabel = formatYearsMonths(baExam);
+    var baProjectedTodayLabel = formatYearsMonths(baProjectedToday);
+    var followUpRecommended = deltaMonths >= 12;
+
+    var calloutText =
+      'Examined ' + examDateYm + ' (' + deltaMonths + ' ' + (deltaMonths === 1 ? 'month' : 'months') + ' ago) at Bone Age ' + baExamLabel +
+      ' \u2794 Elapsed lag (+' + deltaMonths + ' mo' + (hasAccelSign && deltaMonths > 0 ? ' \u00d7 1.08 pubertal tempo' : '') + ') calibrated to Today\'s Estimated Bone Age ' + baProjectedTodayLabel;
+
+    var followUpNote = followUpRecommended
+      ? 'Follow-up Wrist X-Ray Recommended: More than 12 months (' + deltaMonths + ' mo) have elapsed since this radiograph. Consider requesting an updated left-wrist bone-age X-ray at your next pediatric checkup.'
+      : '';
+
+    return {
+      examYear: examYear,
+      examMonth: examMonth,
+      examDateYm: examDateYm,
+      todayYear: todayYear,
+      todayMonth: todayMonth,
+      todayDateYm: todayDateYm,
+      deltaMonths: deltaMonths,
+      tempoFactor: tempoFactor,
+      hasEarlyPubertyOrRapidWeightSign: hasAccelSign,
+      baExamYears: Number(baExam.toFixed(4)),
+      baProjectedTodayYears: Number(baProjectedToday.toFixed(4)),
+      baExamLabel: baExamLabel,
+      baProjectedTodayLabel: baProjectedTodayLabel,
+      followUpRecommended: followUpRecommended,
+      calloutText: calloutText,
+      followUpNote: followUpNote
+    };
+  }
+
   function getSexState() {
+    if (typeof document === 'undefined') return 'M';
     var root = document.getElementById('kfg-bone-age-interpreter');
     if (!root) return 'M';
     var active = root.querySelector('[data-kfg-ba-sex].active');
@@ -168,6 +244,7 @@
   }
 
   function setSexState(sex) {
+    if (typeof document === 'undefined') return;
     var root = document.getElementById('kfg-bone-age-interpreter');
     if (!root) return;
     var btns = root.querySelectorAll('[data-kfg-ba-sex]');
@@ -179,6 +256,7 @@
   }
 
   function getUnitState() {
+    if (typeof document === 'undefined') return 'imperial';
     var root = document.getElementById('kfg-bone-age-interpreter');
     if (!root) return 'imperial';
     var active = root.querySelector('[data-kfg-ba-unit].active');
@@ -186,6 +264,7 @@
   }
 
   function setUnitState(unit) {
+    if (typeof document === 'undefined') return;
     var root = document.getElementById('kfg-bone-age-interpreter');
     if (!root) return;
     var mode = unit === 'metric' ? 'metric' : 'imperial';
@@ -202,6 +281,7 @@
   }
 
   function highlightStageChip(stageId) {
+    if (typeof document === 'undefined') return;
     var root = document.getElementById('kfg-bone-age-interpreter');
     if (!root) return;
     var chips = root.querySelectorAll('[data-kfg-plate-stage]');
@@ -210,6 +290,58 @@
       chips[i].classList.toggle('active', !!match);
       chips[i].setAttribute('aria-pressed', match ? 'true' : 'false');
     }
+  }
+
+  function highlightLagChip(monthsAgo) {
+    if (typeof document === 'undefined') return;
+    var root = document.getElementById('kfg-bone-age-interpreter');
+    if (!root) return;
+    var chips = root.querySelectorAll('[data-kfg-ba-lag]');
+    for (var i = 0; i < chips.length; i++) {
+      var val = parseInt(chips[i].getAttribute('data-kfg-ba-lag'), 10);
+      var match = !isNaN(val) && val === monthsAgo;
+      chips[i].classList.toggle('active', match);
+      chips[i].setAttribute('aria-pressed', match ? 'true' : 'false');
+    }
+  }
+
+  function ensureExamYearOptions() {
+    if (typeof document === 'undefined') return;
+    var yrSel = document.getElementById('kfg-ba-exam-year');
+    var moSel = document.getElementById('kfg-ba-exam-month');
+    if (!yrSel) return;
+    var now = new Date();
+    var curY = now.getFullYear();
+    var curM = now.getMonth() + 1;
+    if (!yrSel.options || yrSel.options.length === 0) {
+      for (var y = curY; y >= curY - 5; y--) {
+        var opt = document.createElement('option');
+        opt.value = String(y);
+        opt.textContent = String(y);
+        if (y === curY) opt.selected = true;
+        yrSel.appendChild(opt);
+      }
+    }
+    if (moSel && (!moSel.dataset || !moSel.dataset.initializedToday)) {
+      moSel.value = String(curM);
+      if (moSel.dataset) moSel.dataset.initializedToday = '1';
+    }
+  }
+
+  function selectExamLagMonths(monthsAgo) {
+    if (typeof document === 'undefined') return;
+    ensureExamYearOptions();
+    var mAgo = Math.max(0, parseInt(monthsAgo, 10) || 0);
+    var now = new Date();
+    var totalM = now.getFullYear() * 12 + now.getMonth() - mAgo;
+    var targetY = Math.floor(totalM / 12);
+    var targetM = (totalM % 12) + 1;
+    var yrSel = document.getElementById('kfg-ba-exam-year');
+    var moSel = document.getElementById('kfg-ba-exam-month');
+    if (yrSel) yrSel.value = String(targetY);
+    if (moSel) moSel.value = String(targetM);
+    highlightLagChip(mAgo);
+    calculateAndRender(false, true);
   }
 
   function readInputsFromDom() {
@@ -240,23 +372,35 @@
     var fatherSelect = parseFloat((document.getElementById('kfg-ba-father-cm') || {}).value);
     var motherSelect = parseFloat((document.getElementById('kfg-ba-mother-cm') || {}).value);
 
+    var now = new Date();
+    var examYearEl = document.getElementById('kfg-ba-exam-year');
+    var examMonthEl = document.getElementById('kfg-ba-exam-month');
+    var tempoEl = document.getElementById('kfg-ba-tempo-sign');
+    var examYear = examYearEl && examYearEl.value ? parseInt(examYearEl.value, 10) : now.getFullYear();
+    var examMonth = examMonthEl && examMonthEl.value ? parseInt(examMonthEl.value, 10) : (now.getMonth() + 1);
+    var hasEarlyPubertyOrRapidWeightSign = Boolean(tempoEl && tempoEl.checked);
+
     return {
       sex: sex,
       unit: unit,
-      caYears: clamp(isNaN(caY) ? 10 : caY, 4, 18),
+      caYears: clamp(isNaN(caY) ? 10 : caY, 3, 18),
       caMonths: clamp(isNaN(caM) ? 0 : caM, 0, 11),
       heightCm: heightCm,
       heightFt: heightFt,
       heightIn: heightIn,
-      baYears: clamp(isNaN(baY) ? 11 : baY, 4, 18),
+      baYears: clamp(isNaN(baY) ? 11 : baY, 3, 18),
       baMonths: clamp(isNaN(baM) ? 0 : baM, 0, 11),
+      examYear: examYear,
+      examMonth: examMonth,
+      hasEarlyPubertyOrRapidWeightSign: hasEarlyPubertyOrRapidWeightSign,
       fatherCm: !isNaN(fatherSelect) && fatherSelect >= 140 ? fatherSelect : null,
       motherCm: !isNaN(motherSelect) && motherSelect >= 135 ? motherSelect : null
     };
   }
 
   function writeInputsToDom(state) {
-    if (!state) return;
+    if (!state || typeof document === 'undefined') return;
+    ensureExamYearOptions();
     setSexState(state.sex === 'F' ? 'F' : 'M');
     setUnitState(state.unit === 'metric' ? 'metric' : 'imperial');
 
@@ -269,6 +413,9 @@
     var elBaM = document.getElementById('kfg-ba-months');
     var elFa = document.getElementById('kfg-ba-father-cm');
     var elMo = document.getElementById('kfg-ba-mother-cm');
+    var elExY = document.getElementById('kfg-ba-exam-year');
+    var elExM = document.getElementById('kfg-ba-exam-month');
+    var elTempo = document.getElementById('kfg-ba-tempo-sign');
 
     if (elCaY) elCaY.value = String(state.caYears);
     if (elCaM) elCaM.value = String(state.caMonths);
@@ -279,11 +426,24 @@
     if (elBaM) elBaM.value = String(state.baMonths);
     if (elFa && state.fatherCm) elFa.value = String(state.fatherCm);
     if (elMo && state.motherCm) elMo.value = String(state.motherCm);
+    if (elExY && state.examYear) elExY.value = String(state.examYear);
+    if (elExM && state.examMonth) elExM.value = String(state.examMonth);
+    if (elTempo) elTempo.checked = Boolean(state.hasEarlyPubertyOrRapidWeightSign);
   }
 
   function computeBoneAgeReport(input) {
-    var ca = input.caYears + input.caMonths / 12;
-    var ba = input.baYears + input.baMonths / 12;
+    var ca = (Number(input.caYears) || 10) + (Number(input.caMonths) || 0) / 12;
+    var lag = calibrateBoneAgeTimeLag({
+      baExamYears: input.baYears,
+      baExamMonths: input.baMonths,
+      examYear: input.examYear,
+      examMonth: input.examMonth,
+      todayDate: input.todayDate,
+      hasEarlyPubertyOrRapidWeightSign: input.hasEarlyPubertyOrRapidWeightSign,
+      sex: input.sex
+    });
+    var baExam = lag.baExamYears;
+    var ba = lag.baProjectedTodayYears;
     var deltaBa = ba - ca;
 
     var achievedPct = interpolateMaturePct(input.sex, ba);
@@ -301,7 +461,7 @@
 
     var mphCm = null;
     if (input.fatherCm && input.motherCm) {
-      mphCm = input.sex === 'F'
+      mphCm = isFemaleSex(input.sex)
         ? (input.fatherCm + input.motherCm - 13) / 2
         : (input.fatherCm + input.motherCm + 13) / 2;
     }
@@ -315,7 +475,7 @@
       paceType = 'fast';
       badgeText = '⚠️ Advanced Bone Pace (' + formatDeltaMonths(deltaBa) + ') · Protect Open-Plate Runway';
       headlineSummary =
-        'Because skeletal bone age (' + formatYearsMonths(ba) + ') is running ' + formatDeltaMonths(deltaBa) +
+        'Because calibrated skeletal bone age today (' + formatYearsMonths(ba) + ') is running ' + formatDeltaMonths(deltaBa) +
         ' ahead of chronological age (' + formatYearsMonths(ca) + '), about ' + vsChronoDiffIn.toFixed(1) +
         ' in (' + Math.abs(vsChronoDiffCm).toFixed(1) + ' cm) of potential adult stature runway is compressed compared with an on-track plate clock. Protecting 9:30 PM Slow-Wave Sleep, healthy body-fat balance, and spinal decompression habits tonight is critical.';
       protocolSteps = [
@@ -327,7 +487,7 @@
       paceType = 'slow';
       badgeText = '🌱 Late-Bloomer Advantage (' + formatDeltaMonths(deltaBa) + ') · Extra Open-Plate Runway';
       headlineSummary =
-        'Skeletal bone age (' + formatYearsMonths(ba) + ') is ' + formatDeltaMonths(deltaBa) +
+        'Calibrated skeletal bone age today (' + formatYearsMonths(ba) + ') is ' + formatDeltaMonths(deltaBa) +
         ' younger than chronological age (' + formatYearsMonths(ca) + '), giving your child roughly ' +
         Math.abs(deltaBa * 12).toFixed(0) + ' extra months of open-plate growth time compared with same-age peers. Supplying steady Calcium + D3 + K2 + Protein and daily vertical jump loading helps convert this runway into real adult inches.';
       protocolSteps = [
@@ -339,7 +499,7 @@
       paceType = 'normal';
       badgeText = '🟢 On-Track Skeletal Pace (' + formatDeltaMonths(deltaBa) + ') · Balanced Growth Window';
       headlineSummary =
-        'Chronological age (' + formatYearsMonths(ca) + ') and wrist bone age (' + formatYearsMonths(ba) +
+        'Chronological age (' + formatYearsMonths(ca) + ') and calibrated wrist bone age today (' + formatYearsMonths(ba) +
         ') are closely aligned. With approximately +' + remainingIn.toFixed(1) + ' in (+' + remainingCm.toFixed(1) +
         ' cm) of open-plate stature potential remaining, consistent Stage-3 deep sleep, bone-matrix nutrition, and monthly CDC velocity checks keep your child on the upper trajectory.';
       protocolSteps = [
@@ -353,7 +513,9 @@
       sex: input.sex,
       unit: input.unit,
       ca: ca,
+      baExam: baExam,
       ba: ba,
+      baLag: lag,
       deltaBa: deltaBa,
       heightCm: input.heightCm,
       achievedPct: achievedPct,
@@ -372,6 +534,17 @@
   }
 
   function renderReport(report) {
+    if (typeof document === 'undefined') return;
+    var lagCalloutEl = document.getElementById('kfg-ba-lag-callout');
+    if (lagCalloutEl && report.baLag) {
+      lagCalloutEl.style.display = 'block';
+      lagCalloutEl.innerHTML =
+        '<strong>⏱️ Exam-Date Time-Lag Calibration:</strong> ' + report.baLag.calloutText +
+        (report.baLag.followUpRecommended
+          ? '<div style="margin-top:0.35rem;color:#B45309;font-weight:800;">🩺 ' + report.baLag.followUpNote + '</div>'
+          : '');
+    }
+
     var container = document.getElementById('kfg-bone-age-result');
     if (!container) return;
 
@@ -389,6 +562,17 @@
         '</div>';
     }
 
+    var lagBannerHtml = '';
+    if (report.baLag && report.baLag.deltaMonths > 0) {
+      lagBannerHtml =
+        '<div style="margin:0 0 0.85rem;padding:0.7rem 0.9rem;border-radius:12px;background:#EFF6FF;border:1.5px solid #93C5FD;font-size:0.82rem;color:#1E3A8A;line-height:1.45;">' +
+          '<strong>🦴 ' + report.baLag.calloutText + '</strong>' +
+          (report.baLag.followUpRecommended
+            ? '<div style="margin-top:0.3rem;color:#B45309;font-weight:700;">' + report.baLag.followUpNote + '</div>'
+            : '') +
+        '</div>';
+    }
+
     var stepsHtml = '';
     for (var i = 0; i < report.protocolSteps.length; i++) {
       stepsHtml += '<li>' + report.protocolSteps[i] + '</li>';
@@ -402,10 +586,12 @@
         '<div class="kfg-ba-report-head">' +
           '<span class="kfg-ba-pace-badge pace-' + report.paceType + '">' + report.badgeText + '</span>' +
           '<span class="kfg-ba-meta-pill">' +
-            (report.sex === 'F' ? 'Girl' : 'Boy') + ' · Current ' + formatFeetInches(report.heightCm, 1) +
-            ' (' + report.heightCm.toFixed(1) + ' cm) · Bone Age ' + formatYearsMonths(report.ba) +
+            (isFemaleSex(report.sex) ? 'Girl' : 'Boy') + ' · Current ' + formatFeetInches(report.heightCm, 1) +
+            ' (' + report.heightCm.toFixed(1) + ' cm) · Today\'s Bone Age ' + formatYearsMonths(report.ba) +
           '</span>' +
         '</div>' +
+
+        lagBannerHtml +
 
         '<div class="kfg-ba-kpi-grid">' +
           '<div class="kfg-ba-kpi-card is-highlight">' +
@@ -419,9 +605,9 @@
             '<span class="kfg-ba-kpi-sub">' + report.pahCm.toFixed(1) + ' cm (Range ' + formatFeetInches(report.pahLowCm, 0) + '–' + formatFeetInches(report.pahHighCm, 0) + ')</span>' +
           '</div>' +
           '<div class="kfg-ba-kpi-card">' +
-            '<span class="kfg-ba-kpi-label">Bone Age vs. Actual Age Gap</span>' +
+            '<span class="kfg-ba-kpi-label">Today\'s Bone Age vs. Actual Age</span>' +
             '<strong class="kfg-ba-kpi-value is-delta">' + formatDeltaMonths(report.deltaBa) + '</strong>' +
-            '<span class="kfg-ba-kpi-sub">Actual ' + formatYearsMonths(report.ca) + ' / Bone ' + formatYearsMonths(report.ba) + '</span>' +
+            '<span class="kfg-ba-kpi-sub">Actual ' + formatYearsMonths(report.ca) + ' / Calibrated Bone ' + formatYearsMonths(report.ba) + '</span>' +
           '</div>' +
         '</div>' +
 
@@ -447,7 +633,7 @@
         '<div class="kfg-ba-cta-bridge">' +
           '<div class="kfg-ba-cta-copy">' +
             '<strong>Want the Comprehensive Growth &amp; Habit Percentile PDF Guide &amp; 90-Day Sleep/Nutrition Plan for This Bone Age?</strong>' +
-            '<span>Combine your child&apos;s wrist bone-age runway with US CDC 2000 LMS curves &amp; Khamis-Roche velocity tracking.</span>' +
+            '<span>Combine your child&apos;s calibrated wrist bone-age runway with US CDC 2000 LMS curves &amp; Khamis-Roche velocity tracking.</span>' +
           '</div>' +
           '<div class="kfg-ba-cta-btns">' +
             '<button type="button" class="kfg-ba-btn-single" data-kfg-paid-plan="single" onclick="if(window.triggerKfgVelocityEdgeCheckout)window.triggerKfgVelocityEdgeCheckout(\'single\');">' +
@@ -466,13 +652,15 @@
 
   function saveState(input) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(input));
+      if (global.localStorage) {
+        global.localStorage.setItem(STORAGE_KEY, JSON.stringify(input));
+      }
     } catch (_) {}
   }
 
   function loadState() {
     try {
-      var raw = localStorage.getItem(STORAGE_KEY);
+      var raw = global.localStorage ? global.localStorage.getItem(STORAGE_KEY) : null;
       if (!raw) return null;
       return JSON.parse(raw);
     } catch (_) {
@@ -481,15 +669,16 @@
   }
 
   function calculateAndRender(shouldScrollResult, isUserAction) {
+    if (typeof document === 'undefined') return null;
     var input = readInputsFromDom();
     saveState(input);
     var report = computeBoneAgeReport(input);
     renderReport(report);
-    if (isUserAction && typeof window !== 'undefined' && typeof window.updateKfgPersonalizedChildTeaser === 'function') {
+    if (isUserAction && typeof global.updateKfgPersonalizedChildTeaser === 'function') {
       try {
-        window.updateKfgPersonalizedChildTeaser({
+        global.updateKfgPersonalizedChildTeaser({
           source: 'bone_age',
-          sex: report.sex === 'F' ? 'girl' : 'boy',
+          sex: isFemaleSex(report.sex) ? 'girl' : 'boy',
           ageYears: report.ca,
           heightCm: report.heightCm,
           boneAgeYears: report.ba,
@@ -509,6 +698,7 @@
   }
 
   function switchUnit(newUnit) {
+    if (typeof document === 'undefined') return;
     var current = readInputsFromDom();
     current.unit = newUnit === 'metric' ? 'metric' : 'imperial';
     var totIn = cmToTotalInches(current.heightCm);
@@ -519,26 +709,27 @@
   }
 
   function selectGrowthPlateStage(stageId) {
+    if (typeof document === 'undefined') return;
     var input = readInputsFromDom();
     var ca = input.caYears + input.caMonths / 12;
     var targetBa = ca;
 
     if (stageId === 'stage_open') {
-      targetBa = clamp(ca - 0.85, 4.2, 16.5);
+      targetBa = clamp(ca - 0.85, 3.5, 16.5);
     } else if (stageId === 'stage_entry') {
-      targetBa = input.sex === 'F' ? clamp(Math.max(ca, 9.5), 8.5, 11.5) : clamp(Math.max(ca, 11.0), 9.5, 13.0);
+      targetBa = isFemaleSex(input.sex) ? clamp(Math.max(ca, 9.5), 8.5, 11.5) : clamp(Math.max(ca, 11.0), 9.5, 13.0);
     } else if (stageId === 'stage_phv') {
-      targetBa = input.sex === 'F' ? 11.2 : 12.8;
+      targetBa = isFemaleSex(input.sex) ? 11.2 : 12.8;
     } else if (stageId === 'stage_decel') {
-      targetBa = input.sex === 'F' ? 13.2 : 14.7;
+      targetBa = isFemaleSex(input.sex) ? 13.2 : 14.7;
     } else if (stageId === 'stage_near_fusion') {
-      targetBa = input.sex === 'F' ? 14.8 : 16.2;
+      targetBa = isFemaleSex(input.sex) ? 14.8 : 16.2;
     }
 
     var totalMonths = Math.round(targetBa * 12);
     var elBaY = document.getElementById('kfg-ba-years');
     var elBaM = document.getElementById('kfg-ba-months');
-    if (elBaY) elBaY.value = String(clamp(Math.floor(totalMonths / 12), 4, 18));
+    if (elBaY) elBaY.value = String(clamp(Math.floor(totalMonths / 12), 3, 18));
     if (elBaM) elBaM.value = String(clamp(totalMonths % 12, 0, 11));
 
     highlightStageChip(stageId);
@@ -554,9 +745,11 @@
   }
 
   function initBoneAgeInterpreter() {
+    if (typeof document === 'undefined') return;
     var sec = document.getElementById('kfg-bone-age-interpreter');
     if (!sec) return;
 
+    ensureExamYearOptions();
     var saved = loadState();
     var hasUserSaved = Boolean(saved && saved.caYears && saved.heightCm && saved.baYears);
     if (hasUserSaved) {
@@ -571,6 +764,9 @@
         if (this.id === 'kfg-ba-years' || this.id === 'kfg-ba-months') {
           highlightStageChip('');
         }
+        if (this.id === 'kfg-ba-exam-year' || this.id === 'kfg-ba-exam-month') {
+          highlightLagChip(-1);
+        }
         calculateAndRender(false, true);
       });
       controls[i].addEventListener('input', function () {
@@ -583,28 +779,41 @@
     calculateAndRender(false, hasUserSaved);
   }
 
-  window.KfgBoneAgeInterpreter = {
+  var api = {
     init: initBoneAgeInterpreter,
     calculate: calculateAndRender,
     computeReport: computeBoneAgeReport,
+    calibrateBoneAgeTimeLag: calibrateBoneAgeTimeLag,
+    interpolateMaturePct: interpolateMaturePct,
+    formatYearsMonths: formatYearsMonths,
+    formatFeetInches: formatFeetInches,
     selectStage: selectGrowthPlateStage,
+    selectExamLag: selectExamLagMonths,
     applyPreset: applyPreset
   };
 
-  window.calculateKfgBoneAge = function () {
+  global.KfgBoneAgeInterpreter = api;
+  global.calculateKfgBoneAge = function () {
     return calculateAndRender(true, true);
   };
-  window.selectKfgBoneAgeSex = function (sex) {
+  global.selectKfgBoneAgeSex = function (sex) {
     setSexState(sex === 'F' ? 'F' : 'M');
     calculateAndRender(false, true);
   };
-  window.selectKfgBoneAgeUnit = switchUnit;
-  window.selectKfgGrowthPlateStage = selectGrowthPlateStage;
-  window.applyKfgBoneAgePreset = applyPreset;
+  global.selectKfgBoneAgeUnit = switchUnit;
+  global.selectKfgGrowthPlateStage = selectGrowthPlateStage;
+  global.selectKfgBoneAgeExamLag = selectExamLagMonths;
+  global.applyKfgBoneAgePreset = applyPreset;
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initBoneAgeInterpreter);
-  } else {
-    initBoneAgeInterpreter();
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = api;
   }
-})();
+
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initBoneAgeInterpreter);
+    } else {
+      initBoneAgeInterpreter();
+    }
+  }
+})(typeof window !== 'undefined' ? window : global);
