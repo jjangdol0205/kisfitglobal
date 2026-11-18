@@ -5605,6 +5605,9 @@ ${isMasked ? `
 
   function initGlobalPaywallEdition() {
     if (!isGlobalPaidEdition()) return;
+    if (typeof document !== 'undefined' && document.body && document.body.getAttribute && document.body.getAttribute('data-kfg-boutique-atelier') === 'true') {
+      return;
+    }
     applyGlobalHomepageEnglishDOM();
 
     // Auto-unlock or verify order status when returning from Polar.sh (?payment=success or polar_success=1 or checkout_id/license_key)

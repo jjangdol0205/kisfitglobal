@@ -1,0 +1,842 @@
+/**
+ * src/css/kfg-boutique-atelier.css
+ * Division 2 (kisfitglobal.com) — Single-Breath Warm Boutique Pediatric Growth Atelier
+ * Aesthetic: Kinfolk / Aesop / Nordic Private Family Clinic
+ * Palette: Oatmeal Linen (#FAF7F2), Alabaster Paper (#FFFFFF), Espresso Ink (#231F1D),
+ *          Warm Stone (#6B635B), Forest Sage (#2F5241), Terracotta Sand (#A66A46 / #EDE6DA)
+ * Zero Emojis · Zero Clutter · Human-Crafted Typography
+ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  background-color: #FAF7F2;
+  color: #231F1D;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body.kfg-atelier-body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #FAF7F2;
+  color: #231F1D;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.78;
+}
+
+.kfg-atelier-shell {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 1.35rem 2.75rem;
+  flex: 1 0 auto;
+}
+
+/* Boutique Masthead */
+.kfg-atelier-masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  padding-bottom: 1.35rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #E7E2D8;
+}
+
+.kfg-masthead-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  text-decoration: none;
+  color: #231F1D;
+}
+
+.kfg-masthead-wordmark {
+  font-family: 'Newsreader', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  font-size: 1.12rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #231F1D;
+}
+
+.kfg-masthead-sub {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6B635B;
+}
+
+.kfg-masthead-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.kfg-unit-pill-group {
+  display: inline-flex;
+  background: #F1ECE3;
+  border: 1px solid #E7E2D8;
+  border-radius: 999px;
+  padding: 0.18rem;
+}
+
+.kfg-unit-btn {
+  border: none;
+  background: transparent;
+  color: #6B635B;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.35rem 0.78rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.kfg-unit-btn.is-active {
+  background: #FFFFFF;
+  color: #231F1D;
+  box-shadow: 0 1px 4px rgba(35, 31, 29, 0.08);
+}
+
+.kfg-masthead-link {
+  background: none;
+  border: none;
+  padding: 0.25rem 0;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #6B635B;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: #D5CEC2;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.kfg-masthead-link:hover {
+  color: #231F1D;
+}
+
+/* Main Alabaster Card */
+.kfg-atelier-card {
+  background: #FFFFFF;
+  border: 1px solid #E7E2D8;
+  border-radius: 16px;
+  padding: clamp(1.85rem, 4.5vw, 3.1rem) clamp(1.4rem, 4.5vw, 3rem);
+  box-shadow: 0 12px 36px rgba(35, 31, 29, 0.035);
+}
+
+.kfg-screen {
+  animation: kfgAtelierFade 0.28s ease;
+}
+
+@keyframes kfgAtelierFade {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.kfg-eyebrow {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #A66A46;
+  margin-bottom: 0.85rem;
+}
+
+.kfg-serif-title {
+  font-family: 'Newsreader', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.75rem, 3.8vw, 2.38rem);
+  font-weight: 500;
+  line-height: 1.24;
+  letter-spacing: -0.015em;
+  color: #231F1D;
+  margin: 0 0 1.35rem 0;
+}
+
+.kfg-serif-h2 {
+  font-family: 'Newsreader', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.42rem, 3vw, 1.85rem);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: #231F1D;
+  margin: 0 0 0.65rem 0;
+}
+
+.kfg-letter-prose p {
+  margin: 0 0 1.25rem 0;
+  font-size: 1.06rem;
+  line-height: 1.82;
+  color: #3A3430;
+}
+
+.kfg-letter-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.kfg-letter-signature {
+  margin-top: 1.65rem;
+  padding-top: 1.35rem;
+  border-top: 1px solid #EDE6DA;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.kfg-signature-meta {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #6B635B;
+}
+
+.kfg-signature-meta strong {
+  display: block;
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #231F1D;
+}
+
+/* Primary & Secondary Boutique Buttons */
+.kfg-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 58px;
+  padding: 0.95rem 1.6rem;
+  border-radius: 10px;
+  border: 1px solid #2F5241;
+  background-color: #2F5241;
+  color: #FAF7F2;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.kfg-btn-primary:hover {
+  background-color: #244032;
+  border-color: #244032;
+}
+
+.kfg-btn-terracotta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 58px;
+  padding: 0.95rem 1.5rem;
+  border-radius: 10px;
+  border: 1px solid #A66A46;
+  background-color: #A66A46;
+  color: #FAF7F2;
+  font-family: inherit;
+  font-size: 0.98rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.kfg-btn-terracotta:hover {
+  background-color: #8F5938;
+}
+
+.kfg-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 48px;
+  padding: 0.7rem 1.25rem;
+  border-radius: 10px;
+  border: 1px solid #D5CEC2;
+  background-color: #FAF7F2;
+  color: #231F1D;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.kfg-btn-outline:hover {
+  background-color: #EDE6DA;
+  border-color: #BFB6A6;
+}
+
+.kfg-text-back {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: #6B635B;
+  cursor: pointer;
+}
+
+.kfg-text-back:hover {
+  color: #231F1D;
+}
+
+/* Step-Up Progress Header */
+.kfg-step-topbar {
+  margin-bottom: 1.75rem;
+}
+
+.kfg-step-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+}
+
+.kfg-step-counter {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6B635B;
+}
+
+.kfg-progress-track {
+  width: 100%;
+  height: 2px;
+  background: #EDE6DA;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.kfg-progress-fill {
+  height: 100%;
+  width: 20%;
+  background: #2F5241;
+  transition: width 0.3s ease;
+}
+
+.kfg-step-lead {
+  margin: 0 0 1.4rem 0;
+  font-size: 0.96rem;
+  line-height: 1.65;
+  color: #6B635B;
+}
+
+/* Form Elements */
+.kfg-field-group {
+  margin-bottom: 1.35rem;
+}
+
+.kfg-field-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.kfg-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #231F1D;
+  margin-bottom: 0.45rem;
+}
+
+.kfg-field-label-row .kfg-label {
+  margin-bottom: 0;
+}
+
+.kfg-helper-action {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #A66A46;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.kfg-live-pill {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #2F5241;
+}
+
+.kfg-input,
+.kfg-select {
+  width: 100%;
+  min-height: 52px;
+  padding: 0.72rem 0.95rem;
+  border: 1px solid #D5CEC2;
+  border-radius: 9px;
+  background-color: #FAF7F2;
+  color: #231F1D;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.kfg-input:focus,
+.kfg-select:focus {
+  outline: none;
+  background-color: #FFFFFF;
+  border-color: #2F5241;
+}
+
+.kfg-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.kfg-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.25fr;
+  gap: 0.65rem;
+}
+
+.kfg-unit-suffix-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.kfg-unit-suffix-wrap .kfg-input {
+  padding-right: 3.1rem;
+}
+
+.kfg-unit-tag {
+  position: absolute;
+  right: 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #6B635B;
+  pointer-events: none;
+}
+
+/* Tactile Radio & Choice Cards */
+.kfg-choice-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.kfg-choice-row-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.kfg-radio-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.95rem 1.05rem;
+  border: 1px solid #E7E2D8;
+  border-radius: 11px;
+  background: #FAF7F2;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.kfg-radio-card:hover {
+  border-color: #C8BFA8;
+}
+
+.kfg-radio-card input[type="radio"] {
+  margin-top: 0.28rem;
+  accent-color: #2F5241;
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+.kfg-radio-card.is-selected {
+  background: #FFFFFF;
+  border-color: #2F5241;
+  box-shadow: 0 2px 10px rgba(47, 82, 65, 0.06);
+}
+
+.kfg-radio-title {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #231F1D;
+  line-height: 1.4;
+}
+
+.kfg-radio-desc {
+  display: block;
+  font-size: 0.83rem;
+  color: #6B635B;
+  line-height: 1.5;
+  margin-top: 0.18rem;
+}
+
+/* Chip selectors (Bone-Age Stage & Lag) */
+.kfg-chip-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.55rem;
+}
+
+.kfg-chip-btn {
+  border: 1px solid #D5CEC2;
+  background: #FFFFFF;
+  color: #3A3430;
+  border-radius: 999px;
+  padding: 0.38rem 0.82rem;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.kfg-chip-btn:hover {
+  border-color: #A66A46;
+}
+
+.kfg-chip-btn.is-active {
+  background: #2F5241;
+  border-color: #2F5241;
+  color: #FAF7F2;
+}
+
+/* Warm Callout Note */
+.kfg-warm-note {
+  background: #F6F2EA;
+  border: 1px solid #E7E2D8;
+  border-left: 3px solid #2F5241;
+  border-radius: 10px;
+  padding: 0.95rem 1.1rem;
+  font-size: 0.88rem;
+  line-height: 1.62;
+  color: #3A3430;
+  margin-top: 0.85rem;
+}
+
+.kfg-warm-note strong {
+  color: #231F1D;
+}
+
+.kfg-warm-note-amber {
+  border-left-color: #A66A46;
+}
+
+/* Partial Baseline Summary & Paid Tier Cards */
+.kfg-baseline-box {
+  background: #FAF7F2;
+  border: 1px solid #E7E2D8;
+  border-radius: 13px;
+  padding: 1.35rem 1.4rem;
+  margin-bottom: 1.85rem;
+}
+
+.kfg-baseline-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.85rem;
+  margin: 0.95rem 0;
+}
+
+.kfg-metric-tile {
+  background: #FFFFFF;
+  border: 1px solid #E7E2D8;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+}
+
+.kfg-metric-kicker {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #6B635B;
+}
+
+.kfg-metric-value {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 1.48rem;
+  font-weight: 500;
+  color: #231F1D;
+  margin-top: 0.2rem;
+  line-height: 1.25;
+}
+
+.kfg-metric-sub {
+  font-size: 0.8rem;
+  color: #6B635B;
+  margin-top: 0.2rem;
+}
+
+.kfg-tier-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem;
+  margin-top: 1.25rem;
+}
+
+.kfg-tier-card {
+  background: #FAF7F2;
+  border: 1px solid #E7E2D8;
+  border-radius: 14px;
+  padding: 1.45rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.kfg-tier-card.is-featured {
+  background: #FFFFFF;
+  border: 1.5px solid #2F5241;
+  box-shadow: 0 10px 28px rgba(47, 82, 65, 0.07);
+}
+
+.kfg-tier-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: #2F5241;
+  background: #E9EFEA;
+  padding: 0.22rem 0.65rem;
+  border-radius: 999px;
+  margin-bottom: 0.65rem;
+}
+
+.kfg-tier-tag-sand {
+  color: #7D4E31;
+  background: #EDE6DA;
+}
+
+.kfg-tier-name {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #231F1D;
+  margin: 0 0 0.35rem 0;
+  line-height: 1.28;
+}
+
+.kfg-tier-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid #E7E2D8;
+}
+
+.kfg-tier-price {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 2rem;
+  font-weight: 500;
+  color: #231F1D;
+  line-height: 1;
+}
+
+.kfg-tier-cadence {
+  font-size: 0.82rem;
+  color: #6B635B;
+}
+
+.kfg-tier-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.35rem 0;
+  font-size: 0.88rem;
+  line-height: 1.62;
+  color: #3A3430;
+}
+
+.kfg-tier-list li {
+  position: relative;
+  padding-left: 1.15rem;
+  margin-bottom: 0.55rem;
+}
+
+.kfg-tier-list li::before {
+  content: "\2014";
+  position: absolute;
+  left: 0;
+  color: #A66A46;
+}
+
+/* Inline Restore & Quiet Footer */
+.kfg-restore-strip {
+  margin-top: 1.4rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid #EDE6DA;
+  font-size: 0.84rem;
+  color: #6B635B;
+}
+
+.kfg-restore-inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.55rem;
+}
+
+.kfg-restore-inline-form .kfg-input {
+  flex: 1 1 220px;
+  min-height: 44px;
+  font-size: 0.88rem;
+  padding: 0.5rem 0.85rem;
+}
+
+.kfg-atelier-footer {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1.25rem 1.35rem 2.4rem;
+  border-top: 1px solid #E7E2D8;
+  text-align: center;
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: #6B635B;
+}
+
+.kfg-footer-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.9rem;
+  margin-bottom: 0.45rem;
+}
+
+.kfg-footer-links a {
+  color: #3A3430;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.kfg-footer-links a:hover {
+  text-decoration: underline;
+}
+
+.kfg-footer-disclaimer {
+  max-width: 640px;
+  margin: 0 auto;
+  color: #8C8278;
+  font-size: 0.75rem;
+}
+
+/* Unlocked Dossier Styling */
+.kfg-dossier-section {
+  padding: 1.35rem 0;
+  border-top: 1px solid #EDE6DA;
+}
+
+.kfg-dossier-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin: 0.95rem 0;
+}
+
+/* Quiet Member Modal */
+.kfg-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(35, 31, 29, 0.48);
+  backdrop-filter: blur(3px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+
+.kfg-modal-backdrop.is-open {
+  display: flex;
+}
+
+.kfg-modal-panel {
+  width: 100%;
+  max-width: 620px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #FFFFFF;
+  border: 1px solid #E7E2D8;
+  border-radius: 16px;
+  padding: 1.75rem 1.65rem;
+  box-shadow: 0 24px 60px rgba(35, 31, 29, 0.18);
+}
+
+@media (max-width: 640px) {
+  body.kfg-atelier-body {
+    font-size: 17px;
+  }
+  .kfg-atelier-shell {
+    padding: 1.25rem 0.95rem 2rem;
+  }
+  .kfg-grid-2,
+  .kfg-choice-row-2,
+  .kfg-tier-grid,
+  .kfg-dossier-grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  body.kfg-atelier-body {
+    background: #FFFFFF !important;
+    font-size: 11pt;
+  }
+  .kfg-atelier-masthead,
+  .kfg-atelier-footer,
+  .kfg-modal-backdrop,
+  .kfg-no-print {
+    display: none !important;
+  }
+  .kfg-atelier-shell {
+    max-width: 100%;
+    padding: 0;
+  }
+  .kfg-atelier-card {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+}
