@@ -1,10 +1,10 @@
 /**
  * src/css/kfg-boutique-atelier.css
- * Division 2 (kisfitglobal.com) — Single-Breath Warm Boutique Pediatric Growth Atelier
- * Aesthetic: Kinfolk / Aesop / Nordic Private Family Clinic
- * Palette: Oatmeal Linen (#FAF7F2), Alabaster Paper (#FFFFFF), Espresso Ink (#231F1D),
- *          Warm Stone (#6B635B), Forest Sage (#2F5241), Terracotta Sand (#A66A46 / #EDE6DA)
- * Zero Emojis · Zero Clutter · Human-Crafted Typography
+ * Division 2 (kisfitglobal.com) — Handcrafted Editorial Pediatric Growth Studio
+ * Aesthetic: Kinfolk / Warm Cotton Paper / Quiet Family Notebook
+ * Palette: Oatmeal Linen (#FAF7F2), Warm Paper (#FFFEFC), Espresso Ink (#231F1D),
+ *          Warm Stone (#6B635B), Forest Sage (#2F5241), Terracotta Sand (#A66A46)
+ * Zero Emojis · Zero Cold AI Badges · Zero Clutter Below
  */
 
 *, *::before, *::after {
@@ -29,51 +29,52 @@ body.kfg-atelier-body {
   background-color: #FAF7F2;
   color: #231F1D;
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  line-height: 1.78;
+  font-size: 17.5px;
+  line-height: 1.8;
+  font-variant-numeric: tabular-nums;
 }
 
-.kfg-atelier-shell {
+/* Top Masthead */
+.kfg-masthead-bar {
   width: 100%;
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 2rem 1.35rem 2.75rem;
-  flex: 1 0 auto;
+  border-bottom: 1px solid #E6DFD3;
+  background: #FAF7F2;
+  position: relative;
+  z-index: 20;
 }
 
-/* Boutique Masthead */
 .kfg-atelier-masthead {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 1.05rem 1.75rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.85rem;
-  padding-bottom: 1.35rem;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid #E7E2D8;
 }
 
 .kfg-masthead-brand {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.7rem;
   text-decoration: none;
   color: #231F1D;
+  cursor: pointer;
 }
 
 .kfg-masthead-wordmark {
-  font-family: 'Newsreader', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
-  font-size: 1.12rem;
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 1.32rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: -0.01em;
   color: #231F1D;
 }
 
 .kfg-masthead-sub {
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: 'Newsreader', Georgia, serif;
+  font-style: italic;
+  font-size: 0.92rem;
   color: #6B635B;
 }
 
@@ -81,15 +82,15 @@ body.kfg-atelier-body {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.65rem;
 }
 
 .kfg-unit-pill-group {
   display: inline-flex;
   background: #F1ECE3;
-  border: 1px solid #E7E2D8;
+  border: 1px solid #E5DED2;
   border-radius: 999px;
-  padding: 0.18rem;
+  padding: 0.16rem;
 }
 
 .kfg-unit-btn {
@@ -99,7 +100,7 @@ body.kfg-atelier-body {
   font-family: inherit;
   font-size: 0.78rem;
   font-weight: 600;
-  padding: 0.35rem 0.78rem;
+  padding: 0.34rem 0.76rem;
   border-radius: 999px;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -112,31 +113,110 @@ body.kfg-atelier-body {
 }
 
 .kfg-masthead-link {
-  background: none;
-  border: none;
-  padding: 0.25rem 0;
+  background: transparent;
+  border: 1px solid #E5DED2;
+  border-radius: 999px;
+  padding: 0.4rem 0.88rem;
   font-family: inherit;
-  font-size: 0.82rem;
+  font-size: 0.81rem;
   font-weight: 500;
-  color: #6B635B;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-color: #D5CEC2;
+  color: #3A3430;
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
 .kfg-masthead-link:hover {
+  background: #FFFEFC;
+  border-color: #CFC6B8;
   color: #231F1D;
 }
 
-/* Main Alabaster Card */
-.kfg-atelier-card {
-  background: #FFFFFF;
-  border: 1px solid #E7E2D8;
+/* Main Shell */
+.kfg-atelier-shell {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 3.5rem;
+  flex: 1 0 auto;
+  transition: max-width 0.25s ease;
+}
+
+.kfg-atelier-shell.is-opening-view {
+  max-width: 1040px;
+  padding-top: 2.9rem;
+}
+
+.kfg-atelier-shell.is-wide-view {
+  max-width: 840px;
+}
+
+/* Screen 0: 2-Column Handcrafted Editorial Spread (No Floating White Box) */
+.kfg-editorial-spread {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  grid-template-areas:
+    "intro art"
+    "body art";
+  gap: 0 3.4rem;
+  align-items: start;
+}
+
+.kfg-editorial-intro {
+  grid-area: intro;
+}
+
+.kfg-editorial-body {
+  grid-area: body;
+}
+
+.kfg-editorial-art {
+  grid-area: art;
+  position: sticky;
+  top: 94px;
+  margin: 0.35rem 0 0;
+}
+
+.kfg-art-figure {
+  margin: 0;
+  background: #FAF7F2;
   border-radius: 16px;
-  padding: clamp(1.85rem, 4.5vw, 3.1rem) clamp(1.4rem, 4.5vw, 3rem);
-  box-shadow: 0 12px 36px rgba(35, 31, 29, 0.035);
+  overflow: hidden;
+}
+
+.kfg-art-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+}
+
+.kfg-art-caption {
+  margin: 0.75rem 0.25rem 0;
+  font-family: 'Newsreader', Georgia, serif;
+  font-style: italic;
+  font-size: 0.94rem;
+  line-height: 1.55;
+  color: #6B635B;
+  text-align: center;
+}
+
+.kfg-art-quiet-meta {
+  margin-top: 1rem;
+  padding-top: 0.95rem;
+  border-top: 1px solid #E6DFD3;
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: #6B635B;
+  text-align: center;
+}
+
+/* Paper Card for Screens 1..3 */
+.kfg-atelier-card {
+  background: #FFFEFC;
+  border: 1px solid #E6DFD3;
+  border-radius: 15px;
+  padding: clamp(1.9rem, 4.2vw, 2.85rem) clamp(1.35rem, 4.2vw, 2.75rem);
+  box-shadow: 0 14px 36px rgba(35, 31, 29, 0.038);
 }
 
 .kfg-screen {
@@ -154,40 +234,50 @@ body.kfg-atelier-body {
   }
 }
 
-.kfg-eyebrow {
-  display: block;
-  font-size: 0.74rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #A66A46;
-  margin-bottom: 0.85rem;
+.kfg-note-tag {
+  display: inline-block;
+  font-family: 'Newsreader', Georgia, serif;
+  font-style: italic;
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: #2F5241;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1.5px solid #C6D6CC;
 }
 
 .kfg-serif-title {
-  font-family: 'Newsreader', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
-  font-size: clamp(1.75rem, 3.8vw, 2.38rem);
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: clamp(1.85rem, 3.6vw, 2.45rem);
   font-weight: 500;
   line-height: 1.24;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.016em;
   color: #231F1D;
-  margin: 0 0 1.35rem 0;
+  margin: 0 0 0.75rem 0;
+}
+
+.kfg-serif-subtitle {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 1.12rem;
+  line-height: 1.58;
+  color: #6B635B;
+  margin: 0 0 1.65rem 0;
 }
 
 .kfg-serif-h2 {
-  font-family: 'Newsreader', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
-  font-size: clamp(1.42rem, 3vw, 1.85rem);
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: clamp(1.42rem, 2.9vw, 1.82rem);
   font-weight: 500;
   line-height: 1.3;
   letter-spacing: -0.01em;
   color: #231F1D;
-  margin: 0 0 0.65rem 0;
+  margin: 0 0 0.6rem 0;
 }
 
 .kfg-letter-prose p {
   margin: 0 0 1.25rem 0;
-  font-size: 1.06rem;
-  line-height: 1.82;
+  font-size: 1.03rem;
+  line-height: 1.84;
   color: #3A3430;
 }
 
@@ -195,29 +285,97 @@ body.kfg-atelier-body {
   margin-bottom: 0;
 }
 
-.kfg-letter-signature {
-  margin-top: 1.65rem;
-  padding-top: 1.35rem;
-  border-top: 1px solid #EDE6DA;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
+.kfg-letter-prose strong {
+  color: #231F1D;
+  font-weight: 600;
 }
 
-.kfg-signature-meta {
-  font-size: 0.85rem;
-  line-height: 1.5;
+/* Promise Sheet on Screen 0 (Zero Price Spoilers) */
+.kfg-promise-sheet {
+  margin: 1.65rem 0 1.65rem;
+  padding: 1.25rem 1.4rem;
+  background: #FFFEFC;
+  border: 1px solid #E6DFD3;
+  border-radius: 12px;
+}
+
+.kfg-promise-heading {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #231F1D;
+  margin: 0 0 0.7rem 0;
+}
+
+.kfg-promise-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.kfg-promise-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: #3A3430;
+}
+
+.kfg-promise-word {
+  font-family: 'Newsreader', Georgia, serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2F5241;
+  min-width: 48px;
+  flex-shrink: 0;
+}
+
+.kfg-letter-signature {
+  margin: 0 0 1.5rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.kfg-letter-signature strong {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: #231F1D;
+}
+
+.kfg-letter-signature span {
+  font-size: 0.84rem;
   color: #6B635B;
 }
 
-.kfg-signature-meta strong {
-  display: block;
-  font-family: 'Newsreader', Georgia, serif;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #231F1D;
+@media (max-width: 860px) {
+  .kfg-atelier-shell.is-opening-view {
+    padding-top: 1.6rem;
+  }
+  .kfg-editorial-spread {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "intro"
+      "art"
+      "body";
+    gap: 0;
+  }
+  .kfg-editorial-art {
+    position: static;
+    max-width: 430px;
+    margin: 0 auto 1.6rem;
+  }
+  .kfg-art-quiet-meta {
+    display: none;
+  }
 }
 
 /* Primary & Secondary Boutique Buttons */
@@ -236,15 +394,15 @@ body.kfg-atelier-body {
   font-family: inherit;
   font-size: 1rem;
   font-weight: 600;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.005em;
   text-decoration: none;
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
 }
 
 .kfg-btn-primary:hover {
-  background-color: #244032;
-  border-color: #244032;
+  background-color: #233E31;
+  border-color: #233E31;
 }
 
 .kfg-btn-terracotta {
@@ -253,22 +411,23 @@ body.kfg-atelier-body {
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
-  min-height: 58px;
-  padding: 0.95rem 1.5rem;
+  min-height: 56px;
+  padding: 0.9rem 1.5rem;
   border-radius: 10px;
-  border: 1px solid #A66A46;
-  background-color: #A66A46;
-  color: #FAF7F2;
+  border: 1px solid #CFC6B8;
+  background-color: #FFFEFC;
+  color: #231F1D;
   font-family: inherit;
-  font-size: 0.98rem;
+  font-size: 0.96rem;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
 }
 
 .kfg-btn-terracotta:hover {
-  background-color: #8F5938;
+  background-color: #F6F1E8;
+  border-color: #231F1D;
 }
 
 .kfg-btn-outline {
@@ -276,14 +435,14 @@ body.kfg-atelier-body {
   align-items: center;
   justify-content: center;
   gap: 0.45rem;
-  min-height: 48px;
-  padding: 0.7rem 1.25rem;
+  min-height: 46px;
+  padding: 0.65rem 1.2rem;
   border-radius: 10px;
   border: 1px solid #D5CEC2;
   background-color: #FAF7F2;
   color: #231F1D;
   font-family: inherit;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
@@ -300,7 +459,7 @@ body.kfg-atelier-body {
   border: none;
   padding: 0;
   font-family: inherit;
-  font-size: 0.86rem;
+  font-size: 0.88rem;
   font-weight: 500;
   color: #6B635B;
   cursor: pointer;
@@ -323,17 +482,16 @@ body.kfg-atelier-body {
 }
 
 .kfg-step-counter {
-  font-size: 0.78rem;
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 0.92rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #6B635B;
+  color: #2F5241;
 }
 
 .kfg-progress-track {
   width: 100%;
-  height: 2px;
-  background: #EDE6DA;
+  height: 3px;
+  background: #EAE3D7;
   border-radius: 999px;
   overflow: hidden;
 }
@@ -346,15 +504,15 @@ body.kfg-atelier-body {
 }
 
 .kfg-step-lead {
-  margin: 0 0 1.4rem 0;
+  margin: 0 0 1.45rem 0;
   font-size: 0.96rem;
-  line-height: 1.65;
+  line-height: 1.68;
   color: #6B635B;
 }
 
 /* Form Elements */
 .kfg-field-group {
-  margin-bottom: 1.35rem;
+  margin-bottom: 1.4rem;
 }
 
 .kfg-field-label-row {
@@ -383,16 +541,20 @@ body.kfg-atelier-body {
   border: none;
   padding: 0;
   font-family: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #A66A46;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #6B635B;
   text-decoration: underline;
   text-underline-offset: 3px;
   cursor: pointer;
 }
 
+.kfg-helper-action:hover {
+  color: #231F1D;
+}
+
 .kfg-live-pill {
-  font-size: 0.82rem;
+  font-size: 0.83rem;
   font-weight: 600;
   color: #2F5241;
 }
@@ -402,9 +564,9 @@ body.kfg-atelier-body {
   width: 100%;
   min-height: 52px;
   padding: 0.72rem 0.95rem;
-  border: 1px solid #D5CEC2;
+  border: 1px solid #CFC6B8;
   border-radius: 9px;
-  background-color: #FAF7F2;
+  background-color: #FCFBF8;
   color: #231F1D;
   font-family: inherit;
   font-size: 1rem;
@@ -427,7 +589,7 @@ body.kfg-atelier-body {
 
 .kfg-grid-3 {
   display: grid;
-  grid-template-columns: 1fr 1fr 1.25fr;
+  grid-template-columns: 1.15fr 0.85fr 1fr;
   gap: 0.65rem;
 }
 
@@ -469,15 +631,16 @@ body.kfg-atelier-body {
   align-items: flex-start;
   gap: 0.75rem;
   padding: 0.95rem 1.05rem;
-  border: 1px solid #E7E2D8;
-  border-radius: 11px;
-  background: #FAF7F2;
+  border: 1px solid #E6DFD3;
+  border-radius: 10px;
+  background: #FCFBF8;
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
 }
 
 .kfg-radio-card:hover {
-  border-color: #C8BFA8;
+  border-color: #CFC6B8;
+  background: #FFFFFF;
 }
 
 .kfg-radio-card input[type="radio"] {
@@ -489,9 +652,8 @@ body.kfg-atelier-body {
 }
 
 .kfg-radio-card.is-selected {
-  background: #FFFFFF;
+  background: #EEF3F0;
   border-color: #2F5241;
-  box-shadow: 0 2px 10px rgba(47, 82, 65, 0.06);
 }
 
 .kfg-radio-title {
@@ -499,18 +661,18 @@ body.kfg-atelier-body {
   font-size: 0.95rem;
   font-weight: 600;
   color: #231F1D;
-  line-height: 1.4;
+  line-height: 1.42;
 }
 
 .kfg-radio-desc {
   display: block;
   font-size: 0.83rem;
   color: #6B635B;
-  line-height: 1.5;
+  line-height: 1.52;
   margin-top: 0.18rem;
 }
 
-/* Chip selectors (Bone-Age Stage & Lag) */
+/* Chip selectors */
 .kfg-chip-wrap {
   display: flex;
   flex-wrap: wrap;
@@ -519,8 +681,8 @@ body.kfg-atelier-body {
 }
 
 .kfg-chip-btn {
-  border: 1px solid #D5CEC2;
-  background: #FFFFFF;
+  border: 1px solid #CFC6B8;
+  background: #FFFEFC;
   color: #3A3430;
   border-radius: 999px;
   padding: 0.38rem 0.82rem;
@@ -532,7 +694,7 @@ body.kfg-atelier-body {
 }
 
 .kfg-chip-btn:hover {
-  border-color: #A66A46;
+  border-color: #2F5241;
 }
 
 .kfg-chip-btn.is-active {
@@ -543,118 +705,207 @@ body.kfg-atelier-body {
 
 /* Warm Callout Note */
 .kfg-warm-note {
-  background: #F6F2EA;
-  border: 1px solid #E7E2D8;
-  border-left: 3px solid #2F5241;
+  background: #F7F2E9;
+  border: 1px solid #E5DFD3;
   border-radius: 10px;
   padding: 0.95rem 1.1rem;
-  font-size: 0.88rem;
-  line-height: 1.62;
+  font-size: 0.89rem;
+  line-height: 1.65;
   color: #3A3430;
   margin-top: 0.85rem;
 }
 
 .kfg-warm-note strong {
-  color: #231F1D;
+  color: #2F5241;
 }
 
 .kfg-warm-note-amber {
-  border-left-color: #A66A46;
+  background: #FBF7F0;
 }
 
-/* Partial Baseline Summary & Paid Tier Cards */
+/* Partial Baseline Summary, Locked Preview & Paid Tier Cards */
 .kfg-baseline-box {
   background: #FAF7F2;
-  border: 1px solid #E7E2D8;
+  border: 1px solid #E6DFD3;
   border-radius: 13px;
-  padding: 1.35rem 1.4rem;
-  margin-bottom: 1.85rem;
+  padding: 1.4rem 1.4rem;
+  margin-bottom: 1.5rem;
 }
 
 .kfg-baseline-metrics {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 0.85rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
   margin: 0.95rem 0;
 }
 
 .kfg-metric-tile {
-  background: #FFFFFF;
-  border: 1px solid #E7E2D8;
+  background: #FFFEFC;
+  border: 1px solid #E6DFD3;
   border-radius: 10px;
-  padding: 0.85rem 1rem;
+  padding: 0.9rem 0.95rem;
 }
 
 .kfg-metric-kicker {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+  font-size: 0.76rem;
+  font-weight: 500;
   color: #6B635B;
 }
 
 .kfg-metric-value {
   font-family: 'Newsreader', Georgia, serif;
-  font-size: 1.48rem;
-  font-weight: 500;
+  font-size: 1.38rem;
+  font-weight: 600;
   color: #231F1D;
-  margin-top: 0.2rem;
+  margin-top: 0.22rem;
   line-height: 1.25;
 }
 
 .kfg-metric-sub {
-  font-size: 0.8rem;
+  font-size: 0.79rem;
   color: #6B635B;
-  margin-top: 0.2rem;
+  margin-top: 0.22rem;
 }
 
+.kfg-percentile-bar-box {
+  margin: 0.95rem 0;
+  padding: 0.9rem 1rem;
+  background: #FFFEFC;
+  border: 1px solid #E6DFD3;
+  border-radius: 10px;
+}
+
+.kfg-percentile-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.74rem;
+  color: #6B635B;
+  margin-bottom: 0.5rem;
+}
+
+.kfg-percentile-track {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background: #E8E1D5;
+  border-radius: 999px;
+}
+
+.kfg-percentile-fill {
+  height: 100%;
+  background: #2F5241;
+  border-radius: 999px;
+}
+
+.kfg-percentile-pin {
+  position: absolute;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  background: #2F5241;
+  border: 3px solid #FFFFFF;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 2px 5px rgba(35, 31, 29, 0.2);
+}
+
+/* Locked Tiered Preview Rows */
+.kfg-locked-preview {
+  margin: 0 0 1.75rem;
+  padding: 1.3rem 1.35rem;
+  background: #FCFBF8;
+  border: 1px solid #E6DFD3;
+  border-radius: 13px;
+}
+
+.kfg-locked-row {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid #E6DFD3;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.kfg-locked-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.kfg-locked-title {
+  margin: 0 0 0.2rem;
+  font-size: 0.93rem;
+  font-weight: 600;
+  color: #231F1D;
+}
+
+.kfg-locked-sub {
+  font-size: 0.84rem;
+  color: #6B635B;
+}
+
+.kfg-blur-val {
+  display: inline-block;
+  filter: blur(5px);
+  opacity: 0.72;
+  user-select: none;
+  pointer-events: none;
+}
+
+.kfg-locked-pill {
+  flex-shrink: 0;
+  padding: 0.24rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  background: #F4EFE6;
+  border: 1px solid #D5CEC2;
+  color: #3A3430;
+}
+
+/* 2-Tier Paid Cards */
 .kfg-tier-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.1rem;
-  margin-top: 1.25rem;
+  gap: 1.15rem;
+  margin-top: 1.2rem;
 }
 
 .kfg-tier-card {
-  background: #FAF7F2;
-  border: 1px solid #E7E2D8;
+  background: #FFFEFC;
+  border: 1px solid #CFC6B8;
   border-radius: 14px;
-  padding: 1.45rem 1.35rem;
+  padding: 1.55rem 1.4rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .kfg-tier-card.is-featured {
-  background: #FFFFFF;
+  background: #FBF7F0;
   border: 1.5px solid #2F5241;
-  box-shadow: 0 10px 28px rgba(47, 82, 65, 0.07);
 }
 
 .kfg-tier-tag {
   display: inline-block;
-  font-size: 0.7rem;
+  font-family: 'Newsreader', Georgia, serif;
+  font-style: italic;
+  font-size: 0.86rem;
   font-weight: 600;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
   color: #2F5241;
-  background: #E9EFEA;
-  padding: 0.22rem 0.65rem;
-  border-radius: 999px;
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.4rem;
 }
 
 .kfg-tier-tag-sand {
-  color: #7D4E31;
-  background: #EDE6DA;
+  color: #6B635B;
 }
 
 .kfg-tier-name {
   font-family: 'Newsreader', Georgia, serif;
-  font-size: 1.3rem;
+  font-size: 1.32rem;
   font-weight: 500;
   color: #231F1D;
-  margin: 0 0 0.35rem 0;
+  margin: 0 0 0.45rem 0;
   line-height: 1.28;
 }
 
@@ -662,15 +913,15 @@ body.kfg-atelier-body {
   display: flex;
   align-items: baseline;
   gap: 0.45rem;
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.95rem;
   padding-bottom: 0.85rem;
-  border-bottom: 1px solid #E7E2D8;
+  border-bottom: 1px solid #E6DFD3;
 }
 
 .kfg-tier-price {
   font-family: 'Newsreader', Georgia, serif;
   font-size: 2rem;
-  font-weight: 500;
+  font-weight: 600;
   color: #231F1D;
   line-height: 1;
 }
@@ -683,31 +934,30 @@ body.kfg-atelier-body {
 .kfg-tier-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 1.35rem 0;
-  font-size: 0.88rem;
+  margin: 0 0 1.4rem 0;
+  font-size: 0.89rem;
   line-height: 1.62;
   color: #3A3430;
 }
 
 .kfg-tier-list li {
   position: relative;
-  padding-left: 1.15rem;
+  padding-left: 0.95rem;
   margin-bottom: 0.55rem;
 }
 
 .kfg-tier-list li::before {
-  content: "\2014";
+  content: "\00B7";
   position: absolute;
-  left: 0;
-  color: #A66A46;
+  left: 0.1rem;
+  color: #2F5241;
+  font-weight: 800;
 }
 
-/* Inline Restore & Quiet Footer */
-.kfg-restore-strip {
-  margin-top: 1.4rem;
-  padding-top: 1.15rem;
-  border-top: 1px solid #EDE6DA;
-  font-size: 0.84rem;
+.kfg-quiet-restore-note {
+  margin: 1.15rem 0 0;
+  text-align: center;
+  font-size: 0.83rem;
   color: #6B635B;
 }
 
@@ -725,12 +975,11 @@ body.kfg-atelier-body {
   padding: 0.5rem 0.85rem;
 }
 
+/* Quiet 1-Line Legal Footer */
 .kfg-atelier-footer {
   width: 100%;
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 1.25rem 1.35rem 2.4rem;
-  border-top: 1px solid #E7E2D8;
+  border-top: 1px solid #E6DFD3;
+  padding: 1.35rem 1.35rem 2.2rem;
   text-align: center;
   font-size: 0.78rem;
   line-height: 1.65;
@@ -742,7 +991,7 @@ body.kfg-atelier-body {
   justify-content: center;
   flex-wrap: wrap;
   gap: 0.35rem 0.9rem;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.4rem;
 }
 
 .kfg-footer-links a {
@@ -756,7 +1005,7 @@ body.kfg-atelier-body {
 }
 
 .kfg-footer-disclaimer {
-  max-width: 640px;
+  max-width: 680px;
   margin: 0 auto;
   color: #8C8278;
   font-size: 0.75rem;
@@ -765,7 +1014,7 @@ body.kfg-atelier-body {
 /* Unlocked Dossier Styling */
 .kfg-dossier-section {
   padding: 1.35rem 0;
-  border-top: 1px solid #EDE6DA;
+  border-top: 1px solid #E6DFD3;
 }
 
 .kfg-dossier-grid-3 {
@@ -780,7 +1029,7 @@ body.kfg-atelier-body {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(35, 31, 29, 0.48);
+  background: rgba(35, 31, 29, 0.46);
   backdrop-filter: blur(3px);
   display: none;
   align-items: center;
@@ -794,25 +1043,32 @@ body.kfg-atelier-body {
 
 .kfg-modal-panel {
   width: 100%;
-  max-width: 620px;
+  max-width: 600px;
   max-height: 90vh;
   overflow-y: auto;
-  background: #FFFFFF;
-  border: 1px solid #E7E2D8;
+  background: #FFFEFC;
+  border: 1px solid #E6DFD3;
   border-radius: 16px;
-  padding: 1.75rem 1.65rem;
+  padding: 1.75rem 1.6rem;
   box-shadow: 0 24px 60px rgba(35, 31, 29, 0.18);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 680px) {
   body.kfg-atelier-body {
     font-size: 17px;
   }
+  .kfg-atelier-masthead {
+    padding: 0.9rem 1.1rem;
+  }
+  .kfg-masthead-sub {
+    display: none;
+  }
   .kfg-atelier-shell {
-    padding: 1.25rem 0.95rem 2rem;
+    padding: 1.4rem 1rem 2.4rem;
   }
   .kfg-grid-2,
   .kfg-choice-row-2,
+  .kfg-baseline-metrics,
   .kfg-tier-grid,
   .kfg-dossier-grid-3 {
     grid-template-columns: 1fr;
@@ -824,7 +1080,7 @@ body.kfg-atelier-body {
     background: #FFFFFF !important;
     font-size: 11pt;
   }
-  .kfg-atelier-masthead,
+  .kfg-masthead-bar,
   .kfg-atelier-footer,
   .kfg-modal-backdrop,
   .kfg-no-print {

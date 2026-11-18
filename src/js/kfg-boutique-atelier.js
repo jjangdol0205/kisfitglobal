@@ -219,9 +219,9 @@
 
     var calloutText =
       'Examined ' + examDateYm + ' (' + deltaMonths + ' ' + (deltaMonths === 1 ? 'month' : 'months') +
-      ' ago) at Bone Age ' + baExamLabel + ' \u2192 Elapsed lag (+' + deltaMonths + ' mo' +
-      (hasAccelSign && deltaMonths > 0 ? ', 1.08x tempo' : '') +
-      ') calibrated to Today\'s Estimated Bone Age ' + baProjectedTodayLabel + '.';
+      ' ago) at Bone Age ' + baExamLabel + ' -> Adjusted for ' + deltaMonths + ' elapsed ' + (deltaMonths === 1 ? 'month' : 'months') +
+      (hasAccelSign && deltaMonths > 0 ? ' (with faster pubertal pace)' : '') +
+      ' to Today\'s Estimated Bone Age ' + baProjectedTodayLabel + '.';
 
     var followUpNote = followUpRecommended
       ? 'Because more than 12 months have passed since that radiograph, requesting an updated wrist X-ray at your next routine pediatric visit is advisable.'
@@ -589,8 +589,8 @@
     var mphCm = ((Number(p.fatherHeight) || 177.8) + (Number(p.motherHeight) || 163.8) + (isBoy ? 13.0 : -13.0)) / 2;
     var mphEl = byId('kfg-live-mph-note');
     if (mphEl) {
-      mphEl.innerHTML = '<strong>Tanner Mid-Parental Baseline (MPH):</strong> ' + esc(formatHeight(mphCm)) +
-        ' &mdash; biological genetic midpoint prior to sleep, nutrition, and skeletal tempo calibration.';
+      mphEl.innerHTML = '<strong>Family Height Midpoint:</strong> ' + esc(formatHeight(mphCm)) +
+        ' (natural inherited family center before evening sleep, meals, and bone-age pace are weighed).';
     }
 
     var baDrawer = byId('kfg-ba-detail-drawer');
@@ -609,8 +609,8 @@
       });
       var calBox = byId('kfg-atelier-ba-live-note');
       if (calBox) {
-        calBox.innerHTML = '<strong>Time-Lag (&Delta;t) Calibration:</strong> ' + esc(cal.calloutText) +
-          (cal.followUpNote ? (' <br><span style="color:#7D4E31;">' + esc(cal.followUpNote) + '</span>') : '');
+        calBox.innerHTML = '<strong>Elapsed Time Adjustment:</strong> ' + esc(cal.calloutText) +
+          (cal.followUpNote ? (' <br><span style="color:#6B635B;">' + esc(cal.followUpNote) + '</span>') : '');
       }
     }
     syncRadioCardHighlights();
@@ -645,6 +645,15 @@
 
   function showScreen(screenIdx) {
     atelierState.activeScreen = screenIdx;
+    var shellEl = byId('kfg-shell-container');
+    var mainEl = byId('kfg-single-breath-atelier');
+    if (shellEl) {
+      shellEl.classList.toggle('is-opening-view', screenIdx === 0);
+      shellEl.classList.toggle('is-wide-view', screenIdx === 3 || (screenIdx === 2 && atelierState.emailGateOpened));
+    }
+    if (mainEl) {
+      mainEl.classList.toggle('kfg-atelier-card', screenIdx !== 0);
+    }
     var screens = [
       byId('kfg-screen-0-letter'),
       byId('kfg-screen-1-steps'),
@@ -677,12 +686,12 @@
       if (panel) panel.style.display = s === target ? 'block' : 'none';
     }
     var counterEl = byId('kfg-step-indicator');
-    if (counterEl) counterEl.textContent = 'Step ' + target + ' of 5';
+    if (counterEl) counterEl.textContent = 'Question ' + target + ' of 5';
     var fillEl = byId('kfg-step-progress-fill');
     if (fillEl) fillEl.style.width = (target * 20) + '%';
     var backEl = byId('btn-kfg-step-back');
     if (backEl) {
-      backEl.textContent = target === 1 ? '\u2190 Back to Introduction' : ('\u2190 Back to Step ' + (target - 1));
+      backEl.textContent = target === 1 ? '\u2190 Back to Our Story' : ('\u2190 Previous Question');
     }
     refreshLiveStepPreviews();
   }
@@ -754,6 +763,10 @@
   function renderScreen2And3() {
     var p = collectFormIntoProfile();
     var aux = computeAtelierAuxology(p);
+    var shellEl = byId('kfg-shell-container');
+    if (shellEl) {
+      shellEl.classList.toggle('is-wide-view', Boolean(atelierState.emailGateOpened));
+    }
     var formWrap = byId('kfg-email-gate-form-panel');
     var partialWrap = byId('kfg-partial-baseline-summary');
     var paidWrap = byId('kfg-proactive-growth-edge');
@@ -764,27 +777,48 @@
     if (partialWrap) {
       partialWrap.style.display = atelierState.emailGateOpened ? 'block' : 'none';
       if (atelierState.emailGateOpened) {
-        var childHeader = (p.childName ? (esc(p.childName) + ' &middot; ') : '') +
-          esc(aux.ageLabel) + ' &middot; ' + esc(aux.sexLabel);
+        var childHeader = (p.childName ? (esc(p.childName) + ' \u00B7 ') : '') +
+          esc(aux.ageLabel) + ' \u00B7 ' + esc(aux.sexLabel);
+        var clampedPin = clamp(aux.percentile, 3, 97);
         partialWrap.innerHTML =
-          '<span class="kfg-eyebrow" style="margin-bottom:0.45rem;">Baseline US CDC 2000 Peer Position</span>' +
+          '<span class="kfg-note-tag" style="margin-bottom:0.45rem;">Baseline Peer Summary \u00B7 Free Preview</span>' +
           '<h3 class="kfg-serif-h2" style="margin-bottom:0.35rem;">' + childHeader + '</h3>' +
           '<div class="kfg-baseline-metrics">' +
             '<div class="kfg-metric-tile">' +
-              '<div class="kfg-metric-kicker">Current Standing Stature</div>' +
+              '<div class="kfg-metric-kicker">Current Standing Height</div>' +
               '<div class="kfg-metric-value">' + esc(formatHeight(aux.heightCm)) + '</div>' +
-              '<div class="kfg-metric-sub">Exact chronological baseline</div>' +
+              '<div class="kfg-metric-sub">Day-exact age baseline</div>' +
             '</div>' +
             '<div class="kfg-metric-tile">' +
-              '<div class="kfg-metric-kicker">US CDC 2000 Peer Percentile</div>' +
+              '<div class="kfg-metric-kicker">US CDC Peer Percentile</div>' +
               '<div class="kfg-metric-value" style="color:#2F5241;">' + esc(aux.ordinalPercentile) + ' Percentile</div>' +
-              '<div class="kfg-metric-sub">LMS Z-Score ' + (aux.zScore >= 0 ? '+' : '') + aux.zScore.toFixed(2) + ' (' + aux.percentile.toFixed(1) + 'th %ile)</div>' +
+              '<div class="kfg-metric-sub">Taller than ~' + Math.round(aux.percentile) + ' of 100 peers</div>' +
+            '</div>' +
+            '<div class="kfg-metric-tile">' +
+              '<div class="kfg-metric-kicker">Family Height Midpoint</div>' +
+              '<div class="kfg-metric-value">' + esc(formatHeight(aux.mphCm)) + '</div>' +
+              '<div class="kfg-metric-sub">Inherited family center</div>' +
             '</div>' +
           '</div>' +
-          '<p style="margin:0;font-size:0.94rem;line-height:1.7;color:#3A3430;">' +
+          '<div class="kfg-percentile-bar-box" aria-label="US CDC Peer Percentile Scale">' +
+            '<div class="kfg-percentile-labels">' +
+              '<span>3rd</span><span>25th</span><span>50th (Median)</span><span>75th</span><span>97th</span>' +
+            '</div>' +
+            '<div class="kfg-percentile-track">' +
+              '<div class="kfg-percentile-fill" style="width:' + clampedPin + '%;"></div>' +
+              '<div class="kfg-percentile-pin" style="left:' + clampedPin + '%;"></div>' +
+            '</div>' +
+          '</div>' +
+          '<p style="margin:0;font-size:0.95rem;line-height:1.74;color:#3A3430;">' +
             esc(aux.gentlePeerObservation) +
-            (p.hasBoneAge ? (' Your hospital wrist bone-age reading (+' + p.baDeltaMonths + ' mo elapsed lag) has been calibrated and is ready inside your full report below.') : '') +
           '</p>';
+
+        var lockedLine = byId('kfg-locked-ba-line');
+        if (lockedLine) {
+          lockedLine.textContent = p.hasBoneAge
+            ? ('Your wrist bone-age reading (adjusted for ' + p.baDeltaMonths + ' elapsed months) and final adult height forecast are ready below.')
+            : 'Your child\'s full adult height forecast, priority evening habit plan, and monthly velocity tracker are ready below.';
+        }
       }
     }
     if (paidWrap) {
@@ -922,39 +956,39 @@
     } catch (_) {}
     var isPass = paidPlan === 'pass' || paidPlan === 'sixMonth';
 
-    var childTitle = (p.childName ? (esc(p.childName) + ' &mdash; ') : '') +
+    var childTitle = (p.childName ? (esc(p.childName) + ' \u00B7 ') : '') +
       esc(aux.ageLabel) + ' (' + esc(aux.sexLabel) + ')';
 
     var baSectionHtml = p.hasBoneAge && Number(p.baProjectedTodayYears) > 0
       ? ('<div class="kfg-warm-note">' +
-          '<strong>Delta-t Bone-Age Calibration Applied:</strong> ' + esc(p.baCalibrationText || ('Today\'s Estimated Bone Age: ' + formatYearsMonths(p.baProjectedTodayYears))) +
-          ' Remaining open epiphyseal growth runway: <strong>' + esc(formatGain(aux.remainingRunwayCm)) + '</strong> across approximately <strong>' + aux.remainingYears + ' skeletal years</strong>.' +
-          (p.baFollowUpRecommended ? ' Consider an updated left-wrist radiograph at your next routine pediatric checkup since over 12 months have elapsed.' : '') +
+          '<strong>Elapsed Bone-Age Adjustment Applied:</strong> ' + esc(p.baCalibrationText || ('Today\'s Estimated Bone Age: ' + formatYearsMonths(p.baProjectedTodayYears))) +
+          ' Estimated remaining open growth runway: <strong>' + esc(formatGain(aux.remainingRunwayCm)) + '</strong> across approximately <strong>' + aux.remainingYears + ' growing years</strong>.' +
+          (p.baFollowUpRecommended ? ' Consider an updated wrist X-ray at your next routine checkup since over 12 months have passed.' : '') +
         '</div>')
       : ('<div class="kfg-warm-note">' +
-          '<strong>Somatic Runway (Modeled Without Wrist X-Ray):</strong> Calibrated via US CDC 2000 LMS curves, parental stature, and Fels Khamis-Roche equations. Estimated remaining linear stature runway: <strong>' +
+          '<strong>Growth Runway (Without Wrist X-Ray):</strong> Modeled from US CDC reference curves, both parents\' heights, and current somatic pace. Estimated remaining height runway: <strong>' +
           esc(formatGain(aux.remainingRunwayCm)) + '</strong> over approximately <strong>' + aux.remainingYears + ' years</strong>.' +
         '</div>');
 
     var tier2Block = isPass
       ? ('<div class="kfg-dossier-section kfg-no-print">' +
           '<span class="kfg-tier-tag">6-Month Growth Velocity Pass Active</span>' +
-          '<h3 class="kfg-serif-h2">Monthly (30-Day Cycle) US CDC Growth Velocity Tracker</h3>' +
-          '<p style="margin:0 0 1rem;font-size:0.94rem;color:#6B635B;">Log your child\'s standing height once every 30 days to verify annualized growth pace (in/yr &amp; cm/yr) against US CDC norms.</p>' +
+          '<h3 class="kfg-serif-h2">Monthly (30-Day Cycle) US CDC Growth Velocity Log</h3>' +
+          '<p style="margin:0 0 1rem;font-size:0.94rem;color:#6B635B;">Record your child\'s morning standing height once every 30 days to check annualized growth pace (in/yr &amp; cm/yr) against US CDC norms.</p>' +
           '<button type="button" class="kfg-btn-primary" style="max-width:340px;" onclick="window.openKfgMemberModal(\'checkin\')">Open 30-Day Height Velocity Check-In -&gt;</button>' +
         '</div>')
       : ('<div class="kfg-dossier-section kfg-no-print">' +
           '<div class="kfg-warm-note kfg-warm-note-amber">' +
-            '<strong>Need 6-Month Monthly Velocity Tracking?</strong> You have full lifetime access to this Single Growth &amp; Bone-Age Report. Whenever you wish to track monthly 30-day height velocity (in/yr &amp; cm/yr) across six consecutive months, you may step up to the <a href="' + POLAR_PASS_URL + '" data-kfg-paid-plan="pass" onclick="event.preventDefault();window.startAtelierPolarCheckout(\'pass\');" style="color:#7D4E31;font-weight:700;">6-Month Growth Velocity Pass ($19.99) -&gt;</a>.' +
+            '<strong>Want 6-Month Monthly Velocity Tracking?</strong> You have lifetime access to this Single Growth &amp; Bone-Age Report. Whenever you wish to log monthly 30-day height velocity (in/yr &amp; cm/yr) across six consecutive months, you can step up to the <a href="' + POLAR_PASS_URL + '" data-kfg-paid-plan="pass" onclick="event.preventDefault();window.startAtelierPolarCheckout(\'pass\');" style="color:#2F5241;font-weight:700;">6-Month Growth Velocity Pass ($19.99) -&gt;</a>.' +
           '</div>' +
         '</div>');
 
     container.innerHTML =
       '<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.85rem;margin-bottom:1.2rem;">' +
         '<div>' +
-          '<span class="kfg-eyebrow" style="margin-bottom:0.35rem;">Complete Pediatric Growth &amp; Bone-Age Dossier</span>' +
+          '<span class="kfg-note-tag" style="margin-bottom:0.35rem;">Complete Growth &amp; Bone-Age Report</span>' +
           '<h2 class="kfg-serif-title" style="margin-bottom:0.25rem;">' + childTitle + '</h2>' +
-          '<div style="font-size:0.88rem;color:#6B635B;">Current Stature: ' + esc(formatHeight(aux.heightCm)) + ' &middot; US CDC ' + esc(aux.ordinalPercentile) + ' Percentile (Z=' + (aux.zScore >= 0 ? '+' : '') + aux.zScore.toFixed(2) + ')</div>' +
+          '<div style="font-size:0.88rem;color:#6B635B;">Current Height: ' + esc(formatHeight(aux.heightCm)) + ' \u00B7 US CDC ' + esc(aux.ordinalPercentile) + ' Percentile</div>' +
         '</div>' +
         '<div class="kfg-no-print" style="display:flex;gap:0.55rem;flex-wrap:wrap;">' +
           '<button type="button" class="kfg-btn-outline" onclick="window.print()">Print / Save PDF Guide -&gt;</button>' +
@@ -963,34 +997,34 @@
       '</div>' +
 
       '<div class="kfg-dossier-section">' +
-        '<span class="kfg-eyebrow" style="margin-bottom:0.4rem;">Section I &middot; Three-Scenario Adult Stature Forecast</span>' +
+        '<span class="kfg-note-tag" style="margin-bottom:0.4rem;">Part 1 \u00B7 Adult Height Forecast Across Three Paths</span>' +
         '<div class="kfg-dossier-grid-3">' +
           '<div class="kfg-metric-tile">' +
-            '<div class="kfg-metric-kicker">Current-Habit Trajectory</div>' +
+            '<div class="kfg-metric-kicker">Current Routine Path</div>' +
             '<div class="kfg-metric-value">' + esc(formatHeight(aux.unmanagedCm)) + '</div>' +
-            '<div class="kfg-metric-sub">If current sleep &amp; posture persist</div>' +
+            '<div class="kfg-metric-sub">If current bedtime &amp; posture continue</div>' +
           '</div>' +
           '<div class="kfg-metric-tile">' +
-            '<div class="kfg-metric-kicker">Tanner Parental Midpoint</div>' +
+            '<div class="kfg-metric-kicker">Family Height Midpoint</div>' +
             '<div class="kfg-metric-value">' + esc(formatHeight(aux.mphCm)) + '</div>' +
-            '<div class="kfg-metric-sub">90% Khamis-Roche band: ' + esc(formatHeight(aux.krMinCm)) + ' to ' + esc(formatHeight(aux.krMaxCm)) + '</div>' +
+            '<div class="kfg-metric-sub">Expected band: ' + esc(formatHeight(aux.krMinCm)) + ' to ' + esc(formatHeight(aux.krMaxCm)) + '</div>' +
           '</div>' +
-          '<div class="kfg-metric-tile" style="border-color:#2F5241;background:#F6F9F7;">' +
-            '<div class="kfg-metric-kicker" style="color:#2F5241;">Optimized 90-Day Potential</div>' +
+          '<div class="kfg-metric-tile" style="border-color:#2F5241;background:#EEF3F0;">' +
+            '<div class="kfg-metric-kicker" style="color:#2F5241;">Tended Evening Routine</div>' +
             '<div class="kfg-metric-value" style="color:#2F5241;">' + esc(formatHeight(aux.optimizedCm)) + '</div>' +
-            '<div class="kfg-metric-sub" style="color:#2F5241;">Modifiable window: ' + esc(formatGain(aux.optimizedGainCm)) + '</div>' +
+            '<div class="kfg-metric-sub" style="color:#2F5241;">Recoverable room: ' + esc(formatGain(aux.optimizedGainCm)) + '</div>' +
           '</div>' +
         '</div>' +
         baSectionHtml +
       '</div>' +
 
       '<div class="kfg-dossier-section">' +
-        '<span class="kfg-eyebrow" style="margin-bottom:0.4rem;">Section II &middot; Priority Growth Bottleneck &amp; 30-Day Home Rhythm</span>' +
+        '<span class="kfg-note-tag" style="margin-bottom:0.4rem;">Part 2 \u00B7 Priority Evening Habits for the Next 90 Days</span>' +
         '<p style="margin:0 0 0.9rem;font-size:0.96rem;color:#231F1D;font-weight:500;">' + esc(aux.primaryBottleneckLine) + '</p>' +
         '<ul class="kfg-tier-list" style="margin-bottom:0;">' +
-          '<li><strong>Evening Slow-Wave Sleep Rhythm:</strong> Dim bedroom lighting 45 minutes prior to a 9:30 PM lights-out target, keeping the final 2.5 to 3 hours before sleep free of sugary beverages or heavy late snacks so nocturnal growth-hormone pulses remain unblunted.</li>' +
-          '<li><strong>Weight-Matched Daily Bone Matrix Targets:</strong> Aim for approximately <strong>' + aux.proteinG + ' g/day</strong> of complete dietary protein alongside <strong>' + aux.calciumMg + ' mg/day</strong> bioavailable calcium and <strong>' + aux.vitDIu + ' IU/day</strong> Vitamin D3 paired with whole-food meals.</li>' +
-          '<li><strong>Daily Decompression &amp; Osteogenic Movement:</strong> Combine 15 minutes of afternoon vertical jumping or court play with 3 gentle 30-second doorway stretches or thoracic extensions after homework to relieve seated disc compression.</li>' +
+          '<li><strong>Deep Early-Night Sleep:</strong> Dim hallway and bedroom lights 40 minutes before a 9:30 PM lights-out target, keeping the last two hours before sleep free of sweet drinks or late snacks so deep nighttime growth pulses stay strong.</li>' +
+          '<li><strong>Daily Bone-Building Meals:</strong> Aim for roughly <strong>' + aux.proteinG + ' g/day</strong> of whole-food protein alongside <strong>' + aux.calciumMg + ' mg/day</strong> of calcium and <strong>' + aux.vitDIu + ' IU/day</strong> of Vitamin D3 paired with regular family meals.</li>' +
+          '<li><strong>Posture Unloading &amp; Active Play:</strong> Pair 15 minutes of afternoon jumping or court play with gentle doorway chest-openers after homework so seated spinal compression does not hide earned height.</li>' +
         '</ul>' +
       '</div>' +
       tier2Block;
