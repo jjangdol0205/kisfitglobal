@@ -580,6 +580,28 @@
     var prevImp = cmToImperialLabel(result.prev_height_cm || payload.prev_height_cm);
     var currImp = cmToImperialLabel(result.current_height_cm || payload.current_height_cm);
 
+    var histList = [];
+    try {
+      histList = JSON.parse(localStorage.getItem('kfg_vip_checkin_history_v1') || '[]');
+      if (!Array.isArray(histList)) histList = [];
+    } catch (_) { histList = []; }
+    var graphPoints = histList.slice(0, 5).reverse();
+    graphPoints.push({ date: 'Today', current_height_cm: Number(result.current_height_cm || payload.current_height_cm || 134.5) });
+    if (graphPoints.length === 1) {
+      graphPoints.unshift({ date: 'Day 1', current_height_cm: Number(result.prev_height_cm || payload.prev_height_cm || 134.0) });
+    }
+    var minG = graphPoints[0].current_height_cm - 0.5;
+    var maxG = graphPoints[graphPoints.length - 1].current_height_cm + 1.5;
+    if (maxG - minG < 2) maxG = minG + 2.5;
+    var polyPts = [];
+    for (var gi = 0; gi < graphPoints.length; gi++) {
+      var gx = Math.round(40 + (gi / Math.max(1, graphPoints.length - 1)) * 440);
+      var gy = Math.round(115 - ((graphPoints[gi].current_height_cm - minG) / (maxG - minG)) * 85);
+      polyPts.push(gx + ',' + gy);
+    }
+    var startHeightForGrad = graphPoints[0].current_height_cm;
+    var latestHeightForGrad = graphPoints[graphPoints.length - 1].current_height_cm;
+
     outEl.style.display = 'block';
     outEl.innerHTML =
       '<div class="kfg-vip-report-card">' +
@@ -587,7 +609,7 @@
           '<span class="kfg-vip-report-pill" style="background:' + paceBadgeColor + ';">' + paceBadgeText + '</span>' +
           '<span class="kfg-vip-report-date">Instant Automated VIP Velocity Calculation &middot; ' + new Date().toISOString().slice(0, 10) + '</span>' +
         '</div>' +
-        '<h3 class="kfg-vip-report-title">Instant VIP Velocity &amp; 4-Pillar Habit Commentary for ' + childLabel + '</h3>' +
+        '<h3 class="kfg-vip-report-title">Instant VIP Velocity &amp; 6-Month Cumulative Tracker for ' + childLabel + '</h3>' +
         '<div class="kfg-vip-kpi-row">' +
           '<div class="kfg-vip-kpi-box">' +
             '<span class="kfg-vip-kpi-lbl">30-Day Stature Gain</span>' +
@@ -605,6 +627,18 @@
             '<span class="kfg-vip-kpi-sub">Keep anchoring this routine over the next 30 days</span>' +
           '</div>' +
         '</div>' +
+        '<div style="margin:14px 0;padding:14px;background:#FAF7F2;border:1px solid #DFD7CC;border-radius:10px;">' +
+          '<div style="font-size:0.84rem;font-weight:700;color:#2F5241;margin-bottom:6px;">6-MONTH CUMULATIVE HEIGHT TRAJECTORY (DAY 30 &middot; 60 &middot; 90 &middot; 120 &middot; 150 &middot; 180)</div>' +
+          '<svg viewBox="0 0 520 135" style="width:100%;height:auto;max-height:140px;display:block;" role="img" aria-label="6-Month Cumulative Height Trajectory">' +
+            '<line x1="40" y1="115" x2="480" y2="115" stroke="#CBD5E1" stroke-width="1.5"/>' +
+            '<line x1="40" y1="30" x2="480" y2="30" stroke="#E2E8F0" stroke-dasharray="4 4" stroke-width="1"/>' +
+            '<polyline fill="none" stroke="#2F5241" stroke-width="3.2" points="' + polyPts.join(' ') + '"/>' +
+          '</svg>' +
+          '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;">' +
+            '<span style="font-size:0.82rem;color:#57534E;">Baseline ' + startHeightForGrad.toFixed(1) + ' cm &rarr; Latest ' + latestHeightForGrad.toFixed(1) + ' cm</span>' +
+            '<button type="button" id="btn-kfg-graduation-album-pdf" onclick="window.KfgPersonalizedPdf && window.KfgPersonalizedPdf.downloadGraduationAlbumPdf(' + JSON.stringify(payload.child_name || 'Your Child').replace(/"/g, '&quot;') + ',' + startHeightForGrad + ',' + latestHeightForGrad + ')" style="padding:7px 14px;border-radius:6px;border:1px solid #2F5241;background:#2F5241;color:#FFFFFF;font-size:0.82rem;font-weight:700;cursor:pointer;">Download Day-165 6-Month Graduation Album PDF &rarr;</button>' +
+          '</div>' +
+        '</div>' +
         '<div class="kfg-vip-verdict-box">' +
           '<strong>Automated US CDC Velocity Summary:</strong> ' + escHtml(result.velocity_verdict || '') +
         '</div>' +
@@ -613,9 +647,15 @@
           '<div class="kfg-vip-bottleneck-tip">' + escHtml(bottleneck.tip || '') + '</div>' +
         '</div>' +
         '<div class="kfg-vip-email-confirm">' +
-          'Calculated instantly on-screen for verified VIP member <strong>' + emailLabel + '</strong> &middot; Logged to your 30-day growth tracker.' +
+          'Calculated instantly on-screen for verified VIP member <strong>' + emailLabel + '</strong> &middot; Logged to your 6-month growth tracker.' +
         '</div>' +
+        '<div id="kfg-vip-checkin-sat-mount"></div>' +
       '</div>';
+
+    if (global.DreamCompanyCRM && typeof global.DreamCompanyCRM.mountSatisfactionBar === 'function') {
+      var sm = document.getElementById('kfg-vip-checkin-sat-mount');
+      if (sm) global.DreamCompanyCRM.mountSatisfactionBar(sm, { div: 'KFG', context: 'vip_monthly_checkin', email: payload.email });
+    }
   }
 
   function computeLocalCheckinResult(payload) {
@@ -796,10 +836,18 @@
       var params = new URLSearchParams((global.location && global.location.search) || '');
       var urlVipEmail = String(params.get('vip_email') || '').trim();
       var urlVipToken = String(params.get('vip_token') || '').trim();
+      var urlPrevH = Number(params.get('prev_h') || 0);
       var wantsCheckinScroll = params.get('vip_checkin') === '1' || Boolean(urlVipToken) || (global.location && global.location.hash === '#kfg-vip-monthly-checkin');
 
       if (urlVipToken) {
         localStorage.setItem('kfg_vip_token', urlVipToken);
+      }
+      if (urlPrevH >= 65 && urlPrevH <= 215) {
+        localStorage.setItem('kfg_vip_last_height_cm', String(urlPrevH));
+        var pElQuick = document.getElementById('kfg-vip-prev-cm');
+        var cElQuick = document.getElementById('kfg-vip-curr-cm');
+        if (pElQuick) pElQuick.value = urlPrevH.toFixed(1);
+        if (cElQuick) cElQuick.value = (urlPrevH + 0.5).toFixed(1);
       }
 
       var storedVip = null;

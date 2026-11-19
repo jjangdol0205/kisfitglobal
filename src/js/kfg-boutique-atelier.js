@@ -1006,6 +1006,17 @@
         if (emailOpt) global.localStorage.setItem('kidsfit_global_buyer_email', emailOpt);
         if (orderIdOpt) global.localStorage.setItem('kidsfit_global_order_id_v1', String(orderIdOpt));
       }
+      if (global.DreamCompanyCRM && typeof global.DreamCompanyCRM.deliverPaidMagicPack === 'function') {
+        global.DreamCompanyCRM.deliverPaidMagicPack({
+          div: 'KFG',
+          email: emailOpt || atelierState.profile.parentEmail || '',
+          plan_tier: resolvedPlan === 'pass' ? '6-Month Growth Velocity Pass ($19.99)' : 'Single Growth & Bone-Age Report ($8.99)',
+          order_ref: String(orderIdOpt || 'POLAR-KFG'),
+          base_url: 'https://kisfitglobal.com/',
+          hash_anchor: 'kfg-screen-3-dossier',
+          profile_state: atelierState.profile
+        });
+      }
     } catch (_) {}
     closeKfgMemberModal();
     showScreen(3);
@@ -1060,7 +1071,7 @@
           '<div style="font-size:0.88rem;color:#6B635B;">Current Height: ' + esc(formatHeight(aux.heightCm)) + ' \u00B7 US CDC ' + esc(aux.ordinalPercentile) + ' Percentile</div>' +
         '</div>' +
         '<div class="kfg-no-print" style="display:flex;gap:0.55rem;flex-wrap:wrap;">' +
-          '<button type="button" id="btn-download-kfg-custom-pdf" class="kfg-btn-primary" style="width:auto;padding:0.55rem 1.05rem;min-height:42px;font-size:0.88rem;" onclick="window.downloadCustomAtelierPdf()">Download Personalized Child Report PDF -&gt;</button>' +
+          '<button type="button" id="btn-download-kfg-custom-pdf" class="kfg-btn-primary" style="width:auto;padding:0.55rem 1.05rem;min-height:42px;font-size:0.88rem;" onclick="window.downloadCustomAtelierPdf()">Download 4-Page Pediatric Clinic &amp; 30-Day Sticker Calendar PDF -&gt;</button>' +
           '<button type="button" class="kfg-btn-outline" onclick="window.print()">Print View</button>' +
           '<button type="button" class="kfg-btn-outline" onclick="window.beginAtelier()">Edit Inputs</button>' +
         '</div>' +
@@ -1097,7 +1108,24 @@
           '<li><strong>Posture Unloading &amp; Active Play:</strong> Pair 15 minutes of afternoon jumping or court play with gentle doorway chest-openers after homework so seated spinal compression does not hide earned height.</li>' +
         '</ul>' +
       '</div>' +
-      tier2Block;
+      tier2Block +
+      '<div class="kfg-dossier-section">' +
+        '<span class="kfg-note-tag" style="margin-bottom:0.4rem;">Part 3 \u00B7 Pediatric Clinic Visit 1-Page Summary &amp; 3 Doctor Questions (Included on PDF Page 4)</span>' +
+        '<ul class="kfg-tier-list" style="margin-bottom:0;">' +
+          '<li><strong>Q1 (Annualized Velocity Channel):</strong> "Given our child\'s US CDC ' + esc(aux.ordinalPercentile) + ' percentile and mid-parental target (' + esc(formatHeight(aux.mphCm)) + '), is their 6-to-12 month annualized height velocity tracking steadily?"</li>' +
+          '<li><strong>Q2 (Maturation &amp; Bone-Age Timing):</strong> "Does physical pubertal staging align with chronological age, or would a left-wrist bone-age X-ray help clarify remaining growth runway?"</li>' +
+          '<li><strong>Q3 (Nutritional &amp; Sleep Screening):</strong> "Would checking serum 25-OH Vitamin D, ferritin, or zinc during routine labs help support linear bone mineralization?"</li>' +
+        '</ul>' +
+      '</div>' +
+      '<div class="kfg-dossier-section kfg-no-print" style="background:#FAF7F2;border:1px solid #D8CFC2;border-radius:10px;padding:1rem;">' +
+        '<div style="font-size:0.88rem;color:#4A433E;margin-bottom:0.5rem;"><strong>Permanent Cross-Device Restore &amp; 14-Day Refund Guarantee:</strong> Your 4-page PDF (including the 30-Day Parent-Child Refrigerator Sticker Calendar) can be reopened anytime across devices. Need assistance or a 14-day refund? <a href="mailto:beable9489@gmail.com?subject=KFG%2014-Day%20Refund%20or%20Support" style="color:#2F5241;font-weight:700;text-decoration:underline;">1-Click Priority Support (beable9489@gmail.com)</a>.</div>' +
+        '<div id="kfg-dossier-satisfaction-mount"></div>' +
+      '</div>';
+
+    if (global.DreamCompanyCRM && typeof global.DreamCompanyCRM.mountSatisfactionBar === 'function') {
+      var satEl = byId('kfg-dossier-satisfaction-mount');
+      if (satEl) global.DreamCompanyCRM.mountSatisfactionBar(satEl, { div: 'KFG', context: 'unlocked_dossier', email: p.parentEmail });
+    }
   }
 
   function restoreAtelierInlineAccess(inputId, msgId) {
@@ -1195,8 +1223,22 @@
 
     populateFormFromProfile();
 
-    // Check Polar.sh return query parameters for instant auto-unlock & state restoration
+    // Check Cross-Device Magic Restore (?magic_restore=...) or Polar.sh return query parameters
     try {
+      if (global.DreamCompanyCRM && typeof global.DreamCompanyCRM.decodeMagicRestoreParam === 'function' && global.location && global.location.search) {
+        var magicObj = global.DreamCompanyCRM.decodeMagicRestoreParam(global.location.search);
+        if (magicObj && typeof magicObj === 'object') {
+          var mk;
+          for (mk in magicObj) {
+            if (Object.prototype.hasOwnProperty.call(atelierState.profile, mk) && magicObj[mk] !== undefined) {
+              atelierState.profile[mk] = magicObj[mk];
+            }
+          }
+          populateFormFromProfile();
+          activatePaidUnlock(magicObj.tier && /pass|19\.99/i.test(String(magicObj.tier)) ? 'pass' : 'single', magicObj.email || '', magicObj.order_ref || 'MAGIC-RESTORE');
+          return;
+        }
+      }
       if (global.location && global.location.search) {
         var rawSearch = String(global.location.search || '');
         var low = rawSearch.toLowerCase();

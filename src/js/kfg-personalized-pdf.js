@@ -120,7 +120,7 @@
     var emailLabel = String(p.parentEmail || 'Verified Parent Pass');
 
     // ==================== PAGE 1 ====================
-    var p1 = createPageCanvas(1, 3, shortLabel);
+    var p1 = createPageCanvas(1, 4, shortLabel);
     var c1 = p1.ctx;
 
     drawRoundedRect(c1, 84, 84, PAGE_W - 168, 178, 16, '#2F5241', null, 0);
@@ -251,7 +251,7 @@
     c1.fillText('Toward tended forecast of ' + cmToImperialStr(aux.optimizedCm).split(' (')[0], 666, 1510);
 
     // ==================== PAGE 2 ====================
-    var p2 = createPageCanvas(2, 3, shortLabel);
+    var p2 = createPageCanvas(2, 4, shortLabel);
     var c2 = p2.ctx;
 
     drawRoundedRect(c2, 84, 84, PAGE_W - 168, 96, 12, '#2F5241', null, 0);
@@ -357,7 +357,7 @@
     }
 
     // ==================== PAGE 3 ====================
-    var p3 = createPageCanvas(3, 3, shortLabel);
+    var p3 = createPageCanvas(3, 4, shortLabel);
     var c3 = p3.ctx;
 
     drawRoundedRect(c3, 84, 84, PAGE_W - 168, 96, 12, '#2F5241', null, 0);
@@ -441,7 +441,171 @@
       c3.fillText('□ Sleep  □ Meal  □ Posture', cx + 12, cy + Math.min(cellH - 14, 66));
     }
 
-    return [p1.canvas, p2.canvas, p3.canvas];
+    // ==================== PAGE 4 (Pediatric Clinic 1-Page Summary & 30-Day Sticker Calendar) ====================
+    var p4 = createPageCanvas(4, 4, shortLabel);
+    var c4 = p4.ctx;
+
+    drawRoundedRect(c4, 84, 84, PAGE_W - 168, 96, 12, '#2F5241', null, 0);
+    c4.fillStyle = '#FFFFFF';
+    c4.font = '600 27px ' + SERIF_FONT;
+    c4.fillText('Pediatric Clinic Visit 1-Page Summary & 30-Day Sticker Growth Calendar', 118, 143);
+
+    drawRoundedRect(c4, 84, 204, PAGE_W - 168, 636, 14, '#FFFFFF', '#DFD7CC', 2);
+    c4.fillStyle = '#2F5241';
+    c4.font = '700 20px ' + SANS_FONT;
+    c4.fillText('PART 7 · PEDIATRIC / ENDOCRINOLOGY VISIT 1-PAGE SUMMARY & 3 ESSENTIAL DOCTOR QUESTIONS', 118, 248);
+
+    drawRoundedRect(c4, 118, 270, PAGE_W - 236, 118, 10, '#FAF7F2', '#E5DDD2', 1.5);
+    c4.fillStyle = '#231F1D';
+    c4.font = '700 20px ' + SANS_FONT;
+    c4.fillText('Clinical Snapshot for Physician Review (' + dateStr + '): ' + childLabel, 142, 308);
+    c4.fillStyle = '#4A433E';
+    c4.font = '400 18.5px ' + SANS_FONT;
+    c4.fillText('Height: ' + cmToImperialStr(aux.heightCm) + '  |  US CDC: ' + aux.ordinalPercentile + ' Pct (Z=' + aux.zScore.toFixed(2) + ')  |  Mid-Parental Target: ' + cmToImperialStr(aux.mphCm), 142, 344);
+    c4.fillText('Bone-Age Note: ' + (p.hasBoneAge ? ('Prior wrist X-ray adjusted +' + (p.baDeltaMonths || 0) + ' mos') : 'No prior wrist X-ray; day-exact chronological model'), 142, 374);
+
+    var docQs = [
+      {
+        q: '1. Annualized Height Velocity Channel Check:',
+        body: '"Given our child\'s current US CDC percentile and mid-parental target height, is their 6-to-12 month annualized height velocity (cm/yr) tracking steadily along their expected curve?"'
+      },
+      {
+        q: '2. Pubertal Timing & Wrist Bone-Age Assessment:',
+        body: '"Does current physical maturation align with chronological age, or would a baseline left-hand/wrist bone-age X-ray be informative within the next 6 to 12 months?"'
+      },
+      {
+        q: '3. Nutritional Substrate & Sleep Recovery Screening:',
+        body: '"Based on weight-for-height balance and growth pace, would checking serum 25-OH Vitamin D, ferritin, or zinc during routine bloodwork be helpful?"'
+      }
+    ];
+    var qY = 408;
+    for (var qi = 0; qi < docQs.length; qi++) {
+      drawRoundedRect(c4, 118, qY, PAGE_W - 236, 126, 10, qi === 0 ? '#EEF3F0' : '#FAF7F2', '#DFD7CC', 1.5);
+      c4.fillStyle = '#2F5241';
+      c4.font = '700 19px ' + SANS_FONT;
+      c4.fillText(docQs[qi].q, 142, qY + 34);
+      c4.fillStyle = '#3A3430';
+      c4.font = '400 18px ' + SANS_FONT;
+      var qlines = wrapEnglishText(c4, docQs[qi].body, PAGE_W - 284).slice(0, 3);
+      for (var ql = 0; ql < qlines.length; ql++) {
+        c4.fillText(qlines[ql], 142, qY + 66 + ql * 26);
+      }
+      qY += 138;
+    }
+
+    // Bottom half of Page 4: Parent-Child 30-Day Sticker Growth Calendar
+    var calY = 864;
+    var calH = PAGE_H - calY - 116;
+    drawRoundedRect(c4, 84, calY, PAGE_W - 168, calH, 14, '#FFFFFF', '#2F5241', 2);
+    c4.fillStyle = '#2F5241';
+    c4.font = '700 20px ' + SANS_FONT;
+    c4.fillText('REFRIGERATOR PRINTABLE · PARENT & CHILD 30-DAY STICKER GROWTH CALENDAR', 118, calY + 42);
+    c4.fillStyle = '#6E665E';
+    c4.font = '400 17.5px ' + SANS_FONT;
+    c4.fillText('Place a star sticker inside each circle together every night when 9:30 PM Lights-Out + Protein/Ca + 15m Jump are completed!', 118, calY + 74);
+
+    var sCols = 6;
+    var sRows = 5;
+    var sGap = 12;
+    var sGridW = PAGE_W - 236;
+    var sCellW = Math.floor((sGridW - sGap * (sCols - 1)) / sCols);
+    var sCellH = Math.floor((calH - 116 - sGap * (sRows - 1)) / sRows);
+    for (var sDay = 1; sDay <= 30; sDay++) {
+      var sr = Math.floor((sDay - 1) / sCols);
+      var sc = (sDay - 1) % sCols;
+      var sx = 118 + sc * (sCellW + sGap);
+      var sy = calY + 94 + sr * (sCellH + sGap);
+      drawRoundedRect(c4, sx, sy, sCellW, sCellH, 10, '#FAF7F2', '#D8CFC2', 1.5);
+      c4.fillStyle = '#8C5E3C';
+      c4.font = '700 16px ' + SANS_FONT;
+      c4.fillText('DAY ' + (sDay < 10 ? '0' + sDay : sDay), sx + 14, sy + 26);
+      c4.beginPath();
+      c4.arc(sx + sCellW / 2, sy + sCellH / 2 + 12, Math.min(26, Math.floor(sCellH * 0.27)), 0, Math.PI * 2);
+      c4.strokeStyle = '#2F5241';
+      c4.setLineDash([4, 4]);
+      c4.lineWidth = 2;
+      c4.stroke();
+      c4.setLineDash([]);
+      c4.fillStyle = '#7A7168';
+      c4.font = '600 13px ' + SANS_FONT;
+      c4.textAlign = 'center';
+      c4.fillText('STICKER', sx + sCellW / 2, sy + sCellH / 2 + 17);
+      c4.textAlign = 'left';
+    }
+
+    return [p1.canvas, p2.canvas, p3.canvas, p4.canvas];
+  }
+
+  function downloadGraduationAlbumPdf(childName, startCm, latestCm, historyList) {
+    if (typeof document === 'undefined') return false;
+    var label = String(childName || 'Your Child').trim();
+    var sCm = Number(startCm) || 133.0;
+    var eCm = Number(latestCm) || (sCm + 3.1);
+    var gainCm = Math.max(0, eCm - sCm);
+    var pg = createPageCanvas(1, 1, label + ' · 6-Month Graduation Album');
+    var ctx = pg.ctx;
+
+    drawRoundedRect(ctx, 84, 84, PAGE_W - 168, 220, 18, '#2F5241', null, 0);
+    ctx.fillStyle = '#DCE8E1';
+    ctx.font = '700 20px ' + SANS_FONT;
+    ctx.fillText('KIDSFIT GLOBAL GROWTH ATELIER · DAY 165 MILESTONE KEEPSAKE', 124, 140);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '600 44px ' + SERIF_FONT;
+    ctx.fillText('6-Month Growth Graduation Certificate & Album', 124, 204);
+    ctx.fillStyle = '#E6EFEA';
+    ctx.font = '400 21px ' + SANS_FONT;
+    ctx.fillText('Presented with pride to ' + label + ' & Family  ·  Issued ' + formatUtcDate(), 124, 258);
+
+    drawRoundedRect(ctx, 84, 340, PAGE_W - 168, 420, 16, '#FFFFFF', '#2F5241', 2.5);
+    ctx.fillStyle = '#8C5E3C';
+    ctx.font = '700 22px ' + SANS_FONT;
+    ctx.fillText('SIX-MONTH LINEAR STATURE PROGRESS SUMMARY', 124, 396);
+    ctx.fillStyle = '#231F1D';
+    ctx.font = '700 48px ' + SANS_FONT;
+    ctx.fillText('+' + (gainCm / 2.54).toFixed(2) + ' in  (+' + gainCm.toFixed(2) + ' cm Gained!)', 124, 474);
+    ctx.fillStyle = '#4A433E';
+    ctx.font = '500 24px ' + SANS_FONT;
+    ctx.fillText('Day 1 Baseline: ' + cmToImperialStr(sCm) + '   ->   Current Stature: ' + cmToImperialStr(eCm), 124, 540);
+    ctx.font = '400 21px ' + SANS_FONT;
+    ctx.fillText('Annualized 6-Month Velocity: ~' + (gainCm * 2).toFixed(1) + ' cm/yr (' + ((gainCm * 2) / 2.54).toFixed(1) + ' in/yr) across consistent evening care.', 124, 594);
+    ctx.fillStyle = '#2F5241';
+    ctx.font = '600 21px ' + SANS_FONT;
+    ctx.fillText('Celebrated Pillars: Pre-10 PM Deep Sleep  ·  Protein + Calcium Meals  ·  Daily Decompression Play', 124, 668);
+
+    drawRoundedRect(ctx, 84, 800, PAGE_W - 168, 760, 16, '#FFFFFF', '#DFD7CC', 2);
+    ctx.fillStyle = '#2F5241';
+    ctx.font = '700 22px ' + SANS_FONT;
+    ctx.fillText('CUMULATIVE 30-DAY CHECK-IN MILESTONE LOG', 124, 854);
+    var rows = Array.isArray(historyList) && historyList.length ? historyList.slice(0, 6) : [
+      { date: 'Month 1 (Day 30)', height_cm: sCm + gainCm * 0.17 },
+      { date: 'Month 2 (Day 60)', height_cm: sCm + gainCm * 0.34 },
+      { date: 'Month 3 (Day 90)', height_cm: sCm + gainCm * 0.50 },
+      { date: 'Month 4 (Day 120)', height_cm: sCm + gainCm * 0.67 },
+      { date: 'Month 5 (Day 150)', height_cm: sCm + gainCm * 0.84 },
+      { date: 'Month 6 (Graduation)', height_cm: eCm }
+    ];
+    for (var idx = 0; idx < rows.length; idx++) {
+      var ry = 890 + idx * 96;
+      drawRoundedRect(ctx, 124, ry, PAGE_W - 248, 78, 10, idx === rows.length - 1 ? '#EEF3F0' : '#FAF7F2', '#DFD7CC', 1.5);
+      ctx.fillStyle = '#231F1D';
+      ctx.font = '700 21px ' + SANS_FONT;
+      ctx.fillText('Milestone ' + (idx + 1) + ' (' + String(rows[idx].date || ('Cycle ' + (idx + 1))) + ')', 152, ry + 48);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#2F5241';
+      ctx.fillText(cmToImperialStr(rows[idx].height_cm || rows[idx].current_height_cm || eCm), PAGE_W - 152, ry + 48);
+      ctx.textAlign = 'left';
+    }
+
+    var bytes = buildPdfFromCanvases([pg.canvas]);
+    var blob = new Blob([bytes], { type: 'application/pdf' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'KidsFit_6Month_Graduation_Album_' + formatUtcDate().replace(/-/g, '') + '.pdf';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { if (a.parentNode) a.parentNode.removeChild(a); URL.revokeObjectURL(url); }, 3500);
+    return { ok: true };
   }
 
   function dataUrlToBytes(dataUrl) {
@@ -569,7 +733,8 @@
   global.KfgPersonalizedPdf = {
     renderPersonalizedPages: renderPersonalizedPages,
     buildPdfFromCanvases: buildPdfFromCanvases,
-    downloadPersonalizedAtelierPdf: downloadPersonalizedAtelierPdf
+    downloadPersonalizedAtelierPdf: downloadPersonalizedAtelierPdf,
+    downloadGraduationAlbumPdf: downloadGraduationAlbumPdf
   };
 
   if (typeof module !== 'undefined' && module.exports) {
