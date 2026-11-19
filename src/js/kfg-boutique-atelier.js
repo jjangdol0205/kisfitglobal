@@ -2,15 +2,16 @@
  * src/js/kfg-boutique-atelier.js
  * Division 2 (kisfitglobal.com) — Single-Breath Warm Boutique Pediatric Growth Atelier Engine
  *
- * Implements the 4-Screen Single-Breath Step-Up Charter:
- *   Screen 0: Warm Founding Letter & Service Introduction -> "Begin My Child's Growth Assessment ->"
+ * Implements the Single-Breath Step-Up Charter (Phase 2-B):
+ *   Screen 0: Above-the-Fold Instant Start CTA ("Start 1-Minute Free US CDC Growth Check ->")
+ *             + Warm Founding Letter & Service Introduction
  *   Screen 1: One-Question-at-a-Time Step-Up Input (Step 1 of 5 -> Step 5 of 5)
  *             including Step 4 (#kfg-bone-age-interpreter) Optional Bone-Age & Exam-Date Time-Lag (Delta-t) Calibration
- *   Screen 2: Passwordless Email Gate (#kfg-parent-growth-club / #kfg-club-passwordless-box)
- *             -> Opens ONLY Partial Baseline US CDC Peer Percentile Position Summary
- *   Screen 3: 2-Tier Differentiated Polar.sh Paid Passes (#kfg-proactive-growth-edge, ?locale=en)
- *             Tier 1 ($8.99 Single Report + PDF) & Tier 2 ($19.99 6-Month Velocity Pass + Monthly Check-In)
- *             + Pre-Checkout localStorage Persistence & Instant Auto-Restore on Return
+ *   Screen 2: Immediate Free Baseline US CDC 2000 Height Percentile & Growth-Clock Summary (Zero Email Wall)
+ *             + 1-Tap D-30 Google Calendar Morning Height Check Reminder (08:00 AM local, +30 days)
+ *             + Natural Passwordless Save Card (#kfg-parent-growth-club / #kfg-club-passwordless-box via DreamCompanyCRM)
+ *             + 2-Tier Differentiated Polar.sh Paid Passes (#kfg-proactive-growth-edge, ?locale=en)
+ *             + Returning VIP #kfg-vip-monthly-checkin Access
  *
  * Strictly 100% English (Zero-Hangul) and Zero Emojis.
  */
@@ -649,7 +650,7 @@
     var mainEl = byId('kfg-single-breath-atelier');
     if (shellEl) {
       shellEl.classList.toggle('is-opening-view', screenIdx === 0);
-      shellEl.classList.toggle('is-wide-view', screenIdx === 3 || (screenIdx === 2 && atelierState.emailGateOpened));
+      shellEl.classList.toggle('is-wide-view', screenIdx === 2 || screenIdx === 3);
     }
     if (mainEl) {
       mainEl.classList.toggle('kfg-atelier-card', screenIdx !== 0);
@@ -760,69 +761,137 @@
     renderScreen2And3();
   }
 
+  function buildD30GoogleCalendarUrl(aux, profile, refDate) {
+    var now = (refDate instanceof Date && !isNaN(refDate.getTime())) ? new Date(refDate.getTime()) : new Date();
+    var d30 = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 30, 8, 0, 0);
+    var yyyy = String(d30.getFullYear());
+    var mm = String(d30.getMonth() + 1).padStart(2, '0');
+    var dd = String(d30.getDate()).padStart(2, '0');
+    var datesParam = yyyy + mm + dd + 'T080000/' + yyyy + mm + dd + 'T081500';
+    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var readableDate = monthNames[d30.getMonth()] + ' ' + d30.getDate() + ', ' + yyyy + ' \u00B7 8:00 AM Local';
+
+    var p = profile || atelierState.profile;
+    var a = aux || computeAtelierAuxology(p);
+    var childPrefix = (p && p.childName) ? (String(p.childName).trim() + ' - ') : '';
+    var eventTitle = childPrefix + 'Morning Standing Height Check (KISFIT US CDC Growth Log)';
+    var detailsLines = [
+      'Baseline logged: ' + formatHeight(a.heightCm) + ' (US CDC ' + a.ordinalPercentile + ' Percentile).',
+      '1) Measure barefoot morning standing height against a flat wall within 30 minutes of waking.',
+      '2) Return to https://kisfitglobal.com to check 30-day US CDC growth pace and evening habits.'
+    ];
+    var url =
+      'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+      '&text=' + encodeURIComponent(eventTitle) +
+      '&dates=' + encodeURIComponent(datesParam) +
+      '&details=' + encodeURIComponent(detailsLines.join('\n')) +
+      '&location=' + encodeURIComponent('https://kisfitglobal.com');
+
+    return {
+      url: url,
+      datesParam: datesParam,
+      readableDate: readableDate
+    };
+  }
+
+  function reopenAtelierEmailSaveForm() {
+    atelierState.emailGateOpened = false;
+    renderScreen2And3();
+    var emailEl = byId('kfg-club-passwordless-email');
+    if (emailEl && typeof emailEl.focus === 'function') emailEl.focus();
+  }
+
   function renderScreen2And3() {
     var p = collectFormIntoProfile();
     var aux = computeAtelierAuxology(p);
     var shellEl = byId('kfg-shell-container');
     if (shellEl) {
-      shellEl.classList.toggle('is-wide-view', Boolean(atelierState.emailGateOpened));
+      shellEl.classList.add('is-wide-view');
     }
     var formWrap = byId('kfg-email-gate-form-panel');
+    var savedConfirm = byId('kfg-email-saved-confirmation');
     var partialWrap = byId('kfg-partial-baseline-summary');
     var paidWrap = byId('kfg-proactive-growth-edge');
 
-    if (formWrap) {
-      formWrap.style.display = atelierState.emailGateOpened ? 'none' : 'block';
-    }
     if (partialWrap) {
-      partialWrap.style.display = atelierState.emailGateOpened ? 'block' : 'none';
-      if (atelierState.emailGateOpened) {
-        var childHeader = (p.childName ? (esc(p.childName) + ' \u00B7 ') : '') +
-          esc(aux.ageLabel) + ' \u00B7 ' + esc(aux.sexLabel);
-        var clampedPin = clamp(aux.percentile, 3, 97);
-        partialWrap.innerHTML =
-          '<span class="kfg-note-tag" style="margin-bottom:0.45rem;">Baseline Peer Summary \u00B7 Free Preview</span>' +
-          '<h3 class="kfg-serif-h2" style="margin-bottom:0.35rem;">' + childHeader + '</h3>' +
-          '<div class="kfg-baseline-metrics">' +
-            '<div class="kfg-metric-tile">' +
-              '<div class="kfg-metric-kicker">Current Standing Height</div>' +
-              '<div class="kfg-metric-value">' + esc(formatHeight(aux.heightCm)) + '</div>' +
-              '<div class="kfg-metric-sub">Day-exact age baseline</div>' +
-            '</div>' +
-            '<div class="kfg-metric-tile">' +
-              '<div class="kfg-metric-kicker">US CDC Peer Percentile</div>' +
-              '<div class="kfg-metric-value" style="color:#2F5241;">' + esc(aux.ordinalPercentile) + ' Percentile</div>' +
-              '<div class="kfg-metric-sub">Taller than ~' + Math.round(aux.percentile) + ' of 100 peers</div>' +
-            '</div>' +
-            '<div class="kfg-metric-tile">' +
-              '<div class="kfg-metric-kicker">Family Height Midpoint</div>' +
-              '<div class="kfg-metric-value">' + esc(formatHeight(aux.mphCm)) + '</div>' +
-              '<div class="kfg-metric-sub">Inherited family center</div>' +
-            '</div>' +
-          '</div>' +
-          '<div class="kfg-percentile-bar-box" aria-label="US CDC Peer Percentile Scale">' +
-            '<div class="kfg-percentile-labels">' +
-              '<span>3rd</span><span>25th</span><span>50th (Median)</span><span>75th</span><span>97th</span>' +
-            '</div>' +
-            '<div class="kfg-percentile-track">' +
-              '<div class="kfg-percentile-fill" style="width:' + clampedPin + '%;"></div>' +
-              '<div class="kfg-percentile-pin" style="left:' + clampedPin + '%;"></div>' +
-            '</div>' +
-          '</div>' +
-          '<p style="margin:0;font-size:0.95rem;line-height:1.74;color:#3A3430;">' +
-            esc(aux.gentlePeerObservation) +
-          '</p>';
+      partialWrap.style.display = 'block';
+      var childHeader = (p.childName ? (esc(p.childName) + ' \u00B7 ') : '') +
+        esc(aux.ageLabel) + ' \u00B7 ' + esc(aux.sexLabel);
+      var clampedPin = clamp(aux.percentile, 3, 97);
+      var growthClockLine = (p.hasBoneAge && p.baCalibrationText)
+        ? ('<strong>Growth-Clock Reading (Time-Adjusted Bone Age):</strong> ' + esc(p.baCalibrationText) + ' ' + esc(aux.primaryBottleneckLine))
+        : ('<strong>Growth-Clock Reading (US CDC 2000 Exact-Age Curve):</strong> Modeled at exact age ' + esc(aux.ageLabel) + ' alongside both parents\' heights. ' + esc(aux.primaryBottleneckLine));
 
-        var lockedLine = byId('kfg-locked-ba-line');
-        if (lockedLine) {
-          lockedLine.textContent = p.hasBoneAge
-            ? ('Your wrist bone-age reading (adjusted for ' + p.baDeltaMonths + ' elapsed months) and final adult height forecast are ready below.')
-            : 'Your child\'s full adult height forecast, priority evening habit plan, and monthly velocity tracker are ready below.';
-        }
+      partialWrap.innerHTML =
+        '<span class="kfg-note-tag" style="margin-bottom:0.45rem;">US CDC 2000 Baseline &amp; Growth-Clock Summary \u00B7 Free</span>' +
+        '<h3 class="kfg-serif-h2" style="margin-bottom:0.35rem;">' + childHeader + '</h3>' +
+        '<div class="kfg-baseline-metrics">' +
+          '<div class="kfg-metric-tile">' +
+            '<div class="kfg-metric-kicker">Current Standing Height</div>' +
+            '<div class="kfg-metric-value">' + esc(formatHeight(aux.heightCm)) + '</div>' +
+            '<div class="kfg-metric-sub">Day-exact age baseline</div>' +
+          '</div>' +
+          '<div class="kfg-metric-tile">' +
+            '<div class="kfg-metric-kicker">US CDC 2000 Peer Percentile</div>' +
+            '<div class="kfg-metric-value" style="color:#2F5241;">' + esc(aux.ordinalPercentile) + ' Percentile</div>' +
+            '<div class="kfg-metric-sub">Taller than ~' + Math.round(aux.percentile) + ' of 100 peers</div>' +
+          '</div>' +
+          '<div class="kfg-metric-tile">' +
+            '<div class="kfg-metric-kicker">Family Height Midpoint</div>' +
+            '<div class="kfg-metric-value">' + esc(formatHeight(aux.mphCm)) + '</div>' +
+            '<div class="kfg-metric-sub">Inherited family center</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="kfg-percentile-bar-box" aria-label="US CDC Peer Percentile Scale">' +
+          '<div class="kfg-percentile-labels">' +
+            '<span>3rd</span><span>25th</span><span>50th (Median)</span><span>75th</span><span>97th</span>' +
+          '</div>' +
+          '<div class="kfg-percentile-track">' +
+            '<div class="kfg-percentile-fill" style="width:' + clampedPin + '%;"></div>' +
+            '<div class="kfg-percentile-pin" style="left:' + clampedPin + '%;"></div>' +
+          '</div>' +
+        '</div>' +
+        '<p style="margin:0 0 0.85rem;font-size:0.95rem;line-height:1.74;color:#3A3430;">' +
+          esc(aux.gentlePeerObservation) +
+        '</p>' +
+        '<div class="kfg-warm-note" style="margin-top:0;">' +
+          growthClockLine +
+        '</div>';
+    }
+
+    var gcalInfo = buildD30GoogleCalendarUrl(aux, p);
+    var gcalBtn = byId('btn-kfg-d30-gcal-reminder');
+    if (gcalBtn && typeof gcalBtn.setAttribute === 'function') {
+      gcalBtn.setAttribute('href', gcalInfo.url);
+    }
+    var gcalDateEl = byId('kfg-d30-target-date-label');
+    if (gcalDateEl) {
+      gcalDateEl.textContent = gcalInfo.readableDate;
+    }
+
+    var isEmailSaved = Boolean(atelierState.emailGateOpened && p.parentEmail);
+    if (formWrap) {
+      formWrap.style.display = isEmailSaved ? 'none' : 'block';
+    }
+    if (savedConfirm) {
+      savedConfirm.style.display = isEmailSaved ? 'block' : 'none';
+      if (isEmailSaved) {
+        savedConfirm.innerHTML =
+          '<strong>Summary saved for ' + esc(p.parentEmail) + '.</strong> ' +
+          'Your child\'s baseline US CDC reading is bookmarked on this browser and monthly growth notes are active. ' +
+          '<button type="button" class="kfg-helper-action" style="margin-left:0.35rem;" onclick="window.reopenAtelierEmailSaveForm()">Update email</button>';
       }
     }
+
+    var lockedLine = byId('kfg-locked-ba-line');
+    if (lockedLine) {
+      lockedLine.textContent = p.hasBoneAge
+        ? ('Your wrist bone-age reading (adjusted for ' + p.baDeltaMonths + ' elapsed months) and final adult height forecast are ready below.')
+        : 'Your child\'s full adult height forecast, priority evening habit plan, and monthly velocity tracker are ready below.';
+    }
+
     if (paidWrap) {
-      paidWrap.style.display = atelierState.emailGateOpened ? 'block' : 'none';
+      paidWrap.style.display = 'block';
     }
   }
 
@@ -837,7 +906,7 @@
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
       if (errEl) {
         errEl.style.display = 'block';
-        errEl.textContent = 'Please enter a valid parent email address to open your child\'s baseline summary.';
+        errEl.textContent = 'Please enter a valid parent email address to save your child\'s custom growth summary.';
       }
       if (emailEl && typeof emailEl.focus === 'function') emailEl.focus();
       return false;
@@ -1218,6 +1287,8 @@
     selectBoneAgeLagMonths: selectBoneAgeLagMonths,
     selectBoneAgeStageChip: selectBoneAgeStageChip,
     completeStepsAndEnterGate: completeStepsAndEnterGate,
+    buildD30GoogleCalendarUrl: buildD30GoogleCalendarUrl,
+    reopenAtelierEmailSaveForm: reopenAtelierEmailSaveForm,
     submitAtelierEmailGate: submitAtelierEmailGate,
     startAtelierPolarCheckout: startAtelierPolarCheckout,
     activatePaidUnlock: activatePaidUnlock,
@@ -1240,6 +1311,8 @@
   global.selectBoneAgeLagMonths = selectBoneAgeLagMonths;
   global.selectBoneAgeStageChip = selectBoneAgeStageChip;
   global.submitAtelierEmailGate = submitAtelierEmailGate;
+  global.reopenAtelierEmailSaveForm = reopenAtelierEmailSaveForm;
+  global.buildD30GoogleCalendarUrl = buildD30GoogleCalendarUrl;
   global.startAtelierPolarCheckout = startAtelierPolarCheckout;
   global.restoreAtelierInlineAccess = restoreAtelierInlineAccess;
   global.openKfgMemberModal = openKfgMemberModal;
