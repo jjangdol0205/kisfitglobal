@@ -697,10 +697,45 @@ body.kfg-atelier-body {
   border-color: #2F5241;
 }
 
-.kfg-chip-btn.is-active {
+.kfg-chip-btn.is-active,
+.kfg-chip-btn.active {
   background: #2F5241;
   border-color: #2F5241;
   color: #FAF7F2;
+}
+
+#btn-kfg-vip-unit-imperial,
+#btn-kfg-vip-unit-metric {
+  background: #F8FAFC;
+  border: 1px solid #CBD5E1;
+  color: #1E293B;
+  font-weight: 600;
+}
+
+#btn-kfg-vip-unit-imperial.is-active,
+#btn-kfg-vip-unit-imperial.active,
+#btn-kfg-vip-unit-metric.is-active,
+#btn-kfg-vip-unit-metric.active {
+  background: #2F5241;
+  border-color: #2F5241;
+  color: #FFFFFF;
+}
+
+.table-scroll-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* Warm Callout Note */

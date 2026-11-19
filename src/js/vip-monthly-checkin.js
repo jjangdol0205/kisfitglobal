@@ -403,18 +403,20 @@
     if (btnImp) {
       var isImp = vipUnitMode === 'imperial';
       btnImp.classList.toggle('active', isImp);
+      btnImp.classList.toggle('is-active', isImp);
       btnImp.setAttribute('aria-pressed', isImp ? 'true' : 'false');
-      btnImp.style.background = isImp ? '#2563EB' : 'rgba(255,255,255,0.08)';
-      btnImp.style.color = '#FFFFFF';
-      btnImp.style.borderColor = isImp ? '#60A5FA' : 'rgba(148,163,184,0.4)';
+      btnImp.style.background = isImp ? '#2F5241' : '#F8FAFC';
+      btnImp.style.color = isImp ? '#FFFFFF' : '#1E293B';
+      btnImp.style.borderColor = isImp ? '#2F5241' : '#CBD5E1';
     }
     if (btnMet) {
       var isMet = vipUnitMode === 'metric';
       btnMet.classList.toggle('active', isMet);
+      btnMet.classList.toggle('is-active', isMet);
       btnMet.setAttribute('aria-pressed', isMet ? 'true' : 'false');
-      btnMet.style.background = isMet ? '#2563EB' : 'rgba(255,255,255,0.08)';
-      btnMet.style.color = '#FFFFFF';
-      btnMet.style.borderColor = isMet ? '#60A5FA' : 'rgba(148,163,184,0.4)';
+      btnMet.style.background = isMet ? '#2F5241' : '#F8FAFC';
+      btnMet.style.color = isMet ? '#FFFFFF' : '#1E293B';
+      btnMet.style.borderColor = isMet ? '#2F5241' : '#CBD5E1';
     }
   }
 
@@ -862,6 +864,7 @@
   global.syncVipMetricToImperial = syncVipMetricToImperial;
   global.syncVipHeightHelperLabels = syncVipHeightHelperLabels;
   global.setVipCheckinUnit = setVipCheckinUnit;
+  global.setKfgVipHeightUnit = setVipCheckinUnit;
   global.toggleVipCheckinUnit = toggleVipCheckinUnit;
   global.selectVipHabitScore = selectVipHabitScore;
   global.isVipCheckinPaidVerified = isVipCheckinPaidVerified;

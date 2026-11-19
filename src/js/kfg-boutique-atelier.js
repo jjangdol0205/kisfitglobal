@@ -1154,7 +1154,35 @@
       showScreen(3);
       renderUnlockedDossier();
     } else {
-      showScreen(0);
+      var wantsAutoStart = false;
+      var wantsBoneAgeStep = false;
+      try {
+        var qs = (global.location && global.location.search) ? new URLSearchParams(global.location.search) : null;
+        var hashVal = String((global.location && global.location.hash) || '').toLowerCase();
+        if (qs) {
+          var qSex = String(qs.get('gender') || qs.get('sex') || '').toLowerCase();
+          if (qSex === 'boy' || qSex === 'girl') {
+            atelierState.profile.gender = qSex;
+          }
+          var qAge = parseInt(qs.get('age'), 10);
+          if (!isNaN(qAge) && qAge >= 3 && qAge <= 18) {
+            atelierState.profile.birthYear = (new Date()).getFullYear() - qAge;
+          }
+          if (qs.get('autostart') === '1') wantsAutoStart = true;
+        }
+        if (hashVal === '#quiz-section' || hashVal === '#kfg-screen-1-steps') wantsAutoStart = true;
+        if (hashVal === '#kfg-bone-age-interpreter') wantsBoneAgeStep = true;
+      } catch (_) {}
+
+      if (wantsBoneAgeStep) {
+        populateFormFromProfile();
+        showScreen(1);
+        goToAtelierStep(4);
+      } else if (wantsAutoStart) {
+        beginAtelier();
+      } else {
+        showScreen(0);
+      }
     }
   }
 
