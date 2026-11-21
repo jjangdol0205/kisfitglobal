@@ -27,6 +27,7 @@
 
   var POLAR_SINGLE_URL = 'https://buy.polar.sh/polar_cl_v2pLSQbvj13RJxb57w8fqVjZ4h2C7YopmPUDr3vxfG6?locale=en';
   var POLAR_PASS_URL = 'https://buy.polar.sh/polar_cl_p8DAvlbz7wPj6SOPKhHjT5aaNyA2F3I528A3c15nBND?locale=en';
+  var POLAR_PREMIUM_URL = 'https://buy.polar.sh/polar_cl_iCvFT7ApBXaG7fRlOqjqbrRwXx0caCgnuITrW3TKk0e?locale=en';
 
   var atelierState = {
     unitSystem: 'imperial',
@@ -1060,8 +1061,14 @@
 
   function startAtelierPolarCheckout(tier) {
     collectFormIntoProfile();
-    var isPass = tier === 'pass' || tier === 'sixMonth' || tier === 'pass_1999';
-    var normalizedPlan = isPass ? 'pass' : 'single';
+    var isPremium = tier === 'premium' || tier === 'annual' || tier === 'tier3' || tier === 'premium_4900';
+    var isPass = tier === 'pass' || tier === 'sixMonth' || tier === 'pass_1999' || tier === 'tier2';
+    var normalizedPlan = isPremium ? 'premium' : (isPass ? 'pass' : 'single');
+    try {
+      if (global.DreamCompanyCRM && typeof global.DreamCompanyCRM.trackFunnelEvent === 'function') {
+        global.DreamCompanyCRM.trackFunnelEvent('KFG', 'checkout_click');
+      }
+    } catch (_) {}
 
     try {
       if (global.localStorage) {
@@ -1077,7 +1084,9 @@
     }
 
     var payCfg = global.PAYMENT_CONFIG || { STORE_LIVE_READY: true };
-    var rawTargetUrl = isPass
+    var rawTargetUrl = isPremium
+      ? ((payCfg.POLAR_CHECKOUT_URLS && payCfg.POLAR_CHECKOUT_URLS.premium_4900) || payCfg.POLAR_KFG_PREMIUM_URL || POLAR_PREMIUM_URL)
+      : isPass
       ? ((payCfg.POLAR_CHECKOUT_URLS && payCfg.POLAR_CHECKOUT_URLS.pass_1999) || payCfg.POLAR_KFG_PASS_URL || POLAR_PASS_URL)
       : ((payCfg.POLAR_CHECKOUT_URLS && payCfg.POLAR_CHECKOUT_URLS.single_899) || payCfg.POLAR_KFG_SINGLE_URL || POLAR_SINGLE_URL);
 
@@ -1101,7 +1110,7 @@
   }
 
   function activatePaidUnlock(planType, emailOpt, orderIdOpt) {
-    var resolvedPlan = planType === 'pass' || planType === 'sixMonth' ? 'pass' : 'single';
+    var resolvedPlan = (planType === 'premium' || planType === 'tier3') ? 'premium' : ((planType === 'pass' || planType === 'sixMonth' || planType === 'tier2') ? 'pass' : 'single');
     try {
       if (global.localStorage) {
         global.localStorage.setItem(PAID_UNLOCKED_KEY, 'true');
@@ -1114,7 +1123,7 @@
         global.DreamCompanyCRM.deliverPaidMagicPack({
           div: 'KFG',
           email: emailOpt || atelierState.profile.parentEmail || '',
-          plan_tier: resolvedPlan === 'pass' ? '6-Month Growth Velocity Pass ($19.99)' : 'Single Growth & Bone-Age Report ($8.99)',
+          plan_tier: resolvedPlan === 'premium' ? '12-Month Family Growth Master Suite ($49.00)' : (resolvedPlan === 'pass' ? '6-Month Growth Velocity Pass ($19.99)' : 'Single Growth & Bone-Age Report ($8.99)'),
           order_ref: String(orderIdOpt || 'POLAR-KFG'),
           base_url: 'https://kisfitglobal.com/',
           hash_anchor: 'kfg-screen-3-dossier',
@@ -1138,7 +1147,8 @@
         paidPlan = global.localStorage.getItem(PAID_PLAN_KEY) || global.localStorage.getItem('kfg_pending_tier_v1') || 'single';
       }
     } catch (_) {}
-    var isPass = paidPlan === 'pass' || paidPlan === 'sixMonth';
+    var isPremium = paidPlan === 'premium' || paidPlan === 'tier3';
+    var isPass = isPremium || paidPlan === 'pass' || paidPlan === 'sixMonth' || paidPlan === 'tier2';
 
     var childTitle = (p.childName ? (esc(p.childName) + ' \u00B7 ') : '') +
       esc(aux.ageLabel) + ' (' + esc(aux.sexLabel) + ')';
@@ -1156,10 +1166,11 @@
 
     var tier2Block = isPass
       ? ('<div class="kfg-dossier-section kfg-no-print">' +
-          '<span class="kfg-tier-tag">6-Month Growth Velocity Pass Active</span>' +
+          '<span class="kfg-tier-tag">' + (isPremium ? '12-Month Family Master Suite Active (Up to 4 Siblings)' : '6-Month Growth Velocity Pass Active') + '</span>' +
           '<h3 class="kfg-serif-h2">Monthly (30-Day Cycle) US CDC Growth Velocity Log</h3>' +
           '<p style="margin:0 0 1rem;font-size:0.94rem;color:#6B635B;">Record your child\'s morning standing height once every 30 days to check annualized growth pace (in/yr &amp; cm/yr) against US CDC norms.</p>' +
           '<button type="button" class="kfg-btn-primary" style="max-width:340px;" data-csp-act="kfg-open-member-modal" data-csp-arg="checkin">Open 30-Day Height Velocity Check-In -&gt;</button>' +
+          (!isPremium ? '<div class="kfg-warm-note kfg-warm-note-amber" style="margin-top:0.9rem;"><strong>Step 4 Premium Upgrade:</strong> Track all 4 seasons (12 monthly check-ins) + seasonal playbooks for up to 4 siblings with the <a href="' + POLAR_PREMIUM_URL + '" data-kfg-paid-plan="premium" data-csp-act="kfg-start-polar" data-csp-arg="premium" style="color:#2F5241;font-weight:700;">12-Month Family Master Suite ($49.00) -&gt;</a>.</div>' : '') +
         '</div>')
       : ('<div class="kfg-dossier-section kfg-no-print">' +
           '<div class="kfg-warm-note kfg-warm-note-amber">' +
@@ -1292,7 +1303,7 @@
       setMsg('Verifying Polar.sh entitlement with server...', false);
       return global.DreamCompanyCRM.verifyEntitlement(reqOpts).then(function (vres) {
         if (vres && vres.authorized) {
-          activatePaidUnlock(vres.tier === 'tier2' ? 'pass' : 'single', emailPart, isOtp ? 'OTP-VERIFIED' : credPart);
+          activatePaidUnlock(vres.tier === 'tier3' ? 'premium' : (vres.tier === 'tier2' ? 'pass' : 'single'), emailPart, isOtp ? 'OTP-VERIFIED' : credPart);
           return { ok: true, mode: 'server_verified' };
         }
         setMsg('Verification failed. Double-check your email and code, or enter only your email to receive a fresh 6-digit OTP.', true);
@@ -1378,7 +1389,7 @@
             magic_restore: true
           }).then(function (vres) {
             if (vres && vres.authorized) {
-              activatePaidUnlock(vres.tier === 'tier2' ? 'pass' : 'single', magicObj.email, magicObj.access_code);
+              activatePaidUnlock(vres.tier === 'tier3' ? 'premium' : (vres.tier === 'tier2' ? 'pass' : 'single'), magicObj.email, magicObj.access_code);
             } else {
               openKfgMemberModal('restore');
             }
@@ -1401,7 +1412,7 @@
           if (emailParam && orderParam && global.DreamCompanyCRM && typeof global.DreamCompanyCRM.verifyEntitlement === 'function') {
             global.DreamCompanyCRM.verifyEntitlement({ div: 'KFG', email: emailParam, access_code: orderParam }).then(function (vres) {
               if (vres && vres.authorized) {
-                activatePaidUnlock(vres.tier === 'tier2' ? 'pass' : 'single', emailParam, orderParam);
+                activatePaidUnlock(vres.tier === 'tier3' ? 'premium' : (vres.tier === 'tier2' ? 'pass' : 'single'), emailParam, orderParam);
               } else {
                 openKfgMemberModal('restore');
               }
