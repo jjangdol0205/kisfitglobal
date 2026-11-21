@@ -636,11 +636,11 @@
             '<span>Combine your child&apos;s calibrated wrist bone-age runway with US CDC 2000 LMS curves &amp; Khamis-Roche velocity tracking.</span>' +
           '</div>' +
           '<div class="kfg-ba-cta-btns">' +
-            '<button type="button" class="kfg-ba-btn-single" data-kfg-paid-plan="single" onclick="if(window.triggerKfgVelocityEdgeCheckout)window.triggerKfgVelocityEdgeCheckout(\'single\');">' +
+            '<button type="button" class="kfg-ba-btn-single" data-kfg-paid-plan="single" data-csp-act="kfg-velocity-checkout" data-csp-arg="single">' +
               '<span>📄 Comprehensive Growth &amp; Habit Percentile PDF Guide — $8.99 →</span>' +
               '<small>Includes Printable US CDC Percentile &amp; Bone-Age PDF Guide + 30-Day Growth Velocity Tracker</small>' +
             '</button>' +
-            '<button type="button" class="kfg-ba-btn-pass" data-kfg-paid-plan="pass" onclick="if(window.triggerKfgVelocityEdgeCheckout)window.triggerKfgVelocityEdgeCheckout(\'pass\');">' +
+            '<button type="button" class="kfg-ba-btn-pass" data-kfg-paid-plan="pass" data-csp-act="kfg-velocity-checkout" data-csp-arg="pass">' +
               '<span>⭐ Get 6-Month Growth &amp; Velocity Pass — $19.99 →</span>' +
               '<small>Unlimited 30-Day Velocity Re-Scans + Sibling Profiles</small>' +
             '</button>' +

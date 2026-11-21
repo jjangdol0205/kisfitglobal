@@ -649,7 +649,7 @@
             <span style="font-family:monospace;font-size:0.72rem;background:rgba(255,255,255,0.12);padding:0.2rem 0.55rem;border-radius:6px;color:#E2E8F0;border:1px solid rgba(255,255,255,0.2);">
               Sample ID: KFG-GUIDE-9082-2026
             </span>
-            <button type="button" onclick="var m=document.getElementById('kidsfit-sample-demo-modal');if(m)m.remove();" aria-label="Close Sample Preview" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#FFFFFF;border-radius:9999px;width:34px;height:34px;font-size:1.1rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.15s ease;">✕</button>
+            <button type="button" data-csp-remove="kidsfit-sample-demo-modal" aria-label="Close Sample Preview" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#FFFFFF;border-radius:9999px;width:34px;height:34px;font-size:1.1rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.15s ease;">✕</button>
           </div>
         </div>
 
@@ -696,13 +696,13 @@
 
         <!-- Interactive 3-Page Segmented Tab Switcher -->
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.45rem;padding:0 1.25rem;margin-bottom:0.6rem;">
-          <button type="button" id="sample-tab-btn-1" onclick="window.switchSamplePreviewPage(1)" style="padding:0.6rem 0.75rem;min-height:48px;border-radius:10px;font-size:0.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.35rem;background:#1D4ED8;color:#FFFFFF;border:1.5px solid #1D4ED8;font-weight:900;box-shadow:0 2px 8px rgba(29,78,216,0.25);">
+          <button type="button" id="sample-tab-btn-1" data-csp-act="kfg-sample-page" data-csp-arg="1" style="padding:0.6rem 0.75rem;min-height:48px;border-radius:10px;font-size:0.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.35rem;background:#1D4ED8;color:#FFFFFF;border:1.5px solid #1D4ED8;font-weight:900;box-shadow:0 2px 8px rgba(29,78,216,0.25);">
             <span>📄</span> Page 1: Auxology &amp; Trajectory
           </button>
-          <button type="button" id="sample-tab-btn-2" onclick="window.switchSamplePreviewPage(2)" style="padding:0.6rem 0.75rem;min-height:48px;border-radius:10px;font-size:0.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.35rem;background:#F8FAFC;color:#475569;border:1.5px solid #CBD5E1;font-weight:700;">
+          <button type="button" id="sample-tab-btn-2" data-csp-act="kfg-sample-page" data-csp-arg="2" style="padding:0.6rem 0.75rem;min-height:48px;border-radius:10px;font-size:0.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.35rem;background:#F8FAFC;color:#475569;border:1.5px solid #CBD5E1;font-weight:700;">
             <span>🦴</span> Page 2: Khamis-Roche &amp; Bone Age
           </button>
-          <button type="button" id="sample-tab-btn-3" onclick="window.switchSamplePreviewPage(3)" style="padding:0.6rem 0.75rem;min-height:48px;border-radius:10px;font-size:0.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.35rem;background:#F8FAFC;color:#475569;border:1.5px solid #CBD5E1;font-weight:700;">
+          <button type="button" id="sample-tab-btn-3" data-csp-act="kfg-sample-page" data-csp-arg="3" style="padding:0.6rem 0.75rem;min-height:48px;border-radius:10px;font-size:0.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.35rem;background:#F8FAFC;color:#475569;border:1.5px solid #CBD5E1;font-weight:700;">
             <span>⚡</span> Page 3: 90-Day Action Protocol
           </button>
         </div>
@@ -1086,30 +1086,30 @@
         <div style="background:#F8FAFC;border-top:1.5px solid #CBD5E1;padding:0.75rem 1.25rem;display:flex;flex-direction:column;gap:0.55rem;">
           <!-- Top Nav Row -->
           <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.76rem;color:#475569;">
-            <button type="button" id="btn-sample-page-prev" onclick="var ind=document.getElementById('sample-active-page-num');var cur=parseInt(ind?ind.textContent:'1',10)||1;window.switchSamplePreviewPage(cur-1);" style="background:#FFFFFF;border:1px solid #CBD5E1;border-radius:8px;padding:0.35rem 0.75rem;cursor:pointer;font-weight:800;color:#1E3A8A;">
+            <button type="button" id="btn-sample-page-prev" data-csp-act="kfg-sample-step" data-csp-arg="-1" style="background:#FFFFFF;border:1px solid #CBD5E1;border-radius:8px;padding:0.35rem 0.75rem;cursor:pointer;font-weight:800;color:#1E3A8A;">
               &larr; Prev Page
             </button>
             <span style="font-weight:800;color:#1E3A8A;">
               Page <span id="sample-active-page-num">1</span> of 3 &middot; Comprehensive Growth &amp; Habit Percentile PDF Guide Sample
             </span>
-            <button type="button" id="btn-sample-page-next" onclick="var ind=document.getElementById('sample-active-page-num');var cur=parseInt(ind?ind.textContent:'1',10)||1;window.switchSamplePreviewPage(cur+1);" style="background:#FFFFFF;border:1px solid #CBD5E1;border-radius:8px;padding:0.35rem 0.75rem;cursor:pointer;font-weight:800;color:#1E3A8A;">
+            <button type="button" id="btn-sample-page-next" data-csp-act="kfg-sample-step" data-csp-arg="1" style="background:#FFFFFF;border:1px solid #CBD5E1;border-radius:8px;padding:0.35rem 0.75rem;cursor:pointer;font-weight:800;color:#1E3A8A;">
               Next Page &rarr;
             </button>
           </div>
 
           <!-- Checkout Action Buttons Row -->
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0.45rem;">
-            <button type="button" onclick="var m=document.getElementById('kidsfit-sample-demo-modal');if(m)m.remove();window.openKidsFitGlobalCheckoutModal('single');" style="min-height:48px;padding:0.7rem 1rem;border-radius:12px;border:none;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:0.86rem;font-weight:900;cursor:pointer;box-shadow:0 6px 18px rgba(29,78,216,0.25);display:flex;align-items:center;justify-content:center;gap:0.35rem;">
+            <button type="button" data-csp-act="kfg-close-sample-open-checkout" data-csp-arg="single" style="min-height:48px;padding:0.7rem 1rem;border-radius:12px;border:none;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:0.86rem;font-weight:900;cursor:pointer;box-shadow:0 6px 18px rgba(29,78,216,0.25);display:flex;align-items:center;justify-content:center;gap:0.35rem;">
               <span>🔓 Unlock My Child's Personalized Report ($8.99) &rarr;</span>
             </button>
-            <button type="button" onclick="var m=document.getElementById('kidsfit-sample-demo-modal');if(m)m.remove();window.openKidsFitGlobalCheckoutModal('pass');" style="min-height:48px;padding:0.7rem 1rem;border-radius:12px;border:none;background:linear-gradient(90deg,#059669 0%,#10B981 100%);color:#FFFFFF;font-size:0.86rem;font-weight:900;cursor:pointer;box-shadow:0 6px 18px rgba(5,150,105,0.25);display:flex;align-items:center;justify-content:center;gap:0.35rem;">
+            <button type="button" data-csp-act="kfg-close-sample-open-checkout" data-csp-arg="pass" style="min-height:48px;padding:0.7rem 1rem;border-radius:12px;border:none;background:linear-gradient(90deg,#059669 0%,#10B981 100%);color:#FFFFFF;font-size:0.86rem;font-weight:900;cursor:pointer;box-shadow:0 6px 18px rgba(5,150,105,0.25);display:flex;align-items:center;justify-content:center;gap:0.35rem;">
               <span>⭐ Get 6-Month Growth Pass ($19.99 · Save 63%) &rarr;</span>
             </button>
           </div>
 
           <!-- Secondary Actions -->
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.45rem;padding-top:0.25rem;">
-            <button type="button" onclick="window.loadSampleDemoProfile();" style="background:none;border:none;color:#1D4ED8;font-size:0.76rem;font-weight:800;cursor:pointer;text-decoration:underline;padding:0.25rem 0;">
+            <button type="button" data-csp-act="kfg-load-sample" style="background:none;border:none;color:#1D4ED8;font-size:0.76rem;font-weight:800;cursor:pointer;text-decoration:underline;padding:0.25rem 0;">
               🚀 Open Full Sample Report Now (Load Interactive Liam Profile in Dashboard)
             </button>
             <span style="font-size:0.72rem;color:#64748B;">
@@ -1255,22 +1255,22 @@
               <span style="font-size:0.72rem;font-weight:800;color:#1D4ED8;background:#EFF6FF;padding:0.18rem 0.55rem;border-radius:9999px;">${isOwner ? 'KISFIT ADMIN SESSION ACTIVE' : 'KISFIT MEMBER ACCOUNT'}</span>
               <h3 style="margin:0.3rem 0 0;font-size:1.15rem;font-weight:800;color:#0F172A;">${isOwner ? '👑 Administrator Mode' : ((user && user.name) || 'Parent Member')}</h3>
             </div>
-            <button type="button" onclick="var m=document.getElementById('kidsfit-auth-modal');if(m)m.remove();" style="background:#F1F5F9;border:1px solid #CBD5E1;border-radius:9999px;width:32px;height:32px;font-weight:800;cursor:pointer;">✕</button>
+            <button type="button" data-csp-remove="kidsfit-auth-modal" style="background:#F1F5F9;border:1px solid #CBD5E1;border-radius:9999px;width:32px;height:32px;font-weight:800;cursor:pointer;">✕</button>
           </div>
           <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:0.85rem 1rem;margin-bottom:0.9rem;font-size:0.86rem;">
             <div style="margin-bottom:0.35rem;"><strong>Account:</strong> ${isOwner ? 'Authorized Administrator' : user.email}</div>
             <div><strong>Report Access Status:</strong> ${isReportUnlocked() || isOwner || (user && user.unlockedPass) ? '<span style="color:#059669;font-weight:800;">✓ FULL CLINICAL REPORT UNLOCKED</span>' : '<span style="color:#64748B;font-weight:700;">Standard Account (Paywall Locked)</span>'}</div>
           </div>
           ${isOwner ? `
-          <button type="button" onclick="var m=document.getElementById('kidsfit-auth-modal');if(m)m.remove();if(window.KidsFitAdminStudio)window.KidsFitAdminStudio.openAdminModal();" style="width:100%;padding:0.82rem 1rem;border-radius:12px;border:none;background:linear-gradient(135deg,#1D4ED8 0%,#1E40AF 100%);color:#FFFFFF;font-size:0.9rem;font-weight:900;cursor:pointer;margin-bottom:0.55rem;">
+          <button type="button" data-csp-act="kfg-auth-open-admin" style="width:100%;padding:0.82rem 1rem;border-radius:12px;border:none;background:linear-gradient(135deg,#1D4ED8 0%,#1E40AF 100%);color:#FFFFFF;font-size:0.9rem;font-weight:900;cursor:pointer;margin-bottom:0.55rem;">
             🛠️ Open Admin Studio Control Center →
           </button>
           ` : `
-          <button type="button" onclick="window.verifyKidsFitMemberOrder('${user.email}')" style="width:100%;padding:0.78rem 1rem;border-radius:12px;border:1px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-size:0.88rem;font-weight:800;cursor:pointer;margin-bottom:0.55rem;">
+          <button type="button" data-csp-act="kfg-verify-member-order" data-csp-arg="${user.email}" style="width:100%;padding:0.78rem 1rem;border-radius:12px;border:1px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-size:0.88rem;font-weight:800;cursor:pointer;margin-bottom:0.55rem;">
             🔄 Sync / Verify Polar.sh Purchase Status
           </button>
           `}
-          <button type="button" onclick="window.signOutKidsFitAccount()" style="width:100%;padding:0.72rem 1rem;border-radius:12px;border:1px solid #CBD5E1;background:#FFFFFF;color:#475569;font-size:0.85rem;font-weight:700;cursor:pointer;">
+          <button type="button" data-csp-act="kfg-sign-out" style="width:100%;padding:0.72rem 1rem;border-radius:12px;border:1px solid #CBD5E1;background:#FFFFFF;color:#475569;font-size:0.85rem;font-weight:700;cursor:pointer;">
             Sign Out
           </button>
         </div>
@@ -1286,7 +1286,7 @@
             <span style="font-size:0.72rem;font-weight:900;color:#065F46;background:#ECFDF5;padding:0.18rem 0.55rem;border-radius:9999px;">PASSWORDLESS 3-SEC CLUB ACCESS</span>
             <h3 style="margin:0.3rem 0 0;font-size:1.12rem;font-weight:800;color:#0F172A;">Parent Growth Golden-Window Club</h3>
           </div>
-          <button type="button" onclick="var m=document.getElementById('kidsfit-auth-modal');if(m)m.remove();" style="background:#F1F5F9;border:1px solid #CBD5E1;border-radius:9999px;width:32px;height:32px;font-weight:800;cursor:pointer;">✕</button>
+          <button type="button" data-csp-remove="kidsfit-auth-modal" style="background:#F1F5F9;border:1px solid #CBD5E1;border-radius:9999px;width:32px;height:32px;font-weight:800;cursor:pointer;">✕</button>
         </div>
 
         <p style="margin:0 0 0.85rem;font-size:0.84rem;color:#334155;line-height:1.45;">
@@ -1309,12 +1309,12 @@
 
         <div style="margin-bottom:0.85rem;">
           <label style="display:block;font-size:0.78rem;font-weight:800;color:#334155;margin-bottom:0.25rem;">Parent Email Address</label>
-          <input type="email" id="auth-input-email" autocomplete="email" placeholder="parent@gmail.com" onkeydown="if(event.key==='Enter'){event.preventDefault();window.submitKidsFitAuth('signup');}" style="width:100%;box-sizing:border-box;padding:0.65rem 0.8rem;border:1.5px solid #CBD5E1;border-radius:10px;font-size:0.9rem;color:#0F172A;">
+          <input type="email" id="auth-input-email" autocomplete="email" placeholder="parent@gmail.com" data-csp-keydown-act="kfg-auth-enter-signup" style="width:100%;box-sizing:border-box;padding:0.65rem 0.8rem;border:1.5px solid #CBD5E1;border-radius:10px;font-size:0.9rem;color:#0F172A;">
         </div>
 
         <div id="auth-feedback-msg" style="display:none;font-size:0.8rem;font-weight:700;padding:0.55rem 0.75rem;border-radius:8px;margin-bottom:0.75rem;"></div>
 
-        <button type="button" onclick="window.submitKidsFitAuth('signup')" style="width:100%;padding:0.88rem 1rem;border-radius:12px;border:none;background:linear-gradient(135deg,#059669 0%,#1D4ED8 100%);color:#FFFFFF;font-size:0.94rem;font-weight:800;cursor:pointer;box-shadow:0 8px 20px rgba(5,150,105,0.22);">
+        <button type="button" data-csp-act="kfg-submit-auth" data-csp-arg="signup" style="width:100%;padding:0.88rem 1rem;border-radius:12px;border:none;background:linear-gradient(135deg,#059669 0%,#1D4ED8 100%);color:#FFFFFF;font-size:0.94rem;font-weight:800;cursor:pointer;box-shadow:0 8px 20px rgba(5,150,105,0.22);">
           Instant 3-Sec Club Access (No Password) →
         </button>
       </div>
@@ -2181,7 +2181,7 @@
             <span style="background:#EFF6FF;color:#1D4ED8;border:1.5px solid #93C5FD;border-radius:9999px;padding:0.42rem 0.9rem;font-size:0.78rem;font-weight:900;">
               ${isLearningMode ? '🧠 Dedicated Brain LQ &amp; Study Track' : '📏 Dedicated Physical Auxology Track'}
             </span>
-            <button type="button" onclick="if(window.triggerKidsFitGlobalPrint){window.triggerKidsFitGlobalPrint();}else{window.print();}" style="background:#059669;color:#FFFFFF;border:1.5px solid #047857;border-radius:9999px;padding:0.44rem 0.95rem;font-size:0.8rem;font-weight:900;cursor:pointer;">
+            <button type="button" data-csp-act="kfg-global-print" style="background:#059669;color:#FFFFFF;border:1.5px solid #047857;border-radius:9999px;padding:0.44rem 0.95rem;font-size:0.8rem;font-weight:900;cursor:pointer;">
               🖨️ Print / Save Clinical PDF
             </button>
           </div>
@@ -2219,10 +2219,10 @@ ${isMasked ? `
               Unmask your child&apos;s predicted adult stature (ft/in &amp; cm), calibrated Today&apos;s Bone-Age remaining growth runway, personalized 90-day sleep/nutrition/jump schedule, and printable 14-page Growth &amp; Bone-Age PDF Guide.
             </p>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0.6rem;margin-bottom:0.8rem;">
-              <button type="button" onclick="window.launchPolarCheckout('single')" style="width:100%;padding:0.9rem 1.05rem;border-radius:12px;border:none;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:0.93rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(29,78,216,0.25);">
+              <button type="button" data-csp-act="kfg-launch-polar" data-csp-arg="single" style="width:100%;padding:0.9rem 1.05rem;border-radius:12px;border:none;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:0.93rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(29,78,216,0.25);">
                 🔓 Unlock Full Report &amp; 14-Page PDF ($8.99) →
               </button>
-              <button type="button" onclick="window.launchPolarCheckout('pass')" style="width:100%;padding:0.9rem 1.05rem;border-radius:12px;border:1.5px solid #047857;background:linear-gradient(90deg,#059669 0%,#10B981 100%);color:#FFFFFF;font-size:0.9rem;font-weight:900;cursor:pointer;">
+              <button type="button" data-csp-act="kfg-launch-polar" data-csp-arg="pass" style="width:100%;padding:0.9rem 1.05rem;border-radius:12px;border:1.5px solid #047857;background:linear-gradient(90deg,#059669 0%,#10B981 100%);color:#FFFFFF;font-size:0.9rem;font-weight:900;cursor:pointer;">
                 ⭐ Unlock 6-Month Velocity Pass ($19.99) →
               </button>
             </div>
@@ -2518,7 +2518,7 @@ ${isMasked ? `
             <!-- 4 Interactive Intervention Toggles -->
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0.75rem;margin-bottom:1.1rem;">
               <label class="what-if-toggle-card" style="display:flex;gap:0.65rem;align-items:flex-start;background:#F8FAFC;border:1.5px solid #CBD5E1;border-radius:12px;padding:0.75rem 0.85rem;cursor:pointer;">
-                <input type="checkbox" id="chk-sim-sleep" class="what-if-input" checked onchange="window.updateKidsFitWhatIfSimulator()" style="margin-top:0.2rem;width:18px;height:18px;accent-color:#1D4ED8;cursor:pointer;">
+                <input type="checkbox" id="chk-sim-sleep" class="what-if-input" checked data-csp-change-act="kfg-whatif-update" style="margin-top:0.2rem;width:18px;height:18px;accent-color:#1D4ED8;cursor:pointer;">
                 <div>
                   <div style="font-size:0.84rem;font-weight:900;color:#0F172A;">🌙 Circadian SWS Sleep Shift</div>
                   <div style="font-size:0.72rem;color:#059669;font-weight:800;">+1.5 cm (+0.6 in) · +3 Mos Window</div>
@@ -2527,7 +2527,7 @@ ${isMasked ? `
               </label>
 
               <label class="what-if-toggle-card" style="display:flex;gap:0.65rem;align-items:flex-start;background:#F8FAFC;border:1.5px solid #CBD5E1;border-radius:12px;padding:0.75rem 0.85rem;cursor:pointer;">
-                <input type="checkbox" id="chk-sim-fast" class="what-if-input" checked onchange="window.updateKidsFitWhatIfSimulator()" style="margin-top:0.2rem;width:18px;height:18px;accent-color:#1D4ED8;cursor:pointer;">
+                <input type="checkbox" id="chk-sim-fast" class="what-if-input" checked data-csp-change-act="kfg-whatif-update" style="margin-top:0.2rem;width:18px;height:18px;accent-color:#1D4ED8;cursor:pointer;">
                 <div>
                   <div style="font-size:0.84rem;font-weight:900;color:#0F172A;">🛑 3-Hour Pre-Bed Glycemic Fast</div>
                   <div style="font-size:0.72rem;color:#059669;font-weight:800;">+1.2 cm (+0.5 in) · +2 Mos Window</div>
@@ -2536,7 +2536,7 @@ ${isMasked ? `
               </label>
 
               <label class="what-if-toggle-card" style="display:flex;gap:0.65rem;align-items:flex-start;background:#F8FAFC;border:1.5px solid #CBD5E1;border-radius:12px;padding:0.75rem 0.85rem;cursor:pointer;">
-                <input type="checkbox" id="chk-sim-wolff" class="what-if-input" checked onchange="window.updateKidsFitWhatIfSimulator()" style="margin-top:0.2rem;width:18px;height:18px;accent-color:#1D4ED8;cursor:pointer;">
+                <input type="checkbox" id="chk-sim-wolff" class="what-if-input" checked data-csp-change-act="kfg-whatif-update" style="margin-top:0.2rem;width:18px;height:18px;accent-color:#1D4ED8;cursor:pointer;">
                 <div>
                   <div style="font-size:0.84rem;font-weight:900;color:#0F172A;">⚡ Wolff's Law Piezoelectric Exercise</div>
                   <div style="font-size:0.72rem;color:#059669;font-weight:800;">+1.4 cm (+0.6 in) · +2 Mos Window</div>
@@ -2545,7 +2545,7 @@ ${isMasked ? `
               </label>
 
               <label class="what-if-toggle-card" style="display:flex;gap:0.65rem;align-items:flex-start;background:#F8FAFC;border:1.5px solid #CBD5E1;border-radius:12px;padding:0.75rem 0.85rem;cursor:pointer;">
-                <input type="checkbox" id="chk-sim-minerals" class="what-if-input" checked onchange="window.updateKidsFitWhatIfSimulator()" style="margin-top:0.2rem;width:18px;height:18px;accent-color:#1D4ED8;cursor:pointer;">
+                <input type="checkbox" id="chk-sim-minerals" class="what-if-input" checked data-csp-change-act="kfg-whatif-update" style="margin-top:0.2rem;width:18px;height:18px;accent-color:#1D4ED8;cursor:pointer;">
                 <div>
                   <div style="font-size:0.84rem;font-weight:900;color:#0F172A;">🦴 Targeted Bone Mineral Dosing</div>
                   <div style="font-size:0.72rem;color:#059669;font-weight:800;">+1.1 cm (+0.4 in) · +2 Mos Window</div>
@@ -2722,14 +2722,14 @@ ${isMasked ? `
                   <span>Child's Bedtime</span>
                   <strong id="hormone-bedtime-display" style="color:#1D4ED8;">10:30 PM</strong>
                 </div>
-                <input type="range" id="hormone-bedtime-slider" min="1230" max="1440" step="15" value="1350" oninput="if(window.updateGlobalHormoneSimulator)window.updateGlobalHormoneSimulator();" style="width:100%;">
+                <input type="range" id="hormone-bedtime-slider" min="1230" max="1440" step="15" value="1350" data-csp-input-act="kfg-hormone-update" style="width:100%;">
               </div>
               <div style="background:#FFFFFF;border:1px solid #BFDBFE;border-radius:10px;padding:0.7rem 0.85rem;">
                 <div style="display:flex;justify-content:space-between;font-size:0.78rem;font-weight:800;color:#334155;margin-bottom:0.35rem;">
                   <span>Last Meal / Milk Time</span>
                   <strong id="hormone-meal-display" style="color:#1D4ED8;">8:30 PM</strong>
                 </div>
-                <input type="range" id="hormone-meal-slider" min="1080" max="1380" step="15" value="1230" oninput="if(window.updateGlobalHormoneSimulator)window.updateGlobalHormoneSimulator();" style="width:100%;">
+                <input type="range" id="hormone-meal-slider" min="1080" max="1380" step="15" value="1230" data-csp-input-act="kfg-hormone-update" style="width:100%;">
               </div>
             </div>
             <div style="font-size:0.79rem;color:#1E3A8A;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.4rem;">
@@ -2785,7 +2785,7 @@ ${isMasked ? `
                   Synchronizing amino-acid delivery and avoiding evening insulin surges maximizes 24-hr biological growth.
                 </p>
               </div>
-              <button type="button" onclick="window.printChrononutritionShoppingList()" style="background:linear-gradient(90deg,#059669 0%,#10B981 100%);color:#FFFFFF;border:none;border-radius:8px;padding:0.45rem 0.85rem;font-size:0.76rem;font-weight:800;cursor:pointer;box-shadow:0 4px 10px rgba(16,185,129,0.25);">
+              <button type="button" data-csp-act="kfg-print-chrono" style="background:linear-gradient(90deg,#059669 0%,#10B981 100%);color:#FFFFFF;border:none;border-radius:8px;padding:0.45rem 0.85rem;font-size:0.76rem;font-weight:800;cursor:pointer;box-shadow:0 4px 10px rgba(16,185,129,0.25);">
                 🛒 1-Click Shopping Checklist →
               </button>
             </div>
@@ -2876,9 +2876,9 @@ ${isMasked ? `
             </div>
             <div style="display:flex;align-items:center;gap:0.55rem;flex-wrap:wrap;">
               <span id="global-posture-timer-display" style="font-family:monospace;font-size:1.45rem;font-weight:900;color:#0F172A;background:#FFFFFF;border:1.5px solid #93C5FD;padding:0.25rem 0.75rem;border-radius:10px;">00:30</span>
-              <button type="button" onclick="window.startGlobalPostureTimer(30, 'Doorway Bar Dead-Hang (30s Set)')" style="background:#1D4ED8;color:#FFFFFF;border:none;border-radius:8px;padding:0.45rem 0.8rem;font-size:0.78rem;font-weight:800;cursor:pointer;">▶ 30s Dead-Hang</button>
-              <button type="button" onclick="window.startGlobalPostureTimer(45, 'Cobra &amp; Thoracic Extension (45s Set)')" style="background:#059669;color:#FFFFFF;border:none;border-radius:8px;padding:0.45rem 0.8rem;font-size:0.78rem;font-weight:800;cursor:pointer;">▶ 45s Thoracic</button>
-              <button type="button" onclick="window.startGlobalPostureTimer(60, 'Piezoelectric Jump Interval (60s Set)')" style="background:#0F172A;color:#FFFFFF;border:none;border-radius:8px;padding:0.45rem 0.8rem;font-size:0.78rem;font-weight:800;cursor:pointer;">▶ 60s Jump Pulse</button>
+              <button type="button" data-csp-act="kfg-posture-timer" data-csp-arg="30" data-csp-arg2="Doorway Bar Dead-Hang (30s Set)" style="background:#1D4ED8;color:#FFFFFF;border:none;border-radius:8px;padding:0.45rem 0.8rem;font-size:0.78rem;font-weight:800;cursor:pointer;">▶ 30s Dead-Hang</button>
+              <button type="button" data-csp-act="kfg-posture-timer" data-csp-arg="45" data-csp-arg2="Cobra &amp; Thoracic Extension (45s Set)" style="background:#059669;color:#FFFFFF;border:none;border-radius:8px;padding:0.45rem 0.8rem;font-size:0.78rem;font-weight:800;cursor:pointer;">▶ 45s Thoracic</button>
+              <button type="button" data-csp-act="kfg-posture-timer" data-csp-arg="60" data-csp-arg2="Piezoelectric Jump Interval (60s Set)" style="background:#0F172A;color:#FFFFFF;border:none;border-radius:8px;padding:0.45rem 0.8rem;font-size:0.78rem;font-weight:800;cursor:pointer;">▶ 60s Jump Pulse</button>
             </div>
           </div>
 
@@ -2924,7 +2924,7 @@ ${isMasked ? `
             ${[1, 2, 3, 4, 5, 6].map(function (mIdx) {
               const mAge = exactAgeMonths + mIdx - 1;
               const isFirst = mIdx === 1;
-              return `<button type="button" id="btn-growth-care-month-${mIdx}" onclick="window.selectKidsFitCareMonth('growth', ${mIdx})" style="padding:0.42rem 0.8rem;border-radius:9999px;border:1.5px solid ${isFirst ? '#059669' : '#CBD5E1'};background:${isFirst ? '#059669' : '#F8FAFC'};color:${isFirst ? '#FFFFFF' : '#334155'};font-size:0.76rem;font-weight:800;cursor:pointer;">Month ${mIdx} (${mAge}m)</button>`;
+              return `<button type="button" id="btn-growth-care-month-${mIdx}" data-csp-act="kfg-select-care-month" data-csp-arg="growth" data-csp-arg2="${mIdx}" style="padding:0.42rem 0.8rem;border-radius:9999px;border:1.5px solid ${isFirst ? '#059669' : '#CBD5E1'};background:${isFirst ? '#059669' : '#F8FAFC'};color:${isFirst ? '#FFFFFF' : '#334155'};font-size:0.76rem;font-weight:800;cursor:pointer;">Month ${mIdx} (${mAge}m)</button>`;
             }).join('')}
           </div>
 
@@ -3120,10 +3120,10 @@ ${isMasked ? `
               You're previewing Chapter 05 (Brain LQ Baseline). Unlock 4-Week US K-12 Executive Function Prescription, Neuro-Nutrition Dosages, 6-Month Synaptic Care Roadmap, and 4 Printable Cognitive Worksheets.
             </p>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0.6rem;margin-bottom:0.9rem;">
-              <button type="button" onclick="window.openKidsFitGlobalCheckoutModal()" style="width:100%;padding:0.92rem 1.1rem;border-radius:12px;border:none;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:0.96rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(29,78,216,0.25);">
+              <button type="button" data-csp-act="kfg-open-checkout-modal" style="width:100%;padding:0.92rem 1.1rem;border-radius:12px;border:none;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:0.96rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(29,78,216,0.25);">
                 🔓 Unlock Complete Report ($8.99) →
               </button>
-              <button type="button" onclick="if(window.openSampleReportPreview){window.openSampleReportPreview();}else if(window.loadSampleDemoProfile){window.loadSampleDemoProfile();}" style="width:100%;padding:0.92rem 1rem;border-radius:12px;border:1.5px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-size:0.86rem;font-weight:900;cursor:pointer;">
+              <button type="button" data-csp-act="kfg-open-sample-preview" style="width:100%;padding:0.92rem 1rem;border-radius:12px;border:1.5px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-size:0.86rem;font-weight:900;cursor:pointer;">
                 👀 View Live Sample Report (Demo Profile) →
               </button>
             </div>
@@ -3232,7 +3232,7 @@ ${isMasked ? `
             ${[1, 2, 3, 4, 5, 6].map(function (mIdx) {
               const mAge = exactAgeMonths + mIdx - 1;
               const isFirst = mIdx === 1;
-              return `<button type="button" id="btn-learning-care-month-${mIdx}" onclick="window.selectKidsFitCareMonth('learning', ${mIdx})" style="padding:0.42rem 0.8rem;border-radius:9999px;border:1.5px solid ${isFirst ? '#1D4ED8' : '#CBD5E1'};background:${isFirst ? '#1D4ED8' : '#F8FAFC'};color:${isFirst ? '#FFFFFF' : '#334155'};font-size:0.76rem;font-weight:800;cursor:pointer;">Month ${mIdx} (${mAge}m)</button>`;
+              return `<button type="button" id="btn-learning-care-month-${mIdx}" data-csp-act="kfg-select-care-month" data-csp-arg="learning" data-csp-arg2="${mIdx}" style="padding:0.42rem 0.8rem;border-radius:9999px;border:1.5px solid ${isFirst ? '#1D4ED8' : '#CBD5E1'};background:${isFirst ? '#1D4ED8' : '#F8FAFC'};color:${isFirst ? '#FFFFFF' : '#334155'};font-size:0.76rem;font-weight:800;cursor:pointer;">Month ${mIdx} (${mAge}m)</button>`;
             }).join('')}
           </div>
 
@@ -3339,7 +3339,7 @@ ${isMasked ? `
           <span style="font-size:0.75rem;font-weight:900;color:#1D4ED8;background:#EFF6FF;border:1px solid #BFDBFE;padding:0.22rem 0.7rem;border-radius:9999px;">
             NEURO-STUDY TOOLKIT · 4 PRINTABLE COGNITIVE &amp; WORKING MEMORY WORKSHEETS (US LETTER 8.5&quot; × 11&quot;)
           </span>
-          <button type="button" onclick="if(window.triggerKidsFitGlobalPrint){window.triggerKidsFitGlobalPrint();}else{window.print();}" style="background:#1D4ED8;color:#FFFFFF;border:none;border-radius:9999px;padding:0.38rem 0.85rem;font-size:0.76rem;font-weight:800;cursor:pointer;">
+          <button type="button" data-csp-act="kfg-global-print" style="background:#1D4ED8;color:#FFFFFF;border:none;border-radius:9999px;padding:0.38rem 0.85rem;font-size:0.76rem;font-weight:800;cursor:pointer;">
             🖨️ Print Cognitive Worksheets
           </button>
         </div>
@@ -3385,7 +3385,7 @@ ${isMasked ? `
                 <option value="memorize_forget">Forgetting Studied Material Within 48 Hours</option>
               </select>
             </div>
-            <button type="button" onclick="window.recalculateKidsFitMonthlyProgress('learning', ${overallLQDisp})" style="padding:0.52rem 0.95rem;border-radius:8px;border:none;background:#1D4ED8;color:#FFFFFF;font-size:0.8rem;font-weight:900;cursor:pointer;">
+            <button type="button" data-csp-act="kfg-recalc-monthly" data-csp-arg="learning" data-csp-arg2="${overallLQDisp}" style="padding:0.52rem 0.95rem;border-radius:8px;border:none;background:#1D4ED8;color:#FFFFFF;font-size:0.8rem;font-weight:900;cursor:pointer;">
               🔄 Generate Monthly Situation Report
             </button>
           </div>
@@ -3400,7 +3400,7 @@ ${isMasked ? `
           <span style="font-size:0.75rem;font-weight:900;color:#059669;background:#ECFDF5;border:1px solid #A7F3D0;padding:0.22rem 0.7rem;border-radius:9999px;">
             LONGITUDINAL AUXOLOGY TRACKER · 90-DAY VELOCITY, BONE-AGE &amp; DOSING RE-CALIBRATION
           </span>
-          <button type="button" onclick="if(window.triggerKidsFitGlobalPrint){window.triggerKidsFitGlobalPrint();}else{window.print();}" style="background:#059669;color:#FFFFFF;border:none;border-radius:9999px;padding:0.38rem 0.85rem;font-size:0.76rem;font-weight:800;cursor:pointer;">
+          <button type="button" data-csp-act="kfg-global-print" style="background:#059669;color:#FFFFFF;border:none;border-radius:9999px;padding:0.38rem 0.85rem;font-size:0.76rem;font-weight:800;cursor:pointer;">
             🖨️ Print Fridge Growth Tracker
           </button>
         </div>
@@ -3456,7 +3456,7 @@ ${isMasked ? `
                 <option value="rapid_weight">Weight Gained Faster Than Height (Bone-Age Watch)</option>
               </select>
             </div>
-            <button type="button" onclick="window.recalculateKidsFitMonthlyProgress('growth', ${heightCm}, ${weightKg})" style="padding:0.52rem 0.95rem;border-radius:8px;border:none;background:#059669;color:#FFFFFF;font-size:0.8rem;font-weight:900;cursor:pointer;">
+            <button type="button" data-csp-act="kfg-recalc-monthly" data-csp-arg="growth" data-csp-arg2="${heightCm}" data-csp-arg3="${weightKg}" style="padding:0.52rem 0.95rem;border-radius:8px;border:none;background:#059669;color:#FFFFFF;font-size:0.8rem;font-weight:900;cursor:pointer;">
               🔄 Generate Monthly Situation Report
             </button>
           </div>
@@ -3692,10 +3692,10 @@ ${isMasked ? `
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
-            <button type="button" onclick="if(window.closeSampleReportPreview){window.closeSampleReportPreview();}" style="background:#FFFFFF;color:#1D4ED8;border:none;border-radius:10px;padding:0.45rem 0.85rem;font-size:0.8rem;font-weight:900;cursor:pointer;">
+            <button type="button" data-csp-act="kfg-close-sample-preview" style="background:#FFFFFF;color:#1D4ED8;border:none;border-radius:10px;padding:0.45rem 0.85rem;font-size:0.8rem;font-weight:900;cursor:pointer;">
               ✕ Exit Preview
             </button>
-            <button type="button" onclick="if(window.closeSampleReportPreview){window.closeSampleReportPreview();} if(window.KidsFitOnboardingWizard && window.KidsFitOnboardingWizard.openWizard){window.KidsFitOnboardingWizard.openWizard();} else {var f=document.getElementById('diagnosis-form');if(f)f.scrollIntoView({behavior:'smooth'});}" style="background:#10B981;color:#FFFFFF;border:none;border-radius:10px;padding:0.45rem 0.9rem;font-size:0.8rem;font-weight:900;cursor:pointer;box-shadow:0 4px 12px rgba(16,185,129,0.35);">
+            <button type="button" data-csp-act="kfg-sample-start-wizard" style="background:#10B981;color:#FFFFFF;border:none;border-radius:10px;padding:0.45rem 0.9rem;font-size:0.8rem;font-weight:900;cursor:pointer;box-shadow:0 4px 12px rgba(16,185,129,0.35);">
               👶 Start My Child's Assessment (Free) →
             </button>
           </div>
@@ -3729,13 +3729,13 @@ ${isMasked ? `
                 <div style="font-size:0.82rem;font-weight:800;color:#0F172A;margin-bottom:0.4rem;">Print Clinic Dossier, Fridge Wall Chart, or Certificate</div>
               </div>
               <div style="display:flex;flex-direction:column;gap:0.3rem;">
-                <button type="button" onclick="window.printKidsFitDocument('doctor-dossier')" style="width:100%;background:linear-gradient(90deg,#059669 0%,#10B981 100%);color:#FFFFFF;border:none;border-radius:8px;padding:0.38rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;text-align:left;">
+                <button type="button" data-csp-act="kfg-print-doc" data-csp-arg="doctor-dossier" style="width:100%;background:linear-gradient(90deg,#059669 0%,#10B981 100%);color:#FFFFFF;border:none;border-radius:8px;padding:0.38rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;text-align:left;">
                   🖨️ 1. Comprehensive Growth &amp; Habit Percentile PDF Guide →
                 </button>
-                <button type="button" onclick="window.printKidsFitDocument('fridge-chart')" style="width:100%;background:#1D4ED8;color:#FFFFFF;border:none;border-radius:8px;padding:0.38rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;text-align:left;">
+                <button type="button" data-csp-act="kfg-print-doc" data-csp-arg="fridge-chart" style="width:100%;background:#1D4ED8;color:#FFFFFF;border:none;border-radius:8px;padding:0.38rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;text-align:left;">
                   🖨️ 2. 14-Day Refrigerator Wall Chart →
                 </button>
-                <button type="button" onclick="window.printKidsFitDocument('milestone-certificate')" style="width:100%;background:#D97706;color:#FFFFFF;border:none;border-radius:8px;padding:0.38rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;text-align:left;">
+                <button type="button" data-csp-act="kfg-print-doc" data-csp-arg="milestone-certificate" style="width:100%;background:#D97706;color:#FFFFFF;border:none;border-radius:8px;padding:0.38rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;text-align:left;">
                   🏅 3. Child Milestone Potential Certificate →
                 </button>
               </div>
@@ -3746,10 +3746,10 @@ ${isMasked ? `
                 <div style="font-size:0.82rem;font-weight:800;color:#0F172A;margin-bottom:0.4rem;">Track Monthly Gains &amp; Bookmark Permanent Link</div>
               </div>
               <div style="display:flex;gap:0.35rem;flex-wrap:wrap;">
-                <button type="button" onclick="var el=document.getElementById('${recalBoxId}');if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.style.boxShadow='0 0 0 4px rgba(37,99,235,0.35)';setTimeout(function(){el.style.boxShadow='none';},2500);}" style="flex:1;background:#EFF6FF;color:#1D4ED8;border:1px solid #93C5FD;border-radius:8px;padding:0.42rem 0.55rem;font-size:0.74rem;font-weight:800;cursor:pointer;">
+                <button type="button" data-csp-act="kfg-scroll-highlight" data-csp-arg="${recalBoxId}" style="flex:1;background:#EFF6FF;color:#1D4ED8;border:1px solid #93C5FD;border-radius:8px;padding:0.42rem 0.55rem;font-size:0.74rem;font-weight:800;cursor:pointer;">
                   📅 Monthly Tracker
                 </button>
-                <button type="button" id="btn-copy-magic-unlock-link" onclick="window.copyKidsFitMagicUnlockLink()" style="flex:1;background:#F5F3FF;color:#6D28D9;border:1px solid #C4B5FD;border-radius:8px;padding:0.42rem 0.55rem;font-size:0.74rem;font-weight:800;cursor:pointer;">
+                <button type="button" id="btn-copy-magic-unlock-link" data-csp-act="kfg-copy-magic-link" style="flex:1;background:#F5F3FF;color:#6D28D9;border:1px solid #C4B5FD;border-radius:8px;padding:0.42rem 0.55rem;font-size:0.74rem;font-weight:800;cursor:pointer;">
                   🔗 Save My Link
                 </button>
               </div>
@@ -3770,7 +3770,7 @@ ${isMasked ? `
                   Pre-calibrated for <strong>Age ${ageY} ${genderLabel} (${fmtLen(heightCm)} · ${fmtWt(weightKg)})</strong> — click any resource below for instant offline Excel (.CSV) or Clinical Brief (.TXT) download:
                 </p>
               </div>
-              <button type="button" onclick="window.downloadKidsFitVipResource('all_vip_pack')" style="background:linear-gradient(90deg,#10B981 0%,#059669 100%);color:#FFFFFF;border:none;border-radius:10px;padding:0.55rem 0.95rem;font-size:0.78rem;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(16,185,129,0.35);white-space:nowrap;">
+              <button type="button" data-csp-act="kfg-dl-vip-res" data-csp-arg="all_vip_pack" style="background:linear-gradient(90deg,#10B981 0%,#059669 100%);color:#FFFFFF;border:none;border-radius:10px;padding:0.55rem 0.95rem;font-size:0.78rem;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(16,185,129,0.35);white-space:nowrap;">
                 📦 Download All 5 VIP Files + Print PDF
               </button>
             </div>
@@ -3788,7 +3788,7 @@ ${isMasked ? `
                     Day-by-day sleep onset, 3h glycemic fast check, Ca (${caMg}mg) / D3 (${d3Iu}IU) / K2 / Zinc log &amp; CDC velocity audit.
                   </div>
                 </div>
-                <button type="button" onclick="window.downloadKidsFitVipResource('tracker_csv')" style="width:100%;background:#2563EB;color:#FFFFFF;border:none;border-radius:8px;padding:0.42rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;">
+                <button type="button" data-csp-act="kfg-dl-vip-res" data-csp-arg="tracker_csv" style="width:100%;background:#2563EB;color:#FFFFFF;border:none;border-radius:8px;padding:0.42rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;">
                   📥 Download 90-Day Tracker (.CSV)
                 </button>
               </div>
@@ -3805,7 +3805,7 @@ ${isMasked ? `
                     4-week amino-acid (Arginine/Lysine) meal calendar, supermarket shopping list &amp; nocturnal insulin-spike blacklist.
                   </div>
                 </div>
-                <button type="button" onclick="window.downloadKidsFitVipResource('meal_plan_csv')" style="width:100%;background:#2563EB;color:#FFFFFF;border:none;border-radius:8px;padding:0.42rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;">
+                <button type="button" data-csp-act="kfg-dl-vip-res" data-csp-arg="meal_plan_csv" style="width:100%;background:#2563EB;color:#FFFFFF;border:none;border-radius:8px;padding:0.42rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;">
                   📥 Download 28-Day Meal Plan (.CSV)
                 </button>
               </div>
@@ -3822,7 +3822,7 @@ ${isMasked ? `
                     Exact lab codes (Left-Wrist Bone Age X-Ray, Serum IGF-1, IGFBP-3, 25-OH-D, TSH) &amp; 7 questions for your doctor.
                   </div>
                 </div>
-                <button type="button" onclick="window.downloadKidsFitVipResource('doctor_brief')" style="width:100%;background:#2563EB;color:#FFFFFF;border:none;border-radius:8px;padding:0.42rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;">
+                <button type="button" data-csp-act="kfg-dl-vip-res" data-csp-arg="doctor_brief" style="width:100%;background:#2563EB;color:#FFFFFF;border:none;border-radius:8px;padding:0.42rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;">
                   📥 Download Doctor Lab Brief (.TXT)
                 </button>
               </div>
@@ -3839,7 +3839,7 @@ ${isMasked ? `
                     Progressive 12-week bar dead-hang, thoracic Cobra extension &amp; plyometric epiphyseal loading schedule.
                   </div>
                 </div>
-                <button type="button" onclick="window.downloadKidsFitVipResource('exercise_csv')" style="width:100%;background:#2563EB;color:#FFFFFF;border:none;border-radius:8px;padding:0.42rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;">
+                <button type="button" data-csp-act="kfg-dl-vip-res" data-csp-arg="exercise_csv" style="width:100%;background:#2563EB;color:#FFFFFF;border:none;border-radius:8px;padding:0.42rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;">
                   📥 Download 12-Wk Exercise Plan (.CSV)
                 </button>
               </div>
@@ -3856,7 +3856,7 @@ ${isMasked ? `
                     Prefrontal focus sprint timer log, 3-Min Blank-Page Recall tracker, Bar-Model template &amp; screen detox protocol.
                   </div>
                 </div>
-                <button type="button" onclick="window.downloadKidsFitVipResource('neuro_workbook_csv')" style="width:100%;background:#2563EB;color:#FFFFFF;border:none;border-radius:8px;padding:0.42rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;">
+                <button type="button" data-csp-act="kfg-dl-vip-res" data-csp-arg="neuro_workbook_csv" style="width:100%;background:#2563EB;color:#FFFFFF;border:none;border-radius:8px;padding:0.42rem 0.65rem;font-size:0.74rem;font-weight:800;cursor:pointer;">
                   📥 Download Neuro Study Log (.CSV)
                 </button>
               </div>
@@ -3874,8 +3874,8 @@ ${isMasked ? `
                   </div>
                 </div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.35rem;">
-                  <button type="button" onclick="window.saveOrSwitchKidsFitSiblingSlot(1)" style="background:#059669;color:#FFFFFF;border:none;border-radius:6px;padding:0.35rem 0.4rem;font-size:0.7rem;font-weight:800;cursor:pointer;">💾 Child Slot #1</button>
-                  <button type="button" onclick="window.saveOrSwitchKidsFitSiblingSlot(2)" style="background:#0EA5E9;color:#FFFFFF;border:none;border-radius:6px;padding:0.35rem 0.4rem;font-size:0.7rem;font-weight:800;cursor:pointer;">💾 Child Slot #2</button>
+                  <button type="button" data-csp-act="kfg-sibling-slot" data-csp-arg="1" style="background:#059669;color:#FFFFFF;border:none;border-radius:6px;padding:0.35rem 0.4rem;font-size:0.7rem;font-weight:800;cursor:pointer;">💾 Child Slot #1</button>
+                  <button type="button" data-csp-act="kfg-sibling-slot" data-csp-arg="2" style="background:#0EA5E9;color:#FFFFFF;border:none;border-radius:6px;padding:0.35rem 0.4rem;font-size:0.7rem;font-weight:800;cursor:pointer;">💾 Child Slot #2</button>
                 </div>
               </div>
             </div>
@@ -3897,7 +3897,7 @@ ${isMasked ? `
                   Evidence-based pediatric corridors for serum growth biomarkers &amp; Greulich-Pyle radiographs.
                 </p>
               </div>
-              <button type="button" onclick="window.printKidsFitDocument('doctor-dossier')" style="background:#2563EB;color:#FFFFFF;border:none;border-radius:8px;padding:0.42rem 0.75rem;font-size:0.75rem;font-weight:800;cursor:pointer;">
+              <button type="button" data-csp-act="kfg-print-doc" data-csp-arg="doctor-dossier" style="background:#2563EB;color:#FFFFFF;border:none;border-radius:8px;padding:0.42rem 0.75rem;font-size:0.75rem;font-weight:800;cursor:pointer;">
                 🖨️ Print Doctor Intake Brief →
               </button>
             </div>
@@ -3952,7 +3952,7 @@ ${isMasked ? `
               </div>
               <div id="clinic-checklist-container" style="display:flex;flex-direction:column;gap:0.4rem;">
                 <label class="clinic-checklist-item" style="display:flex;gap:0.55rem;align-items:flex-start;cursor:pointer;font-size:0.75rem;color:#E2E8F0;">
-                  <input type="checkbox" id="chk-clinic-q-1" onchange="window.toggleClinicChecklistQuestion(1)" style="margin-top:0.15rem;accent-color:#10B981;">
+                  <input type="checkbox" id="chk-clinic-q-1" data-csp-change-act="kfg-clinic-q" data-csp-arg="1" style="margin-top:0.15rem;accent-color:#10B981;">
                   <div>
                     <span><strong>Q1:</strong> Does my child's Greulich-Pyle skeletal age match chronological age (${ageY}y), or is there bone-age advancement affecting remaining plate longevity?</span>
                     <span id="tag-clinic-q-1" style="font-size:0.66rem;background:rgba(148,163,184,0.2);color:#94A3B8;padding:0.08rem 0.4rem;border-radius:9999px;margin-left:0.35rem;font-weight:700;">Pending</span>
@@ -3960,7 +3960,7 @@ ${isMasked ? `
                 </label>
 
                 <label class="clinic-checklist-item" style="display:flex;gap:0.55rem;align-items:flex-start;cursor:pointer;font-size:0.75rem;color:#E2E8F0;">
-                  <input type="checkbox" id="chk-clinic-q-2" onchange="window.toggleClinicChecklistQuestion(2)" style="margin-top:0.15rem;accent-color:#10B981;">
+                  <input type="checkbox" id="chk-clinic-q-2" data-csp-change-act="kfg-clinic-q" data-csp-arg="2" style="margin-top:0.15rem;accent-color:#10B981;">
                   <div>
                     <span><strong>Q2:</strong> What is my child's annualized linear height velocity (cm/yr) over the past 6–12 months, and does it track along their genetic Mid-Parental channel?</span>
                     <span id="tag-clinic-q-2" style="font-size:0.66rem;background:rgba(148,163,184,0.2);color:#94A3B8;padding:0.08rem 0.4rem;border-radius:9999px;margin-left:0.35rem;font-weight:700;">Pending</span>
@@ -3968,7 +3968,7 @@ ${isMasked ? `
                 </label>
 
                 <label class="clinic-checklist-item" style="display:flex;gap:0.55rem;align-items:flex-start;cursor:pointer;font-size:0.75rem;color:#E2E8F0;">
-                  <input type="checkbox" id="chk-clinic-q-3" onchange="window.toggleClinicChecklistQuestion(3)" style="margin-top:0.15rem;accent-color:#10B981;">
+                  <input type="checkbox" id="chk-clinic-q-3" data-csp-change-act="kfg-clinic-q" data-csp-arg="3" style="margin-top:0.15rem;accent-color:#10B981;">
                   <div>
                     <span><strong>Q3:</strong> Are Serum IGF-1 and IGFBP-3 in the upper quartile (+0.5 to +1.5 SDS) confirming peak pituitary growth hormone sensitivity?</span>
                     <span id="tag-clinic-q-3" style="font-size:0.66rem;background:rgba(148,163,184,0.2);color:#94A3B8;padding:0.08rem 0.4rem;border-radius:9999px;margin-left:0.35rem;font-weight:700;">Pending</span>
@@ -3976,7 +3976,7 @@ ${isMasked ? `
                 </label>
 
                 <label class="clinic-checklist-item" style="display:flex;gap:0.55rem;align-items:flex-start;cursor:pointer;font-size:0.75rem;color:#E2E8F0;">
-                  <input type="checkbox" id="chk-clinic-q-4" onchange="window.toggleClinicChecklistQuestion(4)" style="margin-top:0.15rem;accent-color:#10B981;">
+                  <input type="checkbox" id="chk-clinic-q-4" data-csp-change-act="kfg-clinic-q" data-csp-arg="4" style="margin-top:0.15rem;accent-color:#10B981;">
                   <div>
                     <span><strong>Q4:</strong> Is Serum 25(OH)D above 40 ng/mL, and is our daily Calcium Citrate + Vitamin D3/K2 protocol medically approved?</span>
                     <span id="tag-clinic-q-4" style="font-size:0.66rem;background:rgba(148,163,184,0.2);color:#94A3B8;padding:0.08rem 0.4rem;border-radius:9999px;margin-left:0.35rem;font-weight:700;">Pending</span>
@@ -3984,7 +3984,7 @@ ${isMasked ? `
                 </label>
 
                 <label class="clinic-checklist-item" style="display:flex;gap:0.55rem;align-items:flex-start;cursor:pointer;font-size:0.75rem;color:#E2E8F0;">
-                  <input type="checkbox" id="chk-clinic-q-5" onchange="window.toggleClinicChecklistQuestion(5)" style="margin-top:0.15rem;accent-color:#10B981;">
+                  <input type="checkbox" id="chk-clinic-q-5" data-csp-change-act="kfg-clinic-q" data-csp-arg="5" style="margin-top:0.15rem;accent-color:#10B981;">
                   <div>
                     <span><strong>Q5:</strong> Can we order a complete thyroid panel (TSH &amp; Free T4) to rule out subclinical thyroid blunting of chondrocyte growth?</span>
                     <span id="tag-clinic-q-5" style="font-size:0.66rem;background:rgba(148,163,184,0.2);color:#94A3B8;padding:0.08rem 0.4rem;border-radius:9999px;margin-left:0.35rem;font-weight:700;">Pending</span>
@@ -3992,7 +3992,7 @@ ${isMasked ? `
                 </label>
 
                 <label class="clinic-checklist-item" style="display:flex;gap:0.55rem;align-items:flex-start;cursor:pointer;font-size:0.75rem;color:#E2E8F0;">
-                  <input type="checkbox" id="chk-clinic-q-6" onchange="window.toggleClinicChecklistQuestion(6)" style="margin-top:0.15rem;accent-color:#10B981;">
+                  <input type="checkbox" id="chk-clinic-q-6" data-csp-change-act="kfg-clinic-q" data-csp-arg="6" style="margin-top:0.15rem;accent-color:#10B981;">
                   <div>
                     <span><strong>Q6:</strong> Are serum ferritin and plasma zinc levels optimal for linear velocity and healthy metabolic appetite?</span>
                     <span id="tag-clinic-q-6" style="font-size:0.66rem;background:rgba(148,163,184,0.2);color:#94A3B8;padding:0.08rem 0.4rem;border-radius:9999px;margin-left:0.35rem;font-weight:700;">Pending</span>
@@ -4000,7 +4000,7 @@ ${isMasked ? `
                 </label>
 
                 <label class="clinic-checklist-item" style="display:flex;gap:0.55rem;align-items:flex-start;cursor:pointer;font-size:0.75rem;color:#E2E8F0;">
-                  <input type="checkbox" id="chk-clinic-q-7" onchange="window.toggleClinicChecklistQuestion(7)" style="margin-top:0.15rem;accent-color:#10B981;">
+                  <input type="checkbox" id="chk-clinic-q-7" data-csp-change-act="kfg-clinic-q" data-csp-arg="7" style="margin-top:0.15rem;accent-color:#10B981;">
                   <div>
                     <span><strong>Q7:</strong> Are daily 15-minute Wolff's law vertical impact exercises (jumping/skipping) and bar dead-hang medically cleared?</span>
                     <span id="tag-clinic-q-7" style="font-size:0.66rem;background:rgba(148,163,184,0.2);color:#94A3B8;padding:0.08rem 0.4rem;border-radius:9999px;margin-left:0.35rem;font-weight:700;">Pending</span>
@@ -4021,10 +4021,10 @@ ${isMasked ? `
         <div id="kidsfit-viral-share-bar" style="background:#F8FAFC;border:1.5px solid #93C5FD;border-radius:12px;padding:0.7rem 0.9rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
           <span style="font-size:0.79rem;font-weight:800;color:#1E3A8A;">📲 Know another parent? Share this free 60-sec US CDC Height &amp; Brain LQ Scan:</span>
           <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;">
-            <button type="button" id="btn-kidsfit-share-native" onclick="window.shareKidsFitGlobalReport('native')" style="background:#1D4ED8;color:#FFFFFF;border:none;border-radius:8px;padding:0.36rem 0.72rem;font-size:0.75rem;font-weight:800;cursor:pointer;">📤 Share / Copy Link</button>
-            <button type="button" onclick="window.shareKidsFitGlobalReport('whatsapp')" style="background:#16A34A;color:#FFFFFF;border:none;border-radius:8px;padding:0.36rem 0.72rem;font-size:0.75rem;font-weight:800;cursor:pointer;">💬 WhatsApp</button>
-            <button type="button" onclick="window.shareKidsFitGlobalReport('sms')" style="background:#0F172A;color:#FFFFFF;border:none;border-radius:8px;padding:0.36rem 0.72rem;font-size:0.75rem;font-weight:800;cursor:pointer;">📱 iMessage / SMS</button>
-            <button type="button" onclick="window.shareKidsFitGlobalReport('x')" style="background:#334155;color:#FFFFFF;border:none;border-radius:8px;padding:0.36rem 0.72rem;font-size:0.75rem;font-weight:800;cursor:pointer;">𝕏 Post</button>
+            <button type="button" id="btn-kidsfit-share-native" data-csp-act="kfg-share-report" data-csp-arg="native" style="background:#1D4ED8;color:#FFFFFF;border:none;border-radius:8px;padding:0.36rem 0.72rem;font-size:0.75rem;font-weight:800;cursor:pointer;">📤 Share / Copy Link</button>
+            <button type="button" data-csp-act="kfg-share-report" data-csp-arg="whatsapp" style="background:#16A34A;color:#FFFFFF;border:none;border-radius:8px;padding:0.36rem 0.72rem;font-size:0.75rem;font-weight:800;cursor:pointer;">💬 WhatsApp</button>
+            <button type="button" data-csp-act="kfg-share-report" data-csp-arg="sms" style="background:#0F172A;color:#FFFFFF;border:none;border-radius:8px;padding:0.36rem 0.72rem;font-size:0.75rem;font-weight:800;cursor:pointer;">📱 iMessage / SMS</button>
+            <button type="button" data-csp-act="kfg-share-report" data-csp-arg="x" style="background:#334155;color:#FFFFFF;border:none;border-radius:8px;padding:0.36rem 0.72rem;font-size:0.75rem;font-weight:800;cursor:pointer;">𝕏 Post</button>
           </div>
         </div>
       `;
@@ -4145,7 +4145,7 @@ ${isMasked ? `
 
           <!-- 2-Tier Plan Selector -->
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:0.8rem;margin-bottom:0.95rem;">
-            <label id="paywall-plan-label-single" onclick="window.selectKidsFitGlobalPlan('single')" style="cursor:pointer;background:#EFF6FF;border:2px solid #1D4ED8;border-radius:14px;padding:0.95rem 1rem;display:flex;flex-direction:column;justify-content:space-between;transition:all 0.2s ease;">
+            <label id="paywall-plan-label-single" data-csp-act="kfg-select-global-plan" data-csp-arg="single" style="cursor:pointer;background:#EFF6FF;border:2px solid #1D4ED8;border-radius:14px;padding:0.95rem 1rem;display:flex;flex-direction:column;justify-content:space-between;transition:all 0.2s ease;">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">
                 <span style="font-size:0.82rem;font-weight:900;color:#1D4ED8;">
                   <input type="radio" name="kidsfit-global-plan" value="single" checked style="accent-color:#1D4ED8;margin-right:0.3rem;">
@@ -4164,7 +4164,7 @@ ${isMasked ? `
               </div>
             </label>
 
-            <label id="paywall-plan-label-pass" onclick="window.selectKidsFitGlobalPlan('pass')" style="cursor:pointer;background:#F8FAFC;border:2.5px solid #1D4ED8;border-radius:14px;padding:0.95rem 1rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;box-shadow:0 12px 30px rgba(29,78,216,0.16);transition:all 0.2s ease;">
+            <label id="paywall-plan-label-pass" data-csp-act="kfg-select-global-plan" data-csp-arg="pass" style="cursor:pointer;background:#F8FAFC;border:2.5px solid #1D4ED8;border-radius:14px;padding:0.95rem 1rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;box-shadow:0 12px 30px rgba(29,78,216,0.16);transition:all 0.2s ease;">
               <div style="position:absolute;top:-10px;right:14px;background:linear-gradient(90deg,#1D4ED8 0%,#059669 100%);color:#FFFFFF;font-size:0.65rem;font-weight:900;padding:0.18rem 0.55rem;border-radius:9999px;letter-spacing:0.02em;">
                 ⭐ BEST VALUE · 6-MONTH TRACKER
               </div>
@@ -4189,16 +4189,16 @@ ${isMasked ? `
 
           <!-- Primary 2x Large 64px+ 1-Tap Polar.sh Checkout Buttons -->
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:0.75rem;margin-bottom:0.65rem;">
-            <button type="button" id="btn-one-tap-single-report" data-kfg-paid-plan="single" data-checkout-url="${singleBuyUrl}" onclick="window.launchPolarCheckout('single')" style="min-height:66px;padding:0.95rem 1.1rem;border-radius:14px;border:2px solid #1D4ED8;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:0.98rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(29,78,216,0.26);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.18rem;line-height:1.25;">
+            <button type="button" id="btn-one-tap-single-report" data-kfg-paid-plan="single" data-checkout-url="${singleBuyUrl}" data-csp-act="kfg-launch-polar" data-csp-arg="single" style="min-height:66px;padding:0.95rem 1.1rem;border-radius:14px;border:2px solid #1D4ED8;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:0.98rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(29,78,216,0.26);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.18rem;line-height:1.25;">
               <span>🔓 Unlock Full Report &amp; 14-Page PDF Guide ($8.99)</span>
               <span style="font-size:0.73rem;font-weight:700;color:#DBEAFE;">One-Time USD · Saves Survey &amp; Auto-Unlocks on Return</span>
             </button>
-            <button type="button" id="btn-one-tap-six-month-pass" data-kfg-paid-plan="pass" onclick="window.launchPolarCheckout('pass')" style="min-height:66px;padding:0.95rem 1.1rem;border-radius:14px;border:2px solid #047857;background:linear-gradient(90deg,#059669 0%,#10B981 100%);color:#FFFFFF;font-size:0.98rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(5,150,105,0.26);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.18rem;line-height:1.25;">
+            <button type="button" id="btn-one-tap-six-month-pass" data-kfg-paid-plan="pass" data-csp-act="kfg-launch-polar" data-csp-arg="pass" style="min-height:66px;padding:0.95rem 1.1rem;border-radius:14px;border:2px solid #047857;background:linear-gradient(90deg,#059669 0%,#10B981 100%);color:#FFFFFF;font-size:0.98rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(5,150,105,0.26);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.18rem;line-height:1.25;">
               <span>⭐ Unlock 6-Month Growth &amp; Velocity Pass ($19.99)</span>
               <span style="font-size:0.73rem;font-weight:700;color:#D1FAE5;">6 Monthly Velocity Check-Ins + Sibling Vault + PDF</span>
             </button>
           </div>
-          <button type="button" id="btn-global-paywall-checkout" data-kfg-paid-plan="single" data-checkout-url="${singleBuyUrl}" onclick="window.launchPolarCheckout(window.__kfgSelectedPaywallPlan || 'single')" style="display:none;">Unlock Full Report ($8.99)</button>
+          <button type="button" id="btn-global-paywall-checkout" data-kfg-paid-plan="single" data-checkout-url="${singleBuyUrl}" data-csp-act="kfg-launch-polar-selected" style="display:none;">Unlock Full Report ($8.99)</button>
 
           <div style="text-align:center;font-size:0.79rem;font-weight:800;color:#0F172A;margin-bottom:0.45rem;line-height:1.45;">
             🔒 Polar.sh Official USD Checkout (Card / Apple Pay / Google Pay) &nbsp;|&nbsp; <span style="color:#059669;">14-Day Satisfaction &amp; Refund Policy</span>
@@ -4214,7 +4214,7 @@ ${isMasked ? `
             </label>
             <div style="display:flex;flex-wrap:wrap;gap:0.45rem;align-items:center;">
               <input type="text" id="kfg-inline-restore-input" placeholder="Enter Polar.sh checkout email or license key..." style="flex:1 1 220px;min-height:42px;padding:0.5rem 0.75rem;border:1.5px solid #CBD5E1;border-radius:9px;font-size:0.84rem;color:#0F172A;background:#FFFFFF;">
-              <button type="button" id="btn-kfg-inline-restore" onclick="window.restoreKidsFitInlineAccess()" style="min-height:42px;padding:0.5rem 0.95rem;border-radius:9px;border:1.5px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-size:0.82rem;font-weight:900;cursor:pointer;white-space:nowrap;">
+              <button type="button" id="btn-kfg-inline-restore" data-csp-act="kfg-restore-inline" style="min-height:42px;padding:0.5rem 0.95rem;border-radius:9px;border:1.5px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-size:0.82rem;font-weight:900;cursor:pointer;white-space:nowrap;">
                 Restore Access &rarr;
               </button>
             </div>
@@ -5351,7 +5351,7 @@ ${isMasked ? `
     if (btnPay) {
       btnPay.href = polarBuyUrl;
       btnPay.setAttribute('data-kfg-paid-plan', selectedPlan);
-      btnPay.setAttribute('onclick', `event.preventDefault(); window.launchPolarCheckout('${selectedPlan}');`);
+      btnPay.setAttribute('data-csp-act', 'kfg-launch-polar-prevent'); btnPay.setAttribute('data-csp-arg', selectedPlan);
       btnPay.innerHTML = `💳 Pay ${priceStr} via Polar.sh Checkout →`;
     }
 
@@ -5403,17 +5403,17 @@ ${isMasked ? `
             <span style="font-size:0.72rem;font-weight:900;color:#1D4ED8;background:#EFF6FF;padding:0.18rem 0.55rem;border-radius:9999px;">KISFIT BIO LABS · POLAR.SH USD CHECKOUT</span>
             <h3 id="checkout-modal-plan-title" style="margin:0.3rem 0 0;font-size:1.08rem;font-weight:900;color:#0F172A;line-height:1.3;">${planTitle}</h3>
           </div>
-          <button type="button" onclick="var m=document.getElementById('kidsfit-global-checkout-modal');if(m)m.remove();" style="background:#F1F5F9;border:1px solid #CBD5E1;border-radius:9999px;width:34px;height:34px;font-weight:900;cursor:pointer;">✕</button>
+          <button type="button" data-csp-remove="kidsfit-global-checkout-modal" style="background:#F1F5F9;border:1px solid #CBD5E1;border-radius:9999px;width:34px;height:34px;font-weight:900;cursor:pointer;">✕</button>
         </div>
 
         <!-- Interactive 2-Tier Plan Switcher Inside Modal (64px+ Large Cards) -->
         <div class="checkout-plan-selector" style="display:grid;grid-template-columns:1fr 1fr;gap:0.55rem;margin-bottom:0.9rem;">
-          <button type="button" id="chk-plan-single" onclick="window.switchModalPlan('single')" style="min-height:68px;cursor:pointer;padding:0.7rem 0.65rem;border-radius:12px;background:${selectedPlan === 'single' ? '#EFF6FF' : '#F8FAFC'};border:${selectedPlan === 'single' ? '2px solid #1D4ED8' : '1.5px solid #CBD5E1'};text-align:left;display:flex;flex-direction:column;gap:0.15rem;transition:all 0.15s ease;">
+          <button type="button" id="chk-plan-single" data-csp-act="kfg-switch-modal-plan" data-csp-arg="single" style="min-height:68px;cursor:pointer;padding:0.7rem 0.65rem;border-radius:12px;background:${selectedPlan === 'single' ? '#EFF6FF' : '#F8FAFC'};border:${selectedPlan === 'single' ? '2px solid #1D4ED8' : '1.5px solid #CBD5E1'};text-align:left;display:flex;flex-direction:column;gap:0.15rem;transition:all 0.15s ease;">
             <span style="font-size:0.7rem;font-weight:700;color:#64748B;">SINGLE PDF GUIDE</span>
             <strong style="font-size:0.88rem;color:#0F172A;font-weight:800;">Single Growth Report</strong>
             <span style="font-size:1.1rem;font-weight:900;color:#1D4ED8;">$8.99 <small style="font-size:0.7rem;font-weight:600;color:#64748B;">USD</small></span>
           </button>
-          <button type="button" id="chk-plan-pass" onclick="window.switchModalPlan('pass')" style="min-height:68px;cursor:pointer;padding:0.7rem 0.65rem;border-radius:12px;background:${selectedPlan === 'pass' ? '#EFF6FF' : '#F8FAFC'};border:${selectedPlan === 'pass' ? '2px solid #1D4ED8' : '1.5px solid #CBD5E1'};text-align:left;display:flex;flex-direction:column;gap:0.15rem;position:relative;transition:all 0.15s ease;">
+          <button type="button" id="chk-plan-pass" data-csp-act="kfg-switch-modal-plan" data-csp-arg="pass" style="min-height:68px;cursor:pointer;padding:0.7rem 0.65rem;border-radius:12px;background:${selectedPlan === 'pass' ? '#EFF6FF' : '#F8FAFC'};border:${selectedPlan === 'pass' ? '2px solid #1D4ED8' : '1.5px solid #CBD5E1'};text-align:left;display:flex;flex-direction:column;gap:0.15rem;position:relative;transition:all 0.15s ease;">
             <span style="position:absolute;top:-8px;right:6px;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:0.6rem;font-weight:900;padding:0.12rem 0.45rem;border-radius:9999px;box-shadow:0 2px 6px rgba(29,78,216,0.3);">⭐ BEST VALUE</span>
             <span style="font-size:0.7rem;font-weight:700;color:#1D4ED8;">6-MONTH PASS</span>
             <strong style="font-size:0.88rem;color:#0F172A;font-weight:800;">6-Month Growth Pass</strong>
@@ -5436,7 +5436,7 @@ ${isMasked ? `
         </div>
 
         <!-- Primary Official Polar.sh Checkout Button (64px+) -->
-        <a id="btn-polar-official-checkout" href="${polarBuyUrl}" data-kfg-paid-plan="${selectedPlan}" onclick="event.preventDefault(); window.launchPolarCheckout('${selectedPlan}');" class="polar-checkout-button" style="display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;width:100%;min-height:64px;box-sizing:border-box;padding:1rem 1.1rem;border-radius:14px;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:1.04rem;font-weight:900;cursor:pointer;margin-bottom:0.5rem;box-shadow:0 10px 24px rgba(29,78,216,0.28);">
+        <a id="btn-polar-official-checkout" href="${polarBuyUrl}" data-kfg-paid-plan="${selectedPlan}" data-csp-act="kfg-launch-polar-prevent" data-csp-arg="${selectedPlan}" class="polar-checkout-button" style="display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;width:100%;min-height:64px;box-sizing:border-box;padding:1rem 1.1rem;border-radius:14px;background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%);color:#FFFFFF;font-size:1.04rem;font-weight:900;cursor:pointer;margin-bottom:0.5rem;box-shadow:0 10px 24px rgba(29,78,216,0.28);">
           💳 Pay ${priceStr} via Polar.sh Checkout →
         </a>
 
@@ -5455,7 +5455,7 @@ ${isMasked ? `
             </div>
             <div id="checkout-verify-status-msg" style="display:none;font-size:0.8rem;font-weight:700;padding:0.55rem 0.75rem;border-radius:10px;margin-bottom:0.65rem;"></div>
 
-            <button type="button" onclick="window.completeKidsFitGlobalCheckout()" style="width:100%;padding:0.78rem 1rem;border-radius:12px;border:1.5px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-size:0.86rem;font-weight:800;cursor:pointer;margin-bottom:0.25rem;">
+            <button type="button" data-csp-act="kfg-complete-checkout" style="width:100%;padding:0.78rem 1rem;border-radius:12px;border:1.5px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-size:0.86rem;font-weight:800;cursor:pointer;margin-bottom:0.25rem;">
               Restore License Key &amp; Unlock Report →
             </button>
           </div>

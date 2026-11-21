@@ -493,7 +493,7 @@
             '<span style="display:inline-block;font-size:0.72rem;font-weight:900;color:#1D4ED8;background:#EFF6FF;border:1px solid #BFDBFE;padding:0.2rem 0.6rem;border-radius:9999px;margin-bottom:0.35rem;">VIP FOUNDING MEMBER PRIORITY ACCESS &middot; POLAR.SH</span>' +
             '<h3 id="kfg-vip-waitlist-title" style="margin:0;font-size:1.08rem;font-weight:900;color:#0F172A;line-height:1.32;">VIP Founding Member 20% Early-Bird Waitlist (1-Second Email Reserve)</h3>' +
           '</div>' +
-          '<button type="button" onclick="window.closeKfgVipWaitlistModal()" aria-label="Close modal" style="background:#F1F5F9;border:1px solid #CBD5E1;border-radius:9999px;width:34px;height:34px;font-weight:900;color:#0F172A;cursor:pointer;flex-shrink:0;">&#10005;</button>' +
+          '<button type="button" data-csp-act="kfg-wl-close" aria-label="Close modal" style="background:#F1F5F9;border:1px solid #CBD5E1;border-radius:9999px;width:34px;height:34px;font-weight:900;color:#0F172A;cursor:pointer;flex-shrink:0;">&#10005;</button>' +
         '</div>' +
 
         '<p style="margin:0 0 0.85rem;font-size:0.86rem;color:#334155;line-height:1.55;">' +
@@ -501,12 +501,12 @@
         '</p>' +
 
         '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.55rem;margin-bottom:0.75rem;">' +
-          '<button type="button" id="kfg-wl-plan-single" onclick="window.selectKfgWaitlistPlan(\'single\')" style="min-height:68px;cursor:pointer;padding:0.65rem 0.7rem;border-radius:12px;background:' + (!isSix ? '#EFF6FF' : '#F8FAFC') + ';border:' + (!isSix ? '2px solid #1D4ED8' : '1.5px solid #CBD5E1') + ';text-align:left;display:flex;flex-direction:column;gap:0.15rem;">' +
+          '<button type="button" id="kfg-wl-plan-single" data-csp-act="kfg-wl-select" data-csp-arg="single" style="min-height:68px;cursor:pointer;padding:0.65rem 0.7rem;border-radius:12px;background:' + (!isSix ? '#EFF6FF' : '#F8FAFC') + ';border:' + (!isSix ? '2px solid #1D4ED8' : '1.5px solid #CBD5E1') + ';text-align:left;display:flex;flex-direction:column;gap:0.15rem;">' +
             '<span style="font-size:0.68rem;font-weight:800;color:#1D4ED8;">SINGLE PDF GUIDE</span>' +
             '<strong style="font-size:0.86rem;color:#0F172A;">Single Growth Report</strong>' +
             '<span style="font-size:0.95rem;font-weight:900;color:#1D4ED8;"><s style="color:#94A3B8;font-size:0.78rem;">$8.99</s> $7.19 <small style="font-size:0.68rem;color:#059669;">(-20%)</small></span>' +
           '</button>' +
-          '<button type="button" id="kfg-wl-plan-sixMonth" onclick="window.selectKfgWaitlistPlan(\'sixMonth\')" style="min-height:68px;cursor:pointer;padding:0.65rem 0.7rem;border-radius:12px;background:' + (isSix ? '#ECFDF5' : '#F8FAFC') + ';border:' + (isSix ? '2px solid #059669' : '1.5px solid #CBD5E1') + ';text-align:left;display:flex;flex-direction:column;gap:0.15rem;position:relative;">' +
+          '<button type="button" id="kfg-wl-plan-sixMonth" data-csp-act="kfg-wl-select" data-csp-arg="sixMonth" style="min-height:68px;cursor:pointer;padding:0.65rem 0.7rem;border-radius:12px;background:' + (isSix ? '#ECFDF5' : '#F8FAFC') + ';border:' + (isSix ? '2px solid #059669' : '1.5px solid #CBD5E1') + ';text-align:left;display:flex;flex-direction:column;gap:0.15rem;position:relative;">' +
             '<span style="position:absolute;top:-8px;right:8px;background:#059669;color:#FFFFFF;font-size:0.6rem;font-weight:900;padding:0.12rem 0.45rem;border-radius:9999px;">MOST POPULAR</span>' +
             '<span style="font-size:0.68rem;font-weight:800;color:#047857;">6-MONTH PASS</span>' +
             '<strong style="font-size:0.86rem;color:#0F172A;">6-Month Growth Pass</strong>' +
@@ -516,7 +516,7 @@
 
         '<div id="kfg-wl-selected-summary" style="background:#F8FAFC;border:1px solid #DBEAFE;border-radius:11px;padding:0.65rem 0.8rem;font-size:0.79rem;color:#1E293B;line-height:1.45;margin-bottom:0.85rem;"></div>' +
 
-        '<form id="kfg-vip-waitlist-form" onsubmit="return window.submitKfgVipWaitlistForm(event);" style="display:flex;flex-direction:column;gap:0.6rem;">' +
+        '<form id="kfg-vip-waitlist-form" data-csp-submit-act="kfg-wl-submit" style="display:flex;flex-direction:column;gap:0.6rem;">' +
           '<label for="kfg-waitlist-email" style="font-size:0.78rem;font-weight:800;color:#334155;">Parent Email for Launch Alert &amp; 20% Early-Bird Voucher Code</label>' +
           '<input type="email" id="kfg-waitlist-email" required autocomplete="email" value="' + prefillEmail + '" placeholder="Enter parent email (e.g., mom@gmail.com)" style="width:100%;box-sizing:border-box;min-height:50px;padding:0.75rem 0.9rem;border-radius:12px;border:1.5px solid #93C5FD;font-size:16px;font-weight:600;color:#0F172A;background:#FFFFFF;">' +
           '<button type="submit" id="btn-kfg-waitlist-submit" style="width:100%;min-height:54px;padding:0.85rem 1rem;border-radius:13px;border:none;background:linear-gradient(90deg,#1D4ED8 0%,#059669 100%);color:#FFFFFF;font-size:0.98rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(29,78,216,0.25);">' +
@@ -530,7 +530,7 @@
           '<summary style="cursor:pointer;font-size:0.76rem;font-weight:800;color:#1D4ED8;">Already have a Founding VIP Access Code or License Key? Restore Access &#9662;</summary>' +
           '<div style="margin-top:0.55rem;display:flex;gap:0.45rem;flex-wrap:wrap;">' +
             '<input type="text" id="kfg-wl-license-input" placeholder="Enter VIP Access Code or License Key" style="flex:1 1 180px;min-height:42px;padding:0.45rem 0.7rem;border:1px solid #CBD5E1;border-radius:9px;font-size:14px;color:#0F172A;">' +
-            '<button type="button" onclick="window.verifyExistingVipLicenseInModal()" style="min-height:42px;padding:0.45rem 0.85rem;border-radius:9px;border:1.5px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-size:0.8rem;font-weight:800;cursor:pointer;">Unlock</button>' +
+            '<button type="button" data-csp-act="kfg-wl-verify" style="min-height:42px;padding:0.45rem 0.85rem;border-radius:9px;border:1.5px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-size:0.8rem;font-weight:800;cursor:pointer;">Unlock</button>' +
           '</div>' +
           '<div id="kfg-wl-license-msg" style="display:none;margin-top:0.4rem;font-size:0.76rem;font-weight:700;"></div>' +
         '</details>' +

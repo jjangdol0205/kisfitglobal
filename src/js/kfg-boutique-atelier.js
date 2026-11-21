@@ -782,10 +782,10 @@
     var html = '';
     for (var i = 0; i < list.length; i++) {
       var lbl = (list[i].childName || list[i].slotName || ('Child ' + (i + 1)));
-      html += '<button type="button" class="kfg-chip-btn ' + (i === activeIdx ? 'is-active' : '') + '" onclick="window.switchKfgSibling(' + i + ')">' + esc(lbl) + '</button>';
+      html += '<button type="button" class="kfg-chip-btn ' + (i === activeIdx ? 'is-active' : '') + '" data-csp-act="kfg-switch-sibling" data-csp-arg="' + i + '">' + esc(lbl) + '</button>';
     }
     if (isTier2 && list.length < 4) {
-      html += '<button type="button" class="kfg-chip-btn" style="border-style:dashed;" onclick="window.addKfgSiblingProfile()">+ Add Sibling (' + list.length + '/4)</button>';
+      html += '<button type="button" class="kfg-chip-btn" style="border-style:dashed;" data-csp-act="kfg-add-sibling">+ Add Sibling (' + list.length + '/4)</button>';
     } else if (!isTier2) {
       html += '<span style="font-size:0.78rem;color:#6B635B;align-self:center;margin-left:4px;">Up to 4 siblings unlock with 6-Month Pass ($19.99)</span>';
     }
@@ -983,7 +983,7 @@
         savedConfirm.innerHTML =
           '<strong>Summary saved for ' + esc(p.parentEmail) + '.</strong> ' +
           'Your child\'s baseline US CDC reading is bookmarked on this browser and monthly growth notes are active. ' +
-          '<button type="button" class="kfg-helper-action" style="margin-left:0.35rem;" onclick="window.reopenAtelierEmailSaveForm()">Update email</button>';
+          '<button type="button" class="kfg-helper-action" style="margin-left:0.35rem;" data-csp-act="kfg-reopen-email">Update email</button>';
       }
     }
 
@@ -1159,11 +1159,11 @@
           '<span class="kfg-tier-tag">6-Month Growth Velocity Pass Active</span>' +
           '<h3 class="kfg-serif-h2">Monthly (30-Day Cycle) US CDC Growth Velocity Log</h3>' +
           '<p style="margin:0 0 1rem;font-size:0.94rem;color:#6B635B;">Record your child\'s morning standing height once every 30 days to check annualized growth pace (in/yr &amp; cm/yr) against US CDC norms.</p>' +
-          '<button type="button" class="kfg-btn-primary" style="max-width:340px;" onclick="window.openKfgMemberModal(\'checkin\')">Open 30-Day Height Velocity Check-In -&gt;</button>' +
+          '<button type="button" class="kfg-btn-primary" style="max-width:340px;" data-csp-act="kfg-open-member-modal" data-csp-arg="checkin">Open 30-Day Height Velocity Check-In -&gt;</button>' +
         '</div>')
       : ('<div class="kfg-dossier-section kfg-no-print">' +
           '<div class="kfg-warm-note kfg-warm-note-amber">' +
-            '<strong>Want 6-Month Monthly Velocity Tracking?</strong> You have lifetime access to this Single Growth &amp; Bone-Age Report. Whenever you wish to log monthly 30-day height velocity (in/yr &amp; cm/yr) across six consecutive months, you can step up to the <a href="' + POLAR_PASS_URL + '" data-kfg-paid-plan="pass" onclick="event.preventDefault();window.startAtelierPolarCheckout(\'pass\');" style="color:#2F5241;font-weight:700;">6-Month Growth Velocity Pass ($19.99) -&gt;</a>.' +
+            '<strong>Want 6-Month Monthly Velocity Tracking?</strong> You have lifetime access to this Single Growth &amp; Bone-Age Report. Whenever you wish to log monthly 30-day height velocity (in/yr &amp; cm/yr) across six consecutive months, you can step up to the <a href="' + POLAR_PASS_URL + '" data-kfg-paid-plan="pass" data-csp-act="kfg-start-polar" data-csp-arg="pass" style="color:#2F5241;font-weight:700;">6-Month Growth Velocity Pass ($19.99) -&gt;</a>.' +
           '</div>' +
         '</div>');
 
@@ -1175,10 +1175,10 @@
           '<div style="font-size:0.88rem;color:#6B635B;">Current Height: ' + esc(formatHeight(aux.heightCm)) + ' \u00B7 US CDC ' + esc(aux.ordinalPercentile) + ' Percentile</div>' +
         '</div>' +
         '<div class="kfg-no-print" style="display:flex;gap:0.55rem;flex-wrap:wrap;">' +
-          '<button type="button" id="btn-download-kfg-custom-pdf" class="kfg-btn-primary" style="width:auto;padding:0.55rem 1.05rem;min-height:42px;font-size:0.88rem;" onclick="window.downloadCustomAtelierPdf()">Download 4-Page Custom Child Report PDF -&gt;</button>' +
-          '<button type="button" id="btn-download-kfg-guide-8p" class="kfg-btn-outline" style="display:inline-flex;align-items:center;padding:0.5rem 0.95rem;min-height:42px;font-size:0.86rem;border-color:#2F5241;color:#2F5241;font-weight:700;" onclick="window.downloadProtectedKfgGuidePdf()">Download 8-Page US CDC Growth Guide PDF &rarr;</button>' +
-          '<button type="button" class="kfg-btn-outline" onclick="window.print()">Print View</button>' +
-          '<button type="button" class="kfg-btn-outline" onclick="window.beginAtelier()">Edit Inputs</button>' +
+          '<button type="button" id="btn-download-kfg-custom-pdf" class="kfg-btn-primary" style="width:auto;padding:0.55rem 1.05rem;min-height:42px;font-size:0.88rem;" data-csp-act="kfg-dl-custom-pdf">Download 4-Page Custom Child Report PDF -&gt;</button>' +
+          '<button type="button" id="btn-download-kfg-guide-8p" class="kfg-btn-outline" style="display:inline-flex;align-items:center;padding:0.5rem 0.95rem;min-height:42px;font-size:0.86rem;border-color:#2F5241;color:#2F5241;font-weight:700;" data-csp-act="kfg-dl-guide-pdf">Download 8-Page US CDC Growth Guide PDF &rarr;</button>' +
+          '<button type="button" class="kfg-btn-outline" data-csp-act="window-print">Print View</button>' +
+          '<button type="button" class="kfg-btn-outline" data-csp-act="kfg-begin-atelier">Edit Inputs</button>' +
         '</div>' +
       '</div>' +
 

@@ -536,7 +536,7 @@
             '<div><strong>Next 30-Day Target Gain:</strong> Calibrated Stature Runway &amp; Mineral Density Schedule</div>' +
           '</div>' +
           '<div style="margin-top:0.65rem;text-align:center;">' +
-            '<button type="button" id="btn-unlock-vip-velocity-commentary" data-kfg-paid-plan="sixMonth" onclick="if(window.triggerKfgVelocityEdgeCheckout){window.triggerKfgVelocityEdgeCheckout(\'pass\');}else if(window.openKfgVipWaitlistModal){window.openKfgVipWaitlistModal(\'sixMonth\');}" style="width:100%;min-height:52px;padding:0.8rem 1.1rem;border-radius:12px;border:none;background:linear-gradient(90deg,#1D4ED8 0%,#059669 100%);color:#FFFFFF;font-size:0.95rem;font-weight:900;cursor:pointer;box-shadow:0 8px 20px rgba(29,78,216,0.24);">' +
+            '<button type="button" id="btn-unlock-vip-velocity-commentary" data-kfg-paid-plan="sixMonth" data-csp-act="kfg-velocity-checkout-pass" style="width:100%;min-height:52px;padding:0.8rem 1.1rem;border-radius:12px;border:none;background:linear-gradient(90deg,#1D4ED8 0%,#059669 100%);color:#FFFFFF;font-size:0.95rem;font-weight:900;cursor:pointer;box-shadow:0 8px 20px rgba(29,78,216,0.24);">' +
               'Unlock Full Pediatric Velocity &amp; Habit Commentary ($8.99 / $19.99) &rarr;' +
             '</button>' +
           '</div>' +
@@ -545,7 +545,7 @@
         '<div style="display:flex;align-items:center;gap:0.45rem;flex-wrap:wrap;font-size:0.76rem;color:#475569;">' +
           '<span style="font-weight:800;color:#1E3A8A;">Already a VIP Pass / License Holder?</span>' +
           '<input type="text" id="kfg-vip-inline-license-code" placeholder="Enter License Key or VIP Code" style="flex:1 1 170px;min-height:38px;padding:0.35rem 0.65rem;border:1px solid #CBD5E1;border-radius:8px;font-size:14px;color:#0F172A;">' +
-          '<button type="button" onclick="window.unlockVipCheckinWithCode()" style="min-height:38px;padding:0.35rem 0.8rem;border-radius:8px;border:1.5px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-weight:800;cursor:pointer;">Verify &amp; Unlock</button>' +
+          '<button type="button" data-csp-act="kfg-unlock-checkin-code" style="min-height:38px;padding:0.35rem 0.8rem;border-radius:8px;border:1.5px solid #1D4ED8;background:#EFF6FF;color:#1D4ED8;font-weight:800;cursor:pointer;">Verify &amp; Unlock</button>' +
         '</div>' +
         '<div id="kfg-vip-inline-license-msg" style="display:none;margin-top:0.35rem;font-size:0.75rem;font-weight:700;color:#DC2626;"></div>' +
       '</div>';
@@ -636,7 +636,7 @@
           '</svg>' +
           '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;">' +
             '<span style="font-size:0.82rem;color:#57534E;">Baseline ' + startHeightForGrad.toFixed(1) + ' cm &rarr; Latest ' + latestHeightForGrad.toFixed(1) + ' cm</span>' +
-            '<button type="button" id="btn-kfg-graduation-album-pdf" onclick="window.KfgPersonalizedPdf && window.KfgPersonalizedPdf.downloadGraduationAlbumPdf(' + JSON.stringify(payload.child_name || 'Your Child').replace(/"/g, '&quot;') + ',' + startHeightForGrad + ',' + latestHeightForGrad + ')" style="padding:7px 14px;border-radius:6px;border:1px solid #2F5241;background:#2F5241;color:#FFFFFF;font-size:0.82rem;font-weight:700;cursor:pointer;">Download Day-165 6-Month Graduation Album PDF &rarr;</button>' +
+            '<button type="button" id="btn-kfg-graduation-album-pdf" data-csp-act="kfg-dl-grad-album" data-csp-arg="' + escHtml(payload.child_name || 'Your Child') + '" data-csp-arg2="' + startHeightForGrad + '" data-csp-arg3="' + latestHeightForGrad + '" style="padding:7px 14px;border-radius:6px;border:1px solid #2F5241;background:#2F5241;color:#FFFFFF;font-size:0.82rem;font-weight:700;cursor:pointer;">Download Day-165 6-Month Graduation Album PDF &rarr;</button>' +
           '</div>' +
         '</div>' +
         '<div class="kfg-vip-verdict-box">' +
