@@ -31,7 +31,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/src/css/kfg-boutique-atelier.css?v=20261022_mwqf1p68">
   <script src="/assets/csp/inline_6a450b6c6a3e.js?v=20261121vl2"></script>
-  <script src="/assets/csp/csp-events.js?v=20261122aarrr2"></script>
+  <script src="/assets/csp/csp-events.js?v=20261122sprint"></script>
 </head>
 <body class="kfg-atelier-body" data-kfg-boutique-atelier="true">
 
@@ -552,13 +552,18 @@
           <span class="kfg-step-counter">Free Baseline Summary Unlocked</span>
         </div>
 
+        <!-- 1-Tap Native Referral Share Bar (Top of Result Screen — SMS / WhatsApp / Copy ?ref=<vid>) -->
+        <div id="kfg-top-share-bar" style="margin:0 0 1rem;padding:0.85rem 1rem;background:#FFFFFF;border:1.5px solid #2F5241;border-radius:10px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.65rem;">
+          <span style="font-size:0.86rem;color:#2C2724;line-height:1.45;"><strong>Share this free 1-minute US CDC check</strong> with your spouse or a parent friend:</span>
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;">
+            <button type="button" id="btn-kfg-share-sms" class="kfg-btn-outline" style="min-height:42px;padding:0.45rem 0.85rem;font-size:0.83rem;border-color:#0F172A;background:#0F172A;color:#FFFFFF;font-weight:700;" data-csp-act="dc-share-site" data-share-div="KFG" data-share-mode="sms" data-share-url="https://kisfitglobal.com/" data-share-title="KISFIT Studio — Free 1-Minute US CDC Adult Height Predictor" data-share-text="Check your child's US CDC height percentile and bone-age growth clock in 1 minute (free):">SMS Text</button>
+            <button type="button" id="btn-kfg-share-whatsapp" class="kfg-btn-outline" style="min-height:42px;padding:0.45rem 0.85rem;font-size:0.83rem;border-color:#15803D;background:#15803D;color:#FFFFFF;font-weight:700;" data-csp-act="dc-share-site" data-share-div="KFG" data-share-mode="whatsapp" data-share-url="https://kisfitglobal.com/" data-share-title="KISFIT Studio — Free 1-Minute US CDC Adult Height Predictor" data-share-text="Check your child's US CDC height percentile and bone-age growth clock in 1 minute (free):">WhatsApp</button>
+            <button type="button" id="btn-kfg-share-copy" class="kfg-btn-outline" style="min-height:42px;padding:0.45rem 0.85rem;font-size:0.83rem;border-color:#2F5241;background:#FFFFFF;color:#2F5241;font-weight:700;" data-csp-act="dc-share-site" data-share-div="KFG" data-share-mode="copy" data-share-url="https://kisfitglobal.com/" data-share-title="KISFIT Studio — Free 1-Minute US CDC Adult Height Predictor">Copy Link</button>
+          </div>
+        </div>
+
         <!-- Immediate Free Baseline US CDC 2000 Height Percentile & Growth-Clock Summary (Zero Email Wall) -->
         <div id="kfg-partial-baseline-summary" class="kfg-baseline-box"></div>
-
-        <div style="margin:0 0 1rem;padding:0.85rem 1rem;background:#FFFFFF;border:1px solid #DFD7CC;border-radius:10px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.65rem;">
-          <span style="font-size:0.86rem;color:#3A3430;"><strong>Helpful baseline?</strong> Share this free 1-minute US CDC growth check with your spouse or a parent friend:</span>
-          <button type="button" class="kfg-btn-outline" style="min-height:40px;padding:0.4rem 0.85rem;font-size:0.84rem;border-color:#2F5241;color:#2F5241;font-weight:700;" data-csp-act="dc-share-site" data-share-div="KFG" data-share-url="https://kisfitglobal.com/" data-share-title="KISFIT Studio — Free 1-Minute US CDC Adult Height Predictor">Share Free Check &rarr;</button>
-        </div>
 
         <!-- 2) Natural Passwordless Email Save Card (#kfg-parent-growth-club via DreamCompanyCRM.registerMember) -->
         <div id="kfg-parent-growth-club" class="kfg-save-club-card">
@@ -629,6 +634,49 @@
                 <span class="kfg-locked-sub">12 monthly check-ins across all 4 seasons + 12-Month Milestone Graduation Album PDF</span>
               </div>
               <span class="kfg-locked-pill">$49 Suite</span>
+            </div>
+          </div>
+
+          <!-- Visual Page-1 Blurred PDF Preview Card (A4 Paper Sheet Mockup) -->
+          <div id="kfg-blurred-pdf-preview" aria-label="Blurred Page 1 Preview of Your 4-Page US CDC Custom PDF Report" style="position:relative;margin:0 0 1.2rem;background:#FFFFFF;border:1.5px solid #D6CEC3;border-radius:12px;padding:1.15rem 1.15rem 1.05rem;box-shadow:0 10px 26px rgba(44,39,36,0.08);overflow:hidden;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;padding-bottom:0.65rem;border-bottom:2px solid #2F5241;margin-bottom:0.85rem;">
+              <div>
+                <div style="font-size:0.7rem;font-weight:800;letter-spacing:0.08em;color:#2F5241;text-transform:uppercase;">PAGE 1 OF 4 &middot; CUSTOM US CDC 2000 GROWTH &amp; BONE-AGE DOSSIER</div>
+                <div style="font-family:Georgia,serif;font-size:1.05rem;font-weight:700;color:#2C2724;margin-top:2px;">Personalized Adult Height Forecast &amp; 30-Day Evening Action Plan</div>
+              </div>
+              <span style="font-size:0.72rem;font-weight:700;padding:3px 9px;border-radius:999px;background:#FEF3C7;color:#92400E;border:1px solid #FCD34D;">Page 1 Visual Preview</span>
+            </div>
+
+            <div style="position:relative;min-height:210px;">
+              <div aria-hidden="true" style="filter:blur(4.5px);-webkit-filter:blur(4.5px);user-select:none;pointer-events:none;padding:0.25rem 0 0.45rem;">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:8px;margin-bottom:10px;">
+                  <div style="padding:10px;background:#FAF7F2;border:1px solid #DFD7CC;border-radius:8px;">
+                    <div style="font-size:11px;color:#6B635B;">Time-Adjusted Adult Forecast</div>
+                    <div style="font-size:18px;font-weight:800;color:#1B4332;">5' 11.4" (181.4 cm)</div>
+                  </div>
+                  <div style="padding:10px;background:#FAF7F2;border:1px solid #DFD7CC;border-radius:8px;">
+                    <div style="font-size:11px;color:#6B635B;">Tended Habit Upside</div>
+                    <div style="font-size:18px;font-weight:800;color:#9A3412;">+1.8 in (+4.6 cm)</div>
+                  </div>
+                  <div style="padding:10px;background:#FAF7F2;border:1px solid #DFD7CC;border-radius:8px;">
+                    <div style="font-size:11px;color:#6B635B;">Target Annual Velocity</div>
+                    <div style="font-size:18px;font-weight:800;color:#0F172A;">2.45 in/yr (6.2 cm/yr)</div>
+                  </div>
+                </div>
+                <div style="padding:10px 12px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;font-size:12.5px;line-height:1.65;color:#334155;">
+                  <div><strong>1. Priority Habit Bottleneck:</strong> Shift lights-out earlier by 35 min (before 9:30 PM) to align deep-sleep GH pulse.</div>
+                  <div><strong>2. Daily Nourishment Targets:</strong> 48 g complete protein &middot; 1,000 mg calcium &middot; 600 IU Vitamin D3 + 20 min jump play.</div>
+                  <div><strong>3. Pediatrician Checkup Questions (Page 3):</strong> 3 evidence-based questions + printable 30-day refrigerator log.</div>
+                </div>
+              </div>
+
+              <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;background:rgba(250,247,242,0.52);text-align:center;">
+                <span style="display:inline-block;padding:6px 14px;border-radius:999px;background:#1B4332;color:#FFFFFF;font-size:0.8rem;font-weight:800;letter-spacing:0.02em;box-shadow:0 4px 12px rgba(27,67,50,0.25);">Locked Custom Figures &mdash; Generated Automatically From Your Answers</span>
+                <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;">
+                  <a href="https://buy.polar.sh/polar_cl_v2pLSQbvj13RJxb57w8fqVjZ4h2C7YopmPUDr3vxfG6?locale=en" data-kfg-paid-plan="single" data-csp-act="kfg-start-polar" data-csp-arg="single" class="kfg-btn-terracotta polar-checkout-button" style="min-height:42px;padding:0.45rem 0.95rem;font-size:0.84rem;text-decoration:none;display:inline-flex;align-items:center;">Unlock Full 4-Page PDF ($8.99) &rarr;</a>
+                  <a href="/assets/downloads/kfg_sample_2p.pdf" target="_blank" rel="noopener" class="kfg-btn-outline" style="min-height:42px;padding:0.45rem 0.9rem;font-size:0.84rem;background:#FFFFFF;border-color:#2F5241;color:#2F5241;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;">Preview Free 2-Page Sample &rarr;</a>
+                </div>
+              </div>
             </div>
           </div>
 
