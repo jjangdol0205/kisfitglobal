@@ -28,8 +28,6 @@
   var POLAR_SINGLE_URL = 'https://buy.polar.sh/polar_cl_v2pLSQbvj13RJxb57w8fqVjZ4h2C7YopmPUDr3vxfG6?locale=en';
   var POLAR_PASS_URL = 'https://buy.polar.sh/polar_cl_p8DAvlbz7wPj6SOPKhHjT5aaNyA2F3I528A3c15nBND?locale=en';
 
-  var AUTHORIZED_CODE_HASHES = ['326d5752', 'c61a52f4', '437e3ac3', '3f2e65ee'];
-
   var atelierState = {
     unitSystem: 'imperial',
     activeScreen: 0,
@@ -750,7 +748,113 @@
     refreshLiveStepPreviews();
   }
 
+  var SIBLINGS_KEY = 'kfg_sibling_profiles_v1';
+  var ACTIVE_SIBLING_KEY = 'kfg_active_sibling_idx_v1';
+
+  function loadSiblingProfiles() {
+    try {
+      var raw = global.localStorage && global.localStorage.getItem(SIBLINGS_KEY);
+      var arr = raw ? JSON.parse(raw) : null;
+      if (Array.isArray(arr) && arr.length > 0) return arr.slice(0, 4);
+    } catch (_) {}
+    return [Object.assign({ slotName: 'Child 1' }, atelierState.profile)];
+  }
+
+  function saveSiblingProfiles(arr) {
+    try {
+      if (global.localStorage) global.localStorage.setItem(SIBLINGS_KEY, JSON.stringify((arr || []).slice(0, 4)));
+    } catch (_) {}
+  }
+
+  function getActiveSiblingIdx() {
+    try {
+      return clamp(parseInt((global.localStorage && global.localStorage.getItem(ACTIVE_SIBLING_KEY)) || '0', 10) || 0, 0, 3);
+    } catch (_) { return 0; }
+  }
+
+  function renderSiblingSwitcherBar(mountId) {
+    var el = byId(mountId || 'kfg-sibling-switcher-bar');
+    if (!el) return;
+    var paidPlan = (global.localStorage && global.localStorage.getItem(PAID_PLAN_KEY)) || 'single';
+    var isTier2 = isPaidUnlocked() && (paidPlan === 'pass' || paidPlan === 'sixMonth');
+    var list = loadSiblingProfiles();
+    var activeIdx = Math.min(getActiveSiblingIdx(), list.length - 1);
+    var html = '';
+    for (var i = 0; i < list.length; i++) {
+      var lbl = (list[i].childName || list[i].slotName || ('Child ' + (i + 1)));
+      html += '<button type="button" class="kfg-chip-btn ' + (i === activeIdx ? 'is-active' : '') + '" onclick="window.switchKfgSibling(' + i + ')">' + esc(lbl) + '</button>';
+    }
+    if (isTier2 && list.length < 4) {
+      html += '<button type="button" class="kfg-chip-btn" style="border-style:dashed;" onclick="window.addKfgSiblingProfile()">+ Add Sibling (' + list.length + '/4)</button>';
+    } else if (!isTier2) {
+      html += '<span style="font-size:0.78rem;color:#6B635B;align-self:center;margin-left:4px;">Up to 4 siblings unlock with 6-Month Pass ($19.99)</span>';
+    }
+    el.innerHTML = html;
+  }
+
+  function switchKfgSibling(idx) {
+    var list = loadSiblingProfiles();
+    var curIdx = Math.min(getActiveSiblingIdx(), list.length - 1);
+    list[curIdx] = Object.assign({}, list[curIdx], atelierState.profile);
+    var nextIdx = clamp(parseInt(idx, 10) || 0, 0, list.length - 1);
+    saveSiblingProfiles(list);
+    try { if (global.localStorage) global.localStorage.setItem(ACTIVE_SIBLING_KEY, String(nextIdx)); } catch (_) {}
+    atelierState.profile = Object.assign({}, atelierState.profile, list[nextIdx]);
+    saveProfileToStorage();
+    populateFormFromProfile();
+    if (byId('kfg-vip-child-name')) byId('kfg-vip-child-name').value = atelierState.profile.childName || ('Child ' + (nextIdx + 1));
+    if (byId('kfg-vip-child-age')) byId('kfg-vip-child-age').value = String(atelierState.profile.ageYears || 10);
+    if (byId('kfg-vip-child-sex')) byId('kfg-vip-child-sex').value = atelierState.profile.gender === 'girl' ? 'F' : 'M';
+    renderSiblingSwitcherBar('kfg-sibling-switcher-bar');
+    renderSiblingSwitcherBar('kfg-dossier-sibling-bar');
+    if (atelierState.activeScreen === 3) renderUnlockedDossier();
+  }
+
+  function addKfgSiblingProfile() {
+    var list = loadSiblingProfiles();
+    if (list.length >= 4) return;
+    var n = list.length + 1;
+    list.push(Object.assign({}, atelierState.profile, { childName: 'Child ' + n, slotName: 'Child ' + n, birthYear: (new Date()).getFullYear() - 8 }));
+    saveSiblingProfiles(list);
+    switchKfgSibling(list.length - 1);
+  }
+
+  function downloadAtelierD30Ics() {
+    var p = atelierState.profile;
+    var aux = computeAtelierAuxology(p);
+    var now = new Date();
+    var d30 = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 30, 8, 0, 0);
+    var pad = function (n) { return String(n).padStart(2, '0'); };
+    var stamp = d30.getFullYear() + pad(d30.getMonth() + 1) + pad(d30.getDate()) + 'T080000';
+    var endStamp = d30.getFullYear() + pad(d30.getMonth() + 1) + pad(d30.getDate()) + 'T081500';
+    var summary = (p.childName ? (p.childName + ' - ') : '') + 'Morning Standing Height Check (KISFIT Studio)';
+    var ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//KISFIT Studio//Growth Reminder//EN',
+      'BEGIN:VEVENT',
+      'DTSTART:' + stamp,
+      'DTEND:' + endStamp,
+      'SUMMARY:' + summary,
+      'DESCRIPTION:Baseline ' + formatHeight(aux.heightCm) + ' (US CDC ' + aux.ordinalPercentile + ' Pct). Measure barefoot morning height against a flat wall and log at https://kisfitglobal.com',
+      'URL:https://kisfitglobal.com',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+    var blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'KISFIT_D30_Height_Check.ics';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { if (a.parentNode) a.parentNode.removeChild(a); URL.revokeObjectURL(url); }, 2500);
+  }
+
   function completeStepsAndEnterGate() {
+    if (global.DreamCompanyCRM && typeof global.DreamCompanyCRM.trackFunnelEvent === 'function') {
+      global.DreamCompanyCRM.trackFunnelEvent('KFG', 'quiz_complete');
+    }
     collectFormIntoProfile();
     if (isPaidUnlocked()) {
       showScreen(3);
@@ -1071,12 +1175,14 @@
           '<div style="font-size:0.88rem;color:#6B635B;">Current Height: ' + esc(formatHeight(aux.heightCm)) + ' \u00B7 US CDC ' + esc(aux.ordinalPercentile) + ' Percentile</div>' +
         '</div>' +
         '<div class="kfg-no-print" style="display:flex;gap:0.55rem;flex-wrap:wrap;">' +
-          '<button type="button" id="btn-download-kfg-custom-pdf" class="kfg-btn-primary" style="width:auto;padding:0.55rem 1.05rem;min-height:42px;font-size:0.88rem;" onclick="window.downloadCustomAtelierPdf()">Download 4-Page Pediatric Clinic &amp; 30-Day Sticker Calendar PDF -&gt;</button>' +
+          '<button type="button" id="btn-download-kfg-custom-pdf" class="kfg-btn-primary" style="width:auto;padding:0.55rem 1.05rem;min-height:42px;font-size:0.88rem;" onclick="window.downloadCustomAtelierPdf()">Download 4-Page Custom Child Report PDF -&gt;</button>' +
+          '<button type="button" id="btn-download-kfg-guide-8p" class="kfg-btn-outline" style="display:inline-flex;align-items:center;padding:0.5rem 0.95rem;min-height:42px;font-size:0.86rem;border-color:#2F5241;color:#2F5241;font-weight:700;" onclick="window.downloadProtectedKfgGuidePdf()">Download 8-Page US CDC Growth Guide PDF &rarr;</button>' +
           '<button type="button" class="kfg-btn-outline" onclick="window.print()">Print View</button>' +
           '<button type="button" class="kfg-btn-outline" onclick="window.beginAtelier()">Edit Inputs</button>' +
         '</div>' +
       '</div>' +
 
+      '<div id="kfg-dossier-sibling-bar" class="kfg-no-print" style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.9rem;"></div>' +
       '<div class="kfg-dossier-section">' +
         '<span class="kfg-note-tag" style="margin-bottom:0.4rem;">Part 1 \u00B7 Adult Height Forecast Across Three Paths</span>' +
         '<div class="kfg-dossier-grid-3">' +
@@ -1118,14 +1224,25 @@
         '</ul>' +
       '</div>' +
       '<div class="kfg-dossier-section kfg-no-print" style="background:#FAF7F2;border:1px solid #D8CFC2;border-radius:10px;padding:1rem;">' +
-        '<div style="font-size:0.88rem;color:#4A433E;margin-bottom:0.5rem;"><strong>Permanent Cross-Device Restore &amp; 14-Day Refund Guarantee:</strong> Your 4-page PDF (including the 30-Day Parent-Child Refrigerator Sticker Calendar) can be reopened anytime across devices. Need assistance or a 14-day refund? <a href="mailto:beable9489@gmail.com?subject=KFG%2014-Day%20Refund%20or%20Support" style="color:#2F5241;font-weight:700;text-decoration:underline;">1-Click Priority Support (beable9489@gmail.com)</a>.</div>' +
+        '<div style="font-size:0.88rem;color:#4A433E;margin-bottom:0.5rem;"><strong>Permanent Cross-Device Restore &amp; Standard Digital Refund Policy:</strong> Your 4-page PDF (including the 30-Day Parent-Child Refrigerator Sticker Calendar) can be reopened anytime across devices. Need assistance or a eligible refund? <a href="mailto:care@kisfitglobal.com?subject=KFG%2014-Day%20Refund%20or%20Support" style="color:#2F5241;font-weight:700;text-decoration:underline;">1-Click Priority Support (care@kisfitglobal.com)</a>.</div>' +
         '<div id="kfg-dossier-satisfaction-mount"></div>' +
       '</div>';
 
     if (global.DreamCompanyCRM && typeof global.DreamCompanyCRM.mountSatisfactionBar === 'function') {
       var satEl = byId('kfg-dossier-satisfaction-mount');
       if (satEl) global.DreamCompanyCRM.mountSatisfactionBar(satEl, { div: 'KFG', context: 'unlocked_dossier', email: p.parentEmail });
+    renderSiblingSwitcherBar('kfg-dossier-sibling-bar');
     }
+  }
+
+  function downloadProtectedKfgGuidePdf() {
+    if (global.DreamCompanyCRM && typeof global.DreamCompanyCRM.openProtectedPdfDownload === 'function') {
+      return global.DreamCompanyCRM.openProtectedPdfDownload('KFG', 'kfg_cdc_guide_8p', function () {
+        openKfgMemberModal('restore');
+      });
+    }
+    openKfgMemberModal('restore');
+    return Promise.resolve({ ok: false });
   }
 
   function restoreAtelierInlineAccess(inputId, msgId) {
@@ -1139,33 +1256,51 @@
       msg.textContent = txt;
     };
     if (!val) {
-      setMsg('Please enter the email address or license key from your Polar.sh receipt.', true);
+      setMsg('Enter "email code" (e.g. parent@email.com KFG-T1-XXXX) or your checkout email to request a 6-digit verification code.', true);
       return Promise.resolve({ ok: false });
     }
-    var upper = val.toUpperCase();
-    if (AUTHORIZED_CODE_HASHES.indexOf(hashAccessCode(upper)) !== -1 || /^polar_ch_[A-Za-z0-9_-]{6,}$/i.test(val)) {
-      var savedTier = (global.localStorage && global.localStorage.getItem('kfg_pending_tier_v1')) || 'pass';
-      activatePaidUnlock(savedTier, '', val);
-      return Promise.resolve({ ok: true, mode: 'code_or_checkout_id' });
+
+    // Format 1: "email@domain.com CODE_OR_6DIGIT_OTP"
+    var parts = val.split(/[\s,|]+/).filter(Boolean);
+    var emailPart = parts.find(function (p) { return p.indexOf('@') !== -1; }) || '';
+    var credPart = parts.find(function (p) { return p !== emailPart; }) || '';
+    if (!emailPart && atelierState.profile && atelierState.profile.parentEmail) {
+      emailPart = String(atelierState.profile.parentEmail).trim().toLowerCase();
+      credPart = val;
     }
-    if (val.indexOf('@') !== -1) {
-      var matched = false;
-      try {
-        if (global.localStorage) {
-          var low = val.toLowerCase();
-          var pend = String(global.localStorage.getItem('kidsfit_pending_polar_checkout_email_v1') || '').toLowerCase();
-          var buyer = String(global.localStorage.getItem('kidsfit_global_buyer_email') || '').toLowerCase();
-          if ((pend && pend === low) || (buyer && buyer === low)) matched = true;
-        }
-      } catch (_) {}
-      if (matched) {
-        var tier = (global.localStorage && global.localStorage.getItem('kfg_pending_tier_v1')) || 'single';
-        activatePaidUnlock(tier, val, 'EMAIL-RESTORE');
-        return Promise.resolve({ ok: true, mode: 'stored_email' });
+
+    // If only an email was entered, trigger 6-digit OTP email via server (NEVER unlock by email alone!)
+    if (emailPart && !credPart) {
+      if (global.DreamCompanyCRM && typeof global.DreamCompanyCRM.requestAuthOtp === 'function') {
+        setMsg('Sending a 6-digit verification code to your checkout email...', false);
+        return global.DreamCompanyCRM.requestAuthOtp({ div: 'KFG', email: emailPart }).then(function () {
+          atelierState.profile.parentEmail = emailPart.toLowerCase();
+          setMsg('If a paid Polar.sh order matches ' + emailPart + ', a 6-digit code was emailed (valid 10 min). Enter that 6-digit code now.', false);
+          return { ok: true, mode: 'otp_sent' };
+        });
       }
-      setMsg('On a new browser or device, please paste the License Key (UUID) or Checkout ID from your Polar.sh receipt email.', true);
+      setMsg('Please paste your Polar.sh receipt License Key (UUID) or access code from your receipt email.', true);
       return Promise.resolve({ ok: false });
     }
+
+    // Server-side verification with email + (6-digit OTP or Access Code)
+    if (emailPart && credPart && global.DreamCompanyCRM && typeof global.DreamCompanyCRM.verifyEntitlement === 'function') {
+      var isOtp = /^\d{6}$/.test(credPart);
+      var reqOpts = isOtp
+        ? { div: 'KFG', email: emailPart, otp: credPart }
+        : { div: 'KFG', email: emailPart, access_code: credPart };
+      setMsg('Verifying Polar.sh entitlement with server...', false);
+      return global.DreamCompanyCRM.verifyEntitlement(reqOpts).then(function (vres) {
+        if (vres && vres.authorized) {
+          activatePaidUnlock(vres.tier === 'tier2' ? 'pass' : 'single', emailPart, isOtp ? 'OTP-VERIFIED' : credPart);
+          return { ok: true, mode: 'server_verified' };
+        }
+        setMsg('Verification failed. Double-check your email and code, or enter only your email to receive a fresh 6-digit OTP.', true);
+        return { ok: false };
+      });
+    }
+
+    // Fallback: Official Polar.sh License Key UUID live validation
     if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(val) && typeof global.fetch === 'function') {
       setMsg('Verifying license key with Polar.sh...', false);
       return global.fetch('https://api.polar.sh/v1/customer-portal/license-keys/validate', {
@@ -1175,7 +1310,7 @@
       })
         .then(function (r) { return r && r.ok ? r.json() : null; })
         .then(function (data) {
-          if (data && (data.status === 'granted' || data.id || data.key)) {
+          if (data && data.status === 'granted') {
             activatePaidUnlock('pass', '', val);
             return { ok: true, mode: 'polar_license' };
           }
@@ -1183,11 +1318,11 @@
           return { ok: false };
         })
         .catch(function () {
-          setMsg('Unable to reach verification service right now. Please try again or contact beable9489@gmail.com.', true);
+          setMsg('Unable to reach verification service right now. Please try again or contact care@kisfitglobal.com.', true);
           return { ok: false };
         });
     }
-    setMsg('Unrecognized key format. Please paste your Polar.sh receipt License Key or Checkout ID.', true);
+    setMsg('Enter your checkout email to get a 6-digit verification code, or paste "email access-code".', true);
     return Promise.resolve({ ok: false });
   }
 
@@ -1196,6 +1331,7 @@
     if (!modal) return;
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
+    renderSiblingSwitcherBar('kfg-sibling-switcher-bar');
     var checkinBlock = byId('kfg-vip-monthly-checkin');
     if (tab === 'checkin' && checkinBlock && typeof checkinBlock.scrollIntoView === 'function') {
       setTimeout(function () { checkinBlock.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
@@ -1223,11 +1359,11 @@
 
     populateFormFromProfile();
 
-    // Check Cross-Device Magic Restore (?magic_restore=...) or Polar.sh return query parameters
+    // Check Cross-Device Magic Restore (?magic_restore=...) or Polar.sh return — STRICT SERVER VERIFICATION REQUIRED!
     try {
       if (global.DreamCompanyCRM && typeof global.DreamCompanyCRM.decodeMagicRestoreParam === 'function' && global.location && global.location.search) {
         var magicObj = global.DreamCompanyCRM.decodeMagicRestoreParam(global.location.search);
-        if (magicObj && typeof magicObj === 'object') {
+        if (magicObj && typeof magicObj === 'object' && magicObj.email && magicObj.access_code && typeof global.DreamCompanyCRM.verifyEntitlement === 'function') {
           var mk;
           for (mk in magicObj) {
             if (Object.prototype.hasOwnProperty.call(atelierState.profile, mk) && magicObj[mk] !== undefined) {
@@ -1235,8 +1371,18 @@
             }
           }
           populateFormFromProfile();
-          activatePaidUnlock(magicObj.tier && /pass|19\.99/i.test(String(magicObj.tier)) ? 'pass' : 'single', magicObj.email || '', magicObj.order_ref || 'MAGIC-RESTORE');
-          return;
+          global.DreamCompanyCRM.verifyEntitlement({
+            div: 'KFG',
+            email: magicObj.email,
+            access_code: magicObj.access_code,
+            magic_restore: true
+          }).then(function (vres) {
+            if (vres && vres.authorized) {
+              activatePaidUnlock(vres.tier === 'tier2' ? 'pass' : 'single', magicObj.email, magicObj.access_code);
+            } else {
+              openKfgMemberModal('restore');
+            }
+          });
         }
       }
       if (global.location && global.location.search) {
@@ -1250,13 +1396,19 @@
 
         if (isReturnSuccess) {
           var params = new URLSearchParams(rawSearch);
-          var planParam = String(params.get('plan') || '').toLowerCase();
-          var pendingTier = (global.localStorage && global.localStorage.getItem('kfg_pending_tier_v1')) || 'single';
-          var resolvedTier = (planParam === 'pass' || planParam === 'sixmonth' || pendingTier === 'pass') ? 'pass' : 'single';
           var emailParam = params.get('customer_email') || params.get('email') || atelierState.profile.parentEmail || '';
-          var orderParam = params.get('checkout_id') || 'POLAR-RETURN';
-          activatePaidUnlock(resolvedTier, emailParam, orderParam);
-          return;
+          var orderParam = params.get('checkout_id') || params.get('order_id') || '';
+          if (emailParam && orderParam && global.DreamCompanyCRM && typeof global.DreamCompanyCRM.verifyEntitlement === 'function') {
+            global.DreamCompanyCRM.verifyEntitlement({ div: 'KFG', email: emailParam, access_code: orderParam }).then(function (vres) {
+              if (vres && vres.authorized) {
+                activatePaidUnlock(vres.tier === 'tier2' ? 'pass' : 'single', emailParam, orderParam);
+              } else {
+                openKfgMemberModal('restore');
+              }
+            });
+          } else {
+            openKfgMemberModal('restore');
+          }
         }
       }
     } catch (_) {}
@@ -1344,6 +1496,7 @@
 
   global.KfgBoutiqueAtelier = BoutiqueAtelier;
   global.downloadCustomAtelierPdf = downloadCustomAtelierPdf;
+  global.downloadProtectedKfgGuidePdf = downloadProtectedKfgGuidePdf;
   global.setAtelierUnitSystem = setAtelierUnitSystem;
   global.beginAtelier = beginAtelier;
   global.goToAtelierStep = goToAtelierStep;
@@ -1360,6 +1513,9 @@
   global.openKfgMemberModal = openKfgMemberModal;
   global.closeKfgMemberModal = closeKfgMemberModal;
   global.persistKfgSurveyProfileForCheckout = collectFormIntoProfile;
+  global.switchKfgSibling = switchKfgSibling;
+  global.addKfgSiblingProfile = addKfgSiblingProfile;
+  global.downloadAtelierD30Ics = downloadAtelierD30Ics;
 
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = BoutiqueAtelier;

@@ -1,6 +1,6 @@
 /**
  * KidsFit Global (Division 2 · kisfitglobal.com)
- * 1:1 Personalized US CDC Growth & Bone-Age Report PDF Generator (Zero Dependencies · Strictly Zero-Hangul)
+ * Automated Self-Serve Custom US CDC Growth & Bone-Age Report PDF Generator (Zero Dependencies · Strictly Zero-Hangul)
  * Generates a 3-page high-resolution A4/Letter personalized PDF containing the child's exact measurements,
  * US CDC peer percentile, elapsed bone-age adjustment, 3-path adult height forecast, daily nutrition targets,
  * and (for the 6-Month Velocity Pass) a personalized Month 1-6 expected height roadmap.
@@ -126,7 +126,7 @@
     drawRoundedRect(c1, 84, 84, PAGE_W - 168, 178, 16, '#2F5241', null, 0);
     c1.fillStyle = '#DCE8E1';
     c1.font = '600 19px ' + SANS_FONT;
-    c1.fillText('KIDSFIT GLOBAL GROWTH ATELIER · 1:1 PERSONALIZED REPORT', 120, 132);
+    c1.fillText('KIDSFIT GLOBAL GROWTH ATELIER · Automated Self-Serve Custom REPORT', 120, 132);
     c1.fillStyle = '#FFFFFF';
     c1.font = '600 38px ' + SERIF_FONT;
     c1.fillText('Personalized US CDC Growth & Bone-Age Report', 120, 188);
@@ -298,7 +298,7 @@
     drawRoundedRect(c2, 84, 662, PAGE_W - 168, 226, 14, '#FFFFFF', '#DFD7CC', 2);
     c2.fillStyle = '#2F5241';
     c2.font = '700 21px ' + SANS_FONT;
-    c2.fillText('PART 4 · DAILY NOURISHMENT TARGETS CALIBRATED FOR ' + aux.weightKg.toFixed(1) + ' KG BODY WEIGHT', 118, 708);
+    c2.fillText('PART 4 · DAILY NOURISHMENT TARGETS CALIBRATED FOR ' + Number(aux.weightKg * 2.20462).toFixed(1) + ' LBS (' + aux.weightKg.toFixed(1) + ' KG) BODY WEIGHT', 118, 708);
 
     var nutBoxes = [
       { label: 'Daily Whole-Food Protein', val: '~' + aux.proteinG + ' g / day', sub: 'Split evenly across breakfast & dinner' },
@@ -379,7 +379,7 @@
       var annVel = getCdcAnnualVelocityCm(aux.isBoy, ageY);
       var monthlyGain = annVel / 12;
       c3.fillText(
-        'PART 6 · [6-MONTH PASS] EXPECTED HEIGHT TRAJECTORY FROM ' + aux.heightCm.toFixed(1) + ' CM (~+' + annVel.toFixed(1) + ' CM/YR CDC PACE)',
+        'PART 6 · [6-MONTH PASS] EXPECTED HEIGHT TRAJECTORY FROM ' + cmToImperialStr(aux.heightCm).split(' (')[0] + ' (~+' + (annVel / 2.54).toFixed(1) + ' IN/YR US CDC PACE)',
         118, 252
       );
 
@@ -405,7 +405,7 @@
         c3.fillStyle = '#9E9489';
         c3.font = '400 18px ' + SANS_FONT;
         c3.fillText('_____ ft ____ in / ______ cm', 690, rowY + 36);
-        c3.fillText('+ _____ cm', 955, rowY + 36);
+        c3.fillText('+ _____ in', 955, rowY + 36);
       }
       gridStartY = 794;
     }
@@ -458,25 +458,30 @@
     drawRoundedRect(c4, 118, 270, PAGE_W - 236, 118, 10, '#FAF7F2', '#E5DDD2', 1.5);
     c4.fillStyle = '#231F1D';
     c4.font = '700 20px ' + SANS_FONT;
-    c4.fillText('Clinical Snapshot for Physician Review (' + dateStr + '): ' + childLabel, 142, 308);
+    c4.fillText('Self-Serve Parent Summary for Physician Review (' + dateStr + '): ' + childLabel, 142, 308);
     c4.fillStyle = '#4A433E';
     c4.font = '400 18.5px ' + SANS_FONT;
     c4.fillText('Height: ' + cmToImperialStr(aux.heightCm) + '  |  US CDC: ' + aux.ordinalPercentile + ' Pct (Z=' + aux.zScore.toFixed(2) + ')  |  Mid-Parental Target: ' + cmToImperialStr(aux.mphCm), 142, 344);
     c4.fillText('Bone-Age Note: ' + (p.hasBoneAge ? ('Prior wrist X-ray adjusted +' + (p.baDeltaMonths || 0) + ' mos') : 'No prior wrist X-ray; day-exact chronological model'), 142, 374);
 
+    var ageYrsNow = aux.ageMonths / 12;
+    var q1Body = aux.percentile < 25
+      ? ('"At the ' + aux.ordinalPercentile + ' US CDC percentile (' + cmToImperialStr(aux.heightCm).split(' (')[0] + ') versus our family midpoint of ' + cmToImperialStr(aux.mphCm).split(' (')[0] + ', is our child\'s 6-to-12 month velocity (in/yr) holding steady or crossing downward?"')
+      : ('"Given our child\'s ' + aux.ordinalPercentile + ' US CDC percentile and family midpoint (' + cmToImperialStr(aux.mphCm).split(' (')[0] + '), is their current 6-to-12 month growth pace (in/yr) staying steady along their expected channel?"');
+    var q2Body = p.hasBoneAge
+      ? (p.baDeltaMonths >= 12
+        ? ('"Our prior wrist X-ray was taken ' + p.baDeltaMonths + ' months ago (estimated today: ' + Number(p.baProjectedTodayYears || ageYrsNow).toFixed(1) + ' yrs). Should we schedule a follow-up bone-age check this year?"')
+        : ('"With our recent wrist bone-age reading (' + Number(p.baProjectedTodayYears || ageYrsNow).toFixed(1) + ' yrs vs. chronological ' + ageYrsNow.toFixed(1) + ' yrs), how should we interpret remaining adolescent runway?"'))
+      : (p.tempoSign === 'accelerated' || ageYrsNow >= 9.5
+        ? '"We noticed faster recent maturation/growth tempo at age ' + ageYrsNow.toFixed(1) + '. Would a routine physical check or baseline left-wrist bone-age reading be helpful to understand remaining growth runway?"'
+        : '"At age ' + ageYrsNow.toFixed(1) + ' with no prior X-ray, does current physical development align with chronological age without needing extra imaging right now?"');
+    var q3Body = p.sleepBreathing === 'mouth_stuffy'
+      ? '"We notice frequent mouth breathing or nasal stuffiness at night. Could airway/sleep quality affect deep-sleep recovery, and should we check Vitamin D or iron stores at routine labs?"'
+      : '"Based on our child\'s weight (' + Number(aux.weightKg * 2.20462).toFixed(1) + ' lbs) and daily diet, would reviewing 25-OH Vitamin D, ferritin, or zinc at the next well-child checkup be useful?"';
     var docQs = [
-      {
-        q: '1. Annualized Height Velocity Channel Check:',
-        body: '"Given our child\'s current US CDC percentile and mid-parental target height, is their 6-to-12 month annualized height velocity (cm/yr) tracking steadily along their expected curve?"'
-      },
-      {
-        q: '2. Pubertal Timing & Wrist Bone-Age Assessment:',
-        body: '"Does current physical maturation align with chronological age, or would a baseline left-hand/wrist bone-age X-ray be informative within the next 6 to 12 months?"'
-      },
-      {
-        q: '3. Nutritional Substrate & Sleep Recovery Screening:',
-        body: '"Based on weight-for-height balance and growth pace, would checking serum 25-OH Vitamin D, ferritin, or zinc during routine bloodwork be helpful?"'
-      }
+      { q: '1. Annualized Growth Velocity Channel (in/yr):', body: q1Body },
+      { q: '2. Age-Specific Maturation & Bone-Age Timing:', body: q2Body },
+      { q: '3. Sleep Recovery & Nutritional Substrate Note:', body: q3Body }
     ];
     var qY = 408;
     for (var qi = 0; qi < docQs.length; qi++) {
@@ -567,7 +572,7 @@
     ctx.font = '500 24px ' + SANS_FONT;
     ctx.fillText('Day 1 Baseline: ' + cmToImperialStr(sCm) + '   ->   Current Stature: ' + cmToImperialStr(eCm), 124, 540);
     ctx.font = '400 21px ' + SANS_FONT;
-    ctx.fillText('Annualized 6-Month Velocity: ~' + (gainCm * 2).toFixed(1) + ' cm/yr (' + ((gainCm * 2) / 2.54).toFixed(1) + ' in/yr) across consistent evening care.', 124, 594);
+    ctx.fillText('Annualized 6-Month Velocity: ~' + ((gainCm * 2) / 2.54).toFixed(1) + ' in/yr (' + (gainCm * 2).toFixed(1) + ' cm/yr) across consistent evening care.', 124, 594);
     ctx.fillStyle = '#2F5241';
     ctx.font = '600 21px ' + SANS_FONT;
     ctx.fillText('Celebrated Pillars: Pre-10 PM Deep Sleep  ·  Protein + Calcium Meals  ·  Daily Decompression Play', 124, 668);

@@ -1,6 +1,6 @@
 # KISFIT Bio Labs — Global Pediatric Auxology & Brain LQ Clinical Studio (https://kisfitglobal.com)
 
-> Updated: 2026-11-18 | US CDC 2000 LMS Growth Standards & Khamis-Roche Non-Radiographic Stature Prediction (+-2.1 cm SEE).
+> Updated: 2026-11-21 | US CDC 2000 LMS Growth Standards & Khamis-Roche Non-Radiographic Stature Prediction (+-2.1 cm SEE).
 > Peer-Reviewed Clinical Corpus: 3,894+ PubMed & Pediatric Endocrine Society references.
 
 ## 1. Core Interactive Diagnostic Tools
@@ -24,7 +24,7 @@
 - [Middle Childhood Milestones (Ages 8-9): Growth Velocity & Precocious Puberty Early Warning Signs](https://kisfitglobal.com/qna/topic-14.html)
 - [Pre-Adolescence (Ages 10-11): Peak Height Velocity (PHV) Golden Window & Auxological Support](https://kisfitglobal.com/qna/topic-15.html)
 - [Adolescence (Ages 12-15): Late Epiphyseal Fusion, Spinal Decompression & Advanced Study Systems](https://kisfitglobal.com/qna/topic-16.html)
-- [Pediatric Growth Supplements Fact-Check: Clinical Evidence, Epiphyseal Status & Optimal Timing](https://kisfitglobal.com/qna/topic-17.html)
+- [Pediatric Growth Supplements Fact-Check: reference Evidence, Epiphyseal Status & Optimal Timing](https://kisfitglobal.com/qna/topic-17.html)
 - [Calcium Citrate vs. Calcium Carbonate in Children: The Vitamin D3 & K2 Synergistic Absorption Ratio](https://kisfitglobal.com/qna/topic-18.html)
 - [Pediatric Forward Head Posture & Rounded Shoulders: Ergonomics & Restoring Hidden Height](https://kisfitglobal.com/qna/topic-19.html)
 - [Smartphone & Short-Form Video Dopamine Reset: 14-Day Prefrontal Cortex Executive Recovery Protocol](https://kisfitglobal.com/qna/topic-20.html)

@@ -1,5 +1,5 @@
 /**
- * KISFIT Bio Labs (Division 2 Global — kisfitglobal.com)
+ * KISFIT Studio (Division 2 Global — kisfitglobal.com)
  * src/js/vip-monthly-checkin.js
  *
  * 100% English-Only (Zero-Hangul) · Zero Password Fields:

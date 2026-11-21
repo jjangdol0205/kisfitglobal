@@ -1234,3 +1234,12 @@ body.kfg-atelier-body {
     padding: 0;
   }
 }
+
+/* Mobile 2-line slim masthead */
+@media (max-width: 640px) {
+  .kfg-masthead-bar { padding: 0.45rem 0.75rem !important; }
+  .kfg-atelier-masthead { flex-direction: row !important; flex-wrap: wrap !important; gap: 0.35rem !important; align-items: center !important; justify-content: space-between !important; padding: 0.2rem 0 !important; }
+  .kfg-masthead-sub { display: none !important; }
+  .kfg-masthead-controls { gap: 0.35rem !important; flex-wrap: nowrap !important; }
+  .kfg-masthead-link { font-size: 0.76rem !important; white-space: nowrap !important; }
+}
