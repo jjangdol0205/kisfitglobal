@@ -18,6 +18,7 @@
 
   var LIVE_KFG_SINGLE_URL = 'https://buy.polar.sh/polar_cl_v2pLSQbvj13RJxb57w8fqVjZ4h2C7YopmPUDr3vxfG6?locale=en';
   var LIVE_KFG_PASS_URL = 'https://buy.polar.sh/polar_cl_p8DAvlbz7wPj6SOPKhHjT5aaNyA2F3I528A3c15nBND?locale=en';
+  var LIVE_KFG_PREMIUM_URL = 'https://buy.polar.sh/polar_cl_iCvFT7ApBXaG7fRlOqjqbrRwXx0caCgnuITrW3TKk0e?locale=en';
 
   function ensurePolarLocaleOnly(rawUrl) {
     var url = String(rawUrl || '').trim();
@@ -43,11 +44,13 @@
     STORE_LIVE_READY: true,
     POLAR_CHECKOUT_URLS: {
       single_899: LIVE_KFG_SINGLE_URL,
-      pass_1999: LIVE_KFG_PASS_URL
+      pass_1999: LIVE_KFG_PASS_URL,
+      premium_4900: LIVE_KFG_PREMIUM_URL
     },
     POLAR_KFG_SINGLE_URL: LIVE_KFG_SINGLE_URL,
     POLAR_KFG_PASS_URL: LIVE_KFG_PASS_URL,
-    SUPPORT_EMAIL: 'beable9489@gmail.com'
+    POLAR_KFG_PREMIUM_URL: LIVE_KFG_PREMIUM_URL,
+    SUPPORT_EMAIL: 'care@kisfitglobal.com'
   };
 
   function mergePaymentConfig(existing) {
@@ -58,11 +61,13 @@
       STORE_LIVE_READY: true,
       POLAR_CHECKOUT_URLS: {
         single_899: LIVE_KFG_SINGLE_URL,
-        pass_1999: LIVE_KFG_PASS_URL
+        pass_1999: LIVE_KFG_PASS_URL,
+        premium_4900: LIVE_KFG_PREMIUM_URL
       },
       POLAR_KFG_SINGLE_URL: LIVE_KFG_SINGLE_URL,
       POLAR_KFG_PASS_URL: LIVE_KFG_PASS_URL,
-      SUPPORT_EMAIL: 'beable9489@gmail.com'
+      POLAR_KFG_PREMIUM_URL: LIVE_KFG_PREMIUM_URL,
+      SUPPORT_EMAIL: 'care@kisfitglobal.com'
     };
     if (existing && typeof existing === 'object') {
       if (typeof existing.STORE_LIVE_READY === 'boolean') {
@@ -75,12 +80,18 @@
         if (typeof existing.POLAR_CHECKOUT_URLS.pass_1999 === 'string' && existing.POLAR_CHECKOUT_URLS.pass_1999.trim()) {
           base.POLAR_CHECKOUT_URLS.pass_1999 = ensurePolarLocaleOnly(existing.POLAR_CHECKOUT_URLS.pass_1999.trim());
         }
+        if (typeof existing.POLAR_CHECKOUT_URLS.premium_4900 === 'string' && existing.POLAR_CHECKOUT_URLS.premium_4900.trim()) {
+          base.POLAR_CHECKOUT_URLS.premium_4900 = ensurePolarLocaleOnly(existing.POLAR_CHECKOUT_URLS.premium_4900.trim());
+        }
       }
       if (typeof existing.POLAR_KFG_SINGLE_URL === 'string' && existing.POLAR_KFG_SINGLE_URL.trim()) {
         base.POLAR_KFG_SINGLE_URL = ensurePolarLocaleOnly(existing.POLAR_KFG_SINGLE_URL.trim());
       }
       if (typeof existing.POLAR_KFG_PASS_URL === 'string' && existing.POLAR_KFG_PASS_URL.trim()) {
         base.POLAR_KFG_PASS_URL = ensurePolarLocaleOnly(existing.POLAR_KFG_PASS_URL.trim());
+      }
+      if (typeof existing.POLAR_KFG_PREMIUM_URL === 'string' && existing.POLAR_KFG_PREMIUM_URL.trim()) {
+        base.POLAR_KFG_PREMIUM_URL = ensurePolarLocaleOnly(existing.POLAR_KFG_PREMIUM_URL.trim());
       }
       if (typeof existing.SUPPORT_EMAIL === 'string' && existing.SUPPORT_EMAIL.trim()) {
         base.SUPPORT_EMAIL = existing.SUPPORT_EMAIL.trim();
@@ -97,6 +108,9 @@
 
   function normalizePlanKey(rawPlan) {
     var s = String(rawPlan || '').toLowerCase();
+    if (s === 'premium' || s === 'premium_4900' || s === 'tier3' || s === 'annual' || s.indexOf('49') !== -1 || s.indexOf('12-month') !== -1 || s.indexOf('suite') !== -1) {
+      return 'premium';
+    }
     if (
       s === 'pass' ||
       s === 'pass_1999' ||
@@ -136,6 +150,9 @@
     var cfg = cfgOverride || global.PAYMENT_CONFIG || DEFAULT_PAYMENT_CONFIG;
     var urls = cfg.POLAR_CHECKOUT_URLS || {};
     var slotKey = normalizePlanKey(rawPlan);
+    if (slotKey === 'premium') {
+      return ensurePolarLocaleOnly(String(urls.premium_4900 || cfg.POLAR_KFG_PREMIUM_URL || LIVE_KFG_PREMIUM_URL).trim());
+    }
     if (slotKey === 'sixMonth') {
       return ensurePolarLocaleOnly(String(urls.pass_1999 || cfg.POLAR_KFG_PASS_URL || '').trim());
     }
@@ -542,7 +559,7 @@
             '<a href="/terms.html" style="color:#1D4ED8;text-decoration:none;">Terms of Service</a> &middot; ' +
             '<a href="/privacy.html" style="color:#1D4ED8;text-decoration:none;">Privacy Policy</a> &middot; ' +
             '<a href="/refund.html" style="color:#1D4ED8;text-decoration:none;">14-Day Refund Policy</a> &middot; ' +
-            '<a href="mailto:beable9489@gmail.com" style="color:#1D4ED8;text-decoration:none;">beable9489@gmail.com</a>' +
+            '<a href="mailto:care@kisfitglobal.com" style="color:#1D4ED8;text-decoration:none;">care@kisfitglobal.com</a>' +
           '</div>' +
         '</div>' +
       '</div>';
@@ -556,7 +573,7 @@
     if (target.closest('#kfg-vip-waitlist-modal')) return null;
     var el = target.closest(
       'a[href*="buy.polar.sh"], a[href="#vip-waitlist"], a[href*="#vip-waitlist"], [data-polar-checkout], .polar-checkout-button, ' +
-      '#btn-global-paywall-checkout, #btn-one-tap-single-report, #btn-one-tap-six-month-pass, ' +
+      '#btn-global-paywall-checkout, #btn-one-tap-single-report, #btn-one-tap-six-month-pass, #btn-one-tap-premium-suite, ' +
       '#btn-edge-single-report, #btn-edge-six-month-pass, #btn-polar-official-checkout, ' +
       '.kfg-ba-btn-single, .kfg-ba-btn-pass, .kfg-edge-btn-pass, [data-kfg-paid-plan]'
     );
@@ -565,11 +582,22 @@
 
   function inferPlanFromElement(el) {
     if (!el) return 'single';
-    var attrPlan = el.getAttribute('data-kfg-paid-plan') || '';
+    var attrPlan = String(el.getAttribute('data-kfg-paid-plan') || el.getAttribute('data-csp-arg') || '').toLowerCase();
     var href = el.getAttribute('href') || '';
     var id = el.id || '';
     var cls = el.className || '';
     var txt = el.textContent || '';
+    if (
+      attrPlan === 'premium' ||
+      attrPlan === 'premium_4900' ||
+      attrPlan === 'tier3' ||
+      id.indexOf('premium') !== -1 ||
+      txt.indexOf('$49') !== -1 ||
+      txt.indexOf('12-Month') !== -1 ||
+      href.indexOf('polar_cl_iCvFT7ApBXaG7fRlOqjqbrRwXx0caCgnuITrW3TKk0e') !== -1
+    ) {
+      return 'premium';
+    }
     if (
       attrPlan === 'pass' ||
       attrPlan === 'pass_1999' ||
