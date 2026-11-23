@@ -613,6 +613,18 @@
     if (vipIn) vipIn.value = String(payload.inch);
     const vipCm = document.getElementById('kfg-vip-curr-cm');
     if (vipCm) vipCm.value = String(payload.heightCm);
+    // Keep 30-day baseline realistically 0.5 cm (~0.2 in, ~2.4 in/yr) below current height instead of stale 4'6"->4'7" (12 in/yr)!
+    const baseCm = Math.max(60, Number((Number(payload.heightCm || 137.7) - 0.5).toFixed(1)));
+    const baseTotIn = baseCm / 2.54;
+    let baseFt = Math.floor(baseTotIn / 12);
+    let baseRemIn = Number((baseTotIn - baseFt * 12).toFixed(1));
+    if (baseRemIn >= 12) { baseFt += 1; baseRemIn = 0.0; }
+    const prevFtEl = document.getElementById('kfg-vip-prev-ft');
+    if (prevFtEl) prevFtEl.value = String(baseFt);
+    const prevInEl = document.getElementById('kfg-vip-prev-in');
+    if (prevInEl) prevInEl.value = baseRemIn.toFixed(1);
+    const prevCmEl = document.getElementById('kfg-vip-prev-cm');
+    if (prevCmEl) prevCmEl.value = baseCm.toFixed(1);
 
     // Sync inside Paywall Gate if rendered
     const gateProf = document.getElementById('kfg-paywall-personalized-profile');

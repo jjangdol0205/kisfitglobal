@@ -777,7 +777,7 @@
     var el = byId(mountId || 'kfg-sibling-switcher-bar');
     if (!el) return;
     var paidPlan = (global.localStorage && global.localStorage.getItem(PAID_PLAN_KEY)) || 'single';
-    var isTier2 = isPaidUnlocked() && (paidPlan === 'pass' || paidPlan === 'sixMonth');
+    var isTier2 = isPaidUnlocked() && (paidPlan === 'pass' || paidPlan === 'sixMonth' || paidPlan === 'premium' || paidPlan === 'tier2' || paidPlan === 'tier3');
     var list = loadSiblingProfiles();
     var activeIdx = Math.min(getActiveSiblingIdx(), list.length - 1);
     var html = '';
