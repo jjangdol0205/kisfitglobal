@@ -411,8 +411,38 @@
       var raw = global.localStorage.getItem(SAVED_PROFILE_KEY) || global.localStorage.getItem(LEGACY_PROFILE_KEY);
       if (raw) {
         var parsed = JSON.parse(raw);
-        if (parsed && typeof parsed === 'object') {
-          atelierState.profile = Object.assign({}, atelierState.profile, parsed);
+        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+          var safe = Object.assign({}, atelierState.profile);
+          if (parsed.gender === 'boy' || parsed.gender === 'girl') safe.gender = parsed.gender;
+          var by = parseInt(parsed.birthYear, 10);
+          if (!isNaN(by) && by >= 2004 && by <= (new Date()).getFullYear()) safe.birthYear = by;
+          var bm = parseInt(parsed.birthMonth, 10);
+          if (!isNaN(bm) && bm >= 1 && bm <= 12) safe.birthMonth = bm;
+          var bd = parseInt(parsed.birthDay, 10);
+          if (!isNaN(bd) && bd >= 1 && bd <= 31) safe.birthDay = bd;
+          var am = Number(parsed.ageMonths);
+          if (isFinite(am) && am >= 24 && am <= 216) safe.ageMonths = am;
+          var ay = Number(parsed.ageYears);
+          if (isFinite(ay) && ay >= 2 && ay <= 18) safe.ageYears = ay;
+          var ch = Number(parsed.currentHeight);
+          if (isFinite(ch) && ch >= 75 && ch <= 205) safe.currentHeight = ch;
+          var cw = Number(parsed.currentWeight);
+          if (isFinite(cw) && cw >= 10 && cw <= 115) safe.currentWeight = cw;
+          var fh = Number(parsed.fatherHeight);
+          if (isFinite(fh) && fh >= 140 && fh <= 215) safe.fatherHeight = fh;
+          var mh = Number(parsed.motherHeight);
+          if (isFinite(mh) && mh >= 135 && mh <= 200) safe.motherHeight = mh;
+          ['bedtimeWindow', 'sleepBreathing', 'nutritionHabit', 'postureHabit', 'movementFreq', 'tempoSign', 'baExamDateYm', 'baCalibrationText', 'childName', 'parentEmail'].forEach(function (k) {
+            if (typeof parsed[k] === 'string') safe[k] = parsed[k];
+          });
+          if (typeof parsed.hasBoneAge === 'boolean') safe.hasBoneAge = parsed.hasBoneAge;
+          if (isFinite(Number(parsed.baProjectedTodayYears)) && Number(parsed.baProjectedTodayYears) >= 3) {
+            safe.baProjectedTodayYears = Number(parsed.baProjectedTodayYears);
+          }
+          if (isFinite(Number(parsed.baDeltaMonths)) && Number(parsed.baDeltaMonths) >= 0) {
+            safe.baDeltaMonths = Number(parsed.baDeltaMonths);
+          }
+          atelierState.profile = safe;
         }
       }
       var savedEmail = global.localStorage.getItem('kfg_parent_member_email') || '';
@@ -644,15 +674,21 @@
   }
 
   function showScreen(screenIdx) {
-    atelierState.activeScreen = screenIdx;
+    var safeIdx = (typeof screenIdx === 'number' && screenIdx >= 0 && screenIdx <= 3) ? screenIdx : 0;
+    atelierState.activeScreen = safeIdx;
     var shellEl = byId('kfg-shell-container');
     var mainEl = byId('kfg-single-breath-atelier');
     if (shellEl) {
-      shellEl.classList.toggle('is-opening-view', screenIdx === 0);
-      shellEl.classList.toggle('is-wide-view', screenIdx === 2 || screenIdx === 3);
+      shellEl.style.display = 'block';
+      shellEl.style.visibility = 'visible';
+      shellEl.classList.toggle('is-opening-view', safeIdx === 0);
+      shellEl.classList.toggle('is-wide-view', safeIdx === 2 || safeIdx === 3);
     }
     if (mainEl) {
-      mainEl.classList.toggle('kfg-atelier-card', screenIdx !== 0);
+      mainEl.style.display = 'block';
+      mainEl.style.visibility = 'visible';
+      mainEl.style.opacity = '1';
+      mainEl.classList.toggle('kfg-atelier-card', safeIdx !== 0);
     }
     var screens = [
       byId('kfg-screen-0-letter'),
@@ -660,8 +696,9 @@
       byId('kfg-screen-2-email-gate'),
       byId('kfg-screen-3-unlocked-dossier')
     ];
+    if (!screens[safeIdx]) safeIdx = 0;
     for (var i = 0; i < screens.length; i++) {
-      if (screens[i]) screens[i].style.display = i === screenIdx ? 'block' : 'none';
+      if (screens[i]) screens[i].style.display = i === safeIdx ? 'block' : 'none';
     }
     if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
       try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (_) {}
@@ -938,7 +975,7 @@
           '</div>' +
           '<div class="kfg-metric-tile">' +
             '<div class="kfg-metric-kicker">US CDC 2000 Peer Percentile</div>' +
-            '<div class="kfg-metric-value" style="color:#2F5241;">' + esc(aux.ordinalPercentile) + ' Percentile</div>' +
+            '<div id="kfg-res-percentile" data-kfg-percentile="' + esc(String(aux.percentile)) + '" class="kfg-metric-value" style="color:#2F5241;">' + esc(aux.ordinalPercentile) + ' Percentile</div>' +
             '<div class="kfg-metric-sub">Taller than ~' + Math.round(aux.percentile) + ' of 100 peers</div>' +
           '</div>' +
           '<div class="kfg-metric-tile">' +
@@ -1235,7 +1272,7 @@
         '</ul>' +
       '</div>' +
       '<div class="kfg-dossier-section kfg-no-print" style="background:#FAF7F2;border:1px solid #D8CFC2;border-radius:10px;padding:1rem;">' +
-        '<div style="font-size:0.88rem;color:#4A433E;margin-bottom:0.5rem;"><strong>Permanent Cross-Device Restore &amp; Standard Digital Refund Policy:</strong> Your 4-page PDF (including the 30-Day Parent-Child Refrigerator Sticker Calendar) can be reopened anytime across devices. Need assistance or a eligible refund? <a href="mailto:care@kisfitglobal.com?subject=KFG%2014-Day%20Refund%20or%20Support" style="color:#2F5241;font-weight:700;text-decoration:underline;">1-Click Priority Support (care@kisfitglobal.com)</a>.</div>' +
+        '<div style="font-size:0.88rem;color:#4A433E;margin-bottom:0.5rem;"><strong>Permanent Cross-Device Restore &amp; Standard Digital Refund Policy:</strong> Your 4-page PDF (including the 30-Day Parent-Child Refrigerator Sticker Calendar) can be reopened anytime across devices. Need assistance or an eligible refund? <a href="mailto:care@kisfitglobal.com?subject=KFG%207-Day%20Refund%20or%20Support" style="color:#2F5241;font-weight:700;text-decoration:underline;">1-Click Priority Support (care@kisfitglobal.com)</a>.</div>' +
         '<div id="kfg-dossier-satisfaction-mount"></div>' +
       '</div>';
 
@@ -1337,12 +1374,19 @@
     return Promise.resolve({ ok: false });
   }
 
+  var __lastModalToggleMs = 0;
   function openKfgMemberModal(tab) {
+    var nowMs = Date.now();
+    if (nowMs - __lastModalToggleMs < 80) return;
+    __lastModalToggleMs = nowMs;
     var modal = byId('kfg-member-modal');
     if (!modal) return;
+    modal.style.display = 'flex';
+    modal.style.visibility = 'visible';
+    modal.style.opacity = '1';
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
-    renderSiblingSwitcherBar('kfg-sibling-switcher-bar');
+    try { renderSiblingSwitcherBar('kfg-sibling-switcher-bar'); } catch (_) {}
     var checkinBlock = byId('kfg-vip-monthly-checkin');
     if (tab === 'checkin' && checkinBlock && typeof checkinBlock.scrollIntoView === 'function') {
       setTimeout(function () { checkinBlock.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
@@ -1353,111 +1397,165 @@
     var modal = byId('kfg-member-modal');
     if (!modal) return;
     modal.classList.remove('is-open');
+    modal.style.display = '';
     modal.setAttribute('aria-hidden', 'true');
   }
 
-  function initBoutiqueAtelier() {
-    loadProfileFromStorage();
-    if (typeof document === 'undefined') return;
-
-    // Bind live change listeners across Step 1..5 inputs
-    var formEl = byId('kfg-atelier-step-form');
-    if (formEl && !formEl._atelierBound) {
-      formEl._atelierBound = true;
-      formEl.addEventListener('change', refreshLiveStepPreviews);
-      formEl.addEventListener('input', refreshLiveStepPreviews);
-    }
-
-    populateFormFromProfile();
-
-    // Check Cross-Device Magic Restore (?magic_restore=...) or Polar.sh return — STRICT SERVER VERIFICATION REQUIRED!
+  function ensureMainNeverBlank() {
     try {
-      if (global.DreamCompanyCRM && typeof global.DreamCompanyCRM.decodeMagicRestoreParam === 'function' && global.location && global.location.search) {
-        var magicObj = global.DreamCompanyCRM.decodeMagicRestoreParam(global.location.search);
-        if (magicObj && typeof magicObj === 'object' && magicObj.email && magicObj.access_code && typeof global.DreamCompanyCRM.verifyEntitlement === 'function') {
-          var mk;
-          for (mk in magicObj) {
-            if (Object.prototype.hasOwnProperty.call(atelierState.profile, mk) && magicObj[mk] !== undefined) {
-              atelierState.profile[mk] = magicObj[mk];
-            }
-          }
-          populateFormFromProfile();
-          global.DreamCompanyCRM.verifyEntitlement({
-            div: 'KFG',
-            email: magicObj.email,
-            access_code: magicObj.access_code,
-            magic_restore: true
-          }).then(function (vres) {
-            if (vres && vres.authorized) {
-              activatePaidUnlock(vres.tier === 'tier3' ? 'premium' : (vres.tier === 'tier2' ? 'pass' : 'single'), magicObj.email, magicObj.access_code);
-            } else {
-              openKfgMemberModal('restore');
-            }
-          });
+      var mainEl = byId('kfg-single-breath-atelier');
+      if (!mainEl) return;
+      var txtLen = String(mainEl.innerText || mainEl.textContent || '').trim().length;
+      var screens = [
+        byId('kfg-screen-0-letter'),
+        byId('kfg-screen-1-steps'),
+        byId('kfg-screen-2-email-gate'),
+        byId('kfg-screen-3-unlocked-dossier')
+      ];
+      var anyVisible = false;
+      for (var i = 0; i < screens.length; i++) {
+        if (screens[i] && screens[i].style.display !== 'none') {
+          var sLen = String(screens[i].innerText || '').trim().length;
+          if (sLen > 40) anyVisible = true;
         }
       }
-      if (global.location && global.location.search) {
-        var rawSearch = String(global.location.search || '');
-        var low = rawSearch.toLowerCase();
-        var isReturnSuccess =
-          low.indexOf('checkout_success=1') !== -1 ||
-          low.indexOf('payment=success') !== -1 ||
-          low.indexOf('polar_success=1') !== -1 ||
-          low.indexOf('checkout_id=') !== -1;
+      if (!anyVisible || txtLen < 50) {
+        showScreen(0);
+      }
+    } catch (_) {
+      try {
+        var s0 = byId('kfg-screen-0-letter');
+        if (s0) s0.style.display = 'block';
+      } catch (_2) {}
+    }
+  }
 
-        if (isReturnSuccess) {
-          var params = new URLSearchParams(rawSearch);
-          var emailParam = params.get('customer_email') || params.get('email') || atelierState.profile.parentEmail || '';
-          var orderParam = params.get('checkout_id') || params.get('order_id') || '';
-          if (emailParam && orderParam && global.DreamCompanyCRM && typeof global.DreamCompanyCRM.verifyEntitlement === 'function') {
-            global.DreamCompanyCRM.verifyEntitlement({ div: 'KFG', email: emailParam, access_code: orderParam }).then(function (vres) {
+  function bindDirectMastheadFallback() {
+    if (typeof document === 'undefined' || typeof document.querySelectorAll !== 'function') return;
+    var btns = document.querySelectorAll('.kfg-masthead-link, [data-csp-click="h_8f7d3b0892c4"]');
+    for (var i = 0; i < btns.length; i++) {
+      if (!btns[i]._kfgDirectBound) {
+        btns[i]._kfgDirectBound = true;
+        btns[i].addEventListener('click', function () {
+          openKfgMemberModal('restore');
+        });
+      }
+    }
+  }
+
+  function initBoutiqueAtelier() {
+    try {
+      loadProfileFromStorage();
+      if (typeof document === 'undefined') return;
+      bindDirectMastheadFallback();
+
+      // Bind live change listeners across Step 1..5 inputs
+      var formEl = byId('kfg-atelier-step-form');
+      if (formEl && !formEl._atelierBound) {
+        formEl._atelierBound = true;
+        formEl.addEventListener('change', refreshLiveStepPreviews);
+        formEl.addEventListener('input', refreshLiveStepPreviews);
+      }
+
+      try { populateFormFromProfile(); } catch (_) {}
+
+      // Check Cross-Device Magic Restore (?magic_restore=...) or Polar.sh return — STRICT SERVER VERIFICATION REQUIRED!
+      try {
+        if (global.DreamCompanyCRM && typeof global.DreamCompanyCRM.decodeMagicRestoreParam === 'function' && global.location && global.location.search) {
+          var magicObj = global.DreamCompanyCRM.decodeMagicRestoreParam(global.location.search);
+          if (magicObj && typeof magicObj === 'object' && magicObj.email && magicObj.access_code && typeof global.DreamCompanyCRM.verifyEntitlement === 'function') {
+            var mk;
+            for (mk in magicObj) {
+              if (Object.prototype.hasOwnProperty.call(atelierState.profile, mk) && magicObj[mk] !== undefined) {
+                atelierState.profile[mk] = magicObj[mk];
+              }
+            }
+            populateFormFromProfile();
+            global.DreamCompanyCRM.verifyEntitlement({
+              div: 'KFG',
+              email: magicObj.email,
+              access_code: magicObj.access_code,
+              magic_restore: true
+            }).then(function (vres) {
               if (vres && vres.authorized) {
-                activatePaidUnlock(vres.tier === 'tier3' ? 'premium' : (vres.tier === 'tier2' ? 'pass' : 'single'), emailParam, orderParam);
+                activatePaidUnlock(vres.tier === 'tier3' ? 'premium' : (vres.tier === 'tier2' ? 'pass' : 'single'), magicObj.email, magicObj.access_code);
               } else {
                 openKfgMemberModal('restore');
               }
             });
-          } else {
-            openKfgMemberModal('restore');
           }
         }
-      }
-    } catch (_) {}
+        if (global.location && global.location.search) {
+          var rawSearch = String(global.location.search || '');
+          var low = rawSearch.toLowerCase();
+          var isReturnSuccess =
+            low.indexOf('checkout_success=1') !== -1 ||
+            low.indexOf('payment=success') !== -1 ||
+            low.indexOf('polar_success=1') !== -1 ||
+            low.indexOf('checkout_id=') !== -1;
 
-    if (isPaidUnlocked()) {
-      showScreen(3);
-      renderUnlockedDossier();
-    } else {
-      var wantsAutoStart = false;
-      var wantsBoneAgeStep = false;
-      try {
-        var qs = (global.location && global.location.search) ? new URLSearchParams(global.location.search) : null;
-        var hashVal = String((global.location && global.location.hash) || '').toLowerCase();
-        if (qs) {
-          var qSex = String(qs.get('gender') || qs.get('sex') || '').toLowerCase();
-          if (qSex === 'boy' || qSex === 'girl') {
-            atelierState.profile.gender = qSex;
+          if (isReturnSuccess) {
+            var params = new URLSearchParams(rawSearch);
+            var emailParam = params.get('customer_email') || params.get('email') || atelierState.profile.parentEmail || '';
+            var orderParam = params.get('checkout_id') || params.get('order_id') || '';
+            if (emailParam && orderParam && global.DreamCompanyCRM && typeof global.DreamCompanyCRM.verifyEntitlement === 'function') {
+              global.DreamCompanyCRM.verifyEntitlement({ div: 'KFG', email: emailParam, access_code: orderParam }).then(function (vres) {
+                if (vres && vres.authorized) {
+                  activatePaidUnlock(vres.tier === 'tier3' ? 'premium' : (vres.tier === 'tier2' ? 'pass' : 'single'), emailParam, orderParam);
+                } else {
+                  openKfgMemberModal('restore');
+                }
+              });
+            } else {
+              openKfgMemberModal('restore');
+            }
           }
-          var qAge = parseInt(qs.get('age'), 10);
-          if (!isNaN(qAge) && qAge >= 3 && qAge <= 18) {
-            atelierState.profile.birthYear = (new Date()).getFullYear() - qAge;
-          }
-          if (qs.get('autostart') === '1') wantsAutoStart = true;
         }
-        if (hashVal === '#quiz-section' || hashVal === '#kfg-screen-1-steps') wantsAutoStart = true;
-        if (hashVal === '#kfg-bone-age-interpreter') wantsBoneAgeStep = true;
       } catch (_) {}
 
-      if (wantsBoneAgeStep) {
-        populateFormFromProfile();
-        showScreen(1);
-        goToAtelierStep(4);
-      } else if (wantsAutoStart) {
-        beginAtelier();
+      if (isPaidUnlocked()) {
+        try {
+          renderUnlockedDossier();
+          showScreen(3);
+        } catch (_) {
+          showScreen(0);
+        }
       } else {
-        showScreen(0);
+        var wantsAutoStart = false;
+        var wantsBoneAgeStep = false;
+        try {
+          var qs = (global.location && global.location.search) ? new URLSearchParams(global.location.search) : null;
+          var hashVal = String((global.location && global.location.hash) || '').toLowerCase();
+          if (qs) {
+            var qSex = String(qs.get('gender') || qs.get('sex') || '').toLowerCase();
+            if (qSex === 'boy' || qSex === 'girl') {
+              atelierState.profile.gender = qSex;
+            }
+            var qAge = parseInt(qs.get('age'), 10);
+            if (!isNaN(qAge) && qAge >= 3 && qAge <= 18) {
+              atelierState.profile.birthYear = (new Date()).getFullYear() - qAge;
+            }
+            if (qs.get('autostart') === '1') wantsAutoStart = true;
+          }
+          if (hashVal === '#quiz-section' || hashVal === '#kfg-screen-1-steps') wantsAutoStart = true;
+          if (hashVal === '#kfg-bone-age-interpreter') wantsBoneAgeStep = true;
+        } catch (_) {}
+
+        if (wantsBoneAgeStep) {
+          populateFormFromProfile();
+          showScreen(1);
+          goToAtelierStep(4);
+        } else if (wantsAutoStart) {
+          beginAtelier();
+        } else {
+          showScreen(0);
+        }
       }
+    } catch (_) {
+      showScreen(0);
     }
+    ensureMainNeverBlank();
+    setTimeout(ensureMainNeverBlank, 250);
   }
 
   function downloadCustomAtelierPdf() {
