@@ -1,7 +1,7 @@
 {
   "name": "KISFIT Bio Labs — US CDC Pediatric Height & 5-Axis Brain LQ Studio",
   "short_name": "KISFIT Bio Labs",
-  "description": "60-Second US CDC 2000 Pediatric Growth Percentile, 3-Scenario Adult Height Prediction & 5-Axis Brain Learning Quotient (LQ) Clinical Assessment.",
+  "description": "60-Second US CDC 2000 Pediatric Growth Percentile, 3-Scenario Adult Height Prediction & Evidence-Based Pediatric Growth Reference.",
   "lang": "en-US",
   "start_url": "/?source=pwa",
   "scope": "/",

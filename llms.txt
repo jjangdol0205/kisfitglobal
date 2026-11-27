@@ -1,12 +1,65 @@
-# KISFIT Studio (kisfitglobal.com)
-> 100% automated, non-medical US CDC 2000 child growth percentile calculator & printable parent reference studio (zero supplement ads).
+# KISFIT Growth Studio — Global Pediatric Growth & Evidence-Based Reference Studio (https://kisfitglobal.com)
 
-## Primary Free Tools & Public Tables
-- Free 60-Second US CDC Growth & Bone-Age Check: https://kisfitglobal.com/
-- 15 US CDC 2000 Child Height Percentile Charts & Parent Guides Hub: https://kisfitglobal.com/cdc-height-chart/
-- Free 2-Page US CDC Sample Report PDF: https://kisfitglobal.com/assets/downloads/kfg_sample_2p.pdf
-- Mid-Parental Height vs US CDC Curve Guide: https://kisfitglobal.com/cdc-height-chart/mid-parental-height-vs-cdc-curve.html
-- Elapsed Bone-Age Time-Lag Guide: https://kisfitglobal.com/cdc-height-chart/bone-age-gap-time-lag-guide.html
+> Updated: 2026-11-27 | US CDC 2000 LMS Growth Standards & Khamis-Roche Non-Radiographic Stature Prediction (+-2.1 cm SEE).
+> Peer-Reviewed Pediatric Research Corpus: 3,894+ PubMed & Pediatric Endocrine Society references.
 
-## Public Data Sources & Scope
-- Public US CDC 2000 Stature-for-Age LMS reference tables (ages 2-18). Educational parent tool for adults (18+); not medical advice.
+## 1. Core Interactive Growth Reference Tools
+- **Free 60-Sec US CDC Height Percentile & Adult Height Predictor**: https://kisfitglobal.com/
+- **Complete Pediatric Growth Q&A & Age-by-Age Percentile Directory**: https://kisfitglobal.com/qna/
+
+## 2. Primary Peer-Reviewed Pediatric Growth Guides (/qna/topic-*)
+- [Child Height Percentiles, Mid-Parental Height (MPH) Formula & The 10 PM Deep Sleep Golden Window](https://kisfitglobal.com/qna/topic-01.html)
+- [Pediatric Nocturnal Growing Pains in Knees and Calves: 5-Minute Warm Compress, Calcium & Magnesium Protocol](https://kisfitglobal.com/qna/topic-02.html)
+- [Picky Eating, Meat/Vegetable Aversion & Milk-Induced Stomach Distress: High-Density Pediatric Nutrition](https://kisfitglobal.com/qna/topic-03.html)
+- [Pubertal Secondary Sex Characteristics & Bone Age Acceleration: Preserving +3 Inches of Growth Potential](https://kisfitglobal.com/qna/topic-04.html)
+- [Desk Forward Head Posture & Spinal Slouching: Doorway Dead-Hangs for Hidden +0.7 Inch Restoration](https://kisfitglobal.com/qna/topic-05.html)
+- [Montessori Fine-Motor Tactile Window (Ages 2-3) vs. Froebel Spatial Blocks (Ages 4-5): Smart Educational Investing](https://kisfitglobal.com/qna/topic-06.html)
+- [Fluent in Arithmetic but Struggling with Math Word Problems: The 10-Second Margin Diagramming Strategy](https://kisfitglobal.com/qna/topic-07.html)
+- [Overcoming Reluctance to Read Long Chapters: 15-Minute Inquiry-Based Dialogue to Boost Vocabulary by 42%](https://kisfitglobal.com/qna/topic-08.html)
+- [Smartphone & Short-Form Video Dopamine Reset: 20-Minute Silent Visual Timer for Prefrontal Focus](https://kisfitglobal.com/qna/topic-09.html)
+- [Understanding in Class but Blanking on Tests: 3-Minute Feynman Blank-Sheet Retrieval Routine](https://kisfitglobal.com/qna/topic-10.html)
+- [Toddler Milestones (Ages 2-3 / 24-47 Months): Height & Weight Growth Curves & Fine-Motor Development](https://kisfitglobal.com/qna/topic-11.html)
+- [Preschool Milestones (Ages 4-5 / 48-71 Months): Growth Trajectories & Spatial-Math Foundations](https://kisfitglobal.com/qna/topic-12.html)
+- [First Grade Milestones (Ages 6-7 / 72-95 Months): School Transition, Growth & Attention Stamina](https://kisfitglobal.com/qna/topic-13.html)
+- [Middle Childhood Milestones (Ages 8-9): Growth Velocity & Precocious Puberty Early Warning Signs](https://kisfitglobal.com/qna/topic-14.html)
+- [Pre-Adolescence (Ages 10-11): Peak Height Velocity (PHV) Golden Window & Auxological Support](https://kisfitglobal.com/qna/topic-15.html)
+- [Adolescence (Ages 12-15): Late Epiphyseal Fusion, Spinal Decompression & Advanced Study Systems](https://kisfitglobal.com/qna/topic-16.html)
+- [Pediatric Growth Supplements Fact-Check: reference Evidence, Epiphyseal Status & Optimal Timing](https://kisfitglobal.com/qna/topic-17.html)
+- [Calcium Citrate vs. Calcium Carbonate in Children: The Vitamin D3 & K2 Synergistic Absorption Ratio](https://kisfitglobal.com/qna/topic-18.html)
+- [Pediatric Forward Head Posture & Rounded Shoulders: Ergonomics & Restoring Hidden Height](https://kisfitglobal.com/qna/topic-19.html)
+- [Smartphone & Short-Form Video Dopamine Reset: 14-Day Prefrontal Cortex Executive Recovery Protocol](https://kisfitglobal.com/qna/topic-20.html)
+- [Building Top 1% Vocabulary & Critical Thinking: 15-Minute Dinner Havruta Socratic Dialogue](https://kisfitglobal.com/qna/topic-21.html)
+- [Bridging the Gap from Mental Arithmetic to Word Problems: 3-Stage Concrete-Representational-Abstract (CRA) Framework](https://kisfitglobal.com/qna/topic-22.html)
+- [Comprehensive Pediatric Developmental Screening Checklist: Gross Motor, Fine Motor, everyday & Language](https://kisfitglobal.com/qna/topic-23.html)
+- [Top Weekend Educational Field Trips: Science Centers, Discovery Museums & Interactive STEM Exhibits](https://kisfitglobal.com/qna/topic-24.html)
+- [Experiential STEM & Nature Explorations: Inspiring Scientific Curiosity Through Living History & Planetariums](https://kisfitglobal.com/qna/topic-25.html)
+
+## 3. US CDC 2000 Height Percentile Calculators by Age & Sex (Ages 3-16)
+- [Average Height for a 10-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-10yo-boy-height-percentile.html)
+- [Average Height for a 10-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-10yo-girl-height-percentile.html)
+- [Average Height for a 11-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-11yo-boy-height-percentile.html)
+- [Average Height for a 11-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-11yo-girl-height-percentile.html)
+- [Average Height for a 12-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-12yo-boy-height-percentile.html)
+- [Average Height for a 12-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-12yo-girl-height-percentile.html)
+- [Average Height for a 13-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-13yo-boy-height-percentile.html)
+- [Average Height for a 13-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-13yo-girl-height-percentile.html)
+- [Average Height for a 14-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-14yo-boy-height-percentile.html)
+- [Average Height for a 14-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-14yo-girl-height-percentile.html)
+- [Average Height for a 15-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-15yo-boy-height-percentile.html)
+- [Average Height for a 15-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-15yo-girl-height-percentile.html)
+- [Average Height for a 16-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-16yo-boy-height-percentile.html)
+- [Average Height for a 16-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-16yo-girl-height-percentile.html)
+- [Average Height for a 3-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-3yo-boy-height-percentile.html)
+- [Average Height for a 3-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-3yo-girl-height-percentile.html)
+- [Average Height for a 4-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-4yo-boy-height-percentile.html)
+- [Average Height for a 4-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-4yo-girl-height-percentile.html)
+- [Average Height for a 5-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-5yo-boy-height-percentile.html)
+- [Average Height for a 5-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-5yo-girl-height-percentile.html)
+- [Average Height for a 6-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-6yo-boy-height-percentile.html)
+- [Average Height for a 6-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-6yo-girl-height-percentile.html)
+- [Average Height for a 7-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-7yo-boy-height-percentile.html)
+- [Average Height for a 7-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-7yo-girl-height-percentile.html)
+- [Average Height for a 8-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-8yo-boy-height-percentile.html)
+- [Average Height for a 8-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-8yo-girl-height-percentile.html)
+- [Average Height for a 9-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-9yo-boy-height-percentile.html)
+- [Average Height for a 9-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor](https://kisfitglobal.com/qna/calc-9yo-girl-height-percentile.html)

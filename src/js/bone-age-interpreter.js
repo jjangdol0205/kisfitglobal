@@ -1,11 +1,11 @@
 /**
  * src/js/bone-age-interpreter.js
- * Division 2 (kisfitglobal.com) — Clinical Bone-Age X-Ray Report Interpreter,
+ * Division 2 (kisfitglobal.com) — Reference Bone-Age X-Ray Report Interpreter,
  * Exam-Date Time-Lag (Delta-t) Calibration Engine & Remaining Inches Simulator
  *
  * Architecture:
  * - 100% Client-Side Static Auxology Calculation (Bayley-Pinneau Mature Height Multiplier + Mid-Parental Height)
- * - Clinical Exam-Date Time-Lag (Delta-t) Auto-Calibration:
+ * - Reference Exam-Date Time-Lag (Delta-t) Auto-Calibration:
  *     deltaMonths = Math.max(0, (todayYear - examYear) * 12 + (todayMonth - examMonth))
  *     tempoFactor = (hasEarlyPubertyOrRapidWeightSign ? 1.08 : 1.0)
  *     BA_projected_today = clamp(BA_exam + (deltaMonths / 12) * tempoFactor, 3.0, maxBa)
@@ -173,7 +173,7 @@
   }
 
   /**
-   * Clinical Time-Lag (Delta-t) Auto-Calibration Formula:
+   * Reference Time-Lag (Delta-t) Auto-Calibration Formula:
    *   deltaMonths = Math.max(0, (todayYear - examYear) * 12 + (todayMonth - examMonth))
    *   tempoFactor = (hasEarlyPubertyOrRapidWeightSign ? 1.08 : 1.0)
    *   BA_projected_today = clamp(BA_exam + (deltaMonths / 12) * tempoFactor, 3.0, maxBa)

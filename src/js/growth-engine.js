@@ -596,7 +596,7 @@
         startTime: minToTimeStr(cStartMin).h12,
         endTime: minToTimeStr(cEndMin).h12,
         hghOutputPercent: hghPct,
-        clinicalSignificance: desc
+        referenceSignificance: desc
       });
     }
 
@@ -616,7 +616,7 @@
       glycemicCutoffTime: glycemicCutoffTime.h12,
       glycemicCutoff24: glycemicCutoffTime.h24,
       cycleTable,
-      clinicalRationale: 'Endogenous human growth hormone (somatotropin) is secreted in nocturnal pulsatile surges tightly coupled to Stage N3 slow-wave sleep (delta EEG activity). Late sleep or high-glycemic bedtime snacking triggers somatostatin release, truncating up to 68% of daily GH output.'
+      referenceRationale: 'Endogenous human growth hormone (somatotropin) is secreted in nocturnal pulsatile surges tightly coupled to Stage N3 slow-wave sleep (delta EEG activity). Late sleep or high-glycemic bedtime snacking triggers somatostatin release, truncating up to 68% of daily GH output.'
     };
   }
 
@@ -1232,7 +1232,7 @@
 
     const title1 = '① Genetic Target Height (Mid-Parental MPH)';
     const title2 = '② Unmanaged Habits Trajectory';
-    const title3 = '③ Clinical Intervention Target Window';
+    const title3 = '③ Reference Intervention Target Window';
 
     return `
       <div class="predicted-bars-container">
@@ -1245,7 +1245,7 @@
           <div class="predicted-bar-track">
             <div class="predicted-bar-fill bar-fill-mph" style="width: ${wMph}%;"></div>
           </div>
-          <div class="predicted-bar-caption">Tanner / Khamis-Roche clinical formula expectation (±3.3 in / ±8.5 cm)</div>
+          <div class="predicted-bar-caption">Tanner / Khamis-Roche reference formula expectation (±3.3 in / ±8.5 cm)</div>
         </div>
 
         <!-- Bar 2: Unmanaged Loss -->
@@ -1316,8 +1316,8 @@
     `;
   }
 
-  // 13. Official Clinical Velocity, Sleep & Nutrition Box (Concise Summary)
-  function renderOfficialClinicalAndNutritionBox(ageMonths, bmiInfo) {
+  // 13. Official Reference Velocity, Sleep & Nutrition Box (Concise Summary)
+  function renderOfficialReferenceAndNutritionBox(ageMonths, bmiInfo) {
     const clampedM = Math.max(12, Math.min(240, ageMonths || 120));
 
     const velocityList = (authoritiesData && authoritiesData.growthVelocityAndRedFlags) || [];
@@ -1349,7 +1349,7 @@
           </div>
           <div style="background: #F8FAFC; border: 1px solid #BFDBFE; border-radius: 12px; padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
             <span style="font-size: 0.84rem; color: #475569; font-weight: 800;">Body Mass Index (BMI ${bmiInfo.bmi})</span>
-            <span style="font-size: 0.95rem; font-weight: 900; color: ${bmiInfo.bmiBadgeColor};">${bmiInfo.bmiStatus} (Clinical consult recommended if &lt; 4 cm/yr)</span>
+            <span style="font-size: 0.95rem; font-weight: 900; color: ${bmiInfo.bmiBadgeColor};">${bmiInfo.bmiStatus} (Reference consult recommended if &lt; 4 cm/yr)</span>
           </div>
         </div>
       </div>
@@ -1391,8 +1391,8 @@
       ageBandTitle = `Ages 4–6 (Preschool &amp; Kindergarten)`;
       prod1 = {
         badge: `Age ${ageYears} Top Pick · Linear Growth Nutrients`,
-        title: 'Clinical Botanical Complex (Astragalus Extract) + Calcium &amp; Vitamin D3/Zinc',
-        desc: `Standardized botanical extract clinically documented to promote IGF-1 and IGFBP-3 synthesis without premature epiphyseal maturation.`,
+        title: 'Reference Botanical Complex (Astragalus Extract) + Calcium &amp; Vitamin D3/Zinc',
+        desc: `Standardized botanical extract statistically documented to promote IGF-1 and IGFBP-3 synthesis without premature epiphyseal maturation.`,
         url: 'https://link.coupang.com/re/AFFSRP?lptag=AF7865143&subid=kidsfit&pageKey=%EC%A2%85%EA%B7%BC%EB%8B%B9%EA%B1%B4%EA%B0%95+%EC%95%84%EC%9D%B4%EC%BB%A4+HT042+%ED%99%A9%EA%B8%B0%EC%B6%94%EC%B6%9C%EB%AC%BC+%ED%82%A4%EC%84%B1%EC%9E%A5',
         btnText: `View Age ${ageYears} Botanical Growth Nutrients ↗`
       };
@@ -1460,7 +1460,7 @@
 
     return `
       <div style="background: #FFFFFF; border: 1px solid #BFDBFE; border-radius: 14px; padding: 0.85rem 1.1rem; margin-top: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-        <span style="font-size: 0.86rem; font-weight: 800; color: #1D4ED8;">Peer-Reviewed Academic Clinical Evidence: CDC / KDCA Reference Standards &amp; Pediatric Trials</span>
+        <span style="font-size: 0.86rem; font-weight: 800; color: #1D4ED8;">Peer-Reviewed Academic Reference Evidence: CDC / KDCA Reference Standards &amp; Pediatric Trials</span>
         <a href="https://pubmed.ncbi.nlm.nih.gov/25374566/" target="_blank" rel="noopener noreferrer" style="font-size: 0.78rem; color: #1D4ED8; font-weight: 800; text-decoration: none;">PMID:25374566 Original Article ↗</a>
       </div>
 
@@ -1470,7 +1470,7 @@
           <h4 style="font-size: 1.1rem; font-weight: 900; color: #1D4ED8; margin: 0;">
             [${ageBandTitle}] Skeletal Growth &amp; Hidden Stature Curated Recommendations TOP 3
           </h4>
-          <span style="font-size: 0.8rem; color: #1D4ED8; font-weight: 800;">Age ${ageYears} (${ageMonths} Months) Developmental Stage 1:1 Curation</span>
+          <span style="font-size: 0.8rem; color: #1D4ED8; font-weight: 800;">Age ${ageYears} (${ageMonths} Months) Developmental Stage Personalized Curation</span>
         </div>
 
         <div style="display: flex; flex-direction: column; gap: 0.85rem;">
@@ -1511,7 +1511,7 @@
           </div>
         </div>
         <div style="margin-top: 0.85rem; padding-top: 0.65rem; border-top: 1px dashed #BFDBFE; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.4rem; font-size: 0.76rem; color: #475569;">
-          <span>Academic References: Kim JH et al. (2018) Growth Charts · Lee D et al. Pediatric Clinical Trial</span>
+          <span>Academic References: Kim JH et al. (2018) Growth Charts · Lee D et al. Pediatric Reference Trial</span>
           <a href="https://pubmed.ncbi.nlm.nih.gov/29628905/" target="_blank" rel="noopener noreferrer" style="color: #1D4ED8; text-decoration: underline;">PubMed PMID: 29628905 ↗</a>
         </div>
       </div>
@@ -1655,7 +1655,7 @@
           </div>
         </div>
 
-        <!-- Clear Clinical Explanation of Growth Plate Remaining Window -->
+        <!-- Clear Reference Explanation of Growth Plate Remaining Window -->
         <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 14px; padding: 0.8rem 1rem; margin-bottom: 1.25rem; font-size: 0.84rem; color: #0F172A; line-height: 1.55;">
           <strong style="color: #1D4ED8;">[What is the Epiphyseal Growth Window?]</strong> The remaining period until distal epiphyseal cartilages fuse (${gender === 'boy' ? 'boys average age 16.5–17.0' : 'girls average age 14.5–15.0'}), representing <strong>the remaining biological window for linear stature growth</strong>. ${pred.windowMeaningKo || ''}
         </div>
@@ -1697,12 +1697,12 @@
         ${render3TierWeightCard(profile, bmiInfo, pred, gender)}
 
         <!-- Official Pediatric Authority Guidance -->
-        ${renderOfficialClinicalAndNutritionBox(ageMonths, bmiInfo)}
+        ${renderOfficialReferenceAndNutritionBox(ageMonths, bmiInfo)}
 
         <!-- 3 Habit Prescriptive Coaching Cards -->
         <div style="margin-top: 1.5rem;">
           <h4 style="font-size: 1.05rem; font-weight: 800; margin: 0 0 0.5rem 0; color: #0F172A;">
-            Clinical Protocol by Growth Inhibitor Factor
+            Reference Protocol by Growth Inhibitor Factor
           </h4>
           ${renderCoachingCards(profile.habits)}
         </div>
@@ -1736,7 +1736,7 @@
     render3TierBarChart,
     render3TierWeightCard,
     renderCoachingCards,
-    renderOfficialClinicalAndNutritionBox,
+    renderOfficialReferenceAndNutritionBox,
     renderAcademicEvidenceSection,
     renderTab1Report
   };

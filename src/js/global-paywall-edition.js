@@ -4,7 +4,7 @@
  * Dedicated for https://kisfitglobal.com (and ?edition=global / ?paywall=1):
  * 1. Enforces 100% English-Only Mode (US CDC 2000 & WHO Growth Standards + 3,714 PubMed Papers).
  * 2. Converts the language button into an Imperial (ft/in, lbs) <-> Metric (cm, kg) Unit Switcher.
- * 3. Translates the Homepage Dual-Pillar Showcase, SVG Chart Previews, Quiz, and Master Clinical Report into 100% native English (ZERO Korean text).
+ * 3. Translates the Homepage Dual-Pillar Showcase, SVG Chart Previews, Quiz, and Master Reference Report into 100% native English (ZERO Korean text).
  * 4. Implements the Taller-Style Hard-Paywall Gate wired to Polar.sh (Merchant of Record · Global Card / Apple Pay / Google Pay):
  *    - Single Growth & Bone-Age PDF Guide ($8.99 USD): POLAR_CHECKOUT_URLS.single_899 / POLAR_KFG_SINGLE_URL
  *    - 6-Month Growth & Velocity Pass ($19.99 USD): POLAR_CHECKOUT_URLS.pass_1999 / POLAR_KFG_PASS_URL
@@ -64,7 +64,7 @@
     },
     POLAR_KFG_SINGLE_URL: DEFAULT_SINGLE_CHECKOUT_URL,
     POLAR_KFG_PASS_URL: DEFAULT_PASS_CHECKOUT_URL,
-    SUPPORT_EMAIL: 'beable9489@gmail.com'
+    SUPPORT_EMAIL: 'care@kisfitglobal.com'
   };
   const existingPayCfg = (global.PAYMENT_CONFIG && typeof global.PAYMENT_CONFIG === 'object') ? global.PAYMENT_CONFIG : {};
   const mergedUrls = Object.assign(
@@ -509,8 +509,8 @@
         }
       } catch (_) {}
     }
-    const boyMedians = { 2:86.8,3:95.2,4:102.3,5:109.2,6:115.5,7:121.9,8:128.0,9:133.5,10:138.4,11:143.5,12:149.1,13:156.2,14:163.8,15:170.1,16:173.4,17:175.2,18:176.1 };
-    const girlMedians = { 2:85.5,3:94.0,4:100.3,5:107.9,6:115.1,7:121.1,8:127.3,9:133.0,10:138.6,11:144.0,12:151.2,13:157.1,14:160.4,15:161.8,16:162.5,17:162.9,18:163.1 };
+    const boyMedians = { 2:86.8,3:95.2,4:102.3,5:109.2,6:115.5,7:121.9,8:128.0,9:133.5,10:138.4,11: 143.5,12:149.1,13:156.2,14:163.8,15:170.1,16:173.4,17:175.2,18:176.1 };
+    const girlMedians = { 2:85.5,3:94.0,4:100.3,5:107.9,6:115.1,7:121.1,8:127.3,9:133.0,10:138.6,11: 144.0,12:151.2,13:157.1,14:160.4,15:161.8,16:162.5,17:162.9,18:163.1 };
     const table = isGirl ? girlMedians : boyMedians;
     const clampedAge = Math.max(2, Math.min(18, Number(ageYears) || 10));
     const lowA = Math.floor(clampedAge);
@@ -651,10 +651,10 @@
         <div style="background:linear-gradient(135deg,#0F172A 0%,#1E3A8A 100%);color:#FFFFFF;padding:0.85rem 1.25rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;border-bottom:1px solid rgba(255,255,255,0.15);">
           <div>
             <div style="font-size:0.68rem;font-weight:900;color:#93C5FD;letter-spacing:0.06em;text-transform:uppercase;">
-              🏥 KISFIT CLINICAL PEDIATRIC ATELIER · HOSPITAL-GRADE AUXOLOGY INTAKE
+              🏥 KISFIT REFERENCE PEDIATRIC ATELIER · HOSPITAL-GRADE AUXOLOGY INTAKE
             </div>
             <h3 style="margin:0.2rem 0 0;font-size:1.15rem;font-weight:900;color:#FFFFFF;display:flex;align-items:center;gap:0.45rem;">
-              <span>CLINICAL AUXOLOGY &amp; EPIGENETIC GROWTH DOSSIER</span>
+              <span>REFERENCE AUXOLOGY &amp; EPIGENETIC GROWTH DOSSIER</span>
             </h3>
           </div>
           <div style="display:flex;align-items:center;gap:0.65rem;">
@@ -719,7 +719,7 @@
           </button>
         </div>
 
-        <!-- Scrollable Clinical Report Content Area -->
+        <!-- Scrollable Reference Report Content Area -->
         <div style="padding:0 1.25rem 0.75rem 1.25rem;overflow-y:auto;flex:1;max-height:56vh;">
           
           <!-- ================= PAGE 1 ================= -->
@@ -738,7 +738,7 @@
                       <th style="padding:0.45rem 0.5rem;font-weight:800;">Delta</th>
                       <th style="padding:0.45rem 0.5rem;font-weight:800;">Z-Score</th>
                       <th style="padding:0.45rem 0.5rem;font-weight:800;">Percentile</th>
-                      <th style="padding:0.45rem 0.6rem;font-weight:800;">Clinical Interpretation</th>
+                      <th style="padding:0.45rem 0.6rem;font-weight:800;">Reference Interpretation</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -831,10 +831,10 @@
                 <!-- CDC LMS P3 reference curve -->
                 <path d="M 50,176 Q 167,152 285,120 T 520,95" fill="none" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="3,3" />
 
-                <!-- Projection 1: Clinically Optimized Stature (6' 0.0" / 183.0 cm) -->
+                <!-- Projection 1: Statistically Optimized Stature (6' 0.0" / 183.0 cm) -->
                 <path d="M 167,138 C 220,126 310,72 520,32" fill="none" stroke="#059669" stroke-width="2.8" />
                 <circle cx="520" cy="32" r="4" fill="#059669" />
-                <text x="515" y="24" font-size="8.5" fill="#059669" font-family="sans-serif" font-weight="900" text-anchor="end">Clinically Optimized: 6' 0.0" (183.0 cm)</text>
+                <text x="515" y="24" font-size="8.5" fill="#059669" font-family="sans-serif" font-weight="900" text-anchor="end">Statistically Optimized: 6' 0.0" (183.0 cm)</text>
 
                 <!-- Projection 2: Genetic & Tanner MPH Baseline (5' 9.4" / 176.3 cm) -->
                 <path d="M 167,138 C 220,132 310,92 520,62" fill="none" stroke="#1D4ED8" stroke-width="2.8" />
@@ -868,7 +868,7 @@
                   <div style="font-size:0.68rem;color:#64748B;">&plusmn;2.1 in (&plusmn;5.34 cm)</div>
                 </div>
                 <div style="background:#ECFDF5;border:1px solid #A7F3D0;border-radius:8px;padding:0.45rem 0.5rem;">
-                  <div style="font-size:0.68rem;color:#065F46;font-weight:700;">Clinically Optimized</div>
+                  <div style="font-size:0.68rem;color:#065F46;font-weight:700;">Statistically Optimized</div>
                   <div style="font-size:1.05rem;font-weight:900;color:#059669;">6' 0.0" (183.0 cm)</div>
                   <div style="font-size:0.68rem;color:#059669;font-weight:800;">+9.5 cm Potential Ceiling</div>
                 </div>
@@ -889,7 +889,7 @@
               <div style="background:#F8FAFC;border:1px solid #CBD5E1;border-radius:8px;padding:0.6rem 0.8rem;font-size:0.78rem;line-height:1.5;color:#1E293B;">
                 <div><strong>• Tanner Mid-Parental Target (Boys):</strong> ((Father 176.5 cm + Mother 163.0 cm + 13.0 cm) / 2) = <strong>176.25 cm (~5' 9.4")</strong></div>
                 <div><strong>• Polygenic Target Corridor (&plusmn;3.3 in / &plusmn;8.5 cm):</strong> <strong>167.8 cm – 184.8 cm (5' 6.1" – 6' 0.7")</strong></div>
-                <div style="color:#059669;font-weight:700;margin-top:0.25rem;">&bull; Clinical Note: Genetics dictate the baseline corridor; 30% to 40% of final adult stature remains modifiable through proactive chrononutrition, sleep hGH optimization, and biomechanics.</div>
+                <div style="color:#059669;font-weight:700;margin-top:0.25rem;">&bull; Reference Note: Genetics dictate the baseline corridor; 30% to 40% of final adult stature remains modifiable through proactive chrononutrition, sleep hGH optimization, and biomechanics.</div>
               </div>
             </div>
 
@@ -1010,7 +1010,7 @@
                 <div style="background:#F8FAFC;border:1px solid #CBD5E1;border-radius:8px;padding:0.6rem 0.75rem;">
                   <div style="font-weight:800;color:#1E3A8A;margin-bottom:0.25rem;">🌙 Stage N3 SWS Sleep Architecture</div>
                   <div>• <strong>Target Lights-Out:</strong> 9:45 PM | <strong>Sleep Onset:</strong> 10:00 PM</div>
-                  <div>• <strong>Peak Stage N3 SWS Window:</strong> 10:45 PM – 1:15 AM</div>
+                  <div>• <strong>Peak Stage N3 SWS Window:</strong> 10:45 PM – one-to-one5 AM</div>
                   <div>• <strong>Wake-up Target:</strong> 7:00 AM (9.0h / 6 complete 90-min cycles)</div>
                   <div style="color:#059669;font-weight:700;margin-top:0.2rem;">60–70% of daily pulsatile growth hormone is secreted during Stage N3 delta sleep.</div>
                 </div>
@@ -1271,7 +1271,7 @@
           </div>
           <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:0.85rem 1rem;margin-bottom:0.9rem;font-size:0.86rem;">
             <div style="margin-bottom:0.35rem;"><strong>Account:</strong> ${isOwner ? 'Authorized Administrator' : user.email}</div>
-            <div><strong>Report Access Status:</strong> ${isReportUnlocked() || isOwner || (user && user.unlockedPass) ? '<span style="color:#059669;font-weight:800;">✓ FULL CLINICAL REPORT UNLOCKED</span>' : '<span style="color:#64748B;font-weight:700;">Standard Account (Paywall Locked)</span>'}</div>
+            <div><strong>Report Access Status:</strong> ${isReportUnlocked() || isOwner || (user && user.unlockedPass) ? '<span style="color:#059669;font-weight:800;">✓ FULL REFERENCE REPORT UNLOCKED</span>' : '<span style="color:#64748B;font-weight:700;">Standard Account (Paywall Locked)</span>'}</div>
           </div>
           ${isOwner ? `
           <button type="button" data-csp-act="kfg-auth-open-admin" style="width:100%;padding:0.82rem 1rem;border-radius:12px;border:none;background:linear-gradient(135deg,#1D4ED8 0%,#1E40AF 100%);color:#FFFFFF;font-size:0.9rem;font-weight:900;cursor:pointer;margin-bottom:0.55rem;">
@@ -1544,7 +1544,7 @@
       syncAuthHeaderButton();
       transformGlobalReportAndApplyPaywall();
       if (typeof window.alert === 'function') {
-        window.alert('Verified! Your Polar.sh order is active and your full clinical report is unlocked.');
+        window.alert('Verified! Your Polar.sh order is active and your full reference report is unlocked.');
       }
     };
     const promptOrderFallback = function () {
@@ -1654,7 +1654,7 @@
     }
 
     // Hero Section Authority Pill & Trust Bar (US Silicon Valley HealthTech Aesthetic)
-    const authPill = document.querySelector('.clinical-authority-pill');
+    const authPill = document.querySelector('.reference-authority-pill');
     if (authPill) {
       authPill.style.cssText = 'display:inline-flex;align-items:center;gap:0.5rem;background:#FFFFFF;border:1px solid #CBD5E1;box-shadow:0 4px 12px rgba(15,23,42,0.04);color:#0F172A;font-size:0.75rem;font-weight:700;padding:0.28rem 0.75rem 0.28rem 0.4rem;border-radius:9999px;margin:0 auto 0.75rem;';
       authPill.innerHTML = '<span style="background:linear-gradient(135deg,#0F172A 0%,#2563EB 100%);color:#FFFFFF;padding:0.18rem 0.58rem;border-radius:9999px;font-size:0.68rem;font-weight:800;letter-spacing:0.04em;">US CDC 2000</span><span>Pediatric Height &amp; Growth-Plate Lab</span>';
@@ -1672,7 +1672,7 @@
       heroSubtitle.textContent = 'Step through 5 guided pediatric checkpoints—with or without a hospital wrist X-ray, automatically calibrating exam-date time lag (Δt) to today.';
     }
 
-    const trustBar = document.querySelector('.clinical-survey-trust-bar');
+    const trustBar = document.querySelector('.reference-survey-trust-bar');
     if (trustBar) {
       trustBar.style.cssText = 'max-width:860px;margin:0 auto 1.5rem;background:#FFFFFF;border:1px solid #E2E8F0;box-shadow:0 8px 24px rgba(15,23,42,0.04);border-radius:9999px;padding:0.65rem 1.35rem;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:0.55rem 1.4rem;font-size:0.82rem;color:#0F172A;font-weight:600;';
       trustBar.innerHTML = '<span><strong style="color:#059669;">US CDC 2000 LMS</strong> · Multi-Ethnic Auxology Calibrated</span><span style="color:#CBD5E1;" class="pc-view-block">|</span><span><strong style="color:#1D4ED8;">Optional Bone-Age Δt</strong> · Exam-Lag Calibrated</span><span style="color:#CBD5E1;" class="pc-view-block">|</span><span><strong style="color:#0F172A;">Dual-Unit Ready</strong> · Instant ft/in · lbs &amp; cm · kg</span>';
@@ -1742,9 +1742,9 @@
 
     // Translate remaining static buttons/badges in Quiz & Results header
     const btnOpenStep7 = document.getElementById('btn-open-step7-narrative');
-    if (btnOpenStep7) btnOpenStep7.textContent = 'Add Custom Clinical Note';
+    if (btnOpenStep7) btnOpenStep7.textContent = 'Add Custom Reference Note';
     const btnSubmitNarrative = document.getElementById('btn-submit-quiz-narrative');
-    if (btnSubmitNarrative) btnSubmitNarrative.textContent = 'Generate Clinical Report →';
+    if (btnSubmitNarrative) btnSubmitNarrative.textContent = 'Generate Reference Report →';
     const btnBackStep6 = document.getElementById('btn-back-to-step6-choices');
     if (btnBackStep6) btnBackStep6.textContent = '← Back';
     const btnSwGrowth = document.getElementById('btn-switch-report-growth');
@@ -1753,7 +1753,7 @@
     if (btnSwLearn) btnSwLearn.remove();
     const btnPrintTop = document.getElementById('btn-print-report-top');
     if (btnPrintTop) {
-      btnPrintTop.textContent = 'Print / Save Clinical PDF';
+      btnPrintTop.textContent = 'Print / Save Reference PDF';
       btnPrintTop.onclick = function (e) {
         if (e && typeof e.preventDefault === 'function') e.preventDefault();
         return global.triggerKidsFitGlobalPrint();
@@ -1767,7 +1767,7 @@
         if (el.children.length === 0 && el.textContent) {
           const t = el.textContent.trim();
           if (t === '\uB1CC\uC778\uC9C0 \uD559\uC220\uB18C\uBB38 \uAE30\uBC18 \uD310\uB3C5' || t === 'Executive-Cognitive Paper-Based Scan') el.textContent = 'Executive-Cognitive Paper-Based Scan';
-          else if (t === '\uC120\uD0DD \uD56D\uBAA9 1:1 \uC815\uBC00 \uBC18\uC601' || t === '1:1 Calibrated to Your Selections') el.textContent = '1:1 Calibrated to Your Selections';
+          else if (t === '\uC120\uD0DD \uD56D\uBAA9 Personalized \uC815\uBC00 \uBC18\uC601' || t === 'Personalized Calibrated to Your Selections') el.textContent = 'Personalized Calibrated to Your Selections';
           else if (t === '[\uB2E4\uC74C \uB2E8\uACC4]' || t === '[Next Step]') el.textContent = '[Next Step]';
           else if (t === '\uC608\uC2DC1' || t === 'Sample Note') el.textContent = 'Sample Note';
         }
@@ -1776,10 +1776,10 @@
   }
 
   /**
-   * Builds a 100% Native English Dual-Pillar Clinical Master Report for kisfitglobal.com
+   * Builds a 100% Native English Dual-Pillar Reference Master Report for kisfitglobal.com
    * using the real auxology, endocrine, biomechanical, and Executive Focus Index calculations.
    */
-  function buildNativeEnglishClinicalReportHTML(profile, options) {
+  function buildNativeEnglishReferenceReportHTML(profile, options) {
     const isMasked = typeof options === 'boolean' ? options : Boolean(options && options.masked);
     const GrowthEngine = global.KidsFitGrowthEngine || (typeof window !== 'undefined' ? window.KidsFitGrowthEngine : null) || (typeof require !== 'undefined' ? (function(){ try { return require('./growth-engine'); } catch(_){ return null; } })() : null);
     const ageMonths = Math.max(12, Math.min(240, Number(profile.ageMonths) || 120));
@@ -2030,67 +2030,67 @@
         label: 'US CDC 2000 Multi-Ethnic Reference (NHANES Unified)',
         phvNote: isBoy ? 'Boy PHV Peak: Age 13.4 ± 0.9 yrs' : 'Girl PHV Peak: Age 11.5 ± 0.8 yrs',
         bmiThreshold: 'BMI > 85th % (Leptin Watch)',
-        clinicalNote: 'Uses CDC 2000 NCHS/NHANES multi-ethnic Z-score baseline anchored to individual Tanner Mid-Parental Height (MPH).'
+        referenceNote: 'Uses CDC 2000 NCHS/NHANES multi-ethnic Z-score baseline anchored to individual Tanner Mid-Parental Height (MPH).'
       },
       us_cdc_mixed: {
         label: 'US CDC 2000 Multi-Ethnic Reference (NHANES Unified)',
         phvNote: isBoy ? 'Boy PHV Peak: Age 13.4 ± 0.9 yrs' : 'Girl PHV Peak: Age 11.5 ± 0.8 yrs',
         bmiThreshold: 'BMI > 85th % (Leptin Watch)',
-        clinicalNote: 'Uses CDC 2000 NCHS/NHANES multi-ethnic Z-score baseline anchored to individual Tanner Mid-Parental Height (MPH).'
+        referenceNote: 'Uses CDC 2000 NCHS/NHANES multi-ethnic Z-score baseline anchored to individual Tanner Mid-Parental Height (MPH).'
       },
       european_white: {
         label: 'European / Caucasian American (Northern & Western European)',
         phvNote: isBoy ? 'Boy PHV Peak: Age 13.5–14.0 yrs (Extended Pre-Pubertal Window)' : 'Girl PHV Peak: Age 11.6–12.1 yrs',
         bmiThreshold: 'BMI > 21.5 kg/m²',
-        clinicalNote: 'Slightly later pubertal onset provides +4 to +8 extra months of pre-pubertal tibial/femoral linear growth.'
+        referenceNote: 'Slightly later pubertal onset provides +4 to +8 extra months of pre-pubertal tibial/femoral linear growth.'
       },
       african_american: {
         label: 'African American / Black Ancestry (PROS / AAP Tempo Calibrated)',
         phvNote: isBoy ? 'Boy PHV Peak: Age 12.6–13.1 yrs (Earlier Bone Maturation)' : 'Girl PHV Peak: Age 10.6–11.1 yrs (Earlier Thelarche/PHV)',
         bmiThreshold: 'BMI > 20.5 kg/m² (Early Epiphyseal Watch)',
-        clinicalNote: 'Higher childhood GH/IGF-1 velocity with 8–12 months earlier pubertal onset (AAP PROS Study); requires proactive bone-age defense.'
+        referenceNote: 'Higher childhood GH/IGF-1 velocity with 8–12 months earlier pubertal onset (AAP PROS Study); requires proactive bone-age defense.'
       },
       african_black: {
         label: 'African American / Black Ancestry (PROS / AAP Tempo Calibrated)',
         phvNote: isBoy ? 'Boy PHV Peak: Age 12.6–13.1 yrs (Earlier Bone Maturation)' : 'Girl PHV Peak: Age 10.6–11.1 yrs (Earlier Thelarche/PHV)',
         bmiThreshold: 'BMI > 20.5 kg/m² (Early Epiphyseal Watch)',
-        clinicalNote: 'Higher childhood GH/IGF-1 velocity with 8–12 months earlier pubertal onset (AAP PROS Study); requires proactive bone-age defense.'
+        referenceNote: 'Higher childhood GH/IGF-1 velocity with 8–12 months earlier pubertal onset (AAP PROS Study); requires proactive bone-age defense.'
       },
       hispanic_latino: {
         label: 'Hispanic / Latino American (NHANES Mexican & Latin American)',
         phvNote: isBoy ? 'Boy PHV Peak: Age 13.0–13.4 yrs' : 'Girl PHV Peak: Age 11.0–11.5 yrs',
         bmiThreshold: 'BMI > 20.0 kg/m² (Strict Insulin & Aromatase Defense)',
-        clinicalNote: 'High sensitivity to insulin-driven aromatase bone-age acceleration; evening glycemic fasting preserves +1.5 in (+3.8 cm) of open plate time.'
+        referenceNote: 'High sensitivity to insulin-driven aromatase bone-age acceleration; evening glycemic fasting preserves +1.5 in (+3.8 cm) of open plate time.'
       },
       east_asian: {
         label: 'East Asian American (Chinese / Japanese / Taiwanese / Asian American)',
         phvNote: isBoy ? 'Boy PHV Peak: Age 12.8–13.3 yrs (Rapid Pubertal Acceleration)' : 'Girl PHV Peak: Age 11.0–11.4 yrs',
         bmiThreshold: 'WHO / AAP Asian-Adjusted BMI > 19.5 kg/m²',
-        clinicalNote: 'Cross-referenced against US NHANES & AAP Asian-American pediatric cohorts: faster bone-age acceleration during Tanner Stage 2–3 requires strict 10 PM SWS sleep.'
+        referenceNote: 'Cross-referenced against US NHANES & AAP Asian-American pediatric cohorts: faster bone-age acceleration during Tanner Stage 2–3 requires strict 10 PM SWS sleep.'
       },
       south_asian: {
         label: 'South & Southeast Asian American (Indian / Filipino / Vietnamese)',
         phvNote: isBoy ? 'Boy PHV Peak: Age 12.7–13.2 yrs' : 'Girl PHV Peak: Age 10.8–11.3 yrs',
         bmiThreshold: 'WHO Asian-Adjusted BMI > 19.0 kg/m² (Visceral Leptin Threshold)',
-        clinicalNote: 'Adipose leptin signaling triggers earlier estrogenic bone fusion at lower BMI thresholds; prioritize high-protein / low-glycemic nutrition.'
+        referenceNote: 'Adipose leptin signaling triggers earlier estrogenic bone fusion at lower BMI thresholds; prioritize high-protein / low-glycemic nutrition.'
       },
       south_southeast_asian: {
         label: 'South & Southeast Asian American (Indian / Filipino / Vietnamese)',
         phvNote: isBoy ? 'Boy PHV Peak: Age 12.7–13.2 yrs' : 'Girl PHV Peak: Age 10.8–11.3 yrs',
         bmiThreshold: 'WHO Asian-Adjusted BMI > 19.0 kg/m² (Visceral Leptin Threshold)',
-        clinicalNote: 'Adipose leptin signaling triggers earlier estrogenic bone fusion at lower BMI thresholds; prioritize high-protein / low-glycemic nutrition.'
+        referenceNote: 'Adipose leptin signaling triggers earlier estrogenic bone fusion at lower BMI thresholds; prioritize high-protein / low-glycemic nutrition.'
       },
       mixed_heritage: {
         label: 'Multi-Racial / Mixed Heritage (Khamis-Roche Parental-Weighted)',
         phvNote: isBoy ? 'Boy PHV Peak: Age 13.2 ± 1.0 yrs' : 'Girl PHV Peak: Age 11.3 ± 0.9 yrs',
         bmiThreshold: 'BMI > 20.5 kg/m²',
-        clinicalNote: 'Weights parental genetic stature (Tanner MPH) at 65% and somatic Khamis-Roche age-weight-height trajectory at 35% for mixed-ancestry accuracy.'
+        referenceNote: 'Weights parental genetic stature (Tanner MPH) at 65% and somatic Khamis-Roche age-weight-height trajectory at 35% for mixed-ancestry accuracy.'
       },
       multi_racial: {
         label: 'Multi-Racial / Mixed Heritage (Khamis-Roche Parental-Weighted)',
         phvNote: isBoy ? 'Boy PHV Peak: Age 13.2 ± 1.0 yrs' : 'Girl PHV Peak: Age 11.3 ± 0.9 yrs',
         bmiThreshold: 'BMI > 20.5 kg/m²',
-        clinicalNote: 'Weights parental genetic stature (Tanner MPH) at 65% and somatic Khamis-Roche age-weight-height trajectory at 35% for mixed-ancestry accuracy.'
+        referenceNote: 'Weights parental genetic stature (Tanner MPH) at 65% and somatic Khamis-Roche age-weight-height trajectory at 35% for mixed-ancestry accuracy.'
       }
     };
     const domEthSelect = (typeof document !== 'undefined') ? document.getElementById('child-ethnicity') : null;
@@ -2178,7 +2178,7 @@
           : `Month ${exactAgeMonths} High-Order Analytical Synthesis & Timed Executive Output Phase — synaptic specialization for AP/SAT/STEM complex multi-variable reasoning and timed retrieval under pressure.`));
 
     return `
-      <!-- Clinical Briefing Header (High-Contrast Medical Light Surface + Crisp White Child Conditions Box) -->
+      <!-- Reference Briefing Header (High-Contrast Medical Light Surface + Crisp White Child Conditions Box) -->
       <div class="briefing-header" style="background:linear-gradient(135deg,#EFF6FF 0%,#DBEAFE 100%);color:#0F172A;border:2px solid #93C5FD;border-radius:20px;padding:1.4rem 1.5rem;margin-bottom:1.25rem;box-shadow:0 10px 28px rgba(29,78,216,0.08);">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.65rem;margin-bottom:0.65rem;">
           <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
@@ -2194,14 +2194,14 @@
               ${isLearningMode ? '🧠 Dedicated Brain LQ &amp; Study Track' : '📏 Dedicated Physical Auxology Track'}
             </span>
             <button type="button" data-csp-act="kfg-global-print" style="background:#059669;color:#FFFFFF;border:1.5px solid #047857;border-radius:9999px;padding:0.44rem 0.95rem;font-size:0.8rem;font-weight:900;cursor:pointer;">
-              🖨️ Print / Save Clinical PDF
+              🖨️ Print / Save Reference PDF
             </button>
           </div>
         </div>
         <h2 id="global-report-main-heading" style="font-size:clamp(1.25rem,3vw,1.6rem);font-weight:900;margin:0 0 0.55rem 0;color:#0F172A;letter-spacing:-0.02em;">
           ${isLearningMode
-            ? '1:1 Executive Focus & Study Habit &amp; Executive Function Master Report'
-            : '1:1 Pediatric Growth, Endocrine &amp; Bone-Age Trajectory Master Report'}
+            ? 'Personalized Executive Focus & Study Habit &amp; Executive Function Master Report'
+            : 'Personalized Pediatric Growth, Endocrine &amp; Bone-Age Trajectory Master Report'}
         </h2>
         <div id="global-report-child-conditions-box" style="background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:12px;padding:0.75rem 1rem;color:#0F172A;font-size:0.86rem;line-height:1.55;">
           ${isLearningMode
@@ -2263,10 +2263,10 @@ ${isMasked ? `
               </span>
             </div>
             <h4 style="margin:0 0 0.4rem 0;color:#991B1B;font-size:1.05rem;font-weight:900;">
-              Clinical Stature Velocity Below AAP / PES Normative Threshold (&lt;4.0 cm/year)
+              Reference Stature Velocity Below AAP / PES Normative Threshold (&lt;4.0 cm/year)
             </h4>
             <p style="margin:0 0 0.75rem 0;font-size:0.84rem;color:#7F1D1D;line-height:1.55;">
-              Prepubertal children aged 4–9 years typically maintain a linear height velocity of <strong>5.0–7.0 cm/year (2.0–2.8 in/year)</strong>. An annualized velocity of <strong>${annualVelocityCm} cm/year</strong> is a clinical red flag warranting prompt auxological and pediatric endocrine evaluation to rule out occult pathological etiologies.
+              Prepubertal children aged 4–9 years typically maintain a linear height velocity of <strong>5.0–7.0 cm/year (2.0–2.8 in/year)</strong>. An annualized velocity of <strong>${annualVelocityCm} cm/year</strong> is a reference red flag warranting prompt auxological and pediatric endocrine evaluation to rule out occult pathological etiologies.
             </p>
             <div style="background:#FFFFFF;border:1px solid #FECACA;border-radius:12px;padding:0.85rem 1rem;">
               <strong style="color:#991B1B;font-size:0.82rem;display:block;margin-bottom:0.35rem;">Recommended Pediatric Endocrine &amp; Laboratory Workup Checklist:</strong>
@@ -2391,11 +2391,11 @@ ${isMasked ? `
               </div>
             </div>
             <p style="margin:0;font-size:0.8rem;color:#475569;line-height:1.5;">
-              <strong>Clinical Auxology Note:</strong> Unlike the Tanner MPH which relies purely on parental midpoints (±8.5 cm margin), the <strong>Khamis-Roche method</strong> incorporates the child's actual chronological age (${(ageY + ageRemM / 12).toFixed(1)}y), current standing stature (${fmtLen(heightCm)}), current weight (${fmtWt(weightKg)}), and mid-parent stature (${fmtMaskedLen((fatherCm + motherCm) / 2)}). This reduces adult prediction error by over <strong>38%</strong>, yielding a tighter 90% confidence corridor of <strong>${isBoy ? '±5.3 cm (±2.1 in)' : '±4.3 cm (±1.7 in)'}</strong>.
+              <strong>Reference Auxology Note:</strong> Unlike the Tanner MPH which relies purely on parental midpoints (±8.5 cm margin), the <strong>Khamis-Roche method</strong> incorporates the child's actual chronological age (${(ageY + ageRemM / 12).toFixed(1)}y), current standing stature (${fmtLen(heightCm)}), current weight (${fmtWt(weightKg)}), and mid-parent stature (${fmtMaskedLen((fatherCm + motherCm) / 2)}). This reduces adult prediction error by over <strong>38%</strong>, yielding a tighter 90% confidence corridor of <strong>${isBoy ? '±5.3 cm (±2.1 in)' : '±4.3 cm (±1.7 in)'}</strong>.
             </p>
           </div>
 
-          <!-- Clinical Biometric Table -->
+          <!-- Reference Biometric Table -->
           <div style="overflow-x:auto;">
             <table style="width:100%;border-collapse:collapse;font-size:0.84rem;text-align:left;">
               <thead>
@@ -2403,7 +2403,7 @@ ${isMasked ? `
                   <th style="padding:0.65rem 0.8rem;">Biometric Indicator</th>
                   <th style="padding:0.65rem 0.8rem;">Child's Current Value</th>
                   <th style="padding:0.65rem 0.8rem;">US CDC 2000 Reference</th>
-                  <th style="padding:0.65rem 0.8rem;">Clinical Interpretation</th>
+                  <th style="padding:0.65rem 0.8rem;">Reference Interpretation</th>
                 </tr>
               </thead>
               <tbody>
@@ -2429,7 +2429,7 @@ ${isMasked ? `
                   <td style="padding:0.65rem 0.8rem;font-weight:800;color:#0F172A;">Ancestry Pubertal Tempo Calibration</td>
                   <td style="padding:0.65rem 0.8rem;font-weight:800;color:#1E3A8A;">${ethInfo.label}</td>
                   <td style="padding:0.65rem 0.8rem;color:#475569;">${ethInfo.phvNote} · ${ethInfo.bmiThreshold}</td>
-                  <td style="padding:0.65rem 0.8rem;color:#334155;">${ethInfo.clinicalNote}</td>
+                  <td style="padding:0.65rem 0.8rem;color:#334155;">${ethInfo.referenceNote}</td>
                 </tr>
                 <tr>
                   <td style="padding:0.65rem 0.8rem;font-weight:800;color:#0F172A;">Remaining Growth-Plate Window</td>
@@ -2605,7 +2605,7 @@ ${isMasked ? `
               </span>
             </div>
             <h4 style="margin:0 0 0.35rem 0;font-size:1.06rem;font-weight:900;color:#0F172A;">
-              Interactive Lifestyle &amp; Clinical Intervention Simulator
+              Interactive Lifestyle &amp; Reference Intervention Simulator
             </h4>
             <p style="font-size:0.82rem;color:#64748B;line-height:1.55;margin:0 0 0.9rem 0;">
               Simulate real-time adult height recovery by dynamically adjusting SWS sleep lights-out timing, 3h pre-bed glycemic fasting, Wolff&apos;s law exercise, and bone-matrix mineral dosing.
@@ -2617,7 +2617,7 @@ ${isMasked ? `
         <!-- CHAPTER 2: Personalized Sleep/Endocrine Survey Synthesis & Growth Literature Review -->
         <section style="background:#FFFFFF;border:1.5px solid #BFDBFE;border-radius:18px;padding:1.35rem 1.3rem;margin-bottom:1.25rem;">
           <span style="display:inline-block;font-size:0.75rem;font-weight:900;color:#1D4ED8;background:#EFF6FF;border:1px solid #BFDBFE;padding:0.2rem 0.65rem;border-radius:9999px;margin-bottom:0.5rem;">
-            CHAPTER 02 · 1:1 SLEEP ENDOCRINE PHENOTYPE &amp; GROWTH LITERATURE REVIEW
+            CHAPTER 02 · Personalized SLEEP ENDOCRINE PHENOTYPE &amp; GROWTH LITERATURE REVIEW
           </span>
           <h3 style="font-size:1.15rem;font-weight:900;color:#0F172A;margin:0 0 0.5rem 0;">
             Personalized Step 4 &amp; Step 6 Sleep-Habit Findings + Peer-Reviewed Auxology Literature Summary
@@ -2663,7 +2663,7 @@ ${isMasked ? `
               <div style="background:#FFFFFF;border:1px solid #BBF7D0;border-radius:12px;padding:0.85rem 0.95rem;">
                 <span style="font-size:0.72rem;font-weight:800;color:#15803D;">Stage N3 SWS HGH Peak Window</span>
                 <div style="font-size:1.35rem;font-weight:900;color:#15803D;margin:0.2rem 0;">
-                  ${circadianSchedule ? circadianSchedule.swsWindowStr : '10:45 PM – 1:15 AM'}
+                  ${circadianSchedule ? circadianSchedule.swsWindowStr : '10:45 PM – one-to-one5 AM'}
                 </div>
                 <span style="font-size:0.72rem;color:#475569;">Up to 70% of 24-hr pituitary somatotropin pulses</span>
               </div>
@@ -2692,7 +2692,7 @@ ${isMasked ? `
                       <td style="padding:0.5rem 0.7rem;color:#0F172A;">${cyc.phaseName}</td>
                       <td style="padding:0.5rem 0.7rem;color:#15803D;font-weight:700;">${cyc.startTime} – ${cyc.endTime}</td>
                       <td style="padding:0.5rem 0.7rem;color:${idx < 2 ? '#166534' : '#64748B'};font-weight:900;">${cyc.hghOutputPercent}</td>
-                      <td style="padding:0.5rem 0.7rem;color:#334155;">${cyc.clinicalSignificance}</td>
+                      <td style="padding:0.5rem 0.7rem;color:#334155;">${cyc.referenceSignificance}</td>
                     </tr>
                   `).join('')}
                 </tbody>
@@ -2706,7 +2706,7 @@ ${isMasked ? `
         <section style="background:#FFFFFF;border:1.5px solid #BFDBFE;border-radius:18px;padding:1.35rem 1.3rem;margin-bottom:1.25rem;">
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem;">
             <span style="display:inline-block;font-size:0.75rem;font-weight:900;color:#1D4ED8;background:#EFF6FF;border:1px solid #BFDBFE;padding:0.2rem 0.65rem;border-radius:9999px;">
-              CHAPTER 03 · 1:1 DIGESTIVE BIO-NUTRITION &amp; INTERACTIVE 24-HR HGH SIMULATOR
+              CHAPTER 03 · Personalized DIGESTIVE BIO-NUTRITION &amp; INTERACTIVE 24-HR HGH SIMULATOR
             </span>
             <span style="font-size:0.74rem;font-weight:800;color:#059669;background:#ECFDF5;border:1px solid #A7F3D0;padding:0.18rem 0.6rem;border-radius:9999px;">
               Official iHerb Curation (Code: IPZ1547)
@@ -2717,7 +2717,7 @@ ${isMasked ? `
           </h3>
           <div style="background:#F8FAFC;border:1px solid #BFDBFE;border-radius:12px;padding:0.8rem 1rem;margin-bottom:0.9rem;font-size:0.82rem;color:#1E293B;line-height:1.5;">
             <strong style="color:#1D4ED8;">✓ Selected Nutritional &amp; GI Absorption Profile (Step 4):</strong> ${selectedDietFindings}<br>
-            <span style="color:#059669;font-weight:700;">→ Clinical Bioavailability Adjustment:</span> ${traitDietList.includes('dairy_sensitive') || traitDietList.includes('constipation_hard') ? 'Switched from Calcium Carbonate (22% absorption) to stomach-acid-independent Calcium Citrate + MCHA (45% absorption) to prevent GI bloating and maximize osteoblast mineralization.' : 'Paired Chelated Zinc + L-Arginine/Colostrum with Vitamin D3 (' + vitDIu + ' IU) and MK-7 (' + vitK2Mcg + ' mcg) to accelerate hepatic IGF-1 synthesis.'}
+            <span style="color:#059669;font-weight:700;">→ Reference Bioavailability Adjustment:</span> ${traitDietList.includes('dairy_sensitive') || traitDietList.includes('constipation_hard') ? 'Switched from Calcium Carbonate (22% absorption) to stomach-acid-independent Calcium Citrate + MCHA (45% absorption) to prevent GI bloating and maximize osteoblast mineralization.' : 'Paired Chelated Zinc + L-Arginine/Colostrum with Vitamin D3 (' + vitDIu + ' IU) and MK-7 (' + vitK2Mcg + ' mcg) to accelerate hepatic IGF-1 synthesis.'}
           </div>
 
           <!-- Interactive 24-Hour Nocturnal HGH & Glycemic Fasting Simulator -->
@@ -2883,7 +2883,7 @@ ${isMasked ? `
           <!-- Interactive 30s/45s Decompression & Jump Timer -->
           <div style="background:#EFF6FF;border:1.5px solid #93C5FD;border-radius:14px;padding:0.95rem 1.1rem;margin-bottom:0.95rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;">
             <div>
-              <div style="font-size:0.76rem;font-weight:900;color:#1D4ED8;">⏱️ Interactive Clinical Biomechanics Countdown Timer</div>
+              <div style="font-size:0.76rem;font-weight:900;color:#1D4ED8;">⏱️ Interactive Reference Biomechanics Countdown Timer</div>
               <div id="global-posture-timer-status" style="font-size:0.82rem;font-weight:700;color:#334155;margin-top:0.15rem;">Select a routine below to start real-time spinal decompression guidance</div>
             </div>
             <div style="display:flex;align-items:center;gap:0.55rem;flex-wrap:wrap;">
@@ -2921,7 +2921,7 @@ ${isMasked ? `
             </span>
           </div>
           <h3 style="font-size:1.18rem;font-weight:900;color:#0F172A;margin:0 0 0.4rem 0;">
-            1:1 Month-by-Month Physical Growth, Bone-Plate &amp; Dosing Care Protocol (${exactAgeMonths}m → ${exactAgeMonths + 5}m)
+            Personalized Month-by-Month Physical Growth, Bone-Plate &amp; Dosing Care Protocol (${exactAgeMonths}m → ${exactAgeMonths + 5}m)
           </h3>
           <div style="background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:12px;padding:0.8rem 1rem;margin-bottom:0.95rem;font-size:0.82rem;color:#065F46;line-height:1.52;">
             <strong style="color:#047857;display:block;margin-bottom:0.2rem;">🔬 Exact Month-${exactAgeMonths} Biological &amp; Bone-Age Care Priority:</strong>
@@ -2943,12 +2943,12 @@ ${isMasked ? `
           <!-- Dynamic Month-Specific & Situation-Matched Sub-Report Box (Updates per Selected Month) -->
           <div id="active-month-situation-report-growth" data-base-month="${exactAgeMonths}" data-sleep="${selectedSleepFindings}" data-diet="${selectedDietFindings}" data-posture="${selectedPostureFindings}" style="background:#EFF6FF;border:2px solid #3B82F6;border-radius:14px;padding:0.95rem 1.1rem;margin-bottom:0.95rem;font-size:0.81rem;color:#0F172A;line-height:1.52;">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.35rem;">
-              <strong style="color:#1D4ED8;font-size:0.86rem;">📋 [Month 1 · Age ${exactAgeMonths} Mos] 1:1 Situation-Matched Auxology Briefing</strong>
+              <strong style="color:#1D4ED8;font-size:0.86rem;">📋 [Month 1 · Age ${exactAgeMonths} Mos] Personalized Situation-Matched Auxology Briefing</strong>
               <span style="background:#1D4ED8;color:#FFFFFF;font-size:0.72rem;font-weight:800;padding:0.15rem 0.55rem;border-radius:9999px;">Matched to Your Child&apos;s Survey Conditions</span>
             </div>
             <div>
               <strong>• Active Child Situation at ${exactAgeMonths} Months:</strong> Sleep [${selectedSleepFindings}] · Nutrition [${selectedDietFindings}] · Posture [${selectedPostureFindings}]<br>
-              <strong>• Month-${exactAgeMonths} Customized Clinical Action:</strong> Because your child is entering Month ${exactAgeMonths} with the above habit profile, Month 1 prioritizes eliminating evening insulin spikes 180 mins before bed, initiating <strong>${caMg} mg Calcium Citrate + ${vitDIu} IU Vitamin D3</strong>, and performing 3×30s doorway bar decompression before sleep.
+              <strong>• Month-${exactAgeMonths} Customized Reference Action:</strong> Because your child is entering Month ${exactAgeMonths} with the above habit profile, Month 1 prioritizes eliminating evening insulin spikes 180 mins before bed, initiating <strong>${caMg} mg Calcium Citrate + ${vitDIu} IU Vitamin D3</strong>, and performing 3×30s doorway bar decompression before sleep.
             </div>
           </div>
 
@@ -3078,7 +3078,7 @@ ${isMasked ? `
                   <th style="padding:0.65rem 0.8rem;">Neural Circuit Axis</th>
                   <th style="padding:0.65rem 0.8rem;">Current Score</th>
                   <th style="padding:0.65rem 0.8rem;">6-Mo Target</th>
-                  <th style="padding:0.65rem 0.8rem;">Clinical Executive-Cognitive Assessment</th>
+                  <th style="padding:0.65rem 0.8rem;">Reference Executive-Cognitive Assessment</th>
                 </tr>
               </thead>
               <tbody>
@@ -3184,7 +3184,7 @@ ${isMasked ? `
           <!-- CHAPTER 08: iHERB-EXCLUSIVE NEURO-NUTRITION & GROWTH BIO-FORMULATION CURATION -->
           <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #E2E8F0;">
             <span style="display:inline-block;font-size:0.73rem;font-weight:900;color:#059669;background:#ECFDF5;border:1px solid #A7F3D0;padding:0.18rem 0.65rem;border-radius:9999px;margin-bottom:0.55rem;">
-              CHAPTER 08 · iHERB-EXCLUSIVE CLINICAL BIO-NUTRITION &amp; EXECUTIVE-COGNITIVE SUPPLEMENT CURATION (NIH ODS ALIGNED)
+              CHAPTER 08 · iHERB-EXCLUSIVE REFERENCE BIO-NUTRITION &amp; EXECUTIVE-COGNITIVE SUPPLEMENT CURATION (NIH ODS ALIGNED)
             </span>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.75rem;font-size:0.79rem;">
               <div style="background:#F8FAFC;border:1px solid #A7F3D0;border-radius:12px;padding:0.85rem 0.95rem;display:flex;flex-direction:column;justify-content:space-between;">
@@ -3229,7 +3229,7 @@ ${isMasked ? `
             </span>
           </div>
           <h3 style="font-size:1.18rem;font-weight:900;color:#0F172A;margin:0 0 0.4rem 0;">
-            1:1 Month-by-Month Prefrontal Myelination, Study Habit &amp; Brain LQ Care Protocol (${exactAgeMonths}m → ${exactAgeMonths + 5}m)
+            Personalized Month-by-Month Prefrontal Myelination, Study Habit &amp; Brain LQ Care Protocol (${exactAgeMonths}m → ${exactAgeMonths + 5}m)
           </h3>
           <div style="background:#EFF6FF;border:1.5px solid #93C5FD;border-radius:12px;padding:0.8rem 1rem;margin-bottom:0.95rem;font-size:0.82rem;color:#1E3A8A;line-height:1.52;">
             <strong style="color:#1D4ED8;display:block;margin-bottom:0.2rem;">🧠 Exact Month-${exactAgeMonths} Synaptic Plasticity &amp; Executive Function Priority:</strong>
@@ -3251,7 +3251,7 @@ ${isMasked ? `
           <!-- Dynamic Month-Specific & Situation-Matched Sub-Report Box (Updates per Selected Month) -->
           <div id="active-month-situation-report-learning" data-base-month="${exactAgeMonths}" data-focus="${focusSpanLabel}" data-style="${studyStyleLabel}" data-focus-mins="${ageMonthFocusMinutes}" style="background:#ECFDF5;border:2px solid #059669;border-radius:14px;padding:0.95rem 1.1rem;margin-bottom:0.95rem;font-size:0.81rem;color:#0F172A;line-height:1.52;">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.35rem;">
-              <strong style="color:#047857;font-size:0.86rem;">📋 [Month 1 · Age ${exactAgeMonths} Mos] 1:1 Situation-Matched Neuro-Study Briefing</strong>
+              <strong style="color:#047857;font-size:0.86rem;">📋 [Month 1 · Age ${exactAgeMonths} Mos] Personalized Situation-Matched Neuro-Study Briefing</strong>
               <span style="background:#059669;color:#FFFFFF;font-size:0.72rem;font-weight:800;padding:0.15rem 0.55rem;border-radius:9999px;">Matched to Your Child&apos;s Cognitive Profile</span>
             </div>
             <div>
@@ -3479,11 +3479,11 @@ ${isMasked ? `
       </section>
       `)}
 
-      <!-- High-Contrast Applied Child Conditions & Clinical Summary Footer (Strictly Mode-Separated) -->
+      <!-- High-Contrast Applied Child Conditions & Reference Summary Footer (Strictly Mode-Separated) -->
       <div id="global-report-child-conditions-footer" style="background:#FFFFFF;border:2px solid #93C5FD;border-radius:18px;padding:1.15rem 1.3rem;margin-top:0.5rem;color:#0F172A;box-shadow:0 6px 18px rgba(15,23,42,0.05);">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.55rem;padding-bottom:0.5rem;border-bottom:1px solid #DBEAFE;">
           <span style="font-size:0.76rem;font-weight:900;color:#1D4ED8;background:#EFF6FF;border:1px solid #BFDBFE;padding:0.2rem 0.65rem;border-radius:9999px;">
-            APPLIED CHILD CONDITIONS &amp; 1:1 SURVEY PARAMETERS (${isLearningMode ? 'BRAIN &amp; LEARNING TRACK' : 'PHYSICAL GROWTH TRACK'})
+            APPLIED CHILD CONDITIONS &amp; Personalized SURVEY PARAMETERS (${isLearningMode ? 'BRAIN &amp; LEARNING TRACK' : 'PHYSICAL GROWTH TRACK'})
           </span>
           <span style="font-size:0.76rem;font-weight:800;color:#059669;">
             ✓ ${isLearningMode ? '2,138 Executive-Cognitive &amp; Pedagogy' : '1,576 Pediatric Auxology &amp; Endocrine'} PubMed Studies Matched
@@ -3584,8 +3584,8 @@ ${isMasked ? `
       }
     }
 
-    // Replace #master-briefing-card with 100% Native English Clinical Master Report (masked when locked)
-    card.innerHTML = buildNativeEnglishClinicalReportHTML(profile, { masked: !unlocked });
+    // Replace #master-briefing-card with 100% Native English Reference Master Report (masked when locked)
+    card.innerHTML = buildNativeEnglishReferenceReportHTML(profile, { masked: !unlocked });
     global.switchGlobalReportTab(isLearningMode ? 'learning' : 'growth');
     if (typeof global.updateGlobalHormoneSimulator === 'function') {
       global.updateGlobalHormoneSimulator();
@@ -3700,7 +3700,7 @@ ${isMasked ? `
             <span style="font-size:1.4rem;">🔍</span>
             <div>
               <div style="font-size:0.73rem;font-weight:900;letter-spacing:0.04em;text-transform:uppercase;color:#93C5FD;">DEMO PREVIEW MODE · CDC 2000 LMS AUXOLOGY</div>
-              <div style="font-size:0.92rem;font-weight:800;color:#FFFFFF;">Reviewing Liam (Age 9, 50th %ile CDC profile). Test actual clinical outputs before purchasing.</div>
+              <div style="font-size:0.92rem;font-weight:800;color:#FFFFFF;">Reviewing Liam (Age 9, 50th %ile CDC profile). Test actual reference outputs before purchasing.</div>
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
@@ -3717,10 +3717,10 @@ ${isMasked ? `
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.6rem;padding-bottom:0.75rem;border-bottom:1px solid #A7F3D0;margin-bottom:0.85rem;">
             <div style="display:flex;align-items:center;gap:0.55rem;flex-wrap:wrap;">
               <span style="background:#059669;color:#FFFFFF;font-size:0.75rem;font-weight:900;padding:0.24rem 0.7rem;border-radius:9999px;letter-spacing:0.03em;">
-                ${isPassPlan ? '✓ 6-MONTH UNLIMITED CARE PASS ACTIVE' : '✓ PRO CLINICAL PASS UNLOCKED'}
+                ${isPassPlan ? '✓ 6-MONTH UNLIMITED CARE PASS ACTIVE' : '✓ PRO REFERENCE PASS UNLOCKED'}
               </span>
               <span style="font-size:0.9rem;font-weight:800;color:#065F46;">
-                Full US CDC &amp; 3,722-Paper Clinical Report — Age ${ageY} ${genderLabel} (${isLearningMode ? 'Executive Focus Index &amp; Study Roadmap' : `${fmtLen(heightCm)} · ${fmtWt(weightKg)}`})
+                Full US CDC &amp; 3,722-Paper Reference Report — Age ${ageY} ${genderLabel} (${isLearningMode ? 'Executive Focus Index &amp; Study Roadmap' : `${fmtLen(heightCm)} · ${fmtWt(weightKg)}`})
               </span>
             </div>
             <div style="font-size:0.76rem;font-weight:700;color:#047857;background:#D1FAE5;padding:0.2rem 0.65rem;border-radius:9999px;">
@@ -3732,12 +3732,12 @@ ${isMasked ? `
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:0.65rem;margin-bottom:0.85rem;">
             <div style="background:#FFFFFF;border:1.5px solid #A7F3D0;border-radius:12px;padding:0.75rem 0.9rem;">
               <div style="font-size:0.72rem;font-weight:900;color:#059669;margin-bottom:0.2rem;">STEP 1 · FULL DOSSIER UNLOCKED</div>
-              <div style="font-size:0.82rem;font-weight:800;color:#0F172A;margin-bottom:0.35rem;">All 01–05 Clinical Sections &amp; Exact Dosing Active</div>
+              <div style="font-size:0.82rem;font-weight:800;color:#0F172A;margin-bottom:0.35rem;">All 01–05 Reference Sections &amp; Exact Dosing Active</div>
               <div style="font-size:0.74rem;color:#475569;">Scroll down for unmasked trajectories, rhGH paper verdict &amp; 14-day schedule.</div>
             </div>
             <div style="background:#FFFFFF;border:1.5px solid #93C5FD;border-radius:12px;padding:0.75rem 0.9rem;display:flex;flex-direction:column;justify-content:space-between;">
               <div>
-                <div style="font-size:0.72rem;font-weight:900;color:#1D4ED8;margin-bottom:0.2rem;">STEP 2 · 3-IN-1 CLINICAL PRINT PACK</div>
+                <div style="font-size:0.72rem;font-weight:900;color:#1D4ED8;margin-bottom:0.2rem;">STEP 2 · 3-IN-1 REFERENCE PRINT PACK</div>
                 <div style="font-size:0.82rem;font-weight:800;color:#0F172A;margin-bottom:0.4rem;">Print Clinic Dossier, Fridge Wall Chart, or Certificate</div>
               </div>
               <div style="display:flex;flex-direction:column;gap:0.3rem;">
@@ -3768,18 +3768,18 @@ ${isMasked ? `
             </div>
           </div>
 
-          <!-- Paid Subscriber Exclusive: 6-Pack VIP Clinical Resource & Download Vault -->
-          <div id="kidsfit-vip-clinical-resource-vault" style="background:linear-gradient(135deg,#0F172A 0%,#1E3A8A 100%);color:#FFFFFF;border:2px solid #3B82F6;border-radius:16px;padding:1.1rem 1.15rem;margin-bottom:0.85rem;box-shadow:0 14px 32px rgba(15,23,42,0.22);">
+          <!-- Paid Subscriber Exclusive: 6-Pack VIP Reference Resource & Download Vault -->
+          <div id="kidsfit-vip-reference-resource-vault" style="background:linear-gradient(135deg,#0F172A 0%,#1E3A8A 100%);color:#FFFFFF;border:2px solid #3B82F6;border-radius:16px;padding:1.1rem 1.15rem;margin-bottom:0.85rem;box-shadow:0 14px 32px rgba(15,23,42,0.22);">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.6rem;margin-bottom:0.8rem;padding-bottom:0.65rem;border-bottom:1px solid rgba(147,197,253,0.28);">
               <div>
                 <span style="background:linear-gradient(90deg,#F59E0B 0%,#10B981 100%);color:#0F172A;font-size:0.7rem;font-weight:900;padding:0.18rem 0.65rem;border-radius:9999px;letter-spacing:0.04em;text-transform:uppercase;">
-                  👑 PAID SUBSCRIBER EXCLUSIVE · VIP CLINICAL RESOURCE VAULT
+                  👑 PAID SUBSCRIBER EXCLUSIVE · VIP REFERENCE RESOURCE VAULT
                 </span>
                 <h4 style="margin:0.35rem 0 0.15rem 0;font-size:1.04rem;font-weight:900;color:#FFFFFF;">
-                  1:1 Personalized Downloadable Toolkits, Meal Protocols &amp; Specialist Prep Sheets
+                  Personalized Personalized Downloadable Toolkits, Meal Protocols &amp; Specialist Prep Sheets
                 </h4>
                 <p style="margin:0;font-size:0.77rem;color:#BFDBFE;line-height:1.45;">
-                  Pre-calibrated for <strong>Age ${ageY} ${genderLabel} (${fmtLen(heightCm)} · ${fmtWt(weightKg)})</strong> — click any resource below for instant offline Excel (.CSV) or Clinical Brief (.TXT) download:
+                  Pre-calibrated for <strong>Age ${ageY} ${genderLabel} (${fmtLen(heightCm)} · ${fmtWt(weightKg)})</strong> — click any resource below for instant offline Excel (.CSV) or Reference Brief (.TXT) download:
                 </p>
               </div>
               <button type="button" data-csp-act="kfg-dl-vip-res" data-csp-arg="all_vip_pack" style="background:linear-gradient(90deg,#10B981 0%,#059669 100%);color:#FFFFFF;border:none;border-radius:10px;padding:0.55rem 0.95rem;font-size:0.78rem;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(16,185,129,0.35);white-space:nowrap;">
@@ -3942,7 +3942,7 @@ ${isMasked ? `
                   <span style="font-size:0.66rem;background:rgba(245,158,11,0.25);color:#FDE68A;padding:0.1rem 0.4rem;border-radius:9999px;font-weight:800;">Optimal: 40–60 ng/mL</span>
                 </div>
                 <div style="font-size:0.71rem;color:#CBD5E1;line-height:1.4;">
-                  Subclinical insufficiency (&lt;30 ng/mL) severely retards epiphyseal plate osteoid matrix calcification.
+                  Early-Stage insufficiency (&lt;30 ng/mL) severely retards epiphyseal plate osteoid matrix calcification.
                 </div>
               </div>
 
@@ -3957,7 +3957,7 @@ ${isMasked ? `
               </div>
             </div>
 
-            <!-- Interactive 7-Question Clinical Checklist -->
+            <!-- Interactive 7-Question Reference Checklist -->
             <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(147,197,253,0.3);border-radius:10px;padding:0.85rem 0.95rem;">
               <div style="font-size:0.82rem;font-weight:900;color:#6EE7B7;margin-bottom:0.5rem;">
                 📋 7 Questions for Your Pediatric Consultation (Interactive Checklist)
@@ -3998,7 +3998,7 @@ ${isMasked ? `
                 <label class="clinic-checklist-item" style="display:flex;gap:0.55rem;align-items:flex-start;cursor:pointer;font-size:0.75rem;color:#E2E8F0;">
                   <input type="checkbox" id="chk-clinic-q-5" data-csp-change-act="kfg-clinic-q" data-csp-arg="5" style="margin-top:0.15rem;accent-color:#10B981;">
                   <div>
-                    <span><strong>Q5:</strong> Can we order a complete thyroid panel (TSH &amp; Free T4) to rule out subclinical thyroid blunting of chondrocyte growth?</span>
+                    <span><strong>Q5:</strong> Can we order a complete thyroid panel (TSH &amp; Free T4) to rule out early-stage thyroid blunting of chondrocyte growth?</span>
                     <span id="tag-clinic-q-5" style="font-size:0.66rem;background:rgba(148,163,184,0.2);color:#94A3B8;padding:0.08rem 0.4rem;border-radius:9999px;margin-left:0.35rem;font-weight:700;">Pending</span>
                   </div>
                 </label>
@@ -4355,7 +4355,7 @@ ${isMasked ? `
         ];
         reportBox.innerHTML = `
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.35rem;">
-            <strong style="color:#047857;font-size:0.86rem;">📋 [Month ${monthIdx} · Age ${curMonth} Mos] 1:1 Situation-Matched Neuro-Study Briefing</strong>
+            <strong style="color:#047857;font-size:0.86rem;">📋 [Month ${monthIdx} · Age ${curMonth} Mos] Personalized Situation-Matched Neuro-Study Briefing</strong>
             <span style="background:#059669;color:#FFFFFF;font-size:0.72rem;font-weight:800;padding:0.15rem 0.55rem;border-radius:9999px;">Month-${curMonth} Active Prescription</span>
           </div>
           <div>
@@ -4377,12 +4377,12 @@ ${isMasked ? `
         ];
         reportBox.innerHTML = `
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.35rem;">
-            <strong style="color:#1D4ED8;font-size:0.86rem;">📋 [Month ${monthIdx} · Age ${curMonth} Mos] 1:1 Situation-Matched Auxology Briefing</strong>
+            <strong style="color:#1D4ED8;font-size:0.86rem;">📋 [Month ${monthIdx} · Age ${curMonth} Mos] Personalized Situation-Matched Auxology Briefing</strong>
             <span style="background:#1D4ED8;color:#FFFFFF;font-size:0.72rem;font-weight:800;padding:0.15rem 0.55rem;border-radius:9999px;">Month-${curMonth} Active Prescription</span>
           </div>
           <div>
             <strong>• Active Child Situation at ${curMonth} Months:</strong> Sleep [${sleep}] · Nutrition [${diet}] · Posture [${posture}]<br>
-            <strong>• Month-${curMonth} Customized Clinical Action:</strong> ${monthActions[monthIdx - 1] || monthActions[0]}
+            <strong>• Month-${curMonth} Customized Reference Action:</strong> ${monthActions[monthIdx - 1] || monthActions[0]}
           </div>
         `;
       }
@@ -4401,7 +4401,7 @@ ${isMasked ? `
           body: JSON.stringify({
             event: 'affiliate_click',
             category: category || 'growth',
-            product_name: productName || 'Section 01 Clinical Affiliate Pick',
+            product_name: productName || 'Section 01 Reference Affiliate Pick',
             href: href || '',
             domain: (window.location && window.location.hostname) || 'kisfitglobal.com'
           })
@@ -4413,7 +4413,7 @@ ${isMasked ? `
   global.shareKidsFitGlobalReport = function (channel) {
     const shareUrl = 'https://kisfitglobal.com/?utm_source=parent_share&utm_medium=' + encodeURIComponent(channel || 'native');
     const shareTitle = 'KISFIT Bio Labs — 60-Sec US CDC Child Height Predictor & Executive Focus Index Scan';
-    const shareText = 'Check out this clinical 60-second US CDC 2000 Child Height Predictor & Executive Focus & Study Habit Score scan (backed by 3,722+ peer-reviewed studies):';
+    const shareText = 'Check out this reference 60-second US CDC 2000 Child Height Predictor & Executive Focus & Study Habit Score scan (backed by 3,722+ peer-reviewed studies):';
     try {
       if (!isStaticGitHubPagesHost() && typeof window !== 'undefined' && typeof window.fetch === 'function') {
         window.fetch('/api/visit', {
@@ -4557,7 +4557,7 @@ ${isMasked ? `
       setTimeout(function () { global.downloadKidsFitVipResource('doctor_brief'); }, 500);
       setTimeout(function () { global.downloadKidsFitVipResource('exercise_csv'); }, 750);
       setTimeout(function () { global.downloadKidsFitVipResource('neuro_workbook_csv'); }, 1000);
-      showVipVaultToast('✓ All 5 Personalized VIP Clinical Files Downloaded! Opening 2-Page Hospital PDF Print...');
+      showVipVaultToast('✓ All 5 Personalized VIP Reference Files Downloaded! Opening 2-Page Hospital PDF Print...');
       setTimeout(function () {
         if (typeof global.triggerKidsFitGlobalPrint === 'function') global.triggerKidsFitGlobalPrint();
       }, 1300);
@@ -4651,7 +4651,7 @@ ${isMasked ? `
         ].join(','));
       }
       rows.push('---,---,---,---,---,---,---,---');
-      rows.push('GROCERY_CATEGORY,CORE_SHOPPING_ITEMS,CLINICAL_PURPOSE,WEEKLY_QUANTITY_GUIDE,AVOID_BLACKLIST,NOTES,UNIT,STATUS');
+      rows.push('GROCERY_CATEGORY,CORE_SHOPPING_ITEMS,REFERENCE_PURPOSE,WEEKLY_QUANTITY_GUIDE,AVOID_BLACKLIST,NOTES,UNIT,STATUS');
       rows.push('1_Amino_Proteins,"Wild Salmon, Pasture Eggs, Grass-Fed Beef, Chicken Breast, Sardines, Greek Yogurt",Hepatic IGF-1 & Epiphyseal Chondrocyte Synthesis,14-21 Servings/Wk,"Avoid Breaded/Deep-Fried Nuggets",Prioritize Leucine + Arginine + Lysine,Weekly,Required');
       rows.push('2_Bone_Minerals,"Bok Choy, Broccoli, Kale, Pumpkin Seeds, Almonds, Sesame, Tofu, Kefir",Osteoblast Mineralization & Mg/Zinc Cofactors,Daily Greens + 1 oz Seeds,"Avoid High-Oxalate Soda/Cola (Phosphoric Acid Leaches Ca)",Pair with Vitamin D3 + K2 MK-7,Weekly,Required');
       rows.push('3_Nocturnal_Blacklist,"ZERO Soda, ZERO Late-Night Cereal/Milk, ZERO Fruit Juice After 7:00 PM",Prevents Hyperinsulinemia & Pituitary GH Suppression,0 Servings After 7 PM,"High-Fructose Corn Syrup & Late Carbs Blunt N3 HGH by up to 62%",Strict 3-Hour Pre-Bed Fast,Daily,Mandatory');
@@ -4679,21 +4679,21 @@ ${isMasked ? `
         '2. RECOMMENDED RADIOLOGICAL & SERUM BIOMARKER LAB ORDERS (FOR CLINICIAN REVIEW)',
         '--------------------------------------------------------------------------------',
         '[ ] 1. Left Hand & Wrist Bone-Age Radiograph (Greulich-Pyle / Tanner-Whitehouse TW3)',
-        '       -> Clinical Objective: Evaluate epiphyseal plate openness vs. chronological age',
+        '       -> Reference Objective: Evaluate epiphyseal plate openness vs. chronological age',
         '          and verify absence of premature estrogen/aromatase-mediated closure.',
         '[ ] 2. Serum IGF-1 (Insulin-Like Growth Factor-1) & IGFBP-3',
-        '       -> Clinical Objective: Assess integrated 24-hour pituitary GH secretion and',
+        '       -> Reference Objective: Assess integrated 24-hour pituitary GH secretion and',
         '          hepatic anabolic signaling (insensitive to pulsatile daytime GH variance).',
         '[ ] 3. Serum 25-Hydroxyvitamin D [25(OH)D] & Intact PTH / Alkaline Phosphatase (ALP)',
-        '       -> Clinical Objective: Confirm optimal 40–60 ng/mL bone-mineralization status.',
+        '       -> Reference Objective: Confirm optimal 40–60 ng/mL bone-mineralization status.',
         '[ ] 4. Complete Thyroid Panel (TSH & Free T4)',
-        '       -> Clinical Objective: Rule out subclinical hypothyroidism blunting chondrocyte',
+        '       -> Reference Objective: Rule out early-stage hypothyroidism blunting chondrocyte',
         '          hypertrophy and linear growth velocity.',
         '[ ] 5. Serum Ferritin, Complete Blood Count (CBC), and Plasma Zinc',
-        '       -> Clinical Objective: Identify occult iron/zinc deficiency causing picky appetite',
+        '       -> Reference Objective: Identify occult iron/zinc deficiency causing picky appetite',
         '          and depressed hepatic IGF-1 synthesis.',
         '[ ] 6. Fasting Morning Glucose, HbA1c & Lipid Profile (If BMI > 75th Percentile)',
-        '       -> Clinical Objective: Screen for hyperinsulinemia and leptin-driven bone-age',
+        '       -> Reference Objective: Screen for hyperinsulinemia and leptin-driven bone-age',
         '          advancement.',
         '',
         '3. 7 HIGH-YIELD QUESTIONS FOR PARENTS TO ASK THE PEDIATRIC ENDOCRINOLOGIST',
@@ -4876,8 +4876,8 @@ ${isMasked ? `
     }
     const prof = getActiveChildProfileForVipKit();
     const tracker = global.KidsFitGrowthTracker || (typeof window !== 'undefined' && window.KidsFitGrowthTracker) || (typeof require !== 'undefined' ? (function(){ try { return require('./growth-tracker'); } catch(_){ return null; } })() : null);
-    if (tracker && typeof tracker.printClinicalPrintPack === 'function') {
-      return tracker.printClinicalPrintPack(docType, prof);
+    if (tracker && typeof tracker.printReferencePrintPack === 'function') {
+      return tracker.printReferencePrintPack(docType, prof);
     }
     return global.triggerKidsFitGlobalPrint();
   };
@@ -4938,7 +4938,7 @@ ${isMasked ? `
           <div style="font-size:7.8pt;color:#7F1D1D;line-height:1.45;">
             • NO fruit juices, sodas, energy drinks, or sweet bedtime flavored milk.<br>
             • NO cookies, candy, white bread, or night-time high-glycemic cereals.<br>
-            • <em>Clinical Reason:</em> Insulin spikes trigger somatostatin release which blunts up to 70% of deep Slow-Wave Sleep (SWS) human growth hormone pulses.
+            • <em>Reference Reason:</em> Insulin spikes trigger somatostatin release which blunts up to 70% of deep Slow-Wave Sleep (SWS) human growth hormone pulses.
           </div>
         </div>
 
@@ -5104,13 +5104,13 @@ ${isMasked ? `
     {
       id: 'A1_CLINIC_ANCHOR_PASS_FIRST',
       badge: 'LIMITED LAUNCH OFFER · SAVE 95% VS. $450 US SPECIALIST CONSULT',
-      sub: 'Why pay $450+ at a pediatric endocrine or neuro-learning clinic? Unlock your child&#39;s 1:1 US CDC 2000 &amp; 3,722-Paper Clinical Report + Printable PDF instantly.',
+      sub: 'Why pay $450+ at a pediatric endocrine or neuro-learning clinic? Unlock your child&#39;s Personalized US CDC 2000 &amp; 3,722-Paper Reference Report + Printable PDF instantly.',
       recPlan: 'pass'
     },
     {
       id: 'A2_PLATE_FUSION_URGENCY',
       badge: '⚠️ BIOLOGICAL WINDOW ALERT · LOCK IN BEFORE EPIPHYSEAL CLOSURE',
-      sub: 'Once epiphyseal growth plates fuse and prefrontal myelination peaks, hidden stature (+3.1 in) and working-memory gains cannot be recovered. Start your child&#39;s 1:1 protocol today.',
+      sub: 'Once epiphyseal growth plates fuse and prefrontal myelination peaks, hidden stature (+3.1 in) and working-memory gains cannot be recovered. Start your child&#39;s Personalized protocol today.',
       recPlan: 'single'
     },
     {
@@ -5473,13 +5473,13 @@ ${isMasked ? `
           </div>
         </details>
 
-        <!-- Checkout Modal 14-Day Refund Policy & Clinical Trust Badges -->
+        <!-- Checkout Modal 14-Day Refund Policy & Reference Trust Badges -->
         <div style="background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:12px;padding:0.75rem 0.85rem;margin-top:0.75rem;font-size:0.76rem;color:#14532D;line-height:1.45;">
           <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.2rem;">
             <span style="font-size:1.1rem;">🛡️</span>
             <strong style="color:#065F46;font-size:0.8rem;">14-Day Satisfaction &amp; Refund Guarantee</strong>
           </div>
-          <div>For educational tracking based on public US CDC growth charts only (not a substitute for professional pediatric medical diagnosis). Email beable9489@gmail.com within 14 days for a prompt refund.</div>
+          <div>For educational tracking based on public US CDC growth charts only (not a substitute for professional pediatric medical diagnosis). Email care@kisfitglobal.com within 14 days for a prompt refund.</div>
         </div>
 
         <div style="margin-top:0.6rem;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:0.5rem 0.75rem;text-align:center;font-size:0.7rem;color:#475569;font-weight:700;">
@@ -5742,7 +5742,7 @@ ${isMasked ? `
                       msgEl.style.display = 'block';
                       msgEl.style.background = '#EFF6FF';
                       msgEl.style.color = '#1D4ED8';
-                      msgEl.textContent = 'Please verify your Polar.sh checkout email or license key to unlock your clinical report.';
+                      msgEl.textContent = 'Please verify your Polar.sh checkout email or license key to unlock your reference report.';
                     }
                   }
                 })
@@ -5827,7 +5827,7 @@ ${isMasked ? `
     isReportUnlocked,
     getActiveCheckoutUrl,
     applyGlobalHomepageEnglishDOM,
-    buildNativeEnglishClinicalReportHTML,
+    buildNativeEnglishReferenceReportHTML,
     transformGlobalReportAndApplyPaywall,
     switchModalPlan: global.switchModalPlan,
     openKidsFitGlobalCheckoutModal: global.openKidsFitGlobalCheckoutModal,
