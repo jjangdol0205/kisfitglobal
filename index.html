@@ -29,9 +29,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/src/css/kfg-boutique-atelier.css?v=20261022_mx03lcc9">
-  <script src="/assets/csp/inline_6a450b6c6a3e.js?v=20261022_mx03lcc9"></script>
-  <script src="/assets/csp/csp-events.js?v=20261022_mx03lcc9"></script>
+  <link rel="stylesheet" href="/src/css/kfg-boutique-atelier.css?v=20261128sw_mx07he9y">
+  <script src="/assets/csp/inline_6a450b6c6a3e.js?v=20261128sw_mx07he9y"></script>
+  <script src="/assets/csp/csp-events.js?v=20261128sw_mx07he9y"></script>
   <style>
     /* OPTION_A_KFG_COMPACT_SCREEN3 */
     @media (max-width: 640px) {
@@ -52,6 +52,14 @@
     .kfg-details-accordion { margin-top: 12px; border: 1px solid #DFD7CC; border-radius: 10px; background: #FAF7F2; padding: 10px 12px; }
     .kfg-details-accordion > summary { cursor: pointer; font-weight: 700; font-size: 0.88rem; color: #2F5241; list-style: none; display: flex; align-items: center; justify-content: space-between; min-height: 40px; }
     .kfg-details-accordion > summary::-webkit-details-marker { display: none; }
+    .kfg-mini-card { margin: 14px 0 0; padding: 14px 15px; background: #FFFFFF; border: 1.5px solid #2F5241; border-radius: 12px; box-shadow: 0 6px 18px rgba(47,82,65,0.07); }
+    .kfg-mini-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 10px; }
+    .kfg-mini-field label { display: block; font-size: 0.72rem; font-weight: 700; color: #4A433E; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .kfg-mini-field select, .kfg-mini-field input { width: 100%; min-height: 44px; padding: 8px 9px; border: 1px solid #C8BFAF; border-radius: 8px; font-size: 0.92rem; font-weight: 600; color: #231F1D; background: #FAF7F2; box-sizing: border-box; }
+    .kfg-mini-imp-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+    .kfg-mini-preview { display: none; margin-top: 12px; padding: 14px; border-radius: 10px; background: #EEF3F0; border: 1.5px solid #2F5241; }
+    .kfg-mini-preview-pct { font-size: 1.25rem; font-weight: 800; color: #2F5241; margin: 2px 0 6px; font-variant-numeric: tabular-nums; }
+    @media (max-width: 520px) { .kfg-mini-grid { grid-template-columns: 1fr 1fr; } .kfg-mini-field-h { grid-column: 1 / -1; } }
   </style>
   <link rel="alternate" type="application/rss+xml" title="KISFIT Studio Growth Research RSS" href="https://kisfitglobal.com/rss.xml" />
   <meta name="naver-site-verification" content="0d14ecee1fc78d1529286fb687577b437954805a" data-slot="naver-search-advisor" />
@@ -83,24 +91,65 @@
       <section id="kfg-screen-0-letter" class="kfg-screen" aria-labelledby="kfg-founding-letter-heading">
         <article class="kfg-editorial-spread">
           <div class="kfg-editorial-intro">
-            <span class="kfg-note-tag">A Note to Fellow Parents</span>
-            <h1 id="kfg-founding-letter-heading" class="kfg-serif-title">How Tall Will Your Child Grow? Find Out in 60 Seconds.</h1>
+            <span class="kfg-note-tag">US CDC Growth Reference &middot; Zero Supplement Ads</span>
+            <h1 id="kfg-founding-letter-heading" class="kfg-serif-title">Don&rsquo;t Just Average Mom &amp; Dad&rsquo;s Height &mdash; Check Your Child&rsquo;s 25% Daily Growth Lane on US CDC Charts</h1>
             <p class="kfg-serif-subtitle">
-              Started for the quiet bedtime questions that linger after a ten-minute annual checkup.
+              Parents&rsquo; height sets a starting range (&plusmn;3.5 in), not a fixed ceiling. Enter 3 quick details below for an instant US CDC percentile preview &mdash; weight optional.
             </p>
-            <div class="kfg-hero-cta-block">
-              <button type="button" id="btn-kfg-begin-atelier-top" class="kfg-btn-primary" data-csp-click="h_e13737f0873a">
-                Start 1-Minute Free US CDC Growth Check &rarr;
+            <div id="kfg-inline-mini-step1" class="kfg-mini-card" aria-label="30-Second Inline US CDC Mini Step 1">
+              <div class="kfg-mini-grid">
+                <div class="kfg-mini-field">
+                  <label for="kfg-mini-sex">Sex</label>
+                  <select id="kfg-mini-sex" aria-label="Child Sex">
+                    <option value="boy" selected>Boy</option>
+                    <option value="girl">Girl</option>
+                  </select>
+                </div>
+                <div class="kfg-mini-field">
+                  <label for="kfg-mini-age">Age (Years)</label>
+                  <select id="kfg-mini-age" aria-label="Child Age">
+                    <option value="3">3 yrs</option><option value="4">4 yrs</option><option value="5">5 yrs</option>
+                    <option value="6">6 yrs</option><option value="7">7 yrs</option><option value="8">8 yrs</option>
+                    <option value="9">9 yrs</option><option value="10" selected>10 yrs</option><option value="11">11 yrs</option>
+                    <option value="12">12 yrs</option><option value="13">13 yrs</option><option value="14">14 yrs</option>
+                    <option value="15">15 yrs</option><option value="16">16 yrs</option><option value="17">17 yrs</option>
+                  </select>
+                </div>
+                <div class="kfg-mini-field kfg-mini-field-h">
+                  <label for="kfg-mini-ft">Current Height</label>
+                  <div class="kfg-mini-imp-pair kfg-imp-only">
+                    <input type="number" id="kfg-mini-ft" min="2" max="6" step="1" value="4" aria-label="Height Feet" placeholder="ft">
+                    <input type="number" id="kfg-mini-in" min="0" max="11.9" step="0.5" value="6.5" aria-label="Height Inches" placeholder="in">
+                  </div>
+                  <div class="kfg-met-only" style="display:none;">
+                    <input type="number" id="kfg-mini-cm" min="75" max="205" step="0.5" value="138.4" aria-label="Height Centimeters" placeholder="cm">
+                  </div>
+                </div>
+              </div>
+              <button type="button" id="btn-kfg-begin-atelier-top" class="kfg-btn-primary" data-kfg-mini-start="1" style="width:100%;">
+                See Instant US CDC Percentile Preview (Free &middot; 30s) &rarr;
               </button>
-              <p class="kfg-hero-cta-reassurance">
-                Five gentle questions &middot; Instant US CDC percentile summary &middot; No email required to view
+              <p class="kfg-hero-cta-reassurance" style="margin:8px 0 0;">
+                Only 3 quick fields (weight optional) &middot; Instant US CDC preview &middot; No email required
               </p>
+
+              <div id="kfg-mini-preview-box" class="kfg-mini-preview" role="region" aria-live="polite">
+                <div style="font-size:0.74rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:#2F5241;">INSTANT US CDC MINI PREVIEW</div>
+                <div id="kfg-mini-preview-pct" class="kfg-mini-preview-pct"></div>
+                <p id="kfg-mini-preview-note" style="margin:0 0 12px;font-size:0.86rem;line-height:1.5;color:#231F1D;"></p>
+                <button type="button" id="btn-kfg-mini-continue" class="kfg-btn-primary" style="width:100%;margin-bottom:8px;">
+                  Continue Steps 2&ndash;5 (Parents&rsquo; Height, Bone-Age &amp; 25% Habit Lane) &rarr;
+                </button>
+                <a href="/assets/downloads/kfg_sample_2p.pdf" target="_blank" rel="noopener" id="btn-kfg-mini-sample-pdf" style="display:block;text-align:center;padding:10px 12px;border-radius:8px;background:#FFFFFF;border:1.5px solid #2F5241;color:#2F5241;font-weight:700;font-size:0.85rem;text-decoration:none;">
+                  Preview Free 2-Page US CDC Sample Report PDF &rarr;
+                </a>
+              </div>
             </div>
           </div>
 
           <aside class="kfg-editorial-art" aria-label="Parent measuring a child's standing height against a sunlit hallway ruler">
             <figure class="kfg-art-figure">
-              <img src="/samples/kfg-warm-story.jpg?v=20261022_mx03lcc9" width="920" height="920" alt="Sunlit watercolor illustration of a mother gently marking her son's height with a pencil along a wooden hallway ruler">
+              <img src="/samples/kfg-warm-story.jpg?v=20261128sw_mx07he9y" width="920" height="920" alt="Sunlit watercolor illustration of a mother gently marking her son's height with a pencil along a wooden hallway ruler">
               <figcaption class="kfg-art-caption">
                 Measuring quiet inches on a Sunday morning.
               </figcaption>
@@ -112,7 +161,9 @@
           </aside>
 
           <div class="kfg-editorial-body">
-            <div class="kfg-letter-prose">
+            <details id="kfg-founding-letter-accordion" class="kfg-details-accordion" style="margin-bottom:14px;">
+              <summary><span>Read Our Founding Note to Fellow Parents</span><span>+</span></summary>
+              <div class="kfg-letter-prose" style="margin-top:10px;">
               <p>
                 Almost every parent knows the feeling. You walk out of a brief annual checkup with a hasty percentile scribbled on a visit sheet, yet at home you notice classmates or soccer teammates pulling half a head taller since last spring. Later that night, turning off the hallway lamp, you catch yourself wondering how much growing time your child truly has left.
               </p>
@@ -122,7 +173,8 @@
               <p>
                 We built KISFIT Studio to read your child&rsquo;s growth clock calmly and honestly. Across five gentle questions, we compare your child&rsquo;s exact age in days against public <strong>US CDC growth standards</strong>, weigh both parents&rsquo; heights, adjust any past wrist bone-age reading for the months that have passed since that visit (and if you have never had an X-ray, that is completely fine), and highlight the evening habits worth tending tonight.
               </p>
-            </div>
+              </div>
+            </details>
 
             <div class="kfg-promise-sheet" aria-label="What this growth studio examines">
               <p class="kfg-promise-heading">What we look at together</p>
@@ -251,7 +303,7 @@
                 </div>
 
                 <div class="kfg-field-group">
-                  <label class="kfg-label">Recent Body Weight</label>
+                  <label class="kfg-label">Recent Body Weight <span style="font-weight:500;color:#6B635B;">(Optional)</span></label>
                   <div class="kfg-unit-suffix-wrap kfg-imp-only">
                     <input type="number" id="kfg-weight-lbs" class="kfg-input" min="22" max="240" step="0.1" value="74.1" aria-label="Weight Pounds">
                     <span class="kfg-unit-tag">lbs</span>
@@ -598,7 +650,7 @@
               <span style="font-size:0.7rem;font-weight:700;padding:2px 8px;border-radius:999px;background:#FEF3C7;color:#92400E;border:1px solid #FCD34D;">Blurred Preview</span>
             </div>
             <div style="position:relative;border-radius:6px;overflow:hidden;border:1px solid #DFD7CC;">
-              <img src="/assets/kfg_pdf_p1_blur.png?v=20261022_mx03lcc9" alt="Blurred Page 1 preview of personalized US CDC 4-page child growth and bone-age PDF report" width="780" height="520" loading="lazy" style="display:block;width:100%;max-height:175px;object-fit:cover;object-position:top center;">
+              <img src="/assets/kfg_pdf_p1_blur.png?v=20261128sw_mx07he9y" alt="Blurred Page 1 preview of personalized US CDC 4-page child growth and bone-age PDF report" width="780" height="520" loading="lazy" style="display:block;width:100%;max-height:175px;object-fit:cover;object-position:top center;">
               <div style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding:10px;background:linear-gradient(180deg, rgba(250,247,242,0.05) 0%, rgba(250,247,242,0.82) 100%);">
                 <span style="display:inline-block;padding:5px 12px;border-radius:999px;background:#1B4332;color:#FFFFFF;font-size:0.76rem;font-weight:800;box-shadow:0 4px 10px rgba(27,67,50,0.28);">Locked Adult Forecast &amp; 30-Day Habit Plan &mdash; Unlock Below</span>
               </div>
@@ -930,15 +982,15 @@
     </div>
   </div>
 
-  <script src="/src/js/growth-engine.js?v=20261022_mx03lcc9"></script>
-  <script src="/src/js/hq_member_crm_client.js?v=20261022_mx03lcc9"></script>
-  <script src="/src/js/kfg-payment-waitlist.js?v=20261022_mx03lcc9"></script>
-  <script src="/src/js/bone-age-interpreter.js?v=20261022_mx03lcc9"></script>
-  <script src="/src/js/vip-monthly-checkin.js?v=20261022_mx03lcc9"></script>
-  <script src="/src/js/global-paywall-edition.js?v=20261022_mx03lcc9"></script>
-  <script src="/src/js/kfg-personalized-pdf.js?v=20261022_mx03lcc9"></script>
-  <script src="/src/js/kfg-boutique-atelier.js?v=20261022_mx03lcc9"></script>
-  <script defer src="/src/js/dc-ux-addons.js?v=20261022_mx03lcc9"></script>
-  <script defer src="/src/js/dc-share-card.js?v=20261022_mx03lcc9"></script>
+  <script src="/src/js/growth-engine.js?v=20261128sw_mx07he9y"></script>
+  <script src="/src/js/hq_member_crm_client.js?v=20261128sw_mx07he9y"></script>
+  <script src="/src/js/kfg-payment-waitlist.js?v=20261128sw_mx07he9y"></script>
+  <script src="/src/js/bone-age-interpreter.js?v=20261128sw_mx07he9y"></script>
+  <script src="/src/js/vip-monthly-checkin.js?v=20261128sw_mx07he9y"></script>
+  <script src="/src/js/global-paywall-edition.js?v=20261128sw_mx07he9y"></script>
+  <script src="/src/js/kfg-personalized-pdf.js?v=20261128sw_mx07he9y"></script>
+  <script src="/src/js/kfg-boutique-atelier.js?v=20261128sw_mx07he9y"></script>
+  <script defer src="/src/js/dc-ux-addons.js?v=20261128sw_mx07he9y"></script>
+  <script defer src="/src/js/dc-share-card.js?v=20261128sw_mx07he9y"></script>
 </body>
 </html>

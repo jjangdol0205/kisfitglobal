@@ -10,3 +10,8 @@
 
 /sw.js
   Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+
+/rss.xml
+  Content-Type: application/rss+xml; charset=utf-8
+  Cache-Control: public, max-age=1800
+  X-Robots-Tag: all

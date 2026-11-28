@@ -479,7 +479,11 @@
       var hIn = byId('kfg-height-in');
       var wLbs = byId('kfg-weight-lbs');
       if (hFt && hIn) p.currentHeight = clamp(ftInToCm(hFt.value, hIn.value), 75, 205);
-      if (wLbs) p.currentWeight = clamp(Number(((parseFloat(wLbs.value) || 74) / 2.20462262).toFixed(1)), 10, 115);
+      var estMedianKg = clamp(Number((11.5 + (p.ageYears || 10) * 2.4).toFixed(1)), 12, 68);
+      if (wLbs) {
+        var rawLbs = parseFloat(wLbs.value);
+        p.currentWeight = (!isNaN(rawLbs) && rawLbs >= 20) ? clamp(Number((rawLbs / 2.20462262).toFixed(1)), 10, 115) : estMedianKg;
+      }
 
       var fFt = byId('kfg-father-ft');
       var fIn = byId('kfg-father-in');
@@ -493,7 +497,7 @@
       var fCmEl = byId('kfg-father-cm');
       var mCmEl = byId('kfg-mother-cm');
       if (hCmEl) p.currentHeight = clamp(parseFloat(hCmEl.value) || 138.4, 75, 205);
-      if (wKgEl) p.currentWeight = clamp(parseFloat(wKgEl.value) || 33.6, 10, 115);
+      if (wKgEl) { var rawKg = parseFloat(wKgEl.value); p.currentWeight = (!isNaN(rawKg) && rawKg >= 9) ? clamp(rawKg, 10, 115) : clamp(Number((11.5 + (p.ageYears || 10) * 2.4).toFixed(1)), 12, 68); }
       if (fCmEl) p.fatherHeight = clamp(parseFloat(fCmEl.value) || 177.8, 140, 215);
       if (mCmEl) p.motherHeight = clamp(parseFloat(mCmEl.value) || 163.8, 135, 200);
     }
@@ -1443,11 +1447,98 @@
     }
   }
 
+
+  function bindInlineMiniStep1() {
+    var miniBox = byId('kfg-inline-mini-step1');
+    if (!miniBox || miniBox._kfgMiniBound) return;
+    miniBox._kfgMiniBound = true;
+
+    var fireMiniQuizStartOnce = function (metaTag) {
+      try {
+        if (sessionStorage.getItem('dc_quiz_start_KFG') !== '1' && global.DreamCompanyCRM && typeof global.DreamCompanyCRM.trackFunnelEvent === 'function') {
+          sessionStorage.setItem('dc_quiz_start_KFG', '1');
+          global.DreamCompanyCRM.trackFunnelEvent('KFG', 'quiz_start', { event_meta: metaTag || 'kfg_inline_mini_step1' });
+        }
+      } catch (_) {}
+    };
+
+    var applyMiniInputsToProfile = function () {
+      var sexEl = byId('kfg-mini-sex');
+      var ageEl = byId('kfg-mini-age');
+      var sexVal = (sexEl && sexEl.value === 'girl') ? 'girl' : 'boy';
+      var ageY = clamp(parseInt(ageEl ? ageEl.value : '10', 10) || 10, 2, 18);
+      var now = new Date();
+      var hCm = 138.4;
+      if (atelierState.unitSystem === 'metric') {
+        var cmEl = byId('kfg-mini-cm');
+        hCm = clamp(parseFloat(cmEl ? cmEl.value : '138.4') || 138.4, 75, 205);
+      } else {
+        var ftEl = byId('kfg-mini-ft');
+        var inEl = byId('kfg-mini-in');
+        hCm = clamp(ftInToCm(ftEl ? ftEl.value : '4', inEl ? inEl.value : '6.5'), 75, 205);
+      }
+      atelierState.profile.gender = sexVal;
+      atelierState.profile.birthYear = now.getFullYear() - ageY;
+      atelierState.profile.birthMonth = now.getMonth() + 1;
+      atelierState.profile.birthDay = Math.min(28, now.getDate());
+      atelierState.profile.ageYears = ageY;
+      atelierState.profile.ageMonths = ageY * 12;
+      atelierState.profile.currentHeight = hCm;
+      atelierState.profile.currentWeight = clamp(Number((11.5 + ageY * 2.4).toFixed(1)), 12, 68);
+      saveProfileToStorage();
+      populateFormFromProfile();
+      return computeAtelierAuxology(atelierState.profile);
+    };
+
+    ['kfg-mini-sex', 'kfg-mini-age', 'kfg-mini-ft', 'kfg-mini-in', 'kfg-mini-cm'].forEach(function (cid) {
+      var el = byId(cid);
+      if (el) {
+        el.addEventListener('change', function () {
+          fireMiniQuizStartOnce('kfg_mini_input_' + cid);
+        });
+      }
+    });
+
+    var previewBtn = byId('btn-kfg-begin-atelier-top');
+    if (previewBtn) {
+      previewBtn.addEventListener('click', function (ev) {
+        if (ev && typeof ev.preventDefault === 'function') ev.preventDefault();
+        fireMiniQuizStartOnce('btn-kfg-begin-atelier-top');
+        var aux = applyMiniInputsToProfile();
+        var box = byId('kfg-mini-preview-box');
+        var pctEl = byId('kfg-mini-preview-pct');
+        var noteEl = byId('kfg-mini-preview-note');
+        if (pctEl) {
+          pctEl.textContent = 'US CDC ' + aux.ordinalPercentile + ' Percentile (' + formatHeight(aux.heightCm) + ' at Age ' + Math.round(aux.ageMonths / 12) + ')';
+        }
+        if (noteEl) {
+          noteEl.textContent = aux.gentlePeerObservation + " Continue to Steps 2-5 to factor in both parents' heights, bone-age pace, and your 25% daily habit lane.";
+        }
+        if (box) {
+          box.style.display = 'block';
+          if (typeof box.scrollIntoView === 'function') {
+            try { box.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (_) {}
+          }
+        }
+      });
+    }
+
+    var contBtn = byId('btn-kfg-mini-continue');
+    if (contBtn) {
+      contBtn.addEventListener('click', function () {
+        applyMiniInputsToProfile();
+        showScreen(1);
+        goToAtelierStep(2);
+      });
+    }
+  }
+
   function initBoutiqueAtelier() {
     try {
       loadProfileFromStorage();
       if (typeof document === 'undefined') return;
       bindDirectMastheadFallback();
+      bindInlineMiniStep1();
 
       // Bind live change listeners across Step 1..5 inputs
       var formEl = byId('kfg-atelier-step-form');
