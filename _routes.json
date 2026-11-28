@@ -1,6 +1,7 @@
 {
   "version": 1,
   "include": [
+    "/googleb8e8cac59903eaa8.html",
     "/go/*",
     "/api/*",
     "/hq-mailing-endpoint.json",
