@@ -1,215 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>KISFIT Growth Studio | US CDC 2000 Pediatric Growth &amp; Khamis-Roche Research</title>
+    <title>KISFIT Studio — US CDC Child Height &amp; Bone-Age Reference</title>
     <link>https://kisfitglobal.com/</link>
+    <description>US CDC 2000 child height percentile charts, winter sleep golden-time tools, and time-adjusted bone-age guides.</description>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 28 Nov 2026 05:00:00 +0000</lastBuildDate>
     <atom:link href="https://kisfitglobal.com/rss.xml" rel="self" type="application/rss+xml" />
-    <atom:link href="https://pubsubhubbub.appspot.com/" rel="hub" />
-    <description>Peer-reviewed pediatric auxology, US CDC 2000 LMS height percentile charts, Khamis-Roche adult stature prediction, and evidence-based pediatric growth guides.</description>
-    <language>en-US</language>
-    <lastBuildDate>Fri, 27 Nov 2026 00:00:00 +0000</lastBuildDate>
     <item>
-      <title><![CDATA[Child Height Percentiles, Mid-Parental Height (MPH) Formula & The 10 PM Deep Sleep Golden Window]]></title>
-      <link>https://kisfitglobal.com/qna/topic-01.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/topic-01.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[A child]]></description>
+      <title>Winter Break Sleep Golden-Time &amp; US CDC ft/in to cm Height Check | KISFIT Studio</title>
+      <link>https://kisfitglobal.com/tools/winter-growth-check</link>
+      <guid isPermaLink="true">https://kisfitglobal.com/tools/winter-growth-check</guid>
+      <pubDate>Sat, 28 Nov 2026 05:00:00 +0000</pubDate>
+      <description>Free winter break sleep golden-time score and bidirectional US ft/in to cm height converter anchored to public US CDC 2000 reference tables. Zero supplement ads.</description>
     </item>
     <item>
-      <title><![CDATA[Pediatric Nocturnal Growing Pains in Knees and Calves: 5-Minute Warm Compress, Calcium & Magnesium Protocol]]></title>
-      <link>https://kisfitglobal.com/qna/topic-02.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/topic-02.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Nocturnal growing pains are benign neuromuscular traction signals occurring when rapid daytime longitudinal bone growth outpaces surrounding muscular...]]></description>
+      <title>KISFIT Studio | A Quiet Guide to Your Child&apos;s Growth &amp; Evening Habits</title>
+      <link>https://kisfitglobal.com/</link>
+      <guid isPermaLink="true">https://kisfitglobal.com/</guid>
+      <pubDate>Sat, 28 Nov 2026 05:00:00 +0000</pubDate>
+      <description>A thoughtful US CDC pediatric growth, family height, and time-adjusted wrist bone-age guide created for attentive parents.</description>
     </item>
     <item>
-      <title><![CDATA[Picky Eating, Meat/Vegetable Aversion & Milk-Induced Stomach Distress: High-Density Pediatric Nutrition]]></title>
-      <link>https://kisfitglobal.com/qna/topic-03.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/topic-03.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Coercive feeding triggers gustatory sensory defense mechanisms and cortisol spikes; restoring taste bud receptor sensitivity with elemental zinc...]]></description>
+      <title>How to Read a Past Wrist Bone-Age X-Ray Months Later (Time-Lag Δt Guide) | KISFIT Studio</title>
+      <link>https://kisfitglobal.com/cdc-height-chart/bone-age-gap-time-lag-guide</link>
+      <guid isPermaLink="true">https://kisfitglobal.com/cdc-height-chart/bone-age-gap-time-lag-guide</guid>
+      <pubDate>Sat, 28 Nov 2026 05:00:00 +0000</pubDate>
+      <description>A wrist bone-age reading taken 9 months ago no longer matches today&apos;s growth plates; adding elapsed calendar months (Δt) updates your runway estimate.</description>
     </item>
     <item>
-      <title><![CDATA[Pubertal Secondary Sex Characteristics & Bone Age Acceleration: Preserving +3 Inches of Growth Potential]]></title>
-      <link>https://kisfitglobal.com/qna/topic-04.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/topic-04.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Early epiphyseal maturation and premature growth plate closure reduces final adult height by 2 to 4 inches; maintaining visceral adiposity below the...]]></description>
+      <title>10-Year-Old Boy Height Chart (US CDC 2000 Percentiles in ft/in &amp; cm) | KISFIT Studio</title>
+      <link>https://kisfitglobal.com/cdc-height-chart/boy-age-10-height-chart</link>
+      <guid isPermaLink="true">https://kisfitglobal.com/cdc-height-chart/boy-age-10-height-chart</guid>
+      <pubDate>Sat, 28 Nov 2026 05:00:00 +0000</pubDate>
+      <description>The US CDC 2000 median height for a 10-year-old boy is 4&apos; 6.6&quot; (138.8 cm), with the middle 50% spanning 4&apos; 5.0&quot; to 4&apos; 8.3&quot;.</description>
     </item>
     <item>
-      <title><![CDATA[Desk Forward Head Posture & Spinal Slouching: Doorway Dead-Hangs for Hidden +0.7 Inch Restoration]]></title>
-      <link>https://kisfitglobal.com/qna/topic-05.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/topic-05.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[A 30-degree forward neck tilt increases cervical spine compressive load from 12 lbs to 40 lbs, causing intervertebral disc flattening and thoracic...]]></description>
+      <title>12-Year-Old Boy Height Chart (US CDC 2000 Percentiles in ft/in &amp; cm) | KISFIT Studio</title>
+      <link>https://kisfitglobal.com/cdc-height-chart/boy-age-12-height-chart</link>
+      <guid isPermaLink="true">https://kisfitglobal.com/cdc-height-chart/boy-age-12-height-chart</guid>
+      <pubDate>Sat, 28 Nov 2026 05:00:00 +0000</pubDate>
+      <description>The US CDC 2000 median height for a 12-year-old boy is 4&apos; 10.7&quot; (149.1 cm), with the middle 50% spanning 4&apos; 8.8&quot; to 5&apos; 0.6&quot;.</description>
     </item>
     <item>
-      <title><![CDATA[Montessori Fine-Motor Tactile Window (Ages 2-3) vs. Froebel Spatial Blocks (Ages 4-5): Smart Educational Investing]]></title>
-      <link>https://kisfitglobal.com/qna/topic-06.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/topic-06.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Sensory brain development follows a strict neurological sequence: ages 2-3 prioritize fine-motor finger dexterity corresponding to 30% of the primary...]]></description>
+      <title>14-Year-Old Boy Height Chart (US CDC 2000 Percentiles in ft/in &amp; cm) | KISFIT Studio</title>
+      <link>https://kisfitglobal.com/cdc-height-chart/boy-age-14-height-chart</link>
+      <guid isPermaLink="true">https://kisfitglobal.com/cdc-height-chart/boy-age-14-height-chart</guid>
+      <pubDate>Sat, 28 Nov 2026 05:00:00 +0000</pubDate>
+      <description>The US CDC 2000 median height for a 14-year-old boy is 5&apos; 4.5&quot; (163.8 cm), with the middle 50% spanning 5&apos; 2.3&quot; to 5&apos; 6.7&quot;.</description>
     </item>
     <item>
-      <title><![CDATA[Fluent in Arithmetic but Struggling with Math Word Problems: The 10-Second Margin Diagramming Strategy]]></title>
-      <link>https://kisfitglobal.com/qna/topic-07.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/topic-07.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Failure on mathematical word problems is rarely a reading deficit; it occurs when raw textual parsing overloads the prefrontal working memory capacity...]]></description>
+      <title>4-Year-Old Boy Height Chart (US CDC 2000 Percentiles in ft/in &amp; cm) | KISFIT Studio</title>
+      <link>https://kisfitglobal.com/cdc-height-chart/boy-age-4-height-chart</link>
+      <guid isPermaLink="true">https://kisfitglobal.com/cdc-height-chart/boy-age-4-height-chart</guid>
+      <pubDate>Sat, 28 Nov 2026 05:00:00 +0000</pubDate>
+      <description>The US CDC 2000 median height for a 4-year-old boy is 3&apos; 4.3&quot; (102.3 cm), with the middle 50% spanning 3&apos; 3.2&quot; to 3&apos; 5.4&quot;.</description>
     </item>
     <item>
-      <title><![CDATA[Overcoming Reluctance to Read Long Chapters: 15-Minute Inquiry-Based Dialogue to Boost Vocabulary by 42%]]></title>
-      <link>https://kisfitglobal.com/qna/topic-08.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/topic-08.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Forcing children to write repetitive book summaries creates reading aversion; engaging in 15 minutes of interactive]]></description>
+      <title>6-Year-Old Boy Height Chart (US CDC 2000 Percentiles in ft/in &amp; cm) | KISFIT Studio</title>
+      <link>https://kisfitglobal.com/cdc-height-chart/boy-age-6-height-chart</link>
+      <guid isPermaLink="true">https://kisfitglobal.com/cdc-height-chart/boy-age-6-height-chart</guid>
+      <pubDate>Sat, 28 Nov 2026 05:00:00 +0000</pubDate>
+      <description>The US CDC 2000 median height for a 6-year-old boy is 3&apos; 9.5&quot; (115.5 cm), with the middle 50% spanning 3&apos; 8.2&quot; to 3&apos; 10.8&quot;.</description>
     </item>
     <item>
-      <title><![CDATA[Smartphone & Short-Form Video Dopamine Reset: 20-Minute Silent Visual Timer for Prefrontal Focus]]></title>
-      <link>https://kisfitglobal.com/qna/topic-09.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/topic-09.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Algorithmic 15-second video loops trigger supra-physiological dopamine spikes that downregulate D2 striatal receptors, creating ADHD-like executive...]]></description>
+      <title>8-Year-Old Boy Height Chart (US CDC 2000 Percentiles in ft/in &amp; cm) | KISFIT Studio</title>
+      <link>https://kisfitglobal.com/cdc-height-chart/boy-age-8-height-chart</link>
+      <guid isPermaLink="true">https://kisfitglobal.com/cdc-height-chart/boy-age-8-height-chart</guid>
+      <pubDate>Sat, 28 Nov 2026 05:00:00 +0000</pubDate>
+      <description>The US CDC 2000 median height for a 8-year-old boy is 4&apos; 2.4&quot; (128.0 cm), with the middle 50% spanning 4&apos; 0.9&quot; to 4&apos; 3.9&quot;.</description>
     </item>
     <item>
-      <title><![CDATA[Understanding in Class but Blanking on Tests: 3-Minute Feynman Blank-Sheet Retrieval Routine]]></title>
-      <link>https://kisfitglobal.com/qna/topic-10.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/topic-10.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Re-reading produces an]]></description>
+      <title>10-Year-Old Girl Height Chart (US CDC 2000 Percentiles in ft/in &amp; cm) | KISFIT Studio</title>
+      <link>https://kisfitglobal.com/cdc-height-chart/girl-age-10-height-chart</link>
+      <guid isPermaLink="true">https://kisfitglobal.com/cdc-height-chart/girl-age-10-height-chart</guid>
+      <pubDate>Sat, 28 Nov 2026 05:00:00 +0000</pubDate>
+      <description>The US CDC 2000 median height for a 10-year-old girl is 4&apos; 6.5&quot; (138.4 cm), with the middle 50% spanning 4&apos; 4.8&quot; to 4&apos; 8.2&quot;.</description>
     </item>
     <item>
-      <title><![CDATA[Toddler Milestones (Ages 2-3 / 24-47 Months): Height & Weight Growth Curves & Fine-Motor Development]]></title>
-      <link>https://kisfitglobal.com/qna/topic-11.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/topic-11.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Between ages 2 and 3, healthy toddlers gain approximately 4.5 to 6.5 lbs (2.0 to 3.0 kg) and 3.0 to 3.5 inches (7.5 to 9.0 cm) annually; behavioral...]]></description>
+      <title>12-Year-Old Girl Height Chart (US CDC 2000 Percentiles in ft/in &amp; cm) | KISFIT Studio</title>
+      <link>https://kisfitglobal.com/cdc-height-chart/girl-age-12-height-chart</link>
+      <guid isPermaLink="true">https://kisfitglobal.com/cdc-height-chart/girl-age-12-height-chart</guid>
+      <pubDate>Sat, 28 Nov 2026 05:00:00 +0000</pubDate>
+      <description>The US CDC 2000 median height for a 12-year-old girl is 4&apos; 11.5&quot; (151.2 cm), with the middle 50% spanning 4&apos; 9.7&quot; to 5&apos; 1.3&quot;.</description>
     </item>
     <item>
-      <title><![CDATA[Preschool Milestones (Ages 4-5 / 48-71 Months): Growth Trajectories & Spatial-Math Foundations]]></title>
-      <link>https://kisfitglobal.com/qna/topic-12.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/topic-12.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Preschoolers maintain a steady growth pace of 2.5 to 3.0 inches (6.0 to 7.5 cm) per year; daily growth habits shifts from 2D sensory play to 3D...]]></description>
+      <title>15-Year-Old Girl Height Chart (US CDC 2000 Percentiles in ft/in &amp; cm) | KISFIT Studio</title>
+      <link>https://kisfitglobal.com/cdc-height-chart/girl-age-15-height-chart</link>
+      <guid isPermaLink="true">https://kisfitglobal.com/cdc-height-chart/girl-age-15-height-chart</guid>
+      <pubDate>Sat, 28 Nov 2026 05:00:00 +0000</pubDate>
+      <description>The US CDC 2000 median height for a 15-year-old girl is 5&apos; 3.7&quot; (161.8 cm), with the middle 50% spanning 5&apos; 2.0&quot; to 5&apos; 5.4&quot;.</description>
     </item>
     <item>
-      <title><![CDATA[First Grade Milestones (Ages 6-7 / 72-95 Months): School Transition, Growth & Attention Stamina]]></title>
-      <link>https://kisfitglobal.com/qna/topic-13.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/topic-13.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Entering first grade introduces postural fatigue and everyday transition stress; pairing ergonomic 25-degree desk reading stands with 20-minute visual...]]></description>
+      <title>4-Year-Old Girl Height Chart (US CDC 2000 Percentiles in ft/in &amp; cm) | KISFIT Studio</title>
+      <link>https://kisfitglobal.com/cdc-height-chart/girl-age-4-height-chart</link>
+      <guid isPermaLink="true">https://kisfitglobal.com/cdc-height-chart/girl-age-4-height-chart</guid>
+      <pubDate>Sat, 28 Nov 2026 05:00:00 +0000</pubDate>
+      <description>The US CDC 2000 median height for a 4-year-old girl is 3&apos; 3.6&quot; (100.7 cm), with the middle 50% spanning 3&apos; 2.5&quot; to 3&apos; 4.8&quot;.</description>
     </item>
     <item>
-      <title><![CDATA[Middle Childhood Milestones (Ages 8-9): Growth Velocity & Precocious Puberty Early Warning Signs]]></title>
-      <link>https://kisfitglobal.com/qna/topic-14.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/topic-14.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Secondary sex characteristics appearing before age 8 in girls (breast budding) or age 9 in boys (testicular enlargement) advance bone age prematurely...]]></description>
+      <title>6-Year-Old Girl Height Chart (US CDC 2000 Percentiles in ft/in &amp; cm) | KISFIT Studio</title>
+      <link>https://kisfitglobal.com/cdc-height-chart/girl-age-6-height-chart</link>
+      <guid isPermaLink="true">https://kisfitglobal.com/cdc-height-chart/girl-age-6-height-chart</guid>
+      <pubDate>Sat, 28 Nov 2026 05:00:00 +0000</pubDate>
+      <description>The US CDC 2000 median height for a 6-year-old girl is 3&apos; 9.3&quot; (115.0 cm), with the middle 50% spanning 3&apos; 8.0&quot; to 3&apos; 10.6&quot;.</description>
     </item>
     <item>
-      <title><![CDATA[Pre-Adolescence (Ages 10-11): Peak Height Velocity (PHV) Golden Window & Auxological Support]]></title>
-      <link>https://kisfitglobal.com/qna/topic-15.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/topic-15.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[The Peak Height Velocity (PHV) window lasts 18 to 24 months, delivering up to 3.5 to 4.5 inches (9 to 12 cm) per year; supplying high-bioavailability...]]></description>
+      <title>8-Year-Old Girl Height Chart (US CDC 2000 Percentiles in ft/in &amp; cm) | KISFIT Studio</title>
+      <link>https://kisfitglobal.com/cdc-height-chart/girl-age-8-height-chart</link>
+      <guid isPermaLink="true">https://kisfitglobal.com/cdc-height-chart/girl-age-8-height-chart</guid>
+      <pubDate>Sat, 28 Nov 2026 05:00:00 +0000</pubDate>
+      <description>The US CDC 2000 median height for a 8-year-old girl is 4&apos; 2.3&quot; (127.8 cm), with the middle 50% spanning 4&apos; 0.8&quot; to 4&apos; 3.9&quot;.</description>
     </item>
     <item>
-      <title><![CDATA[Average Height for a 10-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor]]></title>
-      <link>https://kisfitglobal.com/qna/calc-10yo-boy-height-percentile.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/calc-10yo-boy-height-percentile.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Official US CDC 2000 height percentile chart for a 10-year-old boy: 50th percentile average is 4]]></description>
-    </item>
-    <item>
-      <title><![CDATA[Average Height for a 10-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor]]></title>
-      <link>https://kisfitglobal.com/qna/calc-10yo-girl-height-percentile.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/calc-10yo-girl-height-percentile.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Official US CDC 2000 height percentile chart for a 10-year-old girl: 50th percentile average is 4]]></description>
-    </item>
-    <item>
-      <title><![CDATA[Average Height for a 11-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor]]></title>
-      <link>https://kisfitglobal.com/qna/calc-11yo-boy-height-percentile.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/calc-11yo-boy-height-percentile.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Official US CDC 2000 height percentile chart for a 11-year-old boy: 50th percentile average is 4]]></description>
-    </item>
-    <item>
-      <title><![CDATA[Average Height for a 11-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor]]></title>
-      <link>https://kisfitglobal.com/qna/calc-11yo-girl-height-percentile.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/calc-11yo-girl-height-percentile.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Official US CDC 2000 height percentile chart for a 11-year-old girl: 50th percentile average is 4]]></description>
-    </item>
-    <item>
-      <title><![CDATA[Average Height for a 12-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor]]></title>
-      <link>https://kisfitglobal.com/qna/calc-12yo-boy-height-percentile.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/calc-12yo-boy-height-percentile.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Official US CDC 2000 height percentile chart for a 12-year-old boy: 50th percentile average is 4]]></description>
-    </item>
-    <item>
-      <title><![CDATA[Average Height for a 12-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor]]></title>
-      <link>https://kisfitglobal.com/qna/calc-12yo-girl-height-percentile.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/calc-12yo-girl-height-percentile.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Official US CDC 2000 height percentile chart for a 12-year-old girl: 50th percentile average is 4]]></description>
-    </item>
-    <item>
-      <title><![CDATA[Average Height for a 13-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor]]></title>
-      <link>https://kisfitglobal.com/qna/calc-13yo-boy-height-percentile.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/calc-13yo-boy-height-percentile.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Official US CDC 2000 height percentile chart for a 13-year-old boy: 50th percentile average is 5]]></description>
-    </item>
-    <item>
-      <title><![CDATA[Average Height for a 13-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor]]></title>
-      <link>https://kisfitglobal.com/qna/calc-13yo-girl-height-percentile.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/calc-13yo-girl-height-percentile.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Official US CDC 2000 height percentile chart for a 13-year-old girl: 50th percentile average is 5]]></description>
-    </item>
-    <item>
-      <title><![CDATA[Average Height for a 14-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor]]></title>
-      <link>https://kisfitglobal.com/qna/calc-14yo-boy-height-percentile.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/calc-14yo-boy-height-percentile.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Official US CDC 2000 height percentile chart for a 14-year-old boy: 50th percentile average is 5]]></description>
-    </item>
-    <item>
-      <title><![CDATA[Average Height for a 14-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor]]></title>
-      <link>https://kisfitglobal.com/qna/calc-14yo-girl-height-percentile.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/calc-14yo-girl-height-percentile.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Official US CDC 2000 height percentile chart for a 14-year-old girl: 50th percentile average is 5]]></description>
-    </item>
-    <item>
-      <title><![CDATA[Average Height for a 15-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor]]></title>
-      <link>https://kisfitglobal.com/qna/calc-15yo-boy-height-percentile.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/calc-15yo-boy-height-percentile.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Official US CDC 2000 height percentile chart for a 15-year-old boy: 50th percentile average is 5]]></description>
-    </item>
-    <item>
-      <title><![CDATA[Average Height for a 15-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor]]></title>
-      <link>https://kisfitglobal.com/qna/calc-15yo-girl-height-percentile.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/calc-15yo-girl-height-percentile.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Official US CDC 2000 height percentile chart for a 15-year-old girl: 50th percentile average is 5]]></description>
-    </item>
-    <item>
-      <title><![CDATA[Average Height for a 16-Year-Old Boy: US CDC Percentile Chart & Adult Height Predictor]]></title>
-      <link>https://kisfitglobal.com/qna/calc-16yo-boy-height-percentile.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/calc-16yo-boy-height-percentile.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Official US CDC 2000 height percentile chart for a 16-year-old boy: 50th percentile average is 5]]></description>
-    </item>
-    <item>
-      <title><![CDATA[Average Height for a 16-Year-Old Girl: US CDC Percentile Chart & Adult Height Predictor]]></title>
-      <link>https://kisfitglobal.com/qna/calc-16yo-girl-height-percentile.html</link>
-      <guid isPermaLink="true">https://kisfitglobal.com/qna/calc-16yo-girl-height-percentile.html</guid>
-      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
-      <description><![CDATA[Official US CDC 2000 height percentile chart for a 16-year-old girl: 50th percentile average is 5]]></description>
+      <title>Mid-Parental Target Height vs US CDC Growth Curve: How Parents Read Both | KISFIT Studio</title>
+      <link>https://kisfitglobal.com/cdc-height-chart/mid-parental-height-vs-cdc-curve</link>
+      <guid isPermaLink="true">https://kisfitglobal.com/cdc-height-chart/mid-parental-height-vs-cdc-curve</guid>
+      <pubDate>Sat, 28 Nov 2026 05:00:00 +0000</pubDate>
+      <description>Mid-parental height sets your family&apos;s inherited center (±3.3 inches), while the US CDC curve tracks where your child stands today.</description>
     </item>
   </channel>
 </rss>
