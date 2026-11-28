@@ -1,16 +1,15 @@
 {
-  "name": "KISFIT Bio Labs — US CDC Pediatric Height & 5-Axis Brain LQ Studio",
-  "short_name": "KISFIT Bio Labs",
-  "description": "60-Second US CDC 2000 Pediatric Growth Percentile, 3-Scenario Adult Height Prediction & Evidence-Based Pediatric Growth Reference.",
+  "name": "KISFIT Studio — US CDC Pediatric Growth & Bone-Age Guide",
+  "short_name": "KISFIT Studio",
+  "description": "A thoughtful US CDC pediatric growth, family height, and time-adjusted wrist bone-age guide created for attentive parents.",
   "lang": "en-US",
-  "start_url": "/?source=pwa",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#F8FAFC",
-  "theme_color": "#1D4ED8",
+  "background_color": "#FAF7F2",
+  "theme_color": "#0F2C22",
   "categories": [
-    "medical",
     "health",
     "education",
     "lifestyle"
